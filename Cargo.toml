@@ -1,0 +1,6 @@
+[workspace]
+members = ["voicemeeter-sys"]
+
+
+[patch.crates-io]
+bindgen = {path = "../rust-bindgen"}
