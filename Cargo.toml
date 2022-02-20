@@ -1,5 +1,14 @@
+[package]
+name = "voicemeeter"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "FFI bindings to Voicemeeter SDK"
+
+
+
 [workspace]
-members = ["voicemeeter-sys"]
+members = ["voicemeeter-sys", "."]
 
 
 [patch.crates-io]
