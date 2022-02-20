@@ -7,7 +7,7 @@ use std::path::PathBuf;
 /// Generates and assures that a new invokation of bindgen will provide the same output for the bindings.
 fn assure_accurate_binding() {
     let dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap());
-    let header = dir.join("sdk/VoicemeeterRemote.h");
+    let header = dir.join("../sdk/VoicemeeterRemote.h");
     let bindings = bindgen::Builder::default()
         .header(header.display().to_string())
         .raw_line(
@@ -18,6 +18,7 @@ fn assure_accurate_binding() {
 #![allow(clippy::missing_safety_doc)]
 #![allow(non_snake_case)]",
         )
+        .bitfield_enum("VMRTSTATE_MODE_.*")
         .dynamic_library_name("VoicemeeterRemote")
         .dynamic_link_require_all(true)
         .generate()
