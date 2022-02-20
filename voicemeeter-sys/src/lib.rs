@@ -2,7 +2,7 @@
 
 pub mod bindings;
 #[cfg(test)]
-mod tests;
+mod codegen;
 
 use std::{
     env,

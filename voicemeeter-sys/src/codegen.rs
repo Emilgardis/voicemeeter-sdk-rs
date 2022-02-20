@@ -18,7 +18,8 @@ fn assure_accurate_binding() {
 #![allow(clippy::missing_safety_doc)]
 #![allow(non_snake_case)]",
         )
-        .bitfield_enum("VMRTSTATE_MODE_.*")
+        .rustified_enum("VmrtState")
+        .rustified_enum("VbvmrDevType")
         .dynamic_library_name("VoicemeeterRemote")
         .dynamic_link_require_all(true)
         .generate()

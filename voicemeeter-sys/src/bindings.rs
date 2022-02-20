@@ -8,10 +8,6 @@
 #![allow(non_snake_case)]
 
 pub const VBVMR_RESULT_OK: u32 = 0;
-pub const VBVMR_DEVTYPE_MME: u32 = 1;
-pub const VBVMR_DEVTYPE_WDM: u32 = 3;
-pub const VBVMR_DEVTYPE_KS: u32 = 4;
-pub const VBVMR_DEVTYPE_ASIO: u32 = 5;
 pub const VBVMR_CBCOMMAND_STARTING: u32 = 1;
 pub const VBVMR_CBCOMMAND_ENDING: u32 = 2;
 pub const VBVMR_CBCOMMAND_CHANGE: u32 = 3;
@@ -25,45 +21,16 @@ pub const VBVMR_MACROBUTTON_MODE_DEFAULT: u32 = 0;
 pub const VBVMR_MACROBUTTON_MODE_STATEONLY: u32 = 2;
 pub const VBVMR_MACROBUTTON_MODE_TRIGGER: u32 = 3;
 pub const expected_size_T_VBAN_VMRT_PACKET: u32 = 1384;
-pub const VMRTSTATE_MODE_MUTE: u32 = 1;
-pub const VMRTSTATE_MODE_SOLO: u32 = 2;
-pub const VMRTSTATE_MODE_MONO: u32 = 4;
-pub const VMRTSTATE_MODE_MUTEC: u32 = 8;
-pub const VMRTSTATE_MODE_MIXDOWN: u32 = 16;
-pub const VMRTSTATE_MODE_REPEAT: u32 = 32;
-pub const VMRTSTATE_MODE_MIXDOWNB: u32 = 48;
-pub const VMRTSTATE_MODE_COMPOSITE: u32 = 64;
-pub const VMRTSTATE_MODE_UPMIXTV: u32 = 80;
-pub const VMRTSTATE_MODE_UPMIX2: u32 = 96;
-pub const VMRTSTATE_MODE_UPMIX4: u32 = 112;
-pub const VMRTSTATE_MODE_UPMIX6: u32 = 128;
-pub const VMRTSTATE_MODE_CENTER: u32 = 144;
-pub const VMRTSTATE_MODE_LFE: u32 = 160;
-pub const VMRTSTATE_MODE_REAR: u32 = 176;
-pub const VMRTSTATE_MODE_MASK: u32 = 240;
-pub const VMRTSTATE_MODE_EQ: u32 = 256;
-pub const VMRTSTATE_MODE_CROSS: u32 = 512;
-pub const VMRTSTATE_MODE_EQB: u32 = 2048;
-pub const VMRTSTATE_MODE_BUSA: u32 = 4096;
-pub const VMRTSTATE_MODE_BUSA1: u32 = 4096;
-pub const VMRTSTATE_MODE_BUSA2: u32 = 8192;
-pub const VMRTSTATE_MODE_BUSA3: u32 = 16384;
-pub const VMRTSTATE_MODE_BUSA4: u32 = 32768;
-pub const VMRTSTATE_MODE_BUSA5: u32 = 524288;
-pub const VMRTSTATE_MODE_BUSB: u32 = 65536;
-pub const VMRTSTATE_MODE_BUSB1: u32 = 65536;
-pub const VMRTSTATE_MODE_BUSB2: u32 = 131072;
-pub const VMRTSTATE_MODE_BUSB3: u32 = 262144;
-pub const VMRTSTATE_MODE_PAN0: u32 = 0;
-pub const VMRTSTATE_MODE_PANCOLOR: u32 = 1048576;
-pub const VMRTSTATE_MODE_PANMOD: u32 = 2097152;
-pub const VMRTSTATE_MODE_PANMASK: u32 = 15728640;
-pub const VMRTSTATE_MODE_POSTFX_R: u32 = 16777216;
-pub const VMRTSTATE_MODE_POSTFX_D: u32 = 33554432;
-pub const VMRTSTATE_MODE_POSTFX1: u32 = 67108864;
-pub const VMRTSTATE_MODE_POSTFX2: u32 = 134217728;
-pub const VMRTSTATE_MODE_SEL: u32 = 268435456;
-pub const VMRTSTATE_MODE_MONITOR: u32 = 536870912;
+#[repr(i32)]
+#[doc = " @name Device Enumeration Functions"]
+#[doc = " @{"]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum VbvmrDevType {
+    MME = 1,
+    WDM = 3,
+    KS = 4,
+    ASIO = 5,
+}
 #[doc = " @name VB-Audio Callback Functions"]
 #[doc = " @{"]
 #[repr(C)]
@@ -1087,6 +1054,46 @@ fn bindgen_test_layout_tagVBAN_VMRT_PACKET() {
 pub type T_VBAN_VMRT_PACKET = tagVBAN_VMRT_PACKET;
 pub type PT_VBAN_VMRT_PACKET = *mut tagVBAN_VMRT_PACKET;
 pub type LPT_VBAN_VMRT_PACKET = *mut tagVBAN_VMRT_PACKET;
+pub const VmrtStateMode_MUTE: VmrtStateMode = 1;
+pub const VmrtStateMode_SOLO: VmrtStateMode = 2;
+pub const VmrtStateMode_MONO: VmrtStateMode = 4;
+pub const VmrtStateMode_MUTEC: VmrtStateMode = 8;
+pub const VmrtStateMode_MIXDOWN: VmrtStateMode = 16;
+pub const VmrtStateMode_REPEAT: VmrtStateMode = 32;
+pub const VmrtStateMode_MIXDOWNB: VmrtStateMode = 48;
+pub const VmrtStateMode_COMPOSITE: VmrtStateMode = 64;
+pub const VmrtStateMode_UPMIXTV: VmrtStateMode = 80;
+pub const VmrtStateMode_UPMIX2: VmrtStateMode = 96;
+pub const VmrtStateMode_UPMIX4: VmrtStateMode = 112;
+pub const VmrtStateMode_UPMIX6: VmrtStateMode = 128;
+pub const VmrtStateMode_CENTER: VmrtStateMode = 144;
+pub const VmrtStateMode_LFE: VmrtStateMode = 160;
+pub const VmrtStateMode_REAR: VmrtStateMode = 176;
+pub const VmrtStateMode_MASK: VmrtStateMode = 240;
+pub const VmrtStateMode_EQ: VmrtStateMode = 256;
+pub const VmrtStateMode_CROSS: VmrtStateMode = 512;
+pub const VmrtStateMode_EQB: VmrtStateMode = 2048;
+pub const VmrtStateMode_BUSA: VmrtStateMode = 4096;
+pub const VmrtStateMode_BUSA1: VmrtStateMode = 4096;
+pub const VmrtStateMode_BUSA2: VmrtStateMode = 8192;
+pub const VmrtStateMode_BUSA3: VmrtStateMode = 16384;
+pub const VmrtStateMode_BUSA4: VmrtStateMode = 32768;
+pub const VmrtStateMode_BUSA5: VmrtStateMode = 524288;
+pub const VmrtStateMode_BUSB: VmrtStateMode = 65536;
+pub const VmrtStateMode_BUSB1: VmrtStateMode = 65536;
+pub const VmrtStateMode_BUSB2: VmrtStateMode = 131072;
+pub const VmrtStateMode_BUSB3: VmrtStateMode = 262144;
+pub const VmrtStateMode_PAN0: VmrtStateMode = 0;
+pub const VmrtStateMode_PANCOLOR: VmrtStateMode = 1048576;
+pub const VmrtStateMode_PANMOD: VmrtStateMode = 2097152;
+pub const VmrtStateMode_PANMASK: VmrtStateMode = 15728640;
+pub const VmrtStateMode_POSTFX_R: VmrtStateMode = 16777216;
+pub const VmrtStateMode_POSTFX_D: VmrtStateMode = 33554432;
+pub const VmrtStateMode_POSTFX1: VmrtStateMode = 67108864;
+pub const VmrtStateMode_POSTFX2: VmrtStateMode = 134217728;
+pub const VmrtStateMode_SEL: VmrtStateMode = 268435456;
+pub const VmrtStateMode_MONITOR: VmrtStateMode = 536870912;
+pub type VmrtStateMode = ::std::os::raw::c_int;
 extern crate libloading;
 pub struct VoicemeeterRemote {
     __library: ::libloading::Library,
