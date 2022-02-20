@@ -3,4 +3,4 @@ members = ["voicemeeter-sys"]
 
 
 [patch.crates-io]
-bindgen = {path = "../rust-bindgen"}
+bindgen = {git = "https://github.com/Emilgardis/rust-bindgen", branch = "dynamic-comments"}
