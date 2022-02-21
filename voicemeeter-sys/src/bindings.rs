@@ -1190,17 +1190,6 @@ pub struct VoicemeeterRemote {
         fValue: f32,
         bitmode: ::std::os::raw::c_long,
     ) -> ::std::os::raw::c_long,
-    pub VBVMR_LocalInit: unsafe extern "C" fn() -> ::std::os::raw::c_long,
-    pub VBVMR_LocalEnd: unsafe extern "C" fn() -> ::std::os::raw::c_long,
-    pub VBVMR_GetRequestVB0STREAMPTR: unsafe extern "C" fn() -> *mut ::std::os::raw::c_void,
-    pub VBVMR_SetParametersWEx: unsafe extern "C" fn(
-        szParamScript: *mut ::std::os::raw::c_ushort,
-        fCopyToClient: ::std::os::raw::c_long,
-    ) -> ::std::os::raw::c_long,
-    pub VBVMR_LoginEx:
-        unsafe extern "C" fn(properties: ::std::os::raw::c_long) -> ::std::os::raw::c_long,
-    pub VBVMR_MB_PushSettings:
-        unsafe extern "C" fn(lpParam: *mut ::std::os::raw::c_void) -> ::std::os::raw::c_long,
 }
 impl VoicemeeterRemote {
     pub unsafe fn new<P>(path: P) -> Result<Self, ::libloading::Error>
@@ -1288,14 +1277,6 @@ impl VoicemeeterRemote {
         let VBVMR_MacroButton_SetStatus = __library
             .get(b"VBVMR_MacroButton_SetStatus\0")
             .map(|sym| *sym)?;
-        let VBVMR_LocalInit = __library.get(b"VBVMR_LocalInit\0").map(|sym| *sym)?;
-        let VBVMR_LocalEnd = __library.get(b"VBVMR_LocalEnd\0").map(|sym| *sym)?;
-        let VBVMR_GetRequestVB0STREAMPTR = __library
-            .get(b"VBVMR_GetRequestVB0STREAMPTR\0")
-            .map(|sym| *sym)?;
-        let VBVMR_SetParametersWEx = __library.get(b"VBVMR_SetParametersWEx\0").map(|sym| *sym)?;
-        let VBVMR_LoginEx = __library.get(b"VBVMR_LoginEx\0").map(|sym| *sym)?;
-        let VBVMR_MB_PushSettings = __library.get(b"VBVMR_MB_PushSettings\0").map(|sym| *sym)?;
         Ok(VoicemeeterRemote {
             __library,
             VBVMR_Login,
@@ -1327,12 +1308,6 @@ impl VoicemeeterRemote {
             VBVMR_MacroButton_IsDirty,
             VBVMR_MacroButton_GetStatus,
             VBVMR_MacroButton_SetStatus,
-            VBVMR_LocalInit,
-            VBVMR_LocalEnd,
-            VBVMR_GetRequestVB0STREAMPTR,
-            VBVMR_SetParametersWEx,
-            VBVMR_LoginEx,
-            VBVMR_MB_PushSettings,
         })
     }
     #[doc = "@brief Open Communication Pipe With Voicemeeter (typically called on software startup)."]
@@ -1765,33 +1740,5 @@ impl VoicemeeterRemote {
         bitmode: ::std::os::raw::c_long,
     ) -> ::std::os::raw::c_long {
         (self.VBVMR_MacroButton_SetStatus)(nuLogicalButton, fValue, bitmode)
-    }
-    pub unsafe fn VBVMR_LocalInit(&self) -> ::std::os::raw::c_long {
-        (self.VBVMR_LocalInit)()
-    }
-    pub unsafe fn VBVMR_LocalEnd(&self) -> ::std::os::raw::c_long {
-        (self.VBVMR_LocalEnd)()
-    }
-    pub unsafe fn VBVMR_GetRequestVB0STREAMPTR(&self) -> *mut ::std::os::raw::c_void {
-        (self.VBVMR_GetRequestVB0STREAMPTR)()
-    }
-    pub unsafe fn VBVMR_SetParametersWEx(
-        &self,
-        szParamScript: *mut ::std::os::raw::c_ushort,
-        fCopyToClient: ::std::os::raw::c_long,
-    ) -> ::std::os::raw::c_long {
-        (self.VBVMR_SetParametersWEx)(szParamScript, fCopyToClient)
-    }
-    pub unsafe fn VBVMR_LoginEx(
-        &self,
-        properties: ::std::os::raw::c_long,
-    ) -> ::std::os::raw::c_long {
-        (self.VBVMR_LoginEx)(properties)
-    }
-    pub unsafe fn VBVMR_MB_PushSettings(
-        &self,
-        lpParam: *mut ::std::os::raw::c_void,
-    ) -> ::std::os::raw::c_long {
-        (self.VBVMR_MB_PushSettings)(lpParam)
     }
 }

@@ -5,11 +5,15 @@ edition = "2021"
 license = "MIT"
 description = "FFI bindings to Voicemeeter SDK"
 
+[dependencies]
+voicemeeter-sys = {version = "0.1.0", path = "./voicemeeter-sys"}
 
+[dev-dependencies]
+color-eyre="0.6.0"
 
 [workspace]
 members = ["voicemeeter-sys", "."]
 
 
 [patch.crates-io]
-bindgen = {git = "https://github.com/Emilgardis/rust-bindgen", branch = "dynamic-comments"}
+bindgen = { git = "https://github.com/Emilgardis/rust-bindgen", branch = "dynamic-comments" }
