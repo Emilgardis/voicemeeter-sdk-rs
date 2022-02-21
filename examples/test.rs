@@ -3,7 +3,7 @@ use std::{ptr::{self, null}, os::raw::c_char};
 use voicemeeter as vm_sys;
 
 pub fn main() -> Result<(), color_eyre::Report> {
-    let rem = vm_sys::get_voicemeeter()?;
+    let rem = vm_sys::get_voicemeeter_raw()?;
     
     unsafe {
         //println!("login? {}", rem.VBVMR_Login());

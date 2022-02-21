@@ -10,11 +10,11 @@ use std::ffi::{OsStr, OsString};
 use std::path::Path;
 use std::{env, io};
 
-pub static VOICEMEETER_REMOTE: once_cell::sync::OnceCell<VoicemeeterRemote> =
+pub static VOICEMEETER_REMOTE: once_cell::sync::OnceCell<VoicemeeterRemoteRaw> =
     once_cell::sync::OnceCell::new();
 
-#[doc(inline)]
-pub use bindings::VoicemeeterRemote;
+#[doc(inline, hidden)]
+pub use bindings::VoicemeeterRemoteRaw;
 
 use winreg::enums::{KEY_READ, KEY_WOW64_32KEY};
 
@@ -25,12 +25,11 @@ static LIBRARY_NAME_64: &str = "VoicemeeterRemote64.dll";
 static LIBRARY_NAME_32: &str = "VoicemeeterRemote.dll";
 
 /// Get a reference to voicemeeter remote
-pub fn get_voicemeeter() -> Result<&'static VoicemeeterRemote, LoadError> {
+pub fn get_voicemeeter_raw() -> Result<&'static VoicemeeterRemoteRaw, LoadError> {
     if let Some(remote) = VOICEMEETER_REMOTE.get() {
         Ok(remote)
     } else {
-        let path = find_voicemeeter_remote_with_folder()
-            .or_else(|_| find_voicemeeter_remote_with_registry())?;
+        let path = find_voicemeeter_remote_with_registry()?;
         load_voicemeeter_from_path(&path)
     }
 }
@@ -38,9 +37,9 @@ pub fn get_voicemeeter() -> Result<&'static VoicemeeterRemote, LoadError> {
 /// Load voicemeeter
 ///
 /// Errors if it's already loaded
-pub fn load_voicemeeter_from_path(path: &OsStr) -> Result<&'static VoicemeeterRemote, LoadError> {
+fn load_voicemeeter_from_path(path: &OsStr) -> Result<&'static VoicemeeterRemoteRaw, LoadError> {
     VOICEMEETER_REMOTE
-        .set(unsafe { VoicemeeterRemote::new(path)? })
+        .set(unsafe { VoicemeeterRemoteRaw::new(path)? })
         .map_err(|_| LoadError::AlreadyLoaded)?;
     unsafe { Ok(VOICEMEETER_REMOTE.get_unchecked()) }
 }
@@ -55,26 +54,12 @@ pub enum LoadError {
     RemoteFileError(#[from] RemoteFileError),
 }
 
-/// Get VoiceMeeterRemote via a path given by environment key `VOICEMEETER_FOLDER` or it's "default" installation path
-pub fn find_voicemeeter_remote_with_folder() -> Result<OsString, RemoteFileError> {
-    let path = if let Ok(folder) = env::var("VOICEMEETER_FOLDER") {
-        Path::new(&folder).join(LIBRARY_NAME_64)
-    } else {
-        Path::new(DEFAULT_PATH).join(LIBRARY_NAME_64)
-    };
-    if path.exists() {
-        Ok(path.into_os_string())
-    } else {
-        Err(RemoteFileError::NotFound(path.display().to_string()))
-    }
-}
-
 /// Get VoiceMeeterRemote via registry key
 pub fn find_voicemeeter_remote_with_registry() -> Result<OsString, RemoteFileError> {
     let hklm = winreg::RegKey::predef(winreg::enums::HKEY_LOCAL_MACHINE);
-    let voicemeeter_uninst = if let Ok(reg) = hklm.open_subkey(UNINSTALLER_DIR) {
-        reg.open_subkey(INSTALLER_UNINST_KEY)
-            .map_err(RegistryError::CouldNotFindVM)?
+    let voicemeeter_uninst = if let Ok(reg) = hklm.open_subkey(UNINSTALLER_DIR).and_then(|s| s.open_subkey(INSTALLER_UNINST_KEY)) {
+        // TODO: This will almost always fail, esp. on 64bit systems.
+        reg
     } else {
         hklm.open_subkey_with_flags(UNINSTALLER_DIR, KEY_READ | KEY_WOW64_32KEY)
             .map_err(RegistryError::CouldNotFindUninstallReg)?
@@ -94,6 +79,13 @@ pub fn find_voicemeeter_remote_with_registry() -> Result<OsString, RemoteFileErr
     } else {
         Err(RemoteFileError::NotFound(remote.display().to_string()))
     }
+}
+
+#[test]
+#[ignore]
+fn registry_check() -> Result<(), RemoteFileError> {
+    dbg!(find_voicemeeter_remote_with_registry()?);
+    Ok(())
 }
 
 #[derive(Debug, thiserror::Error)]

@@ -26,7 +26,7 @@ fn assure_accurate_binding() {
         .blocklist_function("VBVMR_SetParametersWEx")
         .blocklist_function("VBVMR_LoginEx")
         .blocklist_function("VBVMR_MB_PushSettings")
-        .dynamic_library_name("VoicemeeterRemote")
+        .dynamic_library_name("VoicemeeterRemoteRaw")
         .dynamic_link_require_all(true)
         .generate()
         .expect("unable to generate bindings");

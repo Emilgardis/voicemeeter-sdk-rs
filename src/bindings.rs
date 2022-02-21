@@ -1095,7 +1095,7 @@ pub const VmrtStateMode_SEL: VmrtStateMode = 268435456;
 pub const VmrtStateMode_MONITOR: VmrtStateMode = 536870912;
 pub type VmrtStateMode = ::std::os::raw::c_int;
 extern crate libloading;
-pub struct VoicemeeterRemote {
+pub struct VoicemeeterRemoteRaw {
     __library: ::libloading::Library,
     pub VBVMR_Login: unsafe extern "C" fn() -> ::std::os::raw::c_long,
     pub VBVMR_Logout: unsafe extern "C" fn() -> ::std::os::raw::c_long,
@@ -1191,7 +1191,7 @@ pub struct VoicemeeterRemote {
         bitmode: ::std::os::raw::c_long,
     ) -> ::std::os::raw::c_long,
 }
-impl VoicemeeterRemote {
+impl VoicemeeterRemoteRaw {
     pub unsafe fn new<P>(path: P) -> Result<Self, ::libloading::Error>
     where
         P: AsRef<::std::ffi::OsStr>,
@@ -1277,7 +1277,7 @@ impl VoicemeeterRemote {
         let VBVMR_MacroButton_SetStatus = __library
             .get(b"VBVMR_MacroButton_SetStatus\0")
             .map(|sym| *sym)?;
-        Ok(VoicemeeterRemote {
+        Ok(VoicemeeterRemoteRaw {
             __library,
             VBVMR_Login,
             VBVMR_Logout,
