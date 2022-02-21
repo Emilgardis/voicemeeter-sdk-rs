@@ -1,7 +1,7 @@
+use pretty_assertions::{assert_eq, assert_ne, assert_str_eq};
 use std::env;
 use std::io::Read;
 use std::path::PathBuf;
-use pretty_assertions::{assert_eq, assert_ne, assert_str_eq};
 
 #[test]
 #[ignore]
@@ -15,6 +15,7 @@ fn assure_accurate_binding() {
             "#![allow(non_upper_case_globals)]
 #![allow(non_camel_case_types)]
 #![allow(unaligned_references)]
+#![allow(unsafe_op_in_unsafe_fn)]
 #![allow(deref_nullptr)]
 #![allow(clippy::missing_safety_doc)]
 #![allow(non_snake_case)]",

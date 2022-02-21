@@ -1,21 +1,31 @@
-use std::{ptr::{self, null}, os::raw::c_char};
-
-use voicemeeter as vm_sys;
-
 pub fn main() -> Result<(), color_eyre::Report> {
-    let rem = vm_sys::get_voicemeeter_raw()?;
-    
-    unsafe {
-        //println!("login? {}", rem.VBVMR_Login());
-        //println!("login? {}", rem.VBVMR_Login());
-        let mut ver: i32 = 0;
-         rem.VBVMR_GetVoicemeeterVersion(&mut ver);
-         println!("version: {:x}", ver);
-         let mut devname = [0i8;256];
-         let res = rem.VBVMR_Output_GetDeviceDescA(0, &mut ver, ptr::addr_of_mut!(devname[0]), ptr::null_mut());
-         println!("{res}");
-         println!("devtyppe: {:x}", ver);
-         println!("devname: {:?}", std::ffi::CStr::from_ptr(ptr::addr_of!(devname[0])))
+    let remote = voicemeeter::VoicemeeterRemote::new()?;
+    std::thread::sleep_ms(1000);
+    dbg!(remote.get_output_device(64i32)?);
+    dbg!(remote.is_parameters_dirty()?);
+    //dbg!(remote.run_voicemeeter(voicemeeter::types::VoicemeeterApplication::PotatoX64Bits)?);
+    println!("{}", remote.get_voicemeeter_version()?);
+    println!(
+        "float thing aaa {}",
+        remote.get_parameter_float("Strip[0].Mono")?
+    );
+    loop {
+        match remote.is_parameters_dirty() {
+            Ok(d) => {
+                if d {
+                    println!(
+                        "float thing aaa {}",
+                        remote.get_parameter_float("Strip[0].Mono")?
+                    );
+                    //dbg!(remote.is_parameters_dirty()?);
+                    std::thread::sleep_ms(20);
+                }
+            }
+            e => {
+                std::thread::sleep_ms(20);
+                e?;
+            }
+        }
     }
     Ok(())
 }

@@ -1,12 +1,14 @@
+#![deny(unsafe_op_in_unsafe_fn)]
 ///! Voicemeeter sdk
-
 #[cfg(test)]
 pub mod codegen;
 
 pub mod bindings;
-
+pub mod interface;
+pub mod types;
 
 use std::ffi::{OsStr, OsString};
+use std::ops::{Index, IndexMut};
 use std::path::Path;
 use std::{env, io};
 
@@ -15,15 +17,17 @@ pub static VOICEMEETER_REMOTE: once_cell::sync::OnceCell<VoicemeeterRemoteRaw> =
 
 #[doc(inline, hidden)]
 pub use bindings::VoicemeeterRemoteRaw;
+#[doc(inline)]
+pub use interface::VoicemeeterRemote;
 
 use winreg::enums::{KEY_READ, KEY_WOW64_32KEY};
 
 static INSTALLER_UNINST_KEY: &str = "VB:Voicemeeter {17359A74-1236-5467}";
 static UNINSTALLER_DIR: &str = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall";
-static DEFAULT_PATH: &str = "C:\\Program Files (x86)\\VB\\Voicemeeter";
 static LIBRARY_NAME_64: &str = "VoicemeeterRemote64.dll";
 static LIBRARY_NAME_32: &str = "VoicemeeterRemote.dll";
 
+#[doc(hidden)]
 /// Get a reference to voicemeeter remote
 pub fn get_voicemeeter_raw() -> Result<&'static VoicemeeterRemoteRaw, LoadError> {
     if let Some(remote) = VOICEMEETER_REMOTE.get() {
@@ -55,9 +59,12 @@ pub enum LoadError {
 }
 
 /// Get VoiceMeeterRemote via registry key
-pub fn find_voicemeeter_remote_with_registry() -> Result<OsString, RemoteFileError> {
+pub(crate) fn find_voicemeeter_remote_with_registry() -> Result<OsString, RemoteFileError> {
     let hklm = winreg::RegKey::predef(winreg::enums::HKEY_LOCAL_MACHINE);
-    let voicemeeter_uninst = if let Ok(reg) = hklm.open_subkey(UNINSTALLER_DIR).and_then(|s| s.open_subkey(INSTALLER_UNINST_KEY)) {
+    let voicemeeter_uninst = if let Ok(reg) = hklm
+        .open_subkey(UNINSTALLER_DIR)
+        .and_then(|s| s.open_subkey(INSTALLER_UNINST_KEY))
+    {
         // TODO: This will almost always fail, esp. on 64bit systems.
         reg
     } else {
@@ -107,4 +114,13 @@ pub enum RegistryError {
     CouldNotFindUninstallString,
     #[error("given uninstall exe is not a valid path: {:?}", 0)]
     UninstallStringInvalid(String),
+}
+
+/// Get a pointer to a `T` if option is [`Some`](Option::Some) or a null ptr if it's [`None`](Option::None)
+pub(crate) fn opt_or_null<T>(option: Option<&mut T>) -> *mut &mut T {
+    if let Some(mut p) = option {
+        std::ptr::addr_of_mut!(p)
+    } else {
+        std::ptr::null_mut()
+    }
 }
