@@ -1,13 +1,14 @@
 use std::env;
 use std::io::Read;
 use std::path::PathBuf;
+use pretty_assertions::{assert_eq, assert_ne, assert_str_eq};
 
 #[test]
 #[ignore]
 /// Generates and assures that a new invokation of bindgen will provide the same output for the bindings.
 fn assure_accurate_binding() {
     let dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap());
-    let header = dir.join("../sdk/VoicemeeterRemote.h");
+    let header = dir.join("./sdk/VoicemeeterRemote.h");
     let bindings = bindgen::Builder::default()
         .header(header.display().to_string())
         .raw_line(
@@ -38,6 +39,6 @@ fn assure_accurate_binding() {
         let mut current = std::fs::File::open(&path).unwrap();
         let mut curr = String::new();
         current.read_to_string(&mut curr).unwrap();
-        assert_eq!(curr, bindings.to_string());
+        assert_str_eq!(curr, bindings.to_string());
     }
 }

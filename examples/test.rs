@@ -1,6 +1,6 @@
 use std::{ptr::{self, null}, os::raw::c_char};
 
-use voicemeeter::voicemeeter_sys as vm_sys;
+use voicemeeter as vm_sys;
 
 pub fn main() -> Result<(), color_eyre::Report> {
     let rem = vm_sys::get_voicemeeter()?;

@@ -6,14 +6,19 @@ license = "MIT"
 description = "FFI bindings to Voicemeeter SDK"
 
 [dependencies]
-voicemeeter-sys = {version = "0.1.0", path = "./voicemeeter-sys"}
+libc = "0.2"
+winreg = "0.10"
+thiserror = "1.0.30"
+libloading = "0.7.3"
+once_cell = "1.9.0"
 
 [dev-dependencies]
+bindgen = { version = "0.59.2" }
 color-eyre="0.6.0"
-
-[workspace]
-members = ["voicemeeter-sys", "."]
-
+pretty_assertions = "1.1.0"
 
 [patch.crates-io]
 bindgen = { git = "https://github.com/Emilgardis/rust-bindgen", branch = "dynamic-comments" }
+
+[profile.dev.package.diff]
+opt-level = 3
