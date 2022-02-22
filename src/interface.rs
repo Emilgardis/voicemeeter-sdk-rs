@@ -6,6 +6,8 @@ pub mod communication_login_logout;
 pub mod device;
 pub mod general_information;
 pub mod get_parameters;
+pub mod get_levels;
+pub mod set_parameters;
 
 #[derive(Clone)]
 pub struct VoicemeeterRemote {

@@ -23,7 +23,7 @@ impl From<u32> for ZIndex {
 #[aliri_braid::braid()]
 pub struct Parameter;
 
-#[derive(Clone, PartialEq, Eq, Hash, Debug)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
 #[repr(C)]
 pub enum VoicemeeterApplication {
     Voicemeeter = 1,
@@ -41,6 +41,28 @@ impl From<i32> for VoicemeeterApplication {
             3 => VoicemeeterApplication::VoicemeeterPotato,
             6 => VoicemeeterApplication::PotatoX64Bits,
             _ => VoicemeeterApplication::Other,
+        }
+    }
+}
+
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug,)]
+#[repr(C)]
+pub enum LevelType {
+    PreFaderInputLevels = 0,
+    PostFaderInputLevels = 1,
+    PostMuteInputLevels = 2,
+    OutputLevels = 3,
+    Other,
+}
+
+impl From<i32> for LevelType {
+    fn from(ty: i32) -> Self {
+        match ty {
+            0 => LevelType::PreFaderInputLevels,
+            1 => LevelType::PostFaderInputLevels,
+            2 => LevelType::PostMuteInputLevels,
+            3 => LevelType::OutputLevels,
+            _ => LevelType::Other,
         }
     }
 }
