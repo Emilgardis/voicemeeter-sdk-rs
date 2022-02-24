@@ -1,4 +1,0 @@
-Recorder.load ="H:\AudioSound\NorahJone_TurnMeOn.wav";
-Recorder.play=1;
-
-

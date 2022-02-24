@@ -1,2 +1,0 @@
-fx.reverb.on=0;
-fx.delay.on=0;
