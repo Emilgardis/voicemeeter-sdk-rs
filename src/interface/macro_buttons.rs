@@ -1,4 +1,4 @@
-use crate::types::LogicalButton;
+use crate::{bindings::VBVMR_MACROBUTTON_MODE, types::LogicalButton};
 
 use super::VoicemeeterRemote;
 
@@ -45,7 +45,7 @@ impl VoicemeeterRemote {
     }
 
     /// Set a macro buttons state.
-    /// 
+    ///
     /// use `displayed_state_only` to only set the displayed state of the macro button, but not trigger it's associated requests.
     pub fn set_macrobutton_state(
         &self,
@@ -55,8 +55,15 @@ impl VoicemeeterRemote {
     ) -> Result<(), SetMacroButtonStatusError> {
         let mut f = 0.0f32;
         let button = button.into();
-        let bitmode = if displayed_state_only { 2 } else { 0 };
-        let res = unsafe { self.raw.VBVMR_MacroButton_SetStatus(button.0 .0, (state as u32) as f32, 2) };
+        let bitmode = if displayed_state_only {
+            VBVMR_MACROBUTTON_MODE::STATEONLY
+        } else {
+            VBVMR_MACROBUTTON_MODE::DEFAULT
+        };
+        let res = unsafe {
+            self.raw
+                .VBVMR_MacroButton_SetStatus(button.0 .0, (state as u32) as f32, bitmode.0)
+        };
         match res {
             0 => Ok(()),
             -1 => Err(SetMacroButtonStatusError::CannotGetClient),
@@ -90,7 +97,10 @@ impl VoicemeeterRemote {
         state: bool,
     ) -> Result<(), SetMacroButtonStatusError> {
         let button = button.into();
-        let res = unsafe { self.raw.VBVMR_MacroButton_SetStatus(button.0 .0, (state as u32) as  f32, 3) };
+        let res = unsafe {
+            self.raw
+                .VBVMR_MacroButton_SetStatus(button.0 .0, (state as u32) as f32, 3)
+        };
         match res {
             0 => Ok(()),
             -1 => Err(SetMacroButtonStatusError::CannotGetClient),

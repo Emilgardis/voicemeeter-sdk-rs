@@ -6,7 +6,7 @@ use std::{
     ptr,
 };
 
-use crate::types::ZIndex;
+use crate::{bindings::{VBVMR_DEVTYPE, self}, types::ZIndex};
 
 use super::VoicemeeterRemote;
 
@@ -44,7 +44,7 @@ impl VoicemeeterRemote {
             )?;
         }
         Ok(InputDevice {
-            r#type,
+            r#type: VBVMR_DEVTYPE(r#type),
             name: unsafe { CStr::from_ptr(ptr::addr_of!(name[0])) }
                 .to_string_lossy()
                 .into_owned(),
@@ -107,7 +107,7 @@ impl VoicemeeterRemote {
             )?;
         }
         Ok(OutputDevice {
-            r#type,
+            r#type: VBVMR_DEVTYPE(r#type),
             name: unsafe { CStr::from_ptr(ptr::addr_of!(name[0])) }
                 .to_string_lossy()
                 .into_owned(),
@@ -141,14 +141,14 @@ impl VoicemeeterRemote {
 
 #[derive(Debug)]
 pub struct InputDevice {
-    pub r#type: i32,
+    pub r#type: bindings::VBVMR_DEVTYPE,
     pub name: String,
     pub hardware_id: String,
 }
 
 #[derive(Debug)]
 pub struct OutputDevice {
-    pub r#type: i32,
+    pub r#type: bindings::VBVMR_DEVTYPE,
     pub name: String,
     pub hardware_id: String,
 }
