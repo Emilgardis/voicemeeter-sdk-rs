@@ -9,29 +9,24 @@
 #![allow(non_snake_case)]
 
 pub const VBVMR_RESULT_OK: u32 = 0;
-pub const VBVMR_CBCOMMAND_STARTING: u32 = 1;
-pub const VBVMR_CBCOMMAND_ENDING: u32 = 2;
-pub const VBVMR_CBCOMMAND_CHANGE: u32 = 3;
-pub const VBVMR_CBCOMMAND_BUFFER_IN: u32 = 10;
-pub const VBVMR_CBCOMMAND_BUFFER_OUT: u32 = 11;
-pub const VBVMR_CBCOMMAND_BUFFER_MAIN: u32 = 20;
-pub const VBVMR_AUDIOCALLBACK_IN: u32 = 1;
-pub const VBVMR_AUDIOCALLBACK_OUT: u32 = 2;
-pub const VBVMR_AUDIOCALLBACK_MAIN: u32 = 4;
-pub const VBVMR_MACROBUTTON_MODE_DEFAULT: u32 = 0;
-pub const VBVMR_MACROBUTTON_MODE_STATEONLY: u32 = 2;
-pub const VBVMR_MACROBUTTON_MODE_TRIGGER: u32 = 3;
 pub const expected_size_T_VBAN_VMRT_PACKET: u32 = 1384;
-#[repr(i32)]
+impl VBVMR_DEVTYPE {
+    pub const MME: VBVMR_DEVTYPE = VBVMR_DEVTYPE(1);
+}
+impl VBVMR_DEVTYPE {
+    pub const WDM: VBVMR_DEVTYPE = VBVMR_DEVTYPE(3);
+}
+impl VBVMR_DEVTYPE {
+    pub const KS: VBVMR_DEVTYPE = VBVMR_DEVTYPE(4);
+}
+impl VBVMR_DEVTYPE {
+    pub const ASIO: VBVMR_DEVTYPE = VBVMR_DEVTYPE(5);
+}
+#[repr(transparent)]
 #[doc = " @name Device Enumeration Functions"]
 #[doc = " @{"]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-pub enum VbvmrDevType {
-    MME = 1,
-    WDM = 3,
-    KS = 4,
-    ASIO = 5,
-}
+pub struct VBVMR_DEVTYPE(pub ::std::os::raw::c_int);
 #[doc = " @name VB-Audio Callback Functions"]
 #[doc = " @{"]
 #[repr(C)]
@@ -204,6 +199,51 @@ pub type T_VBVMR_VBAUDIOCALLBACK = ::std::option::Option<
         nnn: ::std::os::raw::c_long,
     ) -> ::std::os::raw::c_long,
 >;
+impl VBVMR_CBCOMMAND {
+    pub const STARTING: VBVMR_CBCOMMAND = VBVMR_CBCOMMAND(1);
+}
+impl VBVMR_CBCOMMAND {
+    pub const ENDING: VBVMR_CBCOMMAND = VBVMR_CBCOMMAND(2);
+}
+impl VBVMR_CBCOMMAND {
+    pub const CHANGE: VBVMR_CBCOMMAND = VBVMR_CBCOMMAND(3);
+}
+impl VBVMR_CBCOMMAND {
+    pub const BUFFER_IN: VBVMR_CBCOMMAND = VBVMR_CBCOMMAND(10);
+}
+impl VBVMR_CBCOMMAND {
+    pub const BUFFER_OUT: VBVMR_CBCOMMAND = VBVMR_CBCOMMAND(11);
+}
+impl VBVMR_CBCOMMAND {
+    pub const BUFFER_MAIN: VBVMR_CBCOMMAND = VBVMR_CBCOMMAND(20);
+}
+#[repr(transparent)]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub struct VBVMR_CBCOMMAND(pub ::std::os::raw::c_int);
+impl VBVMR_AUDIOCALLBACK {
+    pub const INPUT: VBVMR_AUDIOCALLBACK = VBVMR_AUDIOCALLBACK(1);
+}
+impl VBVMR_AUDIOCALLBACK {
+    pub const OUTPUT: VBVMR_AUDIOCALLBACK = VBVMR_AUDIOCALLBACK(2);
+}
+impl VBVMR_AUDIOCALLBACK {
+    pub const MAIN: VBVMR_AUDIOCALLBACK = VBVMR_AUDIOCALLBACK(4);
+}
+#[repr(transparent)]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub struct VBVMR_AUDIOCALLBACK(pub ::std::os::raw::c_int);
+impl VBVMR_MACROBUTTON_MODE {
+    pub const DEFAULT: VBVMR_MACROBUTTON_MODE = VBVMR_MACROBUTTON_MODE(0);
+}
+impl VBVMR_MACROBUTTON_MODE {
+    pub const STATEONLY: VBVMR_MACROBUTTON_MODE = VBVMR_MACROBUTTON_MODE(2);
+}
+impl VBVMR_MACROBUTTON_MODE {
+    pub const TRIGGER: VBVMR_MACROBUTTON_MODE = VBVMR_MACROBUTTON_MODE(3);
+}
+#[repr(transparent)]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub struct VBVMR_MACROBUTTON_MODE(pub ::std::os::raw::c_int);
 pub type T_VBVMR_Login = ::std::option::Option<unsafe extern "C" fn() -> ::std::os::raw::c_long>;
 pub type T_VBVMR_Logout = ::std::option::Option<unsafe extern "C" fn() -> ::std::os::raw::c_long>;
 pub type T_VBVMR_RunVoicemeeter = ::std::option::Option<
@@ -1055,46 +1095,126 @@ fn bindgen_test_layout_tagVBAN_VMRT_PACKET() {
 pub type T_VBAN_VMRT_PACKET = tagVBAN_VMRT_PACKET;
 pub type PT_VBAN_VMRT_PACKET = *mut tagVBAN_VMRT_PACKET;
 pub type LPT_VBAN_VMRT_PACKET = *mut tagVBAN_VMRT_PACKET;
-pub const VmrtStateMode_MUTE: VmrtStateMode = 1;
-pub const VmrtStateMode_SOLO: VmrtStateMode = 2;
-pub const VmrtStateMode_MONO: VmrtStateMode = 4;
-pub const VmrtStateMode_MUTEC: VmrtStateMode = 8;
-pub const VmrtStateMode_MIXDOWN: VmrtStateMode = 16;
-pub const VmrtStateMode_REPEAT: VmrtStateMode = 32;
-pub const VmrtStateMode_MIXDOWNB: VmrtStateMode = 48;
-pub const VmrtStateMode_COMPOSITE: VmrtStateMode = 64;
-pub const VmrtStateMode_UPMIXTV: VmrtStateMode = 80;
-pub const VmrtStateMode_UPMIX2: VmrtStateMode = 96;
-pub const VmrtStateMode_UPMIX4: VmrtStateMode = 112;
-pub const VmrtStateMode_UPMIX6: VmrtStateMode = 128;
-pub const VmrtStateMode_CENTER: VmrtStateMode = 144;
-pub const VmrtStateMode_LFE: VmrtStateMode = 160;
-pub const VmrtStateMode_REAR: VmrtStateMode = 176;
-pub const VmrtStateMode_MASK: VmrtStateMode = 240;
-pub const VmrtStateMode_EQ: VmrtStateMode = 256;
-pub const VmrtStateMode_CROSS: VmrtStateMode = 512;
-pub const VmrtStateMode_EQB: VmrtStateMode = 2048;
-pub const VmrtStateMode_BUSA: VmrtStateMode = 4096;
-pub const VmrtStateMode_BUSA1: VmrtStateMode = 4096;
-pub const VmrtStateMode_BUSA2: VmrtStateMode = 8192;
-pub const VmrtStateMode_BUSA3: VmrtStateMode = 16384;
-pub const VmrtStateMode_BUSA4: VmrtStateMode = 32768;
-pub const VmrtStateMode_BUSA5: VmrtStateMode = 524288;
-pub const VmrtStateMode_BUSB: VmrtStateMode = 65536;
-pub const VmrtStateMode_BUSB1: VmrtStateMode = 65536;
-pub const VmrtStateMode_BUSB2: VmrtStateMode = 131072;
-pub const VmrtStateMode_BUSB3: VmrtStateMode = 262144;
-pub const VmrtStateMode_PAN0: VmrtStateMode = 0;
-pub const VmrtStateMode_PANCOLOR: VmrtStateMode = 1048576;
-pub const VmrtStateMode_PANMOD: VmrtStateMode = 2097152;
-pub const VmrtStateMode_PANMASK: VmrtStateMode = 15728640;
-pub const VmrtStateMode_POSTFX_R: VmrtStateMode = 16777216;
-pub const VmrtStateMode_POSTFX_D: VmrtStateMode = 33554432;
-pub const VmrtStateMode_POSTFX1: VmrtStateMode = 67108864;
-pub const VmrtStateMode_POSTFX2: VmrtStateMode = 134217728;
-pub const VmrtStateMode_SEL: VmrtStateMode = 268435456;
-pub const VmrtStateMode_MONITOR: VmrtStateMode = 536870912;
-pub type VmrtStateMode = ::std::os::raw::c_int;
+impl VMRTSTATE_MODE {
+    pub const MUTE: VMRTSTATE_MODE = VMRTSTATE_MODE(1);
+}
+impl VMRTSTATE_MODE {
+    pub const SOLO: VMRTSTATE_MODE = VMRTSTATE_MODE(2);
+}
+impl VMRTSTATE_MODE {
+    pub const MONO: VMRTSTATE_MODE = VMRTSTATE_MODE(4);
+}
+impl VMRTSTATE_MODE {
+    pub const MUTEC: VMRTSTATE_MODE = VMRTSTATE_MODE(8);
+}
+impl VMRTSTATE_MODE {
+    pub const MIXDOWN: VMRTSTATE_MODE = VMRTSTATE_MODE(16);
+}
+impl VMRTSTATE_MODE {
+    pub const REPEAT: VMRTSTATE_MODE = VMRTSTATE_MODE(32);
+}
+impl VMRTSTATE_MODE {
+    pub const MIXDOWNB: VMRTSTATE_MODE = VMRTSTATE_MODE(48);
+}
+impl VMRTSTATE_MODE {
+    pub const COMPOSITE: VMRTSTATE_MODE = VMRTSTATE_MODE(64);
+}
+impl VMRTSTATE_MODE {
+    pub const UPMIXTV: VMRTSTATE_MODE = VMRTSTATE_MODE(80);
+}
+impl VMRTSTATE_MODE {
+    pub const UPMIX2: VMRTSTATE_MODE = VMRTSTATE_MODE(96);
+}
+impl VMRTSTATE_MODE {
+    pub const UPMIX4: VMRTSTATE_MODE = VMRTSTATE_MODE(112);
+}
+impl VMRTSTATE_MODE {
+    pub const UPMIX6: VMRTSTATE_MODE = VMRTSTATE_MODE(128);
+}
+impl VMRTSTATE_MODE {
+    pub const CENTER: VMRTSTATE_MODE = VMRTSTATE_MODE(144);
+}
+impl VMRTSTATE_MODE {
+    pub const LFE: VMRTSTATE_MODE = VMRTSTATE_MODE(160);
+}
+impl VMRTSTATE_MODE {
+    pub const REAR: VMRTSTATE_MODE = VMRTSTATE_MODE(176);
+}
+impl VMRTSTATE_MODE {
+    pub const MASK: VMRTSTATE_MODE = VMRTSTATE_MODE(240);
+}
+impl VMRTSTATE_MODE {
+    pub const EQ: VMRTSTATE_MODE = VMRTSTATE_MODE(256);
+}
+impl VMRTSTATE_MODE {
+    pub const CROSS: VMRTSTATE_MODE = VMRTSTATE_MODE(512);
+}
+impl VMRTSTATE_MODE {
+    pub const EQB: VMRTSTATE_MODE = VMRTSTATE_MODE(2048);
+}
+impl VMRTSTATE_MODE {
+    pub const BUSA: VMRTSTATE_MODE = VMRTSTATE_MODE(4096);
+}
+impl VMRTSTATE_MODE {
+    pub const BUSA1: VMRTSTATE_MODE = VMRTSTATE_MODE(4096);
+}
+impl VMRTSTATE_MODE {
+    pub const BUSA2: VMRTSTATE_MODE = VMRTSTATE_MODE(8192);
+}
+impl VMRTSTATE_MODE {
+    pub const BUSA3: VMRTSTATE_MODE = VMRTSTATE_MODE(16384);
+}
+impl VMRTSTATE_MODE {
+    pub const BUSA4: VMRTSTATE_MODE = VMRTSTATE_MODE(32768);
+}
+impl VMRTSTATE_MODE {
+    pub const BUSA5: VMRTSTATE_MODE = VMRTSTATE_MODE(524288);
+}
+impl VMRTSTATE_MODE {
+    pub const BUSB: VMRTSTATE_MODE = VMRTSTATE_MODE(65536);
+}
+impl VMRTSTATE_MODE {
+    pub const BUSB1: VMRTSTATE_MODE = VMRTSTATE_MODE(65536);
+}
+impl VMRTSTATE_MODE {
+    pub const BUSB2: VMRTSTATE_MODE = VMRTSTATE_MODE(131072);
+}
+impl VMRTSTATE_MODE {
+    pub const BUSB3: VMRTSTATE_MODE = VMRTSTATE_MODE(262144);
+}
+impl VMRTSTATE_MODE {
+    pub const PAN0: VMRTSTATE_MODE = VMRTSTATE_MODE(0);
+}
+impl VMRTSTATE_MODE {
+    pub const PANCOLOR: VMRTSTATE_MODE = VMRTSTATE_MODE(1048576);
+}
+impl VMRTSTATE_MODE {
+    pub const PANMOD: VMRTSTATE_MODE = VMRTSTATE_MODE(2097152);
+}
+impl VMRTSTATE_MODE {
+    pub const PANMASK: VMRTSTATE_MODE = VMRTSTATE_MODE(15728640);
+}
+impl VMRTSTATE_MODE {
+    pub const POSTFX_R: VMRTSTATE_MODE = VMRTSTATE_MODE(16777216);
+}
+impl VMRTSTATE_MODE {
+    pub const POSTFX_D: VMRTSTATE_MODE = VMRTSTATE_MODE(33554432);
+}
+impl VMRTSTATE_MODE {
+    pub const POSTFX1: VMRTSTATE_MODE = VMRTSTATE_MODE(67108864);
+}
+impl VMRTSTATE_MODE {
+    pub const POSTFX2: VMRTSTATE_MODE = VMRTSTATE_MODE(134217728);
+}
+impl VMRTSTATE_MODE {
+    pub const SEL: VMRTSTATE_MODE = VMRTSTATE_MODE(268435456);
+}
+impl VMRTSTATE_MODE {
+    pub const MONITOR: VMRTSTATE_MODE = VMRTSTATE_MODE(536870912);
+}
+#[repr(transparent)]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub struct VMRTSTATE_MODE(pub ::std::os::raw::c_int);
 extern crate libloading;
 pub struct VoicemeeterRemoteRaw {
     __library: ::libloading::Library,

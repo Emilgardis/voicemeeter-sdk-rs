@@ -96,6 +96,3 @@ impl From<i32> for LevelType {
         }
     }
 }
-
-#[doc(inline)]
-pub use crate::bindings::VbvmrDevType;

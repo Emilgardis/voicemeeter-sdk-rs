@@ -1,7 +1,6 @@
 #![deny(unsafe_op_in_unsafe_fn)]
 ///! Voicemeeter sdk
-#[cfg(test)]
-pub mod codegen;
+
 
 pub mod bindings;
 pub mod interface;
