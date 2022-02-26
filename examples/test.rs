@@ -13,20 +13,21 @@ pub fn main() -> Result<(), color_eyre::Report> {
     loop {
         match remote.is_macrobutton_dirty() {
             Ok(true) => {
-                    writeln!(stdout,
-                        "Button 0: {}, {}",
-                        remote.get_macrobutton_state(0u32)?,
-                        remote.get_macrobutton_trigger_state(0u32)?,
-                    );
-                    writeln!(stdout,
-                        "Button 1: {}, {}",
-                        remote.get_macrobutton_state(1u32)?,
-                        remote.get_macrobutton_trigger_state(1u32)?,
-                    );
-                    writeln!(stdout,"--- {}", c);
-                    c += 1;
+                writeln!(
+                    stdout,
+                    "Button 0: {}, {}",
+                    remote.get_macrobutton_state(0u32)?,
+                    remote.get_macrobutton_trigger_state(0u32)?,
+                );
+                writeln!(
+                    stdout,
+                    "Button 1: {}, {}",
+                    remote.get_macrobutton_state(1u32)?,
+                    remote.get_macrobutton_trigger_state(1u32)?,
+                );
+                writeln!(stdout, "--- {}", c);
+                c += 1;
                 std::thread::sleep_ms(100);
-
             }
             e => {
                 std::thread::sleep_ms(100);

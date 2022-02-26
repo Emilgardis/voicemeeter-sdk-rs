@@ -54,17 +54,11 @@ impl VoicemeeterRemote {
         }
     }
 
-    pub fn set_parameters(
-        &self,
-        script: &str,
-    ) -> Result<(), SetParametersError> {
+    pub fn set_parameters(&self, script: &str) -> Result<(), SetParametersError> {
         let mut f = 0.0f32;
         let mut script = CString::new(script).unwrap();
-        let res = unsafe {
-            self.raw
-                .VBVMR_SetParameters(script.as_ptr() as *mut _)
-        };
-        
+        let res = unsafe { self.raw.VBVMR_SetParameters(script.as_ptr() as *mut _) };
+
         match res {
             l if l > 0 => Err(SetParametersError::ScriptError(l as usize)),
             0 => Ok(()),

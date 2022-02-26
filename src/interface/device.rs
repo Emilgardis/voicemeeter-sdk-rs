@@ -6,7 +6,10 @@ use std::{
     ptr,
 };
 
-use crate::{bindings::{VBVMR_DEVTYPE, self}, types::ZIndex};
+use crate::{
+    bindings::{self, VBVMR_DEVTYPE},
+    types::ZIndex,
+};
 
 use super::VoicemeeterRemote;
 

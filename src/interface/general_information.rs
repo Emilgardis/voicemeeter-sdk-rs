@@ -1,6 +1,5 @@
 use crate::types::VoicemeeterApplication;
 
-
 use super::VoicemeeterRemote;
 
 impl VoicemeeterRemote {

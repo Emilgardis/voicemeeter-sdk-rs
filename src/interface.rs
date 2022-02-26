@@ -2,14 +2,14 @@ use crate::LoadError;
 
 use self::communication_login_logout::LoginError;
 
+pub mod callback;
 pub mod communication_login_logout;
 pub mod device;
 pub mod general_information;
-pub mod get_parameters;
 pub mod get_levels;
-pub mod set_parameters;
+pub mod get_parameters;
 pub mod macro_buttons;
-pub mod callback;
+pub mod set_parameters;
 
 #[derive(Clone)]
 pub struct VoicemeeterRemote {
