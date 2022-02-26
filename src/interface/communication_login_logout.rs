@@ -7,7 +7,7 @@ impl VoicemeeterRemote {
         let res = unsafe { self.raw.VBVMR_Login() };
         match res {
             0 => Ok(VoicemeeterStatus::Launched),
-            1 => Ok(VoicemeeterStatus::Launched),
+            1 => Ok(VoicemeeterStatus::NotLaunched),
             -2 => Err(LoginError::LoginFailed),
             s => Err(LoginError::Unexpected(s)),
         }
