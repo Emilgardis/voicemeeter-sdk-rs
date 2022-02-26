@@ -127,7 +127,7 @@ impl VoicemeeterRemote {
     }
 
     pub fn audio_callback_unregister(&self) -> Result<(), AudioCallbackUnregisterError> {
-        let res = unsafe { self.raw.VBVMR_AudioCallbackUnregister(None) };
+        let res = unsafe { self.raw.VBVMR_AudioCallbackUnregister() };
         match res {
             0 => Ok(()),
             -1 => Err(AudioCallbackUnregisterError::NoServer),
