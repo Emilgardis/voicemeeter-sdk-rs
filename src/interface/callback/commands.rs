@@ -1,4 +1,4 @@
-use crate::bindings::VBVMR_CBCOMMAND;
+use crate::{bindings::VBVMR_CBCOMMAND, types::VoicemeeterApplication};
 
 use super::data::{AudioBuffer, AudioInfo, RawCallbackData};
 
@@ -23,6 +23,12 @@ macro_rules! implement {
                 }
                 fn get_mut(&mut self) -> &mut AudioBuffer {
                     self.buffer
+                }
+            }
+
+            impl $name<'_> {
+                pub fn nbs(&self) -> usize {
+                    self.buffer.audiobuffer_nbs as usize
                 }
             }
         )*
@@ -93,6 +99,36 @@ impl<'a> BufferIn<'a> {
     pub fn new(buffer: &'a mut AudioBuffer) -> Self {
         Self { buffer }
     }
+
+    #[inline]
+    pub fn read_write_buffer(&mut self, program: &VoicemeeterApplication) -> (&[f32], &mut [f32]) {
+        match program {
+            VoicemeeterApplication::Voicemeeter => {
+                self.buffer.read_write_buffer_with_len::<12, 12>()
+            }
+            VoicemeeterApplication::VoicemeeterBanana => {
+                self.buffer.read_write_buffer_with_len::<22, 22>()
+            }
+            VoicemeeterApplication::VoicemeeterPotato | VoicemeeterApplication::PotatoX64Bits => {
+                self.buffer.read_write_buffer_with_len::<34, 34>()
+            }
+            VoicemeeterApplication::Other => {
+                // TODO: Find the first non-null ptr and return to that?
+                self.buffer.read_write_buffer_with_len::<34, 34>()
+            }
+        }
+    }
+
+    pub fn read_buffer(&mut self, program: &VoicemeeterApplication) -> &[f32] {
+        self.read_write_buffer(program).0
+    }
+    pub fn write_buffer(&mut self, program: &VoicemeeterApplication) -> &mut [f32] {
+        self.read_write_buffer(program).1
+    }
+
+    pub fn read_output(&'a mut self, program: &VoicemeeterApplication) -> &[f32] {
+        self.read_buffer(program)
+    }
 }
 
 #[derive(Debug)]
@@ -104,6 +140,35 @@ impl<'a> BufferOut<'a> {
     pub fn new(buffer: &'a mut AudioBuffer) -> Self {
         Self { buffer }
     }
+
+    #[inline]
+    pub fn read_write_buffer(&mut self, program: &VoicemeeterApplication) -> (&[f32], &mut [f32]) {
+        match program {
+            VoicemeeterApplication::Voicemeeter => {
+                self.buffer.read_write_buffer_with_len::<16, 16>()
+            }
+            VoicemeeterApplication::VoicemeeterBanana => {
+                self.buffer.read_write_buffer_with_len::<40, 40>()
+            }
+            VoicemeeterApplication::VoicemeeterPotato | VoicemeeterApplication::PotatoX64Bits => {
+                self.buffer.read_write_buffer_with_len::<64, 64>()
+            }
+            VoicemeeterApplication::Other => {
+                // TODO: Find the first non-null ptr and return to that?
+                self.buffer.read_write_buffer_with_len::<64, 64>()
+            }
+        }
+    }
+    pub fn read_buffer(&mut self, program: &VoicemeeterApplication) -> &[f32] {
+        self.read_write_buffer(program).0
+    }
+    pub fn write_buffer(&mut self, program: &VoicemeeterApplication) -> &mut [f32] {
+        self.read_write_buffer(program).1
+    }
+
+    pub fn read_output(&'a mut self, program: &VoicemeeterApplication) -> &[f32] {
+        self.read_buffer(program)
+    }
 }
 
 #[derive(Debug)]
@@ -114,6 +179,46 @@ pub struct BufferMain<'a> {
 impl<'a> BufferMain<'a> {
     pub fn new(buffer: &'a mut AudioBuffer) -> Self {
         Self { buffer }
+    }
+    #[inline]
+    pub fn read_write_buffer(&mut self, program: &VoicemeeterApplication) -> (&[f32], &mut [f32]) {
+        match program {
+            VoicemeeterApplication::Voicemeeter => {
+                self.buffer.read_write_buffer_with_len::<28, 16>()
+            }
+            VoicemeeterApplication::VoicemeeterBanana => {
+                self.buffer.read_write_buffer_with_len::<62, 40>()
+            }
+            VoicemeeterApplication::VoicemeeterPotato | VoicemeeterApplication::PotatoX64Bits => {
+                self.buffer.read_write_buffer_with_len::<98, 64>()
+            }
+            VoicemeeterApplication::Other => {
+                // TODO: Find the first non-null ptr and return to that?
+                self.buffer.read_write_buffer_with_len::<98, 64>()
+            }
+        }
+    }
+    pub fn read_buffer(&mut self, program: &VoicemeeterApplication) -> &[f32] {
+        self.read_write_buffer(program).0
+    }
+
+    pub fn write_buffer(&mut self, program: &VoicemeeterApplication) -> &mut [f32] {
+        self.read_write_buffer(program).1
+    }
+
+    pub fn read_output(&'a mut self, program: &VoicemeeterApplication) -> &[f32] {
+        let buf = self.read_buffer(program);
+        match program {
+            VoicemeeterApplication::Voicemeeter => &buf[12..=27],
+            VoicemeeterApplication::VoicemeeterBanana => &buf[22..=61],
+            VoicemeeterApplication::VoicemeeterPotato | VoicemeeterApplication::PotatoX64Bits => {
+                &buf[34..64]
+            }
+            VoicemeeterApplication::Other => {
+                // TODO: Find the first non-null ptr and return to that?
+                buf
+            }
+        }
     }
 }
 
