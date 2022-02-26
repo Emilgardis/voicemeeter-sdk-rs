@@ -1,5 +1,6 @@
 /// A Zero Indexed Index
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
+#[repr(transparent)]
 pub struct ZIndex(pub(crate) i32);
 
 impl From<usize> for ZIndex {
@@ -17,6 +18,34 @@ impl From<i32> for ZIndex {
 impl From<u32> for ZIndex {
     fn from(i: u32) -> Self {
         ZIndex(i as i32)
+    }
+}
+
+#[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
+#[repr(transparent)]
+pub struct LogicalButton(pub ZIndex);
+
+impl std::fmt::Display for LogicalButton {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "MB:{}", self.0.0)
+    }
+}
+
+impl From<usize> for LogicalButton {
+    fn from(i: usize) -> Self {
+        LogicalButton(ZIndex(i as i32))
+    }
+}
+
+impl From<i32> for LogicalButton {
+    fn from(i: i32) -> Self {
+        LogicalButton(ZIndex(i as i32))
+    }
+}
+
+impl From<u32> for LogicalButton {
+    fn from(i: u32) -> Self {
+        LogicalButton(ZIndex(i as i32))
     }
 }
 
@@ -44,6 +73,7 @@ impl From<i32> for VoicemeeterApplication {
         }
     }
 }
+
 
 #[derive(Clone, Copy, PartialEq, Eq, Hash, Debug,)]
 #[repr(C)]

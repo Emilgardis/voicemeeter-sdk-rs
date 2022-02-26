@@ -46,7 +46,6 @@ impl VoicemeeterRemote {
         &self,
         param: impl AsRef<str>,
     ) -> Result<String, GetParameterError> {
-        let mut f = 0.0f32;
         let mut param = CString::new(param.as_ref()).unwrap();
         let mut output = [0 as c_char; 512];
         let res = unsafe {

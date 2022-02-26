@@ -141,16 +141,16 @@ impl VoicemeeterRemote {
 
 #[derive(Debug)]
 pub struct InputDevice {
-    r#type: i32,
-    name: String,
-    hardware_id: String,
+    pub r#type: i32,
+    pub name: String,
+    pub hardware_id: String,
 }
 
 #[derive(Debug)]
 pub struct OutputDevice {
-    r#type: i32,
-    name: String,
-    hardware_id: String,
+    pub r#type: i32,
+    pub name: String,
+    pub hardware_id: String,
 }
 
 #[derive(Debug, thiserror::Error, Clone)]

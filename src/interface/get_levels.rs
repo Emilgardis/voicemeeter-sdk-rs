@@ -5,6 +5,7 @@ use crate::types::LevelType;
 use super::VoicemeeterRemote;
 
 impl VoicemeeterRemote {
+    // TODO: one thread only
     pub fn get_level(&self, level_type: LevelType, channel: i32) -> Result<f32, GetLevelError> {
         let mut f = std::f32::NAN;
         let res = unsafe { self.raw.VBVMR_GetLevel(level_type as i32, channel, &mut f) };
@@ -18,6 +19,7 @@ impl VoicemeeterRemote {
         }
     }
 
+    // TODO: one thread only
     pub fn get_midi_message(&self) -> Result<Vec<u8>, GetMidiMessageError> {
         let mut v = vec![0; 1024];
         let len = self.get_midi_message_buff(&mut v)?;
@@ -25,6 +27,8 @@ impl VoicemeeterRemote {
         Ok(v)
     }
 
+    // TODO: one thread only
+    #[inline]
     pub fn get_midi_message_buff(&self, buffer: &mut [u8]) -> Result<usize, GetMidiMessageError> {
         let res = unsafe {
             self.raw
