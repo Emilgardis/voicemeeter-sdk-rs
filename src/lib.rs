@@ -5,6 +5,7 @@
 pub mod bindings;
 pub mod interface;
 pub mod types;
+pub(crate) mod ffi;
 
 use std::ffi::{OsStr, OsString};
 use std::ops::{Index, IndexMut};

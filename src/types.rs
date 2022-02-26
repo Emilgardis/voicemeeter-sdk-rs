@@ -1,3 +1,5 @@
+use crate::bindings;
+
 /// A Zero Indexed Index
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
 #[repr(transparent)]
@@ -27,7 +29,7 @@ pub struct LogicalButton(pub ZIndex);
 
 impl std::fmt::Display for LogicalButton {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "MB:{}", self.0.0)
+        write!(f, "MB:{}", self.0 .0)
     }
 }
 
@@ -74,8 +76,7 @@ impl From<i32> for VoicemeeterApplication {
     }
 }
 
-
-#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug,)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
 #[repr(C)]
 pub enum LevelType {
     PreFaderInputLevels = 0,
@@ -93,6 +94,31 @@ impl From<i32> for LevelType {
             2 => LevelType::PostMuteInputLevels,
             3 => LevelType::OutputLevels,
             _ => LevelType::Other,
+        }
+    }
+}
+
+#[repr(i32)]
+pub enum CallbackCommand {
+    Starting,
+    Ending,
+    Change,
+    BufferIn,
+    BufferOut,
+    BufferMain,
+    Other(bindings::VBVMR_CBCOMMAND),
+}
+
+impl From<bindings::VBVMR_CBCOMMAND> for CallbackCommand {
+    fn from(n: bindings::VBVMR_CBCOMMAND) -> Self {
+        match n {
+            bindings::VBVMR_CBCOMMAND::STARTING => Self::Starting,
+            bindings::VBVMR_CBCOMMAND::ENDING => Self::Ending,
+            bindings::VBVMR_CBCOMMAND::CHANGE => Self::Change,
+            bindings::VBVMR_CBCOMMAND::BUFFER_IN => Self::BufferIn,
+            bindings::VBVMR_CBCOMMAND::BUFFER_OUT => Self::BufferOut,
+            bindings::VBVMR_CBCOMMAND::BUFFER_MAIN => Self::BufferMain,
+            i => Self::Other(i),
         }
     }
 }

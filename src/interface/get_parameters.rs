@@ -1,5 +1,5 @@
 use std::{
-    ffi::{CStr, CString},
+    ffi::{CStr, CString, NulError},
     os::raw::c_char,
     ptr,
 };
@@ -23,7 +23,7 @@ impl VoicemeeterRemote {
     // FIXME: Prefer using abstraction [linkme]
     pub fn get_parameter_float(&self, param: impl AsRef<str>) -> Result<f32, GetParameterError> {
         let mut f = 0.0f32;
-        let mut param = CString::new(param.as_ref()).unwrap();
+        let mut param = CString::new(param.as_ref())?;
         let res = unsafe {
             self.raw
                 .VBVMR_GetParameterFloat(param.as_ptr() as *mut _, &mut f)
@@ -75,6 +75,8 @@ impl VoicemeeterRemote {
 
 #[derive(Debug, thiserror::Error, Clone)]
 pub enum GetParameterError {
+    #[error("could not make into a c-string")]
+    NulError(#[from] NulError),
     // TODO: is this correct? docs say "error (unexpected)""
     #[error("cannot get client (unexpected)")]
     CannotGetClient,
