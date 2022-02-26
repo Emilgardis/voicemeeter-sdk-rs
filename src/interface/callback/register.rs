@@ -1,14 +1,11 @@
 use std::{
-    ffi::{c_void, CStr, CString, NulError},
-    mem::MaybeUninit,
-    ops::IndexMut,
-    os::raw::{c_char, c_long},
-    ptr,
+    ffi::{CString, NulError},
+    os::raw::c_long,
 };
 
 use crate::{
     bindings::{VBVMR_AUDIOCALLBACK, VBVMR_CBCOMMAND, VBVMR_T_AUDIOBUFFER},
-    types::{CallbackCommand, ZIndex},
+    types::CallbackCommand,
     VoicemeeterRemote,
 };
 
@@ -40,8 +37,7 @@ impl VoicemeeterRemote {
                 nnn,
             )
         };
-        let (user_data, callback) =
-            unsafe { crate::ffi::split::split_closure(&mut callback_transformed) };
+        let (user_data, callback) = crate::ffi::split::split_closure(&mut callback_transformed);
         let res = unsafe {
             self.raw.VBVMR_AudioCallbackRegister(
                 VBVMR_AUDIOCALLBACK::MAIN.0,
@@ -75,7 +71,7 @@ impl VoicemeeterRemote {
             )
         };
         let (user_data, callback) =
-            unsafe { crate::ffi::split::split_closure(&mut callback_transformed) };
+            crate::ffi::split::split_closure(&mut callback_transformed);
         let res = unsafe {
             self.raw.VBVMR_AudioCallbackRegister(
                 VBVMR_AUDIOCALLBACK::INPUT.0,
@@ -109,7 +105,7 @@ impl VoicemeeterRemote {
             )
         };
         let (user_data, callback) =
-            unsafe { crate::ffi::split::split_closure(&mut callback_transformed) };
+            crate::ffi::split::split_closure(&mut callback_transformed);
         let res = unsafe {
             self.raw.VBVMR_AudioCallbackRegister(
                 VBVMR_AUDIOCALLBACK::INPUT.0,

@@ -1,6 +1,6 @@
 #![feature(is_some_with)]
 use std::io::Write;
-use voicemeeter::types::LogicalButton;
+
 pub fn main() -> Result<(), color_eyre::Report> {
     let remote = voicemeeter::VoicemeeterRemote::new()?;
     dbg!(remote.is_macrobutton_dirty()?);
@@ -18,14 +18,14 @@ pub fn main() -> Result<(), color_eyre::Report> {
                     "Button 0: {}, {}",
                     remote.get_macrobutton_state(0u32)?,
                     remote.get_macrobutton_trigger_state(0u32)?,
-                );
+                )?;
                 writeln!(
                     stdout,
                     "Button 1: {}, {}",
                     remote.get_macrobutton_state(1u32)?,
                     remote.get_macrobutton_trigger_state(1u32)?,
-                );
-                writeln!(stdout, "--- {}", c);
+                )?;
+                writeln!(stdout, "--- {}", c)?;
                 c += 1;
                 std::thread::sleep_ms(100);
             }

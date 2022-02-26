@@ -4,7 +4,7 @@ pub fn main() -> Result<(), color_eyre::Report> {
     let remote = voicemeeter::VoicemeeterRemote::new()?;
     println!("{}", remote.get_voicemeeter_version()?);
     let mut printed = false;
-    remote.audio_callback_register_output("TESTing", |command, b, a| {
+    remote.audio_callback_register_output("TESTing", |command, _b, _a| {
         if !printed {
             println!("WE*RE IN")
         };

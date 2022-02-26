@@ -1,10 +1,8 @@
 use std::{
-    ffi::{CStr, CString},
-    os::raw::c_char,
-    ptr,
+    ffi::{CString},
 };
 
-use crate::types::{Parameter, ParameterRef};
+
 
 use super::VoicemeeterRemote;
 
@@ -13,10 +11,10 @@ impl VoicemeeterRemote {
     pub fn set_parameter_float(
         &self,
         param: impl AsRef<str>,
-        value: f32,
+        _value: f32,
     ) -> Result<(), SetParameterError> {
-        let mut f = 0.0f32;
-        let mut param = CString::new(param.as_ref()).unwrap();
+        let f = 0.0f32;
+        let param = CString::new(param.as_ref()).unwrap();
         let res = unsafe {
             self.raw
                 .VBVMR_SetParameterFloat(param.as_ptr() as *mut _, f)
@@ -36,9 +34,9 @@ impl VoicemeeterRemote {
         param: impl AsRef<str>,
         value: &str,
     ) -> Result<(), SetParameterError> {
-        let mut f = 0.0f32;
-        let mut param = CString::new(param.as_ref()).unwrap();
-        let mut value = CString::new(value).unwrap();
+        let _f = 0.0f32;
+        let param = CString::new(param.as_ref()).unwrap();
+        let value = CString::new(value).unwrap();
         let res = unsafe {
             self.raw
                 .VBVMR_SetParameterStringA(param.as_ptr() as *mut _, value.as_ptr() as *mut _)
@@ -55,8 +53,8 @@ impl VoicemeeterRemote {
     }
 
     pub fn set_parameters(&self, script: &str) -> Result<(), SetParametersError> {
-        let mut f = 0.0f32;
-        let mut script = CString::new(script).unwrap();
+        let _f = 0.0f32;
+        let script = CString::new(script).unwrap();
         let res = unsafe { self.raw.VBVMR_SetParameters(script.as_ptr() as *mut _) };
 
         match res {

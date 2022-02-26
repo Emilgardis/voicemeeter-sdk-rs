@@ -6,9 +6,9 @@ pub mod interface;
 pub mod types;
 
 use std::ffi::{OsStr, OsString};
-use std::ops::{Index, IndexMut};
+
 use std::path::Path;
-use std::{env, io};
+use std::{io};
 
 pub static VOICEMEETER_REMOTE: once_cell::sync::OnceCell<VoicemeeterRemoteRaw> =
     once_cell::sync::OnceCell::new();
@@ -23,7 +23,6 @@ use winreg::enums::{KEY_READ, KEY_WOW64_32KEY};
 static INSTALLER_UNINST_KEY: &str = "VB:Voicemeeter {17359A74-1236-5467}";
 static UNINSTALLER_DIR: &str = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall";
 static LIBRARY_NAME_64: &str = "VoicemeeterRemote64.dll";
-static LIBRARY_NAME_32: &str = "VoicemeeterRemote.dll";
 
 #[doc(hidden)]
 /// Get a reference to voicemeeter remote

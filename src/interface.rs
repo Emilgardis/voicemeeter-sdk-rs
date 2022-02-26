@@ -32,7 +32,7 @@ impl VoicemeeterRemote {
 
 impl Drop for VoicemeeterRemote {
     fn drop(&mut self) {
-        self._logout();
+        let _ = self._logout();
     }
 }
 

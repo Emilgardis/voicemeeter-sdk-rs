@@ -1,7 +1,5 @@
 use std::{
-    ffi::{CStr, CString},
-    mem::MaybeUninit,
-    ops::IndexMut,
+    ffi::{CStr},
     os::raw::c_char,
     ptr,
 };
@@ -71,12 +69,12 @@ impl VoicemeeterRemote {
             null_i32
         };
         let null_c = ptr::null_mut();
-        let name_p = if let Some(mut p) = name {
+        let name_p = if let Some(p) = name {
             ptr::addr_of_mut!(p[0])
         } else {
             null_c
         };
-        let hardware_id_p = if let Some(mut p) = hardware_id {
+        let hardware_id_p = if let Some(p) = hardware_id {
             ptr::addr_of_mut!(p[0])
         } else {
             null_c

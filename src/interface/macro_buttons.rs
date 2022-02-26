@@ -53,7 +53,7 @@ impl VoicemeeterRemote {
         state: bool,
         displayed_state_only: bool,
     ) -> Result<(), SetMacroButtonStatusError> {
-        let mut f = 0.0f32;
+        let _f = 0.0f32;
         let button = button.into();
         let bitmode = if displayed_state_only {
             VBVMR_MACROBUTTON_MODE::STATEONLY

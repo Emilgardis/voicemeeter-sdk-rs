@@ -14,7 +14,7 @@ impl VoicemeeterRemote {
     }
 
     pub fn logout(mut self) -> Result<(), LogoutError> {
-        self._logout();
+        self._logout()?;
         Ok(())
     }
 

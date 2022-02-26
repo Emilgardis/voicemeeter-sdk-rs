@@ -4,7 +4,7 @@ use std::{
     ptr,
 };
 
-use crate::types::{Parameter, ParameterRef};
+
 
 use super::VoicemeeterRemote;
 
@@ -23,7 +23,7 @@ impl VoicemeeterRemote {
     // FIXME: Prefer using abstraction [linkme]
     pub fn get_parameter_float(&self, param: impl AsRef<str>) -> Result<f32, GetParameterError> {
         let mut f = 0.0f32;
-        let mut param = CString::new(param.as_ref())?;
+        let param = CString::new(param.as_ref())?;
         let res = unsafe {
             self.raw
                 .VBVMR_GetParameterFloat(param.as_ptr() as *mut _, &mut f)
@@ -46,7 +46,7 @@ impl VoicemeeterRemote {
         &self,
         param: impl AsRef<str>,
     ) -> Result<String, GetParameterError> {
-        let mut param = CString::new(param.as_ref()).unwrap();
+        let param = CString::new(param.as_ref()).unwrap();
         let mut output = [0 as c_char; 512];
         let res = unsafe {
             self.raw
