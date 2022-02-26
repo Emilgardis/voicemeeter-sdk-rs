@@ -1,8 +1,4 @@
-use std::{
-    ffi::{CString},
-};
-
-
+use std::ffi::CString;
 
 use super::VoicemeeterRemote;
 

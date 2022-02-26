@@ -1,4 +1,4 @@
-use pretty_assertions::{assert_eq, assert_ne, assert_str_eq};
+use pretty_assertions::assert_str_eq;
 use std::env;
 use std::io::Read;
 use std::path::PathBuf;

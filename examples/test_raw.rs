@@ -1,5 +1,3 @@
-
-
 pub fn main() -> Result<(), color_eyre::Report> {
     let rem = voicemeeter::get_voicemeeter_raw()?;
 

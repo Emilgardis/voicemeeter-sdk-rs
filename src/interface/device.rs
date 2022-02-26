@@ -1,8 +1,4 @@
-use std::{
-    ffi::{CStr},
-    os::raw::c_char,
-    ptr,
-};
+use std::{ffi::CStr, os::raw::c_char, ptr};
 
 use crate::{
     bindings::{self, VBVMR_DEVTYPE},

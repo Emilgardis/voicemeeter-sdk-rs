@@ -1,5 +1,3 @@
-use crate::bindings;
-
 /// A Zero Indexed Index
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
 #[repr(transparent)]
@@ -94,31 +92,6 @@ impl From<i32> for LevelType {
             2 => LevelType::PostMuteInputLevels,
             3 => LevelType::OutputLevels,
             _ => LevelType::Other,
-        }
-    }
-}
-
-#[repr(i32)]
-pub enum CallbackCommand {
-    Starting,
-    Ending,
-    Change,
-    BufferIn,
-    BufferOut,
-    BufferMain,
-    Other(bindings::VBVMR_CBCOMMAND),
-}
-
-impl From<bindings::VBVMR_CBCOMMAND> for CallbackCommand {
-    fn from(n: bindings::VBVMR_CBCOMMAND) -> Self {
-        match n {
-            bindings::VBVMR_CBCOMMAND::STARTING => Self::Starting,
-            bindings::VBVMR_CBCOMMAND::ENDING => Self::Ending,
-            bindings::VBVMR_CBCOMMAND::CHANGE => Self::Change,
-            bindings::VBVMR_CBCOMMAND::BUFFER_IN => Self::BufferIn,
-            bindings::VBVMR_CBCOMMAND::BUFFER_OUT => Self::BufferOut,
-            bindings::VBVMR_CBCOMMAND::BUFFER_MAIN => Self::BufferMain,
-            i => Self::Other(i),
         }
     }
 }

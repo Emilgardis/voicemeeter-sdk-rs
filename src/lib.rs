@@ -7,8 +7,8 @@ pub mod types;
 
 use std::ffi::{OsStr, OsString};
 
+use std::io;
 use std::path::Path;
-use std::{io};
 
 pub static VOICEMEETER_REMOTE: once_cell::sync::OnceCell<VoicemeeterRemoteRaw> =
     once_cell::sync::OnceCell::new();
@@ -17,6 +17,9 @@ pub static VOICEMEETER_REMOTE: once_cell::sync::OnceCell<VoicemeeterRemoteRaw> =
 pub use bindings::VoicemeeterRemoteRaw;
 #[doc(inline)]
 pub use interface::VoicemeeterRemote;
+
+#[doc(inline)]
+pub use interface::callback::commands::CallbackCommand;
 
 use winreg::enums::{KEY_READ, KEY_WOW64_32KEY};
 

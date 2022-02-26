@@ -4,8 +4,6 @@ use std::{
     ptr,
 };
 
-
-
 use super::VoicemeeterRemote;
 
 impl VoicemeeterRemote {
