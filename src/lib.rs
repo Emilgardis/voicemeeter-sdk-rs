@@ -14,7 +14,7 @@ pub static VOICEMEETER_REMOTE: once_cell::sync::OnceCell<VoicemeeterRemoteRaw> =
     once_cell::sync::OnceCell::new();
 
 #[doc(inline, hidden)]
-pub use bindings::VoicemeeterRemoteRaw;
+pub use bindings::{VoicemeeterRemoteRaw, VBVMR_AUDIOCALLBACK as AudioCallbackMode};
 #[doc(inline)]
 pub use interface::VoicemeeterRemote;
 

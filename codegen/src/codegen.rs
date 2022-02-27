@@ -21,6 +21,7 @@ fn assure_accurate_binding() {
 #![allow(non_snake_case)]",
         )
         .default_enum_style(bindgen::EnumVariation::NewType { is_bitfield: false })
+        .bitfield_enum("VBVMR_AUDIOCALLBACK")
         .blocklist_function("VBVMR_Local.*")
         .blocklist_function("VBVMR_GetRequestVB0STREAMPTR")
         .blocklist_function("VBVMR_SetParametersWEx")

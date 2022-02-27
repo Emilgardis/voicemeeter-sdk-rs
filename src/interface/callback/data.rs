@@ -2,30 +2,31 @@ pub type AudioInfo = crate::bindings::VBVMR_T_AUDIOINFO;
 pub type AudioBuffer = crate::bindings::VBVMR_T_AUDIOBUFFER;
 
 impl AudioBuffer {
-    pub fn read_write_buffer_with_len<'a, const R: usize, const W: usize>(
-        &self,
-    ) -> (&'a [f32], &'a mut [f32]) {
-        for (idx, ptr) in self.audiobuffer_r.iter().enumerate().take(R) {
+    pub(crate) fn read_write_buffer<'a>(
+        &'a self,
+        nbi: usize,
+        nbo: usize,
+    ) -> (&'a [*const f32], &'a [*mut f32]) {
+        for (idx, ptr) in self.audiobuffer_r.iter().enumerate().take(nbi) {
             debug_assert!(!ptr.is_null(), "ptr: {:?} was null at idx: {}", ptr, idx);
         }
-        for (idx, ptr) in self.audiobuffer_w.iter().enumerate().take(W) {
+        for (idx, ptr) in self.audiobuffer_w.iter().enumerate().take(nbo) {
             debug_assert!(!ptr.is_null(), "ptr: {:?} was null at idx: {}", ptr, idx);
         }
         (
-            unsafe { std::mem::transmute_copy(&self.audiobuffer_r) },
-            unsafe { std::mem::transmute_copy(&self.audiobuffer_w) },
+            &unsafe { &std::mem::transmute_copy::<_, &[*const f32; 128]>(&self.audiobuffer_w)[..nbi]},
+            &self.audiobuffer_w[..nbo],
         )
     }
-
-    pub fn read_buffer_with_len<'a, const N: usize>(&self) -> &'a mut [f32; N] {
-        for (idx, ptr) in self.audiobuffer_r.iter().enumerate().take(N) {
+    pub unsafe fn read_buffer_with_len<'a, const R: usize>(&self) -> &'a [*mut f32; R] {
+        for (idx, ptr) in self.audiobuffer_r.iter().enumerate().take(R) {
             debug_assert!(!ptr.is_null(), "ptr: {:?} was null at idx: {}", ptr, idx);
         }
         unsafe { std::mem::transmute_copy(&self.audiobuffer_r) }
     }
 
-    pub fn write_buffer_with_len<'a, const N: usize>(&mut self) -> &'a mut [f32; N] {
-        for (idx, ptr) in self.audiobuffer_w.iter().enumerate().take(N) {
+    pub unsafe fn write_buffer_with_len<'a, const W: usize>(&self) -> &'a [*mut f32; W] {
+        for (idx, ptr) in self.audiobuffer_w.iter().enumerate().take(W) {
             debug_assert!(!ptr.is_null(), "ptr: {:?} was null at idx: {}", ptr, idx);
         }
         unsafe { std::mem::transmute_copy(&self.audiobuffer_w) }

@@ -229,6 +229,32 @@ impl VBVMR_AUDIOCALLBACK {
 impl VBVMR_AUDIOCALLBACK {
     pub const MAIN: VBVMR_AUDIOCALLBACK = VBVMR_AUDIOCALLBACK(4);
 }
+impl ::std::ops::BitOr<VBVMR_AUDIOCALLBACK> for VBVMR_AUDIOCALLBACK {
+    type Output = Self;
+    #[inline]
+    fn bitor(self, other: Self) -> Self {
+        VBVMR_AUDIOCALLBACK(self.0 | other.0)
+    }
+}
+impl ::std::ops::BitOrAssign for VBVMR_AUDIOCALLBACK {
+    #[inline]
+    fn bitor_assign(&mut self, rhs: VBVMR_AUDIOCALLBACK) {
+        self.0 |= rhs.0;
+    }
+}
+impl ::std::ops::BitAnd<VBVMR_AUDIOCALLBACK> for VBVMR_AUDIOCALLBACK {
+    type Output = Self;
+    #[inline]
+    fn bitand(self, other: Self) -> Self {
+        VBVMR_AUDIOCALLBACK(self.0 & other.0)
+    }
+}
+impl ::std::ops::BitAndAssign for VBVMR_AUDIOCALLBACK {
+    #[inline]
+    fn bitand_assign(&mut self, rhs: VBVMR_AUDIOCALLBACK) {
+        self.0 &= rhs.0;
+    }
+}
 #[repr(transparent)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub struct VBVMR_AUDIOCALLBACK(pub ::std::os::raw::c_int);

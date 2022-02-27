@@ -1,6 +1,6 @@
-use crate::LoadError;
+use crate::{LoadError, types::VoicemeeterApplication};
 
-use self::communication_login_logout::LoginError;
+use self::{communication_login_logout::LoginError, general_information::GetVoicemeeterInformationError};
 
 pub mod callback;
 pub mod communication_login_logout;
@@ -14,6 +14,7 @@ pub mod set_parameters;
 #[derive(Clone)]
 pub struct VoicemeeterRemote {
     raw: &'static crate::bindings::VoicemeeterRemoteRaw,
+    program: VoicemeeterApplication,
 }
 
 impl VoicemeeterRemote {
@@ -22,11 +23,12 @@ impl VoicemeeterRemote {
         let raw = crate::get_voicemeeter_raw()?;
         let mut s = VoicemeeterRemote::from_raw(raw);
         s.login()?;
+        s.program = s.get_voicemeeter_type()?;
         Ok(s)
     }
 
     fn from_raw(raw: &'static crate::VoicemeeterRemoteRaw) -> VoicemeeterRemote {
-        Self { raw }
+        Self { raw, program: VoicemeeterApplication::Other }
     }
 }
 
@@ -42,4 +44,6 @@ pub enum InitializationError {
     LoadError(#[from] LoadError),
     #[error("could not login")]
     LoginError(#[from] LoginError),
+    #[error("could not get voicemeeter type")]
+    InformationError(#[from] GetVoicemeeterInformationError),
 }

@@ -4,9 +4,8 @@ use std::{
 };
 
 use crate::{
-    bindings::{VBVMR_AUDIOCALLBACK, VBVMR_CBCOMMAND},
-    interface::callback::data::RawCallbackData,
-    CallbackCommand, VoicemeeterRemote,
+    bindings::VBVMR_CBCOMMAND, interface::callback::data::RawCallbackData, CallbackCommand,
+    VoicemeeterRemote,
 };
 
 /******************************************************************************/
@@ -21,8 +20,9 @@ use crate::{
 /******************************************************************************/
 
 impl VoicemeeterRemote {
-    pub fn audio_callback_register_main(
+    pub fn audio_callback_register(
         &self,
+        mode: crate::AudioCallbackMode,
         application_name: impl AsRef<str>,
         mut callback: impl FnMut(CallbackCommand<'_>, i32) -> c_long,
     ) -> Result<(), AudioCallbackRegisterError> {
@@ -33,80 +33,14 @@ impl VoicemeeterRemote {
             debug_assert!(!b.is_null());
             let ptr = RawCallbackData::from_ptr(b);
             callback(
-                unsafe { CallbackCommand::new_unchecked(VBVMR_CBCOMMAND(t), ptr) },
+                unsafe { CallbackCommand::new_unchecked(&self.program, VBVMR_CBCOMMAND(t), ptr) },
                 nnn,
             )
         };
         let (user_data, callback) = crate::ffi::split::split_closure(&mut callback_transformed);
         let res = unsafe {
             self.raw.VBVMR_AudioCallbackRegister(
-                VBVMR_AUDIOCALLBACK::MAIN.0,
-                Some(callback),
-                user_data,
-                application.as_ptr() as *mut _,
-            )
-        };
-        match res {
-            0 => Ok(()),
-            -1 => Err(AudioCallbackRegisterError::NoServer),
-            1 => Err(AudioCallbackRegisterError::AlreadyRegistered(application)),
-            s => Err(AudioCallbackRegisterError::Unexpected(s)),
-        }
-    }
-
-    pub fn audio_callback_register_input(
-        &self,
-        application_name: impl AsRef<str>,
-        mut callback: impl FnMut(CallbackCommand<'_>, i32) -> c_long,
-    ) -> Result<(), AudioCallbackRegisterError> {
-        // TODO: SAFETY!!!
-        #[allow(unused_mut)]
-        let mut application = CString::new(application_name.as_ref())?;
-        let mut callback_transformed = |t, b: *mut std::ffi::c_void, nnn| {
-            debug_assert!(!b.is_null());
-            let ptr = RawCallbackData::from_ptr(b);
-            callback(
-                unsafe { CallbackCommand::new_unchecked(VBVMR_CBCOMMAND(t), ptr) },
-                nnn,
-            )
-        };
-        let (user_data, callback) = crate::ffi::split::split_closure(&mut callback_transformed);
-        let res = unsafe {
-            self.raw.VBVMR_AudioCallbackRegister(
-                VBVMR_AUDIOCALLBACK::INPUT.0,
-                Some(callback),
-                user_data,
-                application.as_ptr() as *mut _,
-            )
-        };
-        match res {
-            0 => Ok(()),
-            -1 => Err(AudioCallbackRegisterError::NoServer),
-            1 => Err(AudioCallbackRegisterError::AlreadyRegistered(application)),
-            s => Err(AudioCallbackRegisterError::Unexpected(s)),
-        }
-    }
-
-    pub fn audio_callback_register_output(
-        &self,
-        application_name: impl AsRef<str>,
-        mut callback: impl FnMut(CallbackCommand<'_>, i32) -> c_long,
-    ) -> Result<(), AudioCallbackRegisterError> {
-        // TODO: SAFETY!!!
-        #[allow(unused_mut)]
-        let mut application = CString::new(application_name.as_ref())?;
-        let mut callback_transformed = |t, b: *mut std::ffi::c_void, nnn| {
-            debug_assert!(!b.is_null());
-            let ptr = RawCallbackData::from_ptr(b);
-            callback(
-                unsafe { CallbackCommand::new_unchecked(VBVMR_CBCOMMAND(t), ptr) },
-                nnn,
-            )
-        };
-        let (user_data, callback) = crate::ffi::split::split_closure(&mut callback_transformed);
-        let res = unsafe {
-            self.raw.VBVMR_AudioCallbackRegister(
-                VBVMR_AUDIOCALLBACK::OUTPUT.0,
+                mode.0,
                 Some(callback),
                 user_data,
                 application.as_ptr() as *mut _,

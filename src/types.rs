@@ -95,3 +95,97 @@ impl From<i32> for LevelType {
         }
     }
 }
+
+pub enum Channel {
+    Strip1,
+    Strip2,
+    Strip3,
+    Strip4,
+    Strip5,
+    OutputA1,
+    OutputA2,
+    OutputA3,
+    OutputA4,
+    OutputA5,
+    VirtualOutput,
+    VirtualOutputB1,
+    VirtualOutputB2,
+    VirtualOutputB3,
+    VirtualInput,
+    VirtualInputAux,
+    VirtualInput8,
+}
+pub struct ChannelIndex {
+    pub start: usize,
+    pub size: usize,
+}
+
+impl ChannelIndex {
+    pub const fn new(start: usize, size: usize) -> Self {
+        Self { start, size }
+    }
+    pub const fn offset(&self) -> usize {
+        self.start + self.size
+    }
+}
+const fn ci(start: usize, size: usize) -> Option<ChannelIndex> {
+    Some(ChannelIndex::new(start, size))
+}
+impl Channel {
+    pub const fn main(
+        &self,
+        program: &VoicemeeterApplication,
+    ) -> (Option<ChannelIndex>, Option<ChannelIndex>) {
+        match program {
+            VoicemeeterApplication::Voicemeeter => match self {
+                Channel::Strip1 => (ci(0, 2), None),
+                Channel::Strip2 => (ci(2, 2), None),
+                Channel::OutputA1 => (ci(12, 8), ci(0, 8)),
+                Channel::OutputA2 => (ci(12, 8), ci(0, 8)),
+                Channel::VirtualOutput | Channel::VirtualOutputB1 => (ci(20, 8), ci(8, 8)),
+                Channel::VirtualInput => (ci(4, 8), None),
+                _ => (None, None),
+            },
+            VoicemeeterApplication::VoicemeeterBanana => match self {
+                Channel::Strip1 => (ci(0, 2), None),
+                Channel::Strip2 => (ci(2, 2), None),
+                Channel::Strip3 => (ci(4, 2), None),
+                Channel::OutputA1 => (ci(22, 8), ci(0, 8)),
+                Channel::OutputA2 => (ci(30, 8), ci(8, 8)),
+                Channel::OutputA3 => (ci(38, 8), ci(16, 8)),
+                Channel::VirtualOutput | Channel::VirtualOutputB1 => (ci(46, 8), ci(24, 8)),
+                Channel::VirtualOutputB2 => (ci(54, 8), ci(32, 8)),
+                Channel::VirtualInput => (ci(6, 8), None),
+                Channel::VirtualInputAux => (ci(14, 8), None),
+                _ => (None, None),
+            },
+            VoicemeeterApplication::VoicemeeterPotato | VoicemeeterApplication::PotatoX64Bits => {
+                match self {
+                    Channel::Strip1 => (ci(0, 8), None),
+                    Channel::Strip2 => (ci(2, 8), None),
+                    Channel::Strip3 => (ci(4, 8), None),
+                    Channel::Strip4 => (ci(6, 8), None),
+                    Channel::Strip5 => (ci(8, 8), None),
+                    Channel::OutputA1 => (ci(34, 8), ci(0, 8)),
+                    Channel::OutputA2 => (ci(42, 8), ci(8, 8)),
+                    Channel::OutputA3 => (ci(50, 8), ci(16, 8)),
+                    Channel::OutputA4 => (ci(58, 8), ci(24, 8)),
+                    Channel::OutputA5 => (ci(66, 8), ci(32, 8)),
+                    Channel::VirtualOutput | Channel::VirtualOutputB1 => (ci(74, 8), ci(40, 8)),
+                    Channel::VirtualOutputB2 => (ci(82, 8), ci(48, 8)),
+                    Channel::VirtualOutputB3 => (ci(82, 8), ci(56, 8)),
+                    Channel::VirtualInput => (ci(10, 8), None),
+                    Channel::VirtualInputAux => (ci(18, 8), None),
+                    Channel::VirtualInput8 => (ci(26, 8), None),
+                }
+            }
+            _ => (None, None),
+        }
+    }
+    pub const fn input(&self, program: &VoicemeeterApplication) -> Option<ChannelIndex> {
+        self.main(program).0
+    }
+    pub const fn output(&self, program: &VoicemeeterApplication) -> Option<ChannelIndex> {
+        self.main(program).1
+    }
+}
