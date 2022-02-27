@@ -41,7 +41,9 @@ pub fn get_voicemeeter_raw() -> Result<&'static VoicemeeterRemoteRaw, LoadError>
 /// Load voicemeeter
 ///
 /// Errors if it's already loaded
+#[tracing::instrument]
 fn load_voicemeeter_from_path(path: &OsStr) -> Result<&'static VoicemeeterRemoteRaw, LoadError> {
+    tracing::debug!("loading voicemeeter");
     VOICEMEETER_REMOTE
         .set(unsafe { VoicemeeterRemoteRaw::new(path)? })
         .map_err(|_| LoadError::AlreadyLoaded)?;
@@ -59,7 +61,9 @@ pub enum LoadError {
 }
 
 /// Get VoiceMeeterRemote via registry key
+#[tracing::instrument]
 pub(crate) fn find_voicemeeter_remote_with_registry() -> Result<OsString, RemoteFileError> {
+    tracing::debug!("finding voicemeeter dll");
     let hklm = winreg::RegKey::predef(winreg::enums::HKEY_LOCAL_MACHINE);
     let voicemeeter_uninst = if let Ok(reg) = hklm
         .open_subkey(UNINSTALLER_DIR)

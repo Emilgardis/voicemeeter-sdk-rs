@@ -1,3 +1,5 @@
+use std::ptr::NonNull;
+
 use crate::{
     bindings::VBVMR_CBCOMMAND,
     types::{Channel, VoicemeeterApplication},
@@ -97,65 +99,68 @@ pub struct BufferIn<'a> {
 }
 
 #[derive(Debug)]
-pub struct BufferInData<'a>(&'a mut AudioBuffer);
-
-impl std::ops::Deref for BufferInData<'_> {
-    type Target = AudioBuffer;
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-
-impl std::ops::DerefMut for BufferInData<'_> {
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
+pub struct BufferInData<'a> {
+    data: (&'a [*mut f32], &'a [*mut f32]),
+    read_buffer: Vec<&'a [f32]>,
+    write_buffer: Vec<&'a mut [f32]>,
+    samples_per_frame: usize,
+    program: VoicemeeterApplication,
 }
 
 impl<'a> BufferIn<'a> {
-    pub fn new(buffer: &'a mut AudioBuffer) -> Self {
+    pub fn new(program: &VoicemeeterApplication, buffer: &'a mut AudioBuffer) -> Self {
         Self {
             sr: buffer.audiobuffer_sr as usize,
             nbs: buffer.audiobuffer_nbs as usize,
             nbi: buffer.audiobuffer_nbi as usize,
             nbo: buffer.audiobuffer_nbo as usize,
-            buffer: BufferInData(buffer),
+            buffer: BufferInData::new(program, buffer, buffer.audiobuffer_nbs as usize),
         }
     }
 }
 
-// impl<'a> BufferInData<'a> {
-//     #[inline]
-//     pub fn read_write_buffer(
-//         &mut self,
-//         program: &VoicemeeterApplication,
-//     ) -> (&[*mut f32], &[*mut f32]) {
-//         match program {
-//             VoicemeeterApplication::Voicemeeter => self.read_write_buffer_with_len::<12, 12>(),
-//             VoicemeeterApplication::VoicemeeterBanana => {
-//                 self.read_write_buffer_with_len::<22, 22>()
-//             }
-//             VoicemeeterApplication::VoicemeeterPotato | VoicemeeterApplication::PotatoX64Bits => {
-//                 self.read_write_buffer_with_len::<34, 34>()
-//             }
-//             VoicemeeterApplication::Other => {
-//                 // TODO: Find the first non-null ptr and return to that?
-//                 self.read_write_buffer_with_len::<34, 34>()
-//             }
-//         }
-//     }
+impl<'a> BufferInData<'a> {
+    pub fn new(
+        program: &VoicemeeterApplication,
+        data: &'a mut AudioBuffer,
+        samples_per_frame: usize,
+    ) -> Self {
+        Self {
+            data: data.read_write_buffer(),
+            samples_per_frame,
+            read_buffer: Vec::with_capacity(data.audiobuffer_nbs as usize),
+            write_buffer: Vec::with_capacity(data.audiobuffer_nbs as usize),
+            program: *program,
+        }
+    }
 
-//     pub fn read_buffer(&mut self, program: &VoicemeeterApplication) -> &[*mut f32] {
-//         self.read_write_buffer(program).0
-//     }
-//     pub fn write_buffer(&mut self, program: &VoicemeeterApplication) -> &[*mut f32] {
-//         self.read_write_buffer(program).1
-//     }
-
-//     pub fn read_output(&'a mut self, program: &VoicemeeterApplication) -> &[*mut f32] {
-//         self.read_buffer(program)
-//     }
-// }
+    // FIXME: These should be an iterator, maybe.
+    #[tracing::instrument(skip(self))]
+    pub fn read_write_buffer_on_channel<'b>(
+        &'b mut self,
+        channel: &Channel,
+    ) -> Option<(&'b mut [&'a [f32]], &'b mut [&'a mut [f32]])> {
+        tracing::trace!("clearing read and write buffer");
+        self.read_buffer.clear();
+        self.write_buffer.clear();
+        let idx = channel.input(&self.program)?;
+        let (read, write) = self.data;
+        // FIXME: assert that the range is contiguous
+        for i in 0..self.samples_per_frame {
+            let read = unsafe { std::slice::from_raw_parts(read[idx.start], idx.size) };
+            let write = unsafe { std::slice::from_raw_parts_mut(write[idx.start], idx.size) };
+            // tracing::trace!(
+            //     "read from {}, to {}. resulting in {} elems",
+            //     idx.start,
+            //     idx.size,
+            //     read.len()
+            // );
+            self.read_buffer.push(read);
+            self.write_buffer.push(write);
+        }
+        Some((&mut self.read_buffer, &mut self.write_buffer))
+    }
+}
 
 #[derive(Debug)]
 pub struct BufferOut<'a> {
@@ -168,7 +173,7 @@ pub struct BufferOut<'a> {
 
 #[derive(Debug)]
 pub struct BufferOutData<'a> {
-    data: (&'a [*const f32], &'a [*mut f32]),
+    data: (&'a [*mut f32], &'a [*mut f32]),
     read_buffer: Vec<&'a [f32]>,
     write_buffer: Vec<&'a mut [f32]>,
     samples_per_frame: usize,
@@ -193,8 +198,15 @@ impl<'a> BufferOutData<'a> {
         data: &'a mut AudioBuffer,
         samples_per_frame: usize,
     ) -> Self {
+        let rw = data.read_write_buffer();
+        unsafe {
+            tracing::trace!(
+                "hmm, {:?}",
+                &std::mem::transmute_copy::<_, &[&mut f32]>(&rw.0)
+            );
+        }
         Self {
-            data: data.read_write_buffer(data.audiobuffer_nbi as usize, data.audiobuffer_nbo as usize),
+            data: rw,
             samples_per_frame,
             read_buffer: Vec::with_capacity(data.audiobuffer_nbs as usize),
             write_buffer: Vec::with_capacity(data.audiobuffer_nbs as usize),
@@ -203,19 +215,26 @@ impl<'a> BufferOutData<'a> {
     }
 
     // FIXME: These should be an iterator, maybe.
-    #[inline]
-    pub fn read_write_buffer_on_channel(
-        &'a mut self,
-        channel: Channel,
-    ) -> Option<(&'a mut [&'a [f32]], &'a mut [&'a mut [f32]])> {
+    #[tracing::instrument(skip(self))]
+    pub fn read_write_buffer_on_channel<'b>(
+        &'b mut self,
+        channel: &Channel,
+    ) -> Option<(&'b mut [&'a [f32]], &'b mut [&'a mut [f32]])> {
+        tracing::trace!("clearing read and write buffer");
         self.read_buffer.clear();
         self.write_buffer.clear();
         let idx = channel.output(&self.program)?;
         let (read, write) = self.data;
         // FIXME: assert that the range is contiguous
-        for i in 0..idx.size {
+        for i in 0..self.samples_per_frame {
             let read = unsafe { std::slice::from_raw_parts(read[idx.start], idx.size) };
             let write = unsafe { std::slice::from_raw_parts_mut(write[idx.start], idx.size) };
+            // tracing::trace!(
+            //     "read from {}, to {}. resulting in {} elems",
+            //     idx.start,
+            //     idx.size,
+            //     read.len()
+            // );
             self.read_buffer.push(read);
             self.write_buffer.push(write);
         }
@@ -233,77 +252,76 @@ pub struct BufferMain<'a> {
 }
 
 #[derive(Debug)]
-pub struct BufferMainData<'a>(&'a mut AudioBuffer);
-
-impl std::ops::Deref for BufferMainData<'_> {
-    type Target = AudioBuffer;
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-
-impl std::ops::DerefMut for BufferMainData<'_> {
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
+pub struct BufferMainData<'a> {
+    data: (&'a [*mut f32], &'a [*mut f32]),
+    read_buffer: Vec<&'a [f32]>,
+    write_buffer: Vec<&'a mut [f32]>,
+    samples_per_frame: usize,
+    program: VoicemeeterApplication,
 }
 
 impl<'a> BufferMain<'a> {
-    pub fn new(buffer: &'a mut AudioBuffer) -> Self {
+    pub fn new(program: &VoicemeeterApplication, buffer: &'a mut AudioBuffer) -> Self {
         Self {
             sr: buffer.audiobuffer_sr as usize,
             nbs: buffer.audiobuffer_nbs as usize,
             nbi: buffer.audiobuffer_nbi as usize,
             nbo: buffer.audiobuffer_nbo as usize,
-            buffer: BufferMainData(buffer),
+            buffer: BufferMainData::new(program, buffer, buffer.audiobuffer_nbs as usize),
         }
     }
 }
 
-// impl<'a> BufferMainData<'a> {
-//     #[inline]
-//     pub fn read_write_buffer(
-//         &mut self,
-//         program: &VoicemeeterApplication,
-//     ) -> (&[*mut f32], &[*mut f32]) {
-//         // FIXME: This is already captured in nbi/nbo
-//         match program {
-//             VoicemeeterApplication::Voicemeeter => self.read_write_buffer_with_len::<28, 16>(),
-//             VoicemeeterApplication::VoicemeeterBanana => {
-//                 self.read_write_buffer_with_len::<62, 40>()
-//             }
-//             VoicemeeterApplication::VoicemeeterPotato | VoicemeeterApplication::PotatoX64Bits => {
-//                 self.read_write_buffer_with_len::<98, 64>()
-//             }
-//             VoicemeeterApplication::Other => {
-//                 // TODO: Find the first non-null ptr and return to that?
-//                 self.read_write_buffer_with_len::<98, 64>()
-//             }
-//         }
-//     }
-//     pub fn read_buffer(&mut self, program: &VoicemeeterApplication) -> &[*mut f32] {
-//         self.read_write_buffer(program).0
-//     }
+impl<'a> BufferMainData<'a> {
+    pub fn new(
+        program: &VoicemeeterApplication,
+        data: &'a mut AudioBuffer,
+        samples_per_frame: usize,
+    ) -> Self {
+        Self {
+            data: data.read_write_buffer(),
+            samples_per_frame,
+            read_buffer: Vec::with_capacity(data.audiobuffer_nbs as usize),
+            write_buffer: Vec::with_capacity(data.audiobuffer_nbs as usize),
+            program: *program,
+        }
+    }
 
-//     pub fn write_buffer(&mut self, program: &VoicemeeterApplication) -> &[*mut f32] {
-//         self.read_write_buffer(program).1
-//     }
+    pub unsafe fn data<'b>(&'b self) -> (&'a [*mut f32], &'a [*mut f32]) {
+        self.data
+    }
 
-//     // pub fn read_output(&'a mut self, program: &VoicemeeterApplication) -> &[f32] {
-//     //     let buf = self.read_buffer(program);
-//     //     match program {
-//     //         VoicemeeterApplication::Voicemeeter => &buf[12..=27],
-//     //         VoicemeeterApplication::VoicemeeterBanana => &buf[22..=61],
-//     //         VoicemeeterApplication::VoicemeeterPotato | VoicemeeterApplication::PotatoX64Bits => {
-//     //             &buf[34..64]
-//     //         }
-//     //         VoicemeeterApplication::Other => {
-//     //             // TODO: Find the first non-null ptr and return to that?
-//     //             buf
-//     //         }
-//     //     }
-//     // }
-// }
+    // FIXME: These should be an iterator, maybe.
+    #[tracing::instrument(skip(self))]
+    pub fn read_write_buffer_on_channel<'b>(
+        &'b mut self,
+        channel: &Channel,
+    ) -> Option<(&'b mut [&'a [f32]], &'b mut [&'a mut [f32]])> {
+        self.read_buffer.clear();
+        self.write_buffer.clear();
+        let idx = channel.main(&self.program);
+        let (r_idx, w_idx) = (idx.0?, idx.1?);
+        let (read, write) = self.data;
+        // FIXME: assert that the range is contiguous
+        for i in 0..r_idx.size {
+            let read = unsafe {
+                std::slice::from_raw_parts(read[r_idx.start + i], self.samples_per_frame)
+            };
+            let write = unsafe {
+                std::slice::from_raw_parts_mut(write[w_idx.start + i], self.samples_per_frame)
+            };
+            // tracing::trace!(
+            //     "read from {}, to {}. resulting in {} elems",
+            //     r_idx.start,
+            //     r_idx.size,
+            //     read.len()
+            // );
+            self.read_buffer.push(read);
+            self.write_buffer.push(write);
+        }
+        Some((&mut self.read_buffer, &mut self.write_buffer))
+    }
+}
 
 #[derive(Debug)]
 #[repr(i32)]
@@ -318,7 +336,11 @@ pub enum CallbackCommand<'a> {
 }
 
 impl<'a> CallbackCommand<'a> {
-    pub(crate) unsafe fn new_unchecked(program: &VoicemeeterApplication, command: VBVMR_CBCOMMAND, ptr: RawCallbackData) -> Self {
+    pub(crate) unsafe fn new_unchecked(
+        program: &VoicemeeterApplication,
+        command: VBVMR_CBCOMMAND,
+        ptr: RawCallbackData,
+    ) -> Self {
         match command {
             VBVMR_CBCOMMAND::STARTING => {
                 Self::Starting(Starting::new(unsafe { ptr.as_audio_info() }))
@@ -326,13 +348,13 @@ impl<'a> CallbackCommand<'a> {
             VBVMR_CBCOMMAND::ENDING => Self::Ending(Ending::new(unsafe { ptr.as_audio_info() })),
             VBVMR_CBCOMMAND::CHANGE => Self::Change(Change::new(unsafe { ptr.as_audio_info() })),
             VBVMR_CBCOMMAND::BUFFER_IN => {
-                Self::BufferIn(BufferIn::new(unsafe { ptr.as_audio_buffer() }))
+                Self::BufferIn(BufferIn::new(program, unsafe { ptr.as_audio_buffer() }))
             }
             VBVMR_CBCOMMAND::BUFFER_OUT => {
                 Self::BufferOut(BufferOut::new(program, unsafe { ptr.as_audio_buffer() }))
             }
             VBVMR_CBCOMMAND::BUFFER_MAIN => {
-                Self::BufferMain(BufferMain::new(unsafe { ptr.as_audio_buffer() }))
+                Self::BufferMain(BufferMain::new(program, unsafe { ptr.as_audio_buffer() }))
             }
             i => Self::Other(i, ptr),
         }

@@ -2,21 +2,36 @@ pub type AudioInfo = crate::bindings::VBVMR_T_AUDIOINFO;
 pub type AudioBuffer = crate::bindings::VBVMR_T_AUDIOBUFFER;
 
 impl AudioBuffer {
-    pub(crate) fn read_write_buffer<'a>(
-        &'a self,
-        nbi: usize,
-        nbo: usize,
-    ) -> (&'a [*const f32], &'a [*mut f32]) {
-        for (idx, ptr) in self.audiobuffer_r.iter().enumerate().take(nbi) {
+    #[tracing::instrument(skip(self))]
+    pub(crate) fn read_write_buffer(&self) -> (&[*mut f32], &[*mut f32]) {
+        let first_ptr_r = self.audiobuffer_r[0];
+        let first_ptr_w = self.audiobuffer_w[0];
+        for (idx, ptr) in self
+            .audiobuffer_r
+            .iter()
+            .enumerate()
+            .take(self.audiobuffer_nbi as usize)
+        {
             debug_assert!(!ptr.is_null(), "ptr: {:?} was null at idx: {}", ptr, idx);
         }
-        for (idx, ptr) in self.audiobuffer_w.iter().enumerate().take(nbo) {
+        for (idx, ptr) in self
+            .audiobuffer_w
+            .iter()
+            .enumerate()
+            .take(self.audiobuffer_nbo as usize)
+        {
             debug_assert!(!ptr.is_null(), "ptr: {:?} was null at idx: {}", ptr, idx);
         }
-        (
-            &unsafe { &std::mem::transmute_copy::<_, &[*const f32; 128]>(&self.audiobuffer_w)[..nbi]},
-            &self.audiobuffer_w[..nbo],
-        )
+        //tracing::trace!("read_write_buffer: {:?}", self);
+
+        let k = (
+            &self.audiobuffer_r[..self.audiobuffer_nbi as usize],
+            &self.audiobuffer_w[..self.audiobuffer_nbo as usize],
+        );
+        // sanity check
+        debug_assert_eq!(first_ptr_r, k.0[0]);
+        debug_assert_eq!(first_ptr_w, k.1[0]);
+        k
     }
     pub unsafe fn read_buffer_with_len<'a, const R: usize>(&self) -> &'a [*mut f32; R] {
         for (idx, ptr) in self.audiobuffer_r.iter().enumerate().take(R) {

@@ -20,6 +20,7 @@ use crate::{
 /******************************************************************************/
 
 impl VoicemeeterRemote {
+    #[tracing::instrument(skip(application_name, callback), fields(application_name))]
     pub fn audio_callback_register(
         &self,
         mode: crate::AudioCallbackMode,
@@ -28,7 +29,9 @@ impl VoicemeeterRemote {
     ) -> Result<(), AudioCallbackRegisterError> {
         // TODO: SAFETY!!!
         #[allow(unused_mut)]
-        let mut application = CString::new(application_name.as_ref())?;
+        let application_name = application_name.as_ref();
+        tracing::Span::current().record("application_name", &application_name);
+        let mut application = CString::new(application_name)?;
         let mut callback_transformed = |t, b: *mut std::ffi::c_void, nnn| {
             debug_assert!(!b.is_null());
             let ptr = RawCallbackData::from_ptr(b);
@@ -46,6 +49,7 @@ impl VoicemeeterRemote {
                 application.as_ptr() as *mut _,
             )
         };
+        tracing::debug!("registered application");
         match res {
             0 => Ok(()),
             -1 => Err(AudioCallbackRegisterError::NoServer),

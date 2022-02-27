@@ -62,6 +62,18 @@ pub enum VoicemeeterApplication {
     Other,
 }
 
+impl std::fmt::Display for VoicemeeterApplication {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            VoicemeeterApplication::Voicemeeter => f.write_str("Voicemeeter"),
+            VoicemeeterApplication::VoicemeeterBanana => f.write_str("VoicemeeterBanana"),
+            VoicemeeterApplication::VoicemeeterPotato => f.write_str("VoicemeeterPotato"),
+            VoicemeeterApplication::PotatoX64Bits => f.write_str("VoicemeeterPotatoX64Bits"),
+            VoicemeeterApplication::Other => f.write_str("VoicemeeterUnknown"),
+        }
+    }
+}
+
 impl From<i32> for VoicemeeterApplication {
     fn from(ty: i32) -> Self {
         match ty {
@@ -96,6 +108,7 @@ impl From<i32> for LevelType {
     }
 }
 
+#[derive(Debug, Clone, Copy, Eq, PartialEq)]
 pub enum Channel {
     Strip1,
     Strip2,
@@ -187,5 +200,26 @@ impl Channel {
     }
     pub const fn output(&self, program: &VoicemeeterApplication) -> Option<ChannelIndex> {
         self.main(program).1
+    }
+
+    pub fn potato_channels() -> Vec<Channel> {
+        vec![
+            Channel::Strip1,
+            Channel::Strip2,
+            Channel::Strip3,
+            Channel::Strip4,
+            Channel::Strip5,
+            Channel::OutputA1,
+            Channel::OutputA2,
+            Channel::OutputA3,
+            Channel::OutputA4,
+            Channel::OutputA5,
+            Channel::VirtualOutput,
+            Channel::VirtualOutputB2,
+            Channel::VirtualOutputB3,
+            Channel::VirtualInput,
+            Channel::VirtualInputAux,
+            Channel::VirtualInput8,
+        ]
     }
 }

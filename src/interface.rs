@@ -1,6 +1,8 @@
-use crate::{LoadError, types::VoicemeeterApplication};
+use crate::{types::VoicemeeterApplication, LoadError};
 
-use self::{communication_login_logout::LoginError, general_information::GetVoicemeeterInformationError};
+use self::{
+    communication_login_logout::LoginError, general_information::GetVoicemeeterInformationError,
+};
 
 pub mod callback;
 pub mod communication_login_logout;
@@ -17,8 +19,15 @@ pub struct VoicemeeterRemote {
     program: VoicemeeterApplication,
 }
 
+impl std::fmt::Debug for VoicemeeterRemote {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "[{}]", self.program)
+    }
+}
+
 impl VoicemeeterRemote {
     /// Creates a new [`VoicemeeterRemote`] instance that is logged in with the client.
+    #[tracing::instrument]
     pub fn new() -> Result<Self, InitializationError> {
         let raw = crate::get_voicemeeter_raw()?;
         let mut s = VoicemeeterRemote::from_raw(raw);
@@ -28,7 +37,10 @@ impl VoicemeeterRemote {
     }
 
     fn from_raw(raw: &'static crate::VoicemeeterRemoteRaw) -> VoicemeeterRemote {
-        Self { raw, program: VoicemeeterApplication::Other }
+        Self {
+            raw,
+            program: VoicemeeterApplication::Other,
+        }
     }
 }
 

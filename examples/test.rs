@@ -2,6 +2,10 @@
 use std::io::Write;
 
 pub fn main() -> Result<(), color_eyre::Report> {
+    tracing_subscriber::FmtSubscriber::builder()
+        .with_env_filter(tracing_subscriber::EnvFilter::from_default_env())
+        .with_writer(std::io::stderr)
+        .init();
     let remote = voicemeeter::VoicemeeterRemote::new()?;
     dbg!(remote.is_macrobutton_dirty()?);
     //dbg!(remote.run_voicemeeter(voicemeeter::types::VoicemeeterApplication::PotatoX64Bits)?);

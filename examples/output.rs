@@ -1,16 +1,28 @@
+#![feature(let_else)]
 use std::time::Duration;
 
 use voicemeeter::{
-    interface::callback::commands::HasAudioBuffer, AudioCallbackMode, CallbackCommand,
+    interface::callback::commands::{BufferOut, BufferOutData, HasAudioBuffer},
+    types::Channel,
+    AudioCallbackMode, CallbackCommand,
 };
 
 pub fn main() -> Result<(), color_eyre::Report> {
+    tracing_subscriber::FmtSubscriber::builder()
+        .with_env_filter(
+            tracing_subscriber::EnvFilter::try_from_default_env()
+                .unwrap_or_else(|_| tracing_subscriber::EnvFilter::new("trace")),
+        )
+        .with_writer(std::io::stderr)
+        .with_file(true)
+        .with_line_number(true)
+        .compact()
+        .init();
     let remote = voicemeeter::VoicemeeterRemote::new()?;
-    let program = remote.get_voicemeeter_type()?;
     println!("{}", remote.get_voicemeeter_version()?);
     let mut printed = false;
     let mut frame = 0u64;
-    remote.audio_callback_register(AudioCallbackMode::OUTPUT, "TESTing", |command, _| {
+    remote.audio_callback_register(AudioCallbackMode::MAIN, "TESTing", |command, _| {
         if !printed {
             println!("WE*RE IN")
         };
@@ -21,17 +33,24 @@ pub fn main() -> Result<(), color_eyre::Report> {
             }
             CallbackCommand::Ending(_) => println!("good bye!"),
             CallbackCommand::Change(_) => todo!(),
-            CallbackCommand::BufferOut(mut data) => {
-                frame += 1;
-                //println!("{data:?}");
-                let (buffer_in, mut buffer_out) = data
-                    .buffer
-                    .read_write_buffer_on_channel(voicemeeter::types::Channel::OutputA1)
-                    .unwrap();
-                println!("bufferlens: {}, {}", buffer_in.len(), buffer_out.len());
-                for k in buffer_out.iter_mut().zip(buffer_in.iter()) {
-                    let (write, read) = k;
-                    write.copy_from_slice(read);
+            CallbackCommand::BufferMain(mut data) => {
+                // unsafe {
+                //     let data = unsafe { data.buffer.data() };
+                //     let read = data.0; // std::slice::from_raw_parts_mut(data.0[0], 1024);
+                //     let base_offset = std::ptr::addr_of!(read[0]);
+                //     println!("{:?}", read.iter().map(|x| format!("{0:p}: {1:?}",  x, x.as_ref())).collect::<Vec<_>>());
+                // }
+                let buffer = &mut data.buffer;
+                for channel in Channel::potato_channels() {
+                    let channel = &channel;
+                    let (buffer_in, buffer_out) = match buffer.read_write_buffer_on_channel(channel)
+                    {
+                        Some(b) => b,
+                        None => continue,
+                    };
+                    for (write, read) in buffer_out.iter_mut().zip(buffer_in.iter()) {
+                        write.copy_from_slice(read)
+                    }
                 }
             }
             b => todo!("not implemented for: {:?}", b.name()),
