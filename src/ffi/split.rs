@@ -7,9 +7,8 @@ use std::ffi::c_void;
 ///
 /// # Examples
 ///
-/// ```rust
+/// ```rust,ignore,compile_fail
 /// use std::ffi::c_void;
-///
 /// let mut total = 0;
 ///
 /// // let's define a closure which will update a total and return its new value
@@ -29,7 +28,7 @@ use std::ffi::c_void;
 ///
 /// unsafe {
 ///     // split the closure into its state section and the code section
-///     let (state, callback) = ffi_helpers::split_closure(&mut some_closure);
+///     let (state, callback) = split_closure(&mut some_closure);
 ///
 ///     // then pass it to the C function
 ///     some_c_function(42, callback, state);
@@ -49,7 +48,7 @@ use std::ffi::c_void;
 ///
 ///   - The call must be performed within the same thread, unless `C` (_i.e._,
 ///     the environment captured by the closure) is `Send`.
-pub fn split_closure<'lifetime, C, Args>(closure: &'lifetime mut C) -> (*mut c_void, C::Trampoline)
+pub(crate) fn split_closure<'lifetime, C, Args>(closure: &'lifetime mut C) -> (*mut c_void, C::Trampoline)
 where
     C: Split<Args>,
 {
