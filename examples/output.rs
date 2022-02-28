@@ -1,4 +1,7 @@
 #![feature(let_else)]
+use ctrlc;
+use tracing_subscriber::fmt::format::FmtSpan;
+use std::sync::mpsc::channel;
 use std::time::Duration;
 
 use voicemeeter::{
@@ -8,25 +11,16 @@ use voicemeeter::{
 };
 
 pub fn main() -> Result<(), color_eyre::Report> {
-    tracing_subscriber::FmtSubscriber::builder()
-        .with_env_filter(
-            tracing_subscriber::EnvFilter::try_from_default_env()
-                .unwrap_or_else(|_| tracing_subscriber::EnvFilter::new("trace")),
-        )
-        .with_writer(std::io::stderr)
-        .with_file(true)
-        .with_line_number(true)
-        .compact()
-        .init();
+    install_eyre()?;
+    install_tracing();
+    let (tx, rx) = channel();
+    ctrlc::set_handler(move || tx.send(()).expect("Could not send signal on channel."))
+        .expect("Error setting Ctrl-C handler");
     let remote = voicemeeter::VoicemeeterRemote::new()?;
     println!("{}", remote.get_voicemeeter_version()?);
     let mut printed = false;
-    let mut frame = 0u64;
-    remote.audio_callback_register(AudioCallbackMode::MAIN, "TESTing", |command, _| {
-        if !printed {
-            println!("WE*RE IN")
-        };
-        printed = true;
+    remote.audio_callback_register(AudioCallbackMode::MAIN, "TESTing", move |command, _| {
+
         match command {
             CallbackCommand::Starting(info) => {
                 println!("Starting: {:#?}", info);
@@ -49,7 +43,8 @@ pub fn main() -> Result<(), color_eyre::Report> {
                         None => continue,
                     };
                     for (write, read) in buffer_out.iter_mut().zip(buffer_in.iter()) {
-                        write.copy_from_slice(read)
+                        tracing::debug!("{}", write.len());
+                        write.copy_from_slice(read.as_ref())
                     }
                 }
             }
@@ -57,10 +52,52 @@ pub fn main() -> Result<(), color_eyre::Report> {
         }
         0
     })?;
+
     remote.audio_callback_start()?;
-    std::thread::sleep(Duration::from_secs(10));
+    rx.recv().expect("Could not receive from channel.");
     remote.audio_callback_unregister()?;
-    std::thread::sleep(Duration::from_secs(2));
 
     Ok(())
+}
+
+fn install_eyre() -> eyre::Result<()> {
+    let (panic_hook, eyre_hook) = color_eyre::config::HookBuilder::default().add_default_filters().into_hooks();
+
+    eyre_hook.install()?;
+
+    std::panic::set_hook(Box::new(move |pi| {
+        tracing::error!("{}", panic_hook.panic_report(pi));
+    }));
+    Ok(())
+}
+
+fn install_tracing() {
+    use tracing_error::ErrorLayer;
+    use tracing_subscriber::prelude::*;
+    use tracing_subscriber::{fmt, EnvFilter};
+
+    let fmt_layer = fmt::layer()
+        .with_target(false)
+        .with_file(true)
+        .with_line_number(true)
+        .with_span_events(FmtSpan::NONE)
+        .compact();
+    #[rustfmt::skip]
+    let filter_layer = EnvFilter::try_from_default_env()
+        .or_else(|_| EnvFilter::try_new("info"))
+        .map(|f| {
+            f.add_directive("hyper=error".parse().expect("could not make directive"))
+                .add_directive("h2=error".parse().expect("could not make directive"))
+                .add_directive("rustls=error".parse().expect("could not make directive"))
+                .add_directive("tungstenite=error".parse().expect("could not make directive"))
+                .add_directive("retainer=info".parse().expect("could not make directive"))
+            //.add_directive("tower_http=error".parse().unwrap())
+        })
+        .expect("could not make filter layer");
+
+    tracing_subscriber::registry()
+        .with(filter_layer)
+        .with(fmt_layer)
+        .with(ErrorLayer::default())
+        .init();
 }

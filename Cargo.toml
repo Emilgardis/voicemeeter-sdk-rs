@@ -16,9 +16,12 @@ bytemuck = "1.7.3"
 tracing = "0.1.31"
 
 [dev-dependencies]
-color-eyre="0.6.0"
+color-eyre = { version = "0.6", features = ["capture-spantrace"] }
+eyre = { version = "0.6" }
 pretty_assertions = "1.1.0"
 tracing-subscriber = {version = "0.3.9", features = ["env-filter"]}
+ctrlc = "3"
+tracing-error = "0.2.0"
 
 [workspace]
 members = [".", "codegen"]
@@ -27,4 +30,7 @@ members = [".", "codegen"]
 bindgen = { git = "https://github.com/Emilgardis/rust-bindgen", branch = "dynamic-comments" }
 
 [profile.dev.package.diff]
+opt-level = 3
+
+[profile.dev.package.backtrace]
 opt-level = 3

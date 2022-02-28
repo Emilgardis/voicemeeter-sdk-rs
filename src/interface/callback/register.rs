@@ -3,6 +3,8 @@ use std::{
     os::raw::c_long,
 };
 
+use tracing::Instrument;
+
 use crate::{
     bindings::VBVMR_CBCOMMAND, interface::callback::data::RawCallbackData, CallbackCommand,
     VoicemeeterRemote,
@@ -20,7 +22,7 @@ use crate::{
 /******************************************************************************/
 
 impl VoicemeeterRemote {
-    #[tracing::instrument(skip(application_name, callback), fields(application_name))]
+    #[tracing::instrument(skip(application_name, callback), fields(application_name, mode))]
     pub fn audio_callback_register(
         &self,
         mode: crate::AudioCallbackMode,
@@ -31,9 +33,21 @@ impl VoicemeeterRemote {
         #[allow(unused_mut)]
         let application_name = application_name.as_ref();
         tracing::Span::current().record("application_name", &application_name);
+        //let ctx_span = tracing::trace_span!("voicemeeter_callback");
+        //ctx_span.record("application_name", &application_name).record("mode", &mode.0).follows_from(tracing::Span::current());
         let mut application = CString::new(application_name)?;
         let mut callback_transformed = |t, b: *mut std::ffi::c_void, nnn| {
-            debug_assert!(!b.is_null());
+            assert!(!b.is_null());
+            // this should always be successfull.
+            #[repr(C)]
+            #[derive(Debug)]
+            struct _Test {
+                sr: c_long,
+                nbs: c_long,
+            }
+            let k = unsafe { b.cast::<_Test>().as_ref().unwrap() };
+            //tracing::info!("{k:?}");
+            //let _span = ctx_span.enter();
             let ptr = RawCallbackData::from_ptr(b);
             callback(
                 unsafe { CallbackCommand::new_unchecked(&self.program, VBVMR_CBCOMMAND(t), ptr) },
