@@ -300,24 +300,28 @@ impl<'a> BufferMainData<'a> {
         self.read_buffer.clear();
         self.write_buffer.clear();
         let idx = channel.main(&self.program);
-        let (r_idx, w_idx) = (idx.0?, idx.1?);
+        // There should not be any channels without a read but a write
+        let (r_idx, w_idx) = (idx.0?, idx.1);
         let (read, write) = self.data;
         // FIXME: assert that the range is contiguous
         for i in 0..r_idx.size {
             let read = unsafe {
                 std::slice::from_raw_parts(read[r_idx.start + i], self.samples_per_frame)
             };
-            let write = unsafe {
-                std::slice::from_raw_parts_mut(write[w_idx.start + i], self.samples_per_frame)
-            };
+            self.read_buffer.push(read);
+
+            if let Some(ref w_idx) = w_idx {
+                let write = unsafe {
+                    std::slice::from_raw_parts_mut(write[w_idx.start + i], self.samples_per_frame)
+                };
+                self.write_buffer.push(write);
+            }
             // tracing::trace!(
             //     "read from {}, to {}. resulting in {} elems",
             //     r_idx.start,
             //     r_idx.size,
             //     read.len()
             // );
-            self.read_buffer.push(read);
-            self.write_buffer.push(write);
         }
         Some((&mut self.read_buffer, &mut self.write_buffer))
     }
