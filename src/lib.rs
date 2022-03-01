@@ -1,7 +1,6 @@
 #![deny(unsafe_op_in_unsafe_fn)]
 ///! Voicemeeter sdk
 pub mod bindings;
-pub(crate) mod ffi;
 pub mod interface;
 pub mod types;
 

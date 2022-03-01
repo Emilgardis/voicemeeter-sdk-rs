@@ -128,6 +128,8 @@ pub enum Channel {
     VirtualInputAux,
     VirtualInput8,
 }
+
+#[derive(Debug, Clone, Copy)]
 pub struct ChannelIndex {
     pub start: usize,
     pub size: usize,

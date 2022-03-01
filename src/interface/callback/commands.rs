@@ -107,7 +107,7 @@ pub struct BufferInData<'a> {
 
 impl<'a> BufferIn<'a> {
     #[tracing::instrument(skip_all, name = "BufferIn::new")]
-    pub fn new(program: &VoicemeeterApplication, buffer: &'a AudioBuffer) -> Self {
+    pub fn new(program: VoicemeeterApplication, buffer: &'a AudioBuffer) -> Self {
         Self {
             sr: buffer.audiobuffer_sr as usize,
             nbs: buffer.audiobuffer_nbs as usize,
@@ -121,7 +121,7 @@ impl<'a> BufferIn<'a> {
 impl<'a> BufferInData<'a> {
     #[tracing::instrument(skip_all, name = "BufferInData::new")]
     pub fn new(
-        program: &VoicemeeterApplication,
+        program: VoicemeeterApplication,
         data: &'a AudioBuffer,
         samples_per_frame: usize,
     ) -> Self {
@@ -130,7 +130,7 @@ impl<'a> BufferInData<'a> {
             samples_per_frame,
             read_buffer: Vec::with_capacity(data.audiobuffer_nbs as usize),
             write_buffer: Vec::with_capacity(data.audiobuffer_nbs as usize),
-            program: *program,
+            program,
         }
     }
 
@@ -187,7 +187,7 @@ pub struct BufferOutData<'a> {
 
 impl<'a> BufferOut<'a> {
     #[tracing::instrument(skip_all, name = "BufferOut::new")]
-    pub fn new(program: &VoicemeeterApplication, buffer: &'a AudioBuffer) -> Self {
+    pub fn new(program: VoicemeeterApplication, buffer: &'a AudioBuffer) -> Self {
         Self {
             sr: buffer.audiobuffer_sr as usize,
             nbs: buffer.audiobuffer_nbs as usize,
@@ -201,7 +201,7 @@ impl<'a> BufferOut<'a> {
 impl<'a> BufferOutData<'a> {
     #[tracing::instrument(skip_all, name = "BufferOutData::new")]
     pub fn new(
-        program: &VoicemeeterApplication,
+        program: VoicemeeterApplication,
         data: &'a AudioBuffer,
         samples_per_frame: usize,
     ) -> Self {
@@ -217,7 +217,7 @@ impl<'a> BufferOutData<'a> {
             samples_per_frame,
             read_buffer: Vec::with_capacity(data.audiobuffer_nbs as usize),
             write_buffer: Vec::with_capacity(data.audiobuffer_nbs as usize),
-            program: *program,
+            program,
         }
     }
 
@@ -274,7 +274,7 @@ pub struct BufferMainData<'a> {
 
 impl<'a> BufferMain<'a> {
     #[tracing::instrument(skip_all, name = "BufferMain::new")]
-    pub fn new(program: &VoicemeeterApplication, buffer: &'a AudioBuffer) -> Self {
+    pub fn new(program: VoicemeeterApplication, buffer: &'a AudioBuffer) -> Self {
         Self {
             sr: buffer.audiobuffer_sr as usize,
             nbs: buffer.audiobuffer_nbs as usize,
@@ -288,7 +288,7 @@ impl<'a> BufferMain<'a> {
 impl<'a> BufferMainData<'a> {
     #[tracing::instrument(skip_all, name = "BufferMainData::new")]
     pub fn new(
-        program: &VoicemeeterApplication,
+        program: VoicemeeterApplication,
         data: &'a AudioBuffer,
         samples_per_frame: usize,
     ) -> Self {
@@ -297,7 +297,7 @@ impl<'a> BufferMainData<'a> {
             samples_per_frame,
             read_buffer: Vec::with_capacity(data.audiobuffer_nbs as usize),
             write_buffer: Vec::with_capacity(data.audiobuffer_nbs as usize),
-            program: *program,
+            program,
         }
     }
 
@@ -314,8 +314,10 @@ impl<'a> BufferMainData<'a> {
         self.read_buffer.clear();
         self.write_buffer.clear();
         let idx = channel.main(&self.program);
+        //println!("channel: program: {}, {channel:?}, idx: {idx:?}", &self.program);
         // There should not be any channels without a read but a write
         let (r_idx, w_idx) = (idx.0?, idx.1);
+        tracing::trace!("getting buffers: {:?}, {:?}", r_idx, w_idx);
         let (read, write) = self.data;
         // FIXME: assert that the range is contiguous
         for i in 0..r_idx.size {
@@ -357,7 +359,7 @@ impl<'a> CallbackCommand<'a> {
     // TODO: adding a field here makes the program segfault
     #[tracing::instrument(skip_all, name = "CallbackCommand::new_unchecked")]
     pub(crate) unsafe fn new_unchecked(
-        program: &VoicemeeterApplication,
+        program: VoicemeeterApplication,
         command: VBVMR_CBCOMMAND,
         ptr: RawCallbackData,
     ) -> Self {
