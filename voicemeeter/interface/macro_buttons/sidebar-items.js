@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["GetMacroButtonStatusError",""],["IsMacroButtonDirtyError",""],["SetMacroButtonStatusError",""]],"struct":[["Status",""]]});

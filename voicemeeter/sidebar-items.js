@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["CallbackCommand",""],["LoadError",""],["RegistryError",""],["RemoteFileError",""]],"mod":[["bindings","! Voicemeeter sdk"],["interface",""],["types",""]],"static":[["VOICEMEETER_REMOTE",""]],"struct":[["VoicemeeterRemote",""]]});

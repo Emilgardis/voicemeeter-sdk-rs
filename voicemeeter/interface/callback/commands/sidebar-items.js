@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["CallbackCommand",""]],"struct":[["BufferIn",""],["BufferInData",""],["BufferMain",""],["BufferMainData",""],["BufferOut",""],["BufferOutData",""],["Change",""],["Ending",""],["Starting",""]],"trait":[["HasAudioBuffer",""],["HasAudioInfo",""]]});

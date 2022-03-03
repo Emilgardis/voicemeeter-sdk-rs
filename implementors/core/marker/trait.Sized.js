@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["voicemeeter"] = [{"text":"impl !<a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html\" title=\"trait core::marker::Sized\">Sized</a> for <a class=\"struct\" href=\"voicemeeter/types/struct.ParameterRef.html\" title=\"struct voicemeeter::types::ParameterRef\">ParameterRef</a>","synthetic":true,"types":["voicemeeter::types::ParameterRef"]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

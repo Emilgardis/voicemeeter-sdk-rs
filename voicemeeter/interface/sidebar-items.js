@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["InitializationError",""]],"mod":[["callback",""],["communication_login_logout",""],["device",""],["general_information",""],["get_levels",""],["get_parameters",""],["macro_buttons",""],["set_parameters",""]],"struct":[["VoicemeeterRemote",""]]});

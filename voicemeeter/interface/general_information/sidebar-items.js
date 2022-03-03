@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["GetVoicemeeterInformationError",""]],"struct":[["VoicemeeterVersion",""]]});
