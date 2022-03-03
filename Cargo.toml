@@ -29,8 +29,8 @@ members = [".", "codegen"]
 
 [patch.crates-io]
 bindgen = { git = "https://github.com/Emilgardis/rust-bindgen", branch = "dynamic-comments" }
-# fundsp  = { git = "https://github.com/Emilgardis/fundsp", branch = "hacker_32" }
-fundsp  = { path = "../fundsp" }
+fundsp  = { git = "https://github.com/Emilgardis/fundsp", branch = "hacker_32" }
+#fundsp  = { path = "../fundsp" }
 
 
 [profile.dev.package.fundsp]
