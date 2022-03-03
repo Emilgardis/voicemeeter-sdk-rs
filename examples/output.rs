@@ -1,4 +1,3 @@
-#![feature(let_else)]
 #![allow(clippy::pedantic, unused, clippy::complexity)]
 use std::sync::mpsc::channel;
 use std::time::Duration;

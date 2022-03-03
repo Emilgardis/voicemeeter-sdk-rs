@@ -1,4 +1,3 @@
-#![feature(is_some_with)]
 use std::io::Write;
 
 pub fn main() -> Result<(), color_eyre::Report> {
