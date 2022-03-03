@@ -31,16 +31,18 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           toolchain: ${{ matrix.rust }}
+          components: rustfmt
           override: true
       - uses: Swatinem/rust-cache@v1
         with:
+          key: rust-${{ matrix.rust}}-tests
           sharedKey: rust-${{ matrix.rust}}
           cache-on-failure: true
       - name: Test voicemeeter-sdk
         uses: actions-rs/cargo@v1
         with:
           command: test
-          args: --all-targets
+          args: --all-targets --all
 
   fmt:
     name: Rustfmt

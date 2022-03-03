@@ -4,7 +4,6 @@ use std::io::Read;
 use std::path::PathBuf;
 
 #[test]
-#[ignore]
 /// Generates and assures that a new invokation of bindgen will provide the same output for the bindings.
 fn assure_accurate_binding() {
     let dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap());
