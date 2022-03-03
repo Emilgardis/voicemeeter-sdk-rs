@@ -4,23 +4,24 @@ on:
     types: [opened, reopened, synchronize]
   push:
     branches: [main]
-env: 
+env:
   MSRV: 1.59
 jobs:
   ci:
     name: CI
     needs: [test, fmt, clippy]
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Done
         run: exit 0
+
   test:
     name: Tests
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
-        rust: ["${{ env.MSRV }}"]
+        os: [windows-latest]
+        rust: ["1.59", "nightly"]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
@@ -34,14 +35,16 @@ jobs:
       - uses: Swatinem/rust-cache@v1
         with:
           sharedKey: rust-${{ matrix.rust}}
+          cache-on-failure: true
       - name: Test voicemeeter-sdk
         uses: actions-rs/cargo@v1
         with:
           command: test
-          args: --all-targets 
+          args: --all-targets
+
   fmt:
     name: Rustfmt
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
         with:
@@ -49,7 +52,7 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: ${{ env.MSRV }}
+          toolchain: 1.59
           override: true
           components: rustfmt
       - name: Run fmt -- --check
@@ -60,7 +63,7 @@ jobs:
 
   clippy:
     name: Clippy
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
         with:
@@ -68,12 +71,12 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: ${{ env.MSRV }}
+          toolchain: 1.59
           override: true
           components: clippy
       - uses: Swatinem/rust-cache@v1
         with:
-          sharedKey: rust-${{ matrix.rust}}
+          sharedKey: rust-${{ env.MSRV }}
       - name: Run clippy --all-targets --no-default-features -- -D warnings
         uses: actions-rs/clippy-check@v1
         with:
