@@ -33,19 +33,6 @@ impl AudioBuffer {
         debug_assert_eq!(first_ptr_w, k.1[0]);
         k
     }
-    pub unsafe fn read_buffer_with_len<'a, const R: usize>(&self) -> &'a [*mut f32; R] {
-        for (idx, ptr) in self.audiobuffer_r.iter().enumerate().take(R) {
-            debug_assert!(!ptr.is_null(), "ptr: {:?} was null at idx: {}", ptr, idx);
-        }
-        unsafe { std::mem::transmute_copy(&self.audiobuffer_r) }
-    }
-
-    pub unsafe fn write_buffer_with_len<'a, const W: usize>(&self) -> &'a [*mut f32; W] {
-        for (idx, ptr) in self.audiobuffer_w.iter().enumerate().take(W) {
-            debug_assert!(!ptr.is_null(), "ptr: {:?} was null at idx: {}", ptr, idx);
-        }
-        unsafe { std::mem::transmute_copy(&self.audiobuffer_w) }
-    }
 }
 
 #[repr(transparent)]

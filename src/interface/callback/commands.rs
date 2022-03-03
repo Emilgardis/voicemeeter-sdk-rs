@@ -299,7 +299,7 @@ impl<'a> BufferMainData<'a> {
         }
     }
 
-    pub unsafe fn data<'b>(&'b self) -> (&'a [*mut f32], &'a [*mut f32]) {
+    pub fn data<'b>(&'b self) -> (&'a [*mut f32], &'a [*mut f32]) {
         self.data
     }
 
