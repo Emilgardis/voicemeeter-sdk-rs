@@ -2,7 +2,7 @@ pub type AudioInfo = crate::bindings::VBVMR_T_AUDIOINFO;
 pub type AudioBuffer = crate::bindings::VBVMR_T_AUDIOBUFFER;
 
 impl AudioBuffer {
-    #[tracing::instrument(level = "debug", skip(self))]
+    //#[tracing::instrument(level = "debug", skip(self))]
     pub(crate) fn read_write_buffer(&self) -> (&[*mut f32], &[*mut f32]) {
         let first_ptr_r = self.audiobuffer_r[0];
         let first_ptr_w = self.audiobuffer_w[0];
@@ -58,17 +58,17 @@ impl std::fmt::Debug for RawCallbackData {
 }
 // All of these tracing::instrument need to be skipped or we crash.
 impl RawCallbackData {
-    #[tracing::instrument(level = "trace", skip_all,name = "RawCallbackData::from_ptr")]
+    //#[tracing::instrument(level = "trace", skip_all,name = "RawCallbackData::from_ptr")]
     pub fn from_ptr(ptr: *mut std::ffi::c_void) -> Self {
         RawCallbackData(std::ptr::NonNull::new(ptr).unwrap())
     }
     // TODO: Safety
-    #[tracing::instrument(level = "trace", skip_all,name = "RawCallbackData::as_audio_info")]
+    //#[tracing::instrument(level = "trace", skip_all,name = "RawCallbackData::as_audio_info")]
     pub unsafe fn as_audio_info<'a>(&self) -> &'a AudioInfo {
         unsafe { self.0.cast().as_mut() }
     }
     // TODO: Safety
-    #[tracing::instrument(level = "trace", skip_all,name = "RawCallbackData::as_audio_buffer")]
+    //#[tracing::instrument(level = "trace", skip_all,name = "RawCallbackData::as_audio_buffer")]
     pub unsafe fn as_audio_buffer<'a>(&self) -> &'a AudioBuffer {
         unsafe { self.0.cast().as_mut() }
     }

@@ -1,0 +1,2 @@
+[build]
+rustflags = "-C target-cpu=native -Ctarget-feature=+sse4.2,+sse4.1,+sse3,+ssse3,+x87,+macrofusion,+fma4,+amx-bf16"

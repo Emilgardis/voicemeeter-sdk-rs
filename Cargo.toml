@@ -22,13 +22,23 @@ pretty_assertions = "1.1.0"
 tracing-subscriber = {version = "0.3.9", features = ["env-filter"]}
 ctrlc = "3"
 tracing-error = "0.2.0"
-dasp = {version = "0.11.0", features = ["slice", "signal"]}
+fundsp = {version = "0.3.2", features = ["hacker_32"]}
 
 [workspace]
 members = [".", "codegen"]
 
 [patch.crates-io]
 bindgen = { git = "https://github.com/Emilgardis/rust-bindgen", branch = "dynamic-comments" }
+# fundsp  = { git = "https://github.com/Emilgardis/fundsp", branch = "hacker_32" }
+fundsp  = { path = "../fundsp" }
+
+
+[profile.dev.package.fundsp]
+opt-level = 3
+
+[profile.release.package.fundsp]
+opt-level = 3
+
 
 [profile.dev.package.diff]
 opt-level = 3

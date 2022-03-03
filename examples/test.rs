@@ -31,13 +31,12 @@ pub fn main() -> Result<(), color_eyre::Report> {
                 )?;
                 writeln!(stdout, "--- {}", c)?;
                 c += 1;
-                std::thread::sleep_ms(100);
+                std::thread::sleep(std::time::Duration::from_millis(100));
             }
             e => {
-                std::thread::sleep_ms(100);
+                std::thread::sleep(std::time::Duration::from_millis(100));
                 e?;
             }
         }
     }
-    Ok(())
 }

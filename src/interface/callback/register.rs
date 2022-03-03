@@ -4,11 +4,9 @@ use std::{
     ptr,
 };
 
-use tracing::Instrument;
-
 use crate::{
     bindings::VBVMR_CBCOMMAND, interface::callback::data::RawCallbackData, CallbackCommand,
-    VoicemeeterRemote, VoicemeeterRemoteRaw,
+    VoicemeeterRemote,
 };
 
 /******************************************************************************/
@@ -34,7 +32,7 @@ where
 {
     // This leaks
     let data = Box::into_raw(Box::new(callback));
-    println!("callback {:p}",data);
+    println!("callback {:p}", data);
     let res = unsafe {
         remote.raw.VBVMR_AudioCallbackRegister(
             mode.0,
@@ -61,7 +59,7 @@ unsafe extern "C" fn call_closure<'cb, F>(
     nnn: c_long,
 ) -> c_long
 where
-    F:  FnMut(CallbackCommand<'cb>, i32) -> c_long,
+    F: FnMut(CallbackCommand<'cb>, i32) -> c_long,
 {
     let callback_ptr = user_data as *mut F;
     let callback = unsafe { &mut *callback_ptr };
@@ -90,13 +88,12 @@ impl VoicemeeterRemote {
         &'a self,
         mode: crate::AudioCallbackMode,
         application_name: impl AsRef<str>,
-        mut callback: F,
+        callback: F,
     ) -> Result<CallbackGuard<F>, AudioCallbackRegisterError>
     where
         F: FnMut(CallbackCommand<'cb>, i32) -> c_long + 'static,
     {
         // TODO: SAFETY!!!
-        #[allow(unused_mut)]
         let application_name = application_name.as_ref();
         tracing::Span::current().record("application_name", &application_name);
         //let ctx_span = tracing::trace_span!("voicemeeter_callback");

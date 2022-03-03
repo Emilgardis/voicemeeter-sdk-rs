@@ -1,5 +1,3 @@
-use std::ptr::NonNull;
-
 use crate::{
     bindings::VBVMR_CBCOMMAND,
     types::{Channel, VoicemeeterApplication},
@@ -57,7 +55,7 @@ pub struct Starting<'a> {
 }
 
 impl<'a> Starting<'a> {
-    #[tracing::instrument(skip_all, name = "Starting::new")]
+    //#[tracing::instrument(skip_all, name = "Starting::new")]
     pub fn new(info: &'a AudioInfo) -> Self {
         Self { info }
     }
@@ -69,7 +67,7 @@ pub struct Ending<'a> {
 }
 
 impl<'a> Ending<'a> {
-    #[tracing::instrument(skip_all, name = "Ending::new")]
+    //#[tracing::instrument(skip_all, name = "Ending::new")]
     pub fn new(info: &'a AudioInfo) -> Self {
         Self { info }
     }
@@ -81,7 +79,7 @@ pub struct Change<'a> {
 }
 
 impl<'a> Change<'a> {
-    #[tracing::instrument(skip_all, name = "Change::new")]
+    //#[tracing::instrument(skip_all, name = "Change::new")]
     pub fn new(info: &'a AudioInfo) -> Self {
         Self { info }
     }
@@ -106,7 +104,7 @@ pub struct BufferInData<'a> {
 }
 
 impl<'a> BufferIn<'a> {
-    #[tracing::instrument(skip_all, name = "BufferIn::new")]
+    //#[tracing::instrument(skip_all, name = "BufferIn::new")]
     pub fn new(program: VoicemeeterApplication, buffer: &'a AudioBuffer) -> Self {
         Self {
             sr: buffer.audiobuffer_sr as usize,
@@ -119,7 +117,7 @@ impl<'a> BufferIn<'a> {
 }
 
 impl<'a> BufferInData<'a> {
-    #[tracing::instrument(skip_all, name = "BufferInData::new")]
+    //#[tracing::instrument(skip_all, name = "BufferInData::new")]
     pub fn new(
         program: VoicemeeterApplication,
         data: &'a AudioBuffer,
@@ -135,7 +133,8 @@ impl<'a> BufferInData<'a> {
     }
 
     // FIXME: These should be an iterator, maybe.
-    #[tracing::instrument(skip(self), name = "BufferInData::read_write_buffer_on_channel")]
+    //#[tracing::instrument(skip(self), name = "BufferInData::read_write_buffer_on_channel")]
+    #[allow(clippy::type_complexity)]
     pub fn read_write_buffer_on_channel<'b>(
         &'b mut self,
         channel: &Channel,
@@ -147,9 +146,8 @@ impl<'a> BufferInData<'a> {
         let (read, write) = self.data;
         // FIXME: assert that the range is contiguous
         for i in 0..idx.size {
-            let read = unsafe {
-                std::slice::from_raw_parts(read[idx.start + i], self.samples_per_frame)
-            };
+            let read =
+                unsafe { std::slice::from_raw_parts(read[idx.start + i], self.samples_per_frame) };
             self.read_buffer.push(read);
 
             let write = unsafe {
@@ -186,7 +184,7 @@ pub struct BufferOutData<'a> {
 }
 
 impl<'a> BufferOut<'a> {
-    #[tracing::instrument(skip_all, name = "BufferOut::new")]
+    //#[tracing::instrument(skip_all, name = "BufferOut::new")]
     pub fn new(program: VoicemeeterApplication, buffer: &'a AudioBuffer) -> Self {
         Self {
             sr: buffer.audiobuffer_sr as usize,
@@ -199,7 +197,7 @@ impl<'a> BufferOut<'a> {
 }
 
 impl<'a> BufferOutData<'a> {
-    #[tracing::instrument(skip_all, name = "BufferOutData::new")]
+    //#[tracing::instrument(skip_all, name = "BufferOutData::new")]
     pub fn new(
         program: VoicemeeterApplication,
         data: &'a AudioBuffer,
@@ -222,7 +220,8 @@ impl<'a> BufferOutData<'a> {
     }
 
     // FIXME: These should be an iterator, maybe.
-    #[tracing::instrument(skip(self), name = "BufferOutData::read_write_buffer_on_channel")]
+    //#[tracing::instrument(skip(self), name = "BufferOutData::read_write_buffer_on_channel")]
+    #[allow(clippy::type_complexity)]
     pub fn read_write_buffer_on_channel<'b>(
         &'b mut self,
         channel: &Channel,
@@ -234,9 +233,8 @@ impl<'a> BufferOutData<'a> {
         let (read, write) = self.data;
         // FIXME: assert that the range is contiguous
         for i in 0..idx.size {
-            let read = unsafe {
-                std::slice::from_raw_parts(read[idx.start + i], self.samples_per_frame)
-            };
+            let read =
+                unsafe { std::slice::from_raw_parts(read[idx.start + i], self.samples_per_frame) };
             self.read_buffer.push(read);
 
             let write = unsafe {
@@ -273,7 +271,7 @@ pub struct BufferMainData<'a> {
 }
 
 impl<'a> BufferMain<'a> {
-    #[tracing::instrument(skip_all, name = "BufferMain::new")]
+    //#[tracing::instrument(skip_all, name = "BufferMain::new")]
     pub fn new(program: VoicemeeterApplication, buffer: &'a AudioBuffer) -> Self {
         Self {
             sr: buffer.audiobuffer_sr as usize,
@@ -286,7 +284,7 @@ impl<'a> BufferMain<'a> {
 }
 
 impl<'a> BufferMainData<'a> {
-    #[tracing::instrument(skip_all, name = "BufferMainData::new")]
+    //#[tracing::instrument(skip_all, name = "BufferMainData::new")]
     pub fn new(
         program: VoicemeeterApplication,
         data: &'a AudioBuffer,
@@ -306,11 +304,13 @@ impl<'a> BufferMainData<'a> {
     }
 
     // FIXME: These should be an iterator, maybe.
-    #[tracing::instrument(skip(self), name = "BufferMainData::read_write_buffer_on_channel")]
+    //#[tracing::instrument(skip(self), name = "BufferMainData::read_write_buffer_on_channel")]
+    #[allow(clippy::type_complexity)]
     pub fn read_write_buffer_on_channel<'b>(
         &'b mut self,
         channel: &Channel,
     ) -> Option<(&'b [&'a [f32]], &'b mut [&'a mut [f32]])> {
+        // FIXME: Find a way to not clear everytime.
         self.read_buffer.clear();
         self.write_buffer.clear();
         let idx = channel.main(&self.program);
@@ -357,7 +357,7 @@ pub enum CallbackCommand<'a> {
 
 impl<'a> CallbackCommand<'a> {
     // TODO: adding a field here makes the program segfault
-    #[tracing::instrument(skip_all, name = "CallbackCommand::new_unchecked")]
+    //#[tracing::instrument(skip_all, name = "CallbackCommand::new_unchecked")]
     pub(crate) unsafe fn new_unchecked(
         program: VoicemeeterApplication,
         command: VBVMR_CBCOMMAND,
