@@ -267,6 +267,11 @@
 <span id="262">262</span>
 <span id="263">263</span>
 <span id="264">264</span>
+<span id="265">265</span>
+<span id="266">266</span>
+<span id="267">267</span>
+<span id="268">268</span>
+<span id="269">269</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Basic types used in voicemeeter</span>
 <span class="doccomment">/// A Zero Indexed Index</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Hash</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
@@ -298,7 +303,7 @@
 
 <span class="kw">impl</span> <a class="ident" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html">std::fmt::Display</a> <span class="kw">for</span> <a class="ident" href="../../src/voicemeeter/types.rs.html#28">LogicalButton</a> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <a class="ident" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html">std::fmt::Result</a> {
-        <span class="macro">write!</span>(<a class="ident" href="../../src/voicemeeter/types.rs.html#31">f</a>, <span class="string">&quot;MB:{}&quot;</span>, <a class="self" href="../../src/voicemeeter/types.rs.html#31">self</a>.<span class="number">0</span> .<span class="number">0</span>)
+        <span class="macro">write!</span>(<a class="ident" href="../../src/voicemeeter/types.rs.html#31">f</a>, <span class="string">&quot;MB:{}&quot;</span>, <a class="self" href="../../src/voicemeeter/types.rs.html#31">self</a>.<span class="number">0.0</span>)
     }
 }
 
@@ -392,9 +397,14 @@
     }
 }
 
-<span class="doccomment">/// A channel. Used for callback in [`VoicemeeterRemote::audio_callback_register`](super::VoicemeeterRemote::audio_callback_register) with [`BufferInData::read_write_buffer_on_channel`](crate::interface::callback::BufferInData::read_write_buffer_on_channel)</span>
+<span class="doccomment">/// A device.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Used for callback in [`VoicemeeterRemote::audio_callback_register`](super::VoicemeeterRemote::audio_callback_register) with</span>
+<span class="doccomment">/// [`BufferInData::read_write_buffer_on_device`](crate::interface::callback::BufferInData::read_write_buffer_on_device),</span>
+<span class="doccomment">/// [`BufferOutData::read_write_buffer_on_device`](crate::interface::callback::BufferOutData::read_write_buffer_on_device) or</span>
+<span class="doccomment">/// [`BufferMainData::read_write_buffer_on_device`](crate::interface::callback::BufferMainData::read_write_buffer_on_device)</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Channel</span> {
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Device</span> {
     <span class="doccomment">/// Strip 1. Available on all Voicemeeter versions.</span>
     <span class="ident">Strip1</span>,
     <span class="doccomment">/// Strip 2. Available on all Voicemeeter versions.</span>
@@ -431,7 +441,7 @@
     <span class="ident">VirtualInput8</span>,
 }
 
-<span class="doccomment">/// Index in the buffers for a channel.</span>
+<span class="doccomment">/// Index in the buffers for a [devices&#39;](Device) channel.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ChannelIndex</span> {
     <span class="doccomment">/// Start index.</span>
@@ -440,94 +450,94 @@
     <span class="kw">pub</span> <span class="ident">size</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
 }
 
-<span class="kw">impl</span> <a class="ident" href="../../src/voicemeeter/types.rs.html#167-172">ChannelIndex</a> {
+<span class="kw">impl</span> <a class="ident" href="../../src/voicemeeter/types.rs.html#172-177">ChannelIndex</a> {
     <span class="doccomment">/// Create a new index.</span>
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">start</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, <span class="ident">size</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <span class="self">Self</span> {
-        <span class="self">Self</span> { <a class="ident" href="../../src/voicemeeter/types.rs.html#176">start</a>, <a class="ident" href="../../src/voicemeeter/types.rs.html#176">size</a> }
+        <span class="self">Self</span> { <a class="ident" href="../../src/voicemeeter/types.rs.html#181">start</a>, <a class="ident" href="../../src/voicemeeter/types.rs.html#181">size</a> }
     }
 }
-<span class="kw">const</span> <span class="kw">fn</span> <span class="ident">ci</span>(<span class="ident">start</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, <span class="ident">size</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="../../src/voicemeeter/types.rs.html#167-172">ChannelIndex</a><span class="op">&gt;</span> {
-    <span class="prelude-val">Some</span>(<span class="ident">ChannelIndex::new</span>(<a class="ident" href="../../src/voicemeeter/types.rs.html#180">start</a>, <a class="ident" href="../../src/voicemeeter/types.rs.html#180">size</a>))
+<span class="kw">const</span> <span class="kw">fn</span> <span class="ident">ci</span>(<span class="ident">start</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, <span class="ident">size</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="../../src/voicemeeter/types.rs.html#172-177">ChannelIndex</a><span class="op">&gt;</span> {
+    <span class="prelude-val">Some</span>(<span class="ident">ChannelIndex::new</span>(<a class="ident" href="../../src/voicemeeter/types.rs.html#185">start</a>, <a class="ident" href="../../src/voicemeeter/types.rs.html#185">size</a>))
 }
-<span class="kw">impl</span> <a class="ident" href="../../src/voicemeeter/types.rs.html#128-163">Channel</a> {
+<span class="kw">impl</span> <a class="ident" href="../../src/voicemeeter/types.rs.html#133-168">Device</a> {
     <span class="doccomment">/// Get the [`ChannelIndex`] for this channel in the buffers when in [main mode](crate::interface::callback::CallbackCommand::BufferMain), if available in the current program.</span>
     <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">main</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">program</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../src/voicemeeter/types.rs.html#61-72">VoicemeeterApplication</a>,
-    ) -&gt; (<span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="../../src/voicemeeter/types.rs.html#167-172">ChannelIndex</a><span class="op">&gt;</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="../../src/voicemeeter/types.rs.html#167-172">ChannelIndex</a><span class="op">&gt;</span>) {
-        <span class="kw">match</span> <a class="ident" href="../../src/voicemeeter/types.rs.html#187">program</a> {
-            <a class="ident" href="../../src/voicemeeter/types.rs.html#63">VoicemeeterApplication::Voicemeeter</a> =&gt; <span class="kw">match</span> <a class="self" href="../../src/voicemeeter/types.rs.html#186">self</a> {
-                <a class="ident" href="../../src/voicemeeter/types.rs.html#130">Channel::Strip1</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">0</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
-                <a class="ident" href="../../src/voicemeeter/types.rs.html#132">Channel::Strip2</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">2</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
-                <a class="ident" href="../../src/voicemeeter/types.rs.html#140">Channel::OutputA1</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">12</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">0</span>, <span class="number">8</span>)),
-                <a class="ident" href="../../src/voicemeeter/types.rs.html#142">Channel::OutputA2</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">12</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">0</span>, <span class="number">8</span>)),
-                <a class="ident" href="../../src/voicemeeter/types.rs.html#150">Channel::VirtualOutput</a> <span class="op">|</span> <a class="ident" href="../../src/voicemeeter/types.rs.html#152">Channel::VirtualOutputB1</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">20</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">8</span>, <span class="number">8</span>)),
-                <a class="ident" href="../../src/voicemeeter/types.rs.html#158">Channel::VirtualInput</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">4</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
+    ) -&gt; (<span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="../../src/voicemeeter/types.rs.html#172-177">ChannelIndex</a><span class="op">&gt;</span>, <span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="../../src/voicemeeter/types.rs.html#172-177">ChannelIndex</a><span class="op">&gt;</span>) {
+        <span class="kw">match</span> <a class="ident" href="../../src/voicemeeter/types.rs.html#192">program</a> {
+            <a class="ident" href="../../src/voicemeeter/types.rs.html#63">VoicemeeterApplication::Voicemeeter</a> =&gt; <span class="kw">match</span> <a class="self" href="../../src/voicemeeter/types.rs.html#191">self</a> {
+                <a class="ident" href="../../src/voicemeeter/types.rs.html#135">Device::Strip1</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">0</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
+                <a class="ident" href="../../src/voicemeeter/types.rs.html#137">Device::Strip2</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">2</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
+                <a class="ident" href="../../src/voicemeeter/types.rs.html#145">Device::OutputA1</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">12</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">0</span>, <span class="number">8</span>)),
+                <a class="ident" href="../../src/voicemeeter/types.rs.html#147">Device::OutputA2</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">12</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">0</span>, <span class="number">8</span>)),
+                <a class="ident" href="../../src/voicemeeter/types.rs.html#155">Device::VirtualOutput</a> <span class="op">|</span> <a class="ident" href="../../src/voicemeeter/types.rs.html#157">Device::VirtualOutputB1</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">20</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">8</span>, <span class="number">8</span>)),
+                <a class="ident" href="../../src/voicemeeter/types.rs.html#163">Device::VirtualInput</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">4</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
                 <span class="kw">_</span> =&gt; (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>),
             },
-            <a class="ident" href="../../src/voicemeeter/types.rs.html#65">VoicemeeterApplication::VoicemeeterBanana</a> =&gt; <span class="kw">match</span> <a class="self" href="../../src/voicemeeter/types.rs.html#186">self</a> {
-                <a class="ident" href="../../src/voicemeeter/types.rs.html#130">Channel::Strip1</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">0</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
-                <a class="ident" href="../../src/voicemeeter/types.rs.html#132">Channel::Strip2</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">2</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
-                <a class="ident" href="../../src/voicemeeter/types.rs.html#134">Channel::Strip3</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">4</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
-                <a class="ident" href="../../src/voicemeeter/types.rs.html#140">Channel::OutputA1</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">22</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">0</span>, <span class="number">8</span>)),
-                <a class="ident" href="../../src/voicemeeter/types.rs.html#142">Channel::OutputA2</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">30</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">8</span>, <span class="number">8</span>)),
-                <a class="ident" href="../../src/voicemeeter/types.rs.html#144">Channel::OutputA3</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">38</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">16</span>, <span class="number">8</span>)),
-                <a class="ident" href="../../src/voicemeeter/types.rs.html#150">Channel::VirtualOutput</a> <span class="op">|</span> <a class="ident" href="../../src/voicemeeter/types.rs.html#152">Channel::VirtualOutputB1</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">46</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">24</span>, <span class="number">8</span>)),
-                <a class="ident" href="../../src/voicemeeter/types.rs.html#154">Channel::VirtualOutputB2</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">54</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">32</span>, <span class="number">8</span>)),
-                <a class="ident" href="../../src/voicemeeter/types.rs.html#158">Channel::VirtualInput</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">6</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
-                <a class="ident" href="../../src/voicemeeter/types.rs.html#160">Channel::VirtualInputAux</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">14</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
+            <a class="ident" href="../../src/voicemeeter/types.rs.html#65">VoicemeeterApplication::VoicemeeterBanana</a> =&gt; <span class="kw">match</span> <a class="self" href="../../src/voicemeeter/types.rs.html#191">self</a> {
+                <a class="ident" href="../../src/voicemeeter/types.rs.html#135">Device::Strip1</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">0</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
+                <a class="ident" href="../../src/voicemeeter/types.rs.html#137">Device::Strip2</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">2</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
+                <a class="ident" href="../../src/voicemeeter/types.rs.html#139">Device::Strip3</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">4</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
+                <a class="ident" href="../../src/voicemeeter/types.rs.html#145">Device::OutputA1</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">22</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">0</span>, <span class="number">8</span>)),
+                <a class="ident" href="../../src/voicemeeter/types.rs.html#147">Device::OutputA2</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">30</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">8</span>, <span class="number">8</span>)),
+                <a class="ident" href="../../src/voicemeeter/types.rs.html#149">Device::OutputA3</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">38</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">16</span>, <span class="number">8</span>)),
+                <a class="ident" href="../../src/voicemeeter/types.rs.html#155">Device::VirtualOutput</a> <span class="op">|</span> <a class="ident" href="../../src/voicemeeter/types.rs.html#157">Device::VirtualOutputB1</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">46</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">24</span>, <span class="number">8</span>)),
+                <a class="ident" href="../../src/voicemeeter/types.rs.html#159">Device::VirtualOutputB2</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">54</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">32</span>, <span class="number">8</span>)),
+                <a class="ident" href="../../src/voicemeeter/types.rs.html#163">Device::VirtualInput</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">6</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
+                <a class="ident" href="../../src/voicemeeter/types.rs.html#165">Device::VirtualInputAux</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">14</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
                 <span class="kw">_</span> =&gt; (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>),
             },
             <a class="ident" href="../../src/voicemeeter/types.rs.html#67">VoicemeeterApplication::VoicemeeterPotato</a> <span class="op">|</span> <a class="ident" href="../../src/voicemeeter/types.rs.html#69">VoicemeeterApplication::PotatoX64Bits</a> =&gt; {
-                <span class="kw">match</span> <a class="self" href="../../src/voicemeeter/types.rs.html#186">self</a> {
-                    <a class="ident" href="../../src/voicemeeter/types.rs.html#130">Channel::Strip1</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">0</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
-                    <a class="ident" href="../../src/voicemeeter/types.rs.html#132">Channel::Strip2</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">2</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
-                    <a class="ident" href="../../src/voicemeeter/types.rs.html#134">Channel::Strip3</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">4</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
-                    <a class="ident" href="../../src/voicemeeter/types.rs.html#136">Channel::Strip4</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">6</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
-                    <a class="ident" href="../../src/voicemeeter/types.rs.html#138">Channel::Strip5</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">8</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
-                    <a class="ident" href="../../src/voicemeeter/types.rs.html#140">Channel::OutputA1</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">34</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">0</span>, <span class="number">8</span>)),
-                    <a class="ident" href="../../src/voicemeeter/types.rs.html#142">Channel::OutputA2</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">42</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">8</span>, <span class="number">8</span>)),
-                    <a class="ident" href="../../src/voicemeeter/types.rs.html#144">Channel::OutputA3</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">50</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">16</span>, <span class="number">8</span>)),
-                    <a class="ident" href="../../src/voicemeeter/types.rs.html#146">Channel::OutputA4</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">58</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">24</span>, <span class="number">8</span>)),
-                    <a class="ident" href="../../src/voicemeeter/types.rs.html#148">Channel::OutputA5</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">66</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">32</span>, <span class="number">8</span>)),
-                    <a class="ident" href="../../src/voicemeeter/types.rs.html#150">Channel::VirtualOutput</a> <span class="op">|</span> <a class="ident" href="../../src/voicemeeter/types.rs.html#152">Channel::VirtualOutputB1</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">74</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">40</span>, <span class="number">8</span>)),
-                    <a class="ident" href="../../src/voicemeeter/types.rs.html#154">Channel::VirtualOutputB2</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">82</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">48</span>, <span class="number">8</span>)),
-                    <a class="ident" href="../../src/voicemeeter/types.rs.html#156">Channel::VirtualOutputB3</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">82</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">56</span>, <span class="number">8</span>)),
-                    <a class="ident" href="../../src/voicemeeter/types.rs.html#158">Channel::VirtualInput</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">10</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
-                    <a class="ident" href="../../src/voicemeeter/types.rs.html#160">Channel::VirtualInputAux</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">18</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
-                    <a class="ident" href="../../src/voicemeeter/types.rs.html#162">Channel::VirtualInput8</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#180">ci</a>(<span class="number">26</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
+                <span class="kw">match</span> <a class="self" href="../../src/voicemeeter/types.rs.html#191">self</a> {
+                    <a class="ident" href="../../src/voicemeeter/types.rs.html#135">Device::Strip1</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">0</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
+                    <a class="ident" href="../../src/voicemeeter/types.rs.html#137">Device::Strip2</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">2</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
+                    <a class="ident" href="../../src/voicemeeter/types.rs.html#139">Device::Strip3</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">4</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
+                    <a class="ident" href="../../src/voicemeeter/types.rs.html#141">Device::Strip4</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">6</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
+                    <a class="ident" href="../../src/voicemeeter/types.rs.html#143">Device::Strip5</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">8</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
+                    <a class="ident" href="../../src/voicemeeter/types.rs.html#145">Device::OutputA1</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">34</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">0</span>, <span class="number">8</span>)),
+                    <a class="ident" href="../../src/voicemeeter/types.rs.html#147">Device::OutputA2</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">42</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">8</span>, <span class="number">8</span>)),
+                    <a class="ident" href="../../src/voicemeeter/types.rs.html#149">Device::OutputA3</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">50</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">16</span>, <span class="number">8</span>)),
+                    <a class="ident" href="../../src/voicemeeter/types.rs.html#151">Device::OutputA4</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">58</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">24</span>, <span class="number">8</span>)),
+                    <a class="ident" href="../../src/voicemeeter/types.rs.html#153">Device::OutputA5</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">66</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">32</span>, <span class="number">8</span>)),
+                    <a class="ident" href="../../src/voicemeeter/types.rs.html#155">Device::VirtualOutput</a> <span class="op">|</span> <a class="ident" href="../../src/voicemeeter/types.rs.html#157">Device::VirtualOutputB1</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">74</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">40</span>, <span class="number">8</span>)),
+                    <a class="ident" href="../../src/voicemeeter/types.rs.html#159">Device::VirtualOutputB2</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">82</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">48</span>, <span class="number">8</span>)),
+                    <a class="ident" href="../../src/voicemeeter/types.rs.html#161">Device::VirtualOutputB3</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">82</span>, <span class="number">8</span>), <a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">56</span>, <span class="number">8</span>)),
+                    <a class="ident" href="../../src/voicemeeter/types.rs.html#163">Device::VirtualInput</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">10</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
+                    <a class="ident" href="../../src/voicemeeter/types.rs.html#165">Device::VirtualInputAux</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">18</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
+                    <a class="ident" href="../../src/voicemeeter/types.rs.html#167">Device::VirtualInput8</a> =&gt; (<a class="ident" href="../../src/voicemeeter/types.rs.html#185">ci</a>(<span class="number">26</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
                 }
             }
             <span class="kw">_</span> =&gt; (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>),
         }
     }
     <span class="doccomment">/// Get the [`ChannelIndex`] for this channel in the buffers when in [input mode](crate::interface::callback::CallbackCommand::BufferIn), if available in the current program.</span>
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">input</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">program</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../src/voicemeeter/types.rs.html#61-72">VoicemeeterApplication</a>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="../../src/voicemeeter/types.rs.html#167-172">ChannelIndex</a><span class="op">&gt;</span> {
-        <a class="self" href="../../src/voicemeeter/types.rs.html#236">self</a>.<a class="ident" href="../../src/voicemeeter/types.rs.html#185-188">main</a>(<a class="ident" href="../../src/voicemeeter/types.rs.html#236">program</a>).<span class="number">0</span>
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">input</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">program</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../src/voicemeeter/types.rs.html#61-72">VoicemeeterApplication</a>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="../../src/voicemeeter/types.rs.html#172-177">ChannelIndex</a><span class="op">&gt;</span> {
+        <a class="self" href="../../src/voicemeeter/types.rs.html#241">self</a>.<a class="ident" href="../../src/voicemeeter/types.rs.html#190-193">main</a>(<a class="ident" href="../../src/voicemeeter/types.rs.html#241">program</a>).<span class="number">0</span>
     }
     <span class="doccomment">/// Get the [`ChannelIndex`] for this channel in the buffers when in [output mode](crate::interface::callback::CallbackCommand::BufferOut), if available in the current program.</span>
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">output</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">program</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../src/voicemeeter/types.rs.html#61-72">VoicemeeterApplication</a>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="../../src/voicemeeter/types.rs.html#167-172">ChannelIndex</a><span class="op">&gt;</span> {
-        <a class="self" href="../../src/voicemeeter/types.rs.html#240">self</a>.<a class="ident" href="../../src/voicemeeter/types.rs.html#185-188">main</a>(<a class="ident" href="../../src/voicemeeter/types.rs.html#240">program</a>).<span class="number">1</span>
+    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">output</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">program</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../src/voicemeeter/types.rs.html#61-72">VoicemeeterApplication</a>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="../../src/voicemeeter/types.rs.html#172-177">ChannelIndex</a><span class="op">&gt;</span> {
+        <a class="self" href="../../src/voicemeeter/types.rs.html#245">self</a>.<a class="ident" href="../../src/voicemeeter/types.rs.html#190-193">main</a>(<a class="ident" href="../../src/voicemeeter/types.rs.html#245">program</a>).<span class="number">1</span>
     }
     <span class="doccomment">/// Get all channels available in Voicemeeter Potato.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">potato_channels</span>() -&gt; <span class="ident">Vec</span><span class="op">&lt;</span><a class="ident" href="../../src/voicemeeter/types.rs.html#128-163">Channel</a><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">potato_channels</span>() -&gt; <span class="ident">Vec</span><span class="op">&lt;</span><a class="ident" href="../../src/voicemeeter/types.rs.html#133-168">Device</a><span class="op">&gt;</span> {
         <span class="macro">vec!</span>[
-            <a class="ident" href="../../src/voicemeeter/types.rs.html#130">Channel::Strip1</a>,
-            <a class="ident" href="../../src/voicemeeter/types.rs.html#132">Channel::Strip2</a>,
-            <a class="ident" href="../../src/voicemeeter/types.rs.html#134">Channel::Strip3</a>,
-            <a class="ident" href="../../src/voicemeeter/types.rs.html#136">Channel::Strip4</a>,
-            <a class="ident" href="../../src/voicemeeter/types.rs.html#138">Channel::Strip5</a>,
-            <a class="ident" href="../../src/voicemeeter/types.rs.html#140">Channel::OutputA1</a>,
-            <a class="ident" href="../../src/voicemeeter/types.rs.html#142">Channel::OutputA2</a>,
-            <a class="ident" href="../../src/voicemeeter/types.rs.html#144">Channel::OutputA3</a>,
-            <a class="ident" href="../../src/voicemeeter/types.rs.html#146">Channel::OutputA4</a>,
-            <a class="ident" href="../../src/voicemeeter/types.rs.html#148">Channel::OutputA5</a>,
-            <a class="ident" href="../../src/voicemeeter/types.rs.html#150">Channel::VirtualOutput</a>,
-            <a class="ident" href="../../src/voicemeeter/types.rs.html#154">Channel::VirtualOutputB2</a>,
-            <a class="ident" href="../../src/voicemeeter/types.rs.html#156">Channel::VirtualOutputB3</a>,
-            <a class="ident" href="../../src/voicemeeter/types.rs.html#158">Channel::VirtualInput</a>,
-            <a class="ident" href="../../src/voicemeeter/types.rs.html#160">Channel::VirtualInputAux</a>,
-            <a class="ident" href="../../src/voicemeeter/types.rs.html#162">Channel::VirtualInput8</a>,
+            <a class="ident" href="../../src/voicemeeter/types.rs.html#135">Device::Strip1</a>,
+            <a class="ident" href="../../src/voicemeeter/types.rs.html#137">Device::Strip2</a>,
+            <a class="ident" href="../../src/voicemeeter/types.rs.html#139">Device::Strip3</a>,
+            <a class="ident" href="../../src/voicemeeter/types.rs.html#141">Device::Strip4</a>,
+            <a class="ident" href="../../src/voicemeeter/types.rs.html#143">Device::Strip5</a>,
+            <a class="ident" href="../../src/voicemeeter/types.rs.html#145">Device::OutputA1</a>,
+            <a class="ident" href="../../src/voicemeeter/types.rs.html#147">Device::OutputA2</a>,
+            <a class="ident" href="../../src/voicemeeter/types.rs.html#149">Device::OutputA3</a>,
+            <a class="ident" href="../../src/voicemeeter/types.rs.html#151">Device::OutputA4</a>,
+            <a class="ident" href="../../src/voicemeeter/types.rs.html#153">Device::OutputA5</a>,
+            <a class="ident" href="../../src/voicemeeter/types.rs.html#155">Device::VirtualOutput</a>,
+            <a class="ident" href="../../src/voicemeeter/types.rs.html#159">Device::VirtualOutputB2</a>,
+            <a class="ident" href="../../src/voicemeeter/types.rs.html#161">Device::VirtualOutputB3</a>,
+            <a class="ident" href="../../src/voicemeeter/types.rs.html#163">Device::VirtualInput</a>,
+            <a class="ident" href="../../src/voicemeeter/types.rs.html#165">Device::VirtualInputAux</a>,
+            <a class="ident" href="../../src/voicemeeter/types.rs.html#167">Device::VirtualInput8</a>,
         ]
     }
 }

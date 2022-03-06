@@ -451,12 +451,20 @@
 <span id="446">446</span>
 <span id="447">447</span>
 <span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Callback command types.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! These are returned to the callback function.</span>
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <a class="ident" href="../../../../src/voicemeeter/bindings.rs.html#222">bindings::VBVMR_CBCOMMAND</a>,
-    <span class="ident">types</span>::{<a class="ident" href="../../../../src/voicemeeter/types.rs.html#128-163">Channel</a>, <a class="ident" href="../../../../src/voicemeeter/types.rs.html#61-72">VoicemeeterApplication</a>},
+    <span class="ident">types</span>::{<a class="ident" href="../../../../src/voicemeeter/types.rs.html#133-168">Device</a>, <a class="ident" href="../../../../src/voicemeeter/types.rs.html#61-72">VoicemeeterApplication</a>},
 };
 
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::data</span>::{<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#8">AudioBuffer</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#6">AudioInfo</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#46">RawCallbackData</a>};
@@ -604,8 +612,8 @@
         <span class="self">Self</span> {
             <span class="ident">data</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#148">data</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#12">read_write_buffer</a>(),
             <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#149">samples_per_frame</a>,
-            <span class="ident">read_buffer</span>: <span class="ident">Vec::with_capacity</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#148">data</a>.<span class="ident">audiobuffer_nbs</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>),
-            <span class="ident">write_buffer</span>: <span class="ident">Vec::with_capacity</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#148">data</a>.<span class="ident">audiobuffer_nbs</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>),
+            <span class="ident">read_buffer</span>: <span class="ident">Vec::with_capacity</span>(<span class="number">8</span>),
+            <span class="ident">write_buffer</span>: <span class="ident">Vec::with_capacity</span>(<span class="number">8</span>),
             <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#147">program</a>,
         }
     }
@@ -613,14 +621,14 @@
     <span class="comment">// FIXME: These should be an iterator, maybe.</span>
     <span class="comment">//#[tracing::instrument(skip(self), name = &quot;BufferInData::read_write_buffer_on_channel&quot;)]</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::type_complexity</span>)]</span>
-    <span class="doccomment">/// Get the read and write buffers for a specific [channel](Channel).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_write_buffer_on_channel</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(
+    <span class="doccomment">/// Get the read and write buffers for a specific [device](Device).</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_write_buffer_on_device</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">channel</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#128-163">Channel</a>,
+        <span class="ident">channel</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#133-168">Device</a>,
     ) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> [<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]], <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="kw-2">mut</span> [<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]])<span class="op">&gt;</span> {
         <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#165">self</a>.<span class="ident">read_buffer</span>.<span class="ident">clear</span>();
         <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#165">self</a>.<span class="ident">write_buffer</span>.<span class="ident">clear</span>();
-        <span class="kw">let</span> <span class="ident">idx</span> <span class="op">=</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#166">channel</a>.<a class="ident" href="../../../../src/voicemeeter/types.rs.html#236">input</a>(<span class="kw-2">&amp;</span><a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#165">self</a>.<span class="ident">program</span>)<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">idx</span> <span class="op">=</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#166">channel</a>.<a class="ident" href="../../../../src/voicemeeter/types.rs.html#241">input</a>(<span class="kw-2">&amp;</span><a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#165">self</a>.<span class="ident">program</span>)<span class="question-mark">?</span>;
         <span class="comment">// There should not be any channels without a read but a write</span>
         <span class="kw">let</span> (<span class="ident">read</span>, <span class="ident">write</span>) <span class="op">=</span> <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#165">self</a>.<span class="ident">data</span>;
         <span class="comment">// FIXME: assert that the range is contiguous</span>
@@ -699,23 +707,23 @@
         <span class="self">Self</span> {
             <span class="ident">data</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#239">rw</a>,
             <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#237">samples_per_frame</a>,
-            <span class="ident">read_buffer</span>: <span class="ident">Vec::with_capacity</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#236">data</a>.<span class="ident">audiobuffer_nbs</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>),
-            <span class="ident">write_buffer</span>: <span class="ident">Vec::with_capacity</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#236">data</a>.<span class="ident">audiobuffer_nbs</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>),
+            <span class="ident">read_buffer</span>: <span class="ident">Vec::with_capacity</span>(<span class="number">8</span>),
+            <span class="ident">write_buffer</span>: <span class="ident">Vec::with_capacity</span>(<span class="number">8</span>),
             <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#235">program</a>,
         }
     }
 
     <span class="comment">// FIXME: These should be an iterator, maybe.</span>
-    <span class="comment">//#[tracing::instrument(skip(self), name = &quot;BufferOutData::read_write_buffer_on_channel&quot;)]</span>
+    <span class="comment">//#[tracing::instrument(skip(self), name = &quot;BufferOutData::read_write_buffer_on_device&quot;)]</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::type_complexity</span>)]</span>
-    <span class="doccomment">/// Get the read and write buffers for a specific [channel](Channel).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_write_buffer_on_channel</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(
+    <span class="doccomment">/// Get the read and write buffers for a specific [device](Device).</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_write_buffer_on_device</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">channel</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#128-163">Channel</a>,
+        <span class="ident">channel</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#133-168">Device</a>,
     ) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> [<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]], <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="kw-2">mut</span> [<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]])<span class="op">&gt;</span> {
         <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#260">self</a>.<span class="ident">read_buffer</span>.<span class="ident">clear</span>();
         <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#260">self</a>.<span class="ident">write_buffer</span>.<span class="ident">clear</span>();
-        <span class="kw">let</span> <span class="ident">idx</span> <span class="op">=</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#261">channel</a>.<a class="ident" href="../../../../src/voicemeeter/types.rs.html#240">output</a>(<span class="kw-2">&amp;</span><a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#260">self</a>.<span class="ident">program</span>)<span class="question-mark">?</span>;
+        <span class="kw">let</span> <span class="ident">idx</span> <span class="op">=</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#261">channel</a>.<a class="ident" href="../../../../src/voicemeeter/types.rs.html#245">output</a>(<span class="kw-2">&amp;</span><a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#260">self</a>.<span class="ident">program</span>)<span class="question-mark">?</span>;
         <span class="comment">// There should not be any channels without a read but a write</span>
         <span class="kw">let</span> (<span class="ident">read</span>, <span class="ident">write</span>) <span class="op">=</span> <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#260">self</a>.<span class="ident">data</span>;
         <span class="comment">// FIXME: assert that the range is contiguous</span>
@@ -787,8 +795,8 @@
         <span class="self">Self</span> {
             <span class="ident">data</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#331">data</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#12">read_write_buffer</a>(),
             <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#332">samples_per_frame</a>,
-            <span class="ident">read_buffer</span>: <span class="ident">Vec::with_capacity</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#331">data</a>.<span class="ident">audiobuffer_nbs</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>),
-            <span class="ident">write_buffer</span>: <span class="ident">Vec::with_capacity</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#331">data</a>.<span class="ident">audiobuffer_nbs</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>),
+            <span class="ident">read_buffer</span>: <span class="ident">Vec::with_capacity</span>(<span class="number">8</span>),
+            <span class="ident">write_buffer</span>: <span class="ident">Vec::with_capacity</span>(<span class="number">8</span>),
             <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#330">program</a>,
         }
     }
@@ -798,35 +806,42 @@
         <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#344">self</a>.<span class="ident">data</span>
     }
 
+    <span class="comment">// FIXME: There should be a way to get distinct r/w buffers, right now you can not easily get Strip1 read and OutputA1 write for example.</span>
+
     <span class="comment">// FIXME: These should be an iterator, maybe.</span>
-    <span class="comment">//#[tracing::instrument(skip(self), name = &quot;BufferMainData::read_write_buffer_on_channel&quot;)]</span>
+    <span class="comment">//#[tracing::instrument(skip(self), name = &quot;BufferMainData::read_write_buffer_on_device&quot;)]</span>
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::type_complexity</span>)]</span>
-    <span class="doccomment">/// Get the read and write buffers for a specific [channel](Channel).</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_write_buffer_on_channel</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(
+    <span class="doccomment">/// Get the read and write buffers for a specific [device](Device).</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Notes</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The output may be empty if the device does not have an output in the buffer. The second slice will then be empty.</span>
+    <span class="doccomment">/// If there is no input buffer for this device, the result would be [None](Option::None).</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_write_buffer_on_device</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="kw-2">mut</span> <span class="self">self</span>,
-        <span class="ident">channel</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#128-163">Channel</a>,
+        <span class="ident">channel</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#133-168">Device</a>,
     ) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> [<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]], <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="kw-2">mut</span> [<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]])<span class="op">&gt;</span> {
         <span class="comment">// FIXME: Find a way to not clear everytime.</span>
-        <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#353">self</a>.<span class="ident">read_buffer</span>.<span class="ident">clear</span>();
-        <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#353">self</a>.<span class="ident">write_buffer</span>.<span class="ident">clear</span>();
-        <span class="kw">let</span> <span class="ident">idx</span> <span class="op">=</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#354">channel</a>.<a class="ident" href="../../../../src/voicemeeter/types.rs.html#185-188">main</a>(<span class="kw-2">&amp;</span><a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#353">self</a>.<span class="ident">program</span>);
+        <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#360">self</a>.<span class="ident">read_buffer</span>.<span class="ident">clear</span>();
+        <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#360">self</a>.<span class="ident">write_buffer</span>.<span class="ident">clear</span>();
+        <span class="kw">let</span> <span class="ident">idx</span> <span class="op">=</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#361">channel</a>.<a class="ident" href="../../../../src/voicemeeter/types.rs.html#190-193">main</a>(<span class="kw-2">&amp;</span><a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#360">self</a>.<span class="ident">program</span>);
         <span class="comment">//println!(&quot;channel: program: {}, {channel:?}, idx: {idx:?}&quot;, &amp;self.program);</span>
-        <span class="comment">// There should not be any channels without a read but a write</span>
-        <span class="kw">let</span> (<span class="ident">r_idx</span>, <span class="ident">w_idx</span>) <span class="op">=</span> (<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#359">idx</a>.<span class="number">0</span><span class="question-mark">?</span>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#359">idx</a>.<span class="number">1</span>);
-        <span class="macro">tracing::trace!</span>(<span class="string">&quot;getting buffers: {:?}, {:?}&quot;</span>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#362">r_idx</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#362">w_idx</a>);
-        <span class="kw">let</span> (<span class="ident">read</span>, <span class="ident">write</span>) <span class="op">=</span> <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#353">self</a>.<span class="ident">data</span>;
+        <span class="comment">// There should not be any device without a read but a write</span>
+        <span class="kw">let</span> (<span class="ident">r_idx</span>, <span class="ident">w_idx</span>) <span class="op">=</span> (<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#366">idx</a>.<span class="number">0</span><span class="question-mark">?</span>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#366">idx</a>.<span class="number">1</span>);
+        <span class="macro">tracing::trace!</span>(<span class="string">&quot;getting buffers: {:?}, {:?}&quot;</span>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#369">r_idx</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#369">w_idx</a>);
+        <span class="kw">let</span> (<span class="ident">read</span>, <span class="ident">write</span>) <span class="op">=</span> <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#360">self</a>.<span class="ident">data</span>;
         <span class="comment">// FIXME: assert that the range is contiguous</span>
-        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#362">r_idx</a>.<span class="ident">size</span> {
+        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#369">r_idx</a>.<span class="ident">size</span> {
             <span class="kw">let</span> <span class="ident">read</span> <span class="op">=</span> <span class="kw">unsafe</span> {
-                <span class="ident">std::slice::from_raw_parts</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#364">read</a>[<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#362">r_idx</a>.<span class="ident">start</span> <span class="op">+</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#366">i</a>], <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#353">self</a>.<span class="ident">samples_per_frame</span>)
+                <span class="ident">std::slice::from_raw_parts</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#371">read</a>[<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#369">r_idx</a>.<span class="ident">start</span> <span class="op">+</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#373">i</a>], <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#360">self</a>.<span class="ident">samples_per_frame</span>)
             };
-            <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#353">self</a>.<span class="ident">read_buffer</span>.<span class="ident">push</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#367">read</a>);
+            <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#360">self</a>.<span class="ident">read_buffer</span>.<span class="ident">push</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#374">read</a>);
 
-            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">w_idx</span>) <span class="op">=</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#362">w_idx</a> {
+            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">w_idx</span>) <span class="op">=</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#369">w_idx</a> {
                 <span class="kw">let</span> <span class="ident">write</span> <span class="op">=</span> <span class="kw">unsafe</span> {
-                    <span class="ident">std::slice::from_raw_parts_mut</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#364">write</a>[<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#372">w_idx</a>.<span class="ident">start</span> <span class="op">+</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#366">i</a>], <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#353">self</a>.<span class="ident">samples_per_frame</span>)
+                    <span class="ident">std::slice::from_raw_parts_mut</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#371">write</a>[<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#379">w_idx</a>.<span class="ident">start</span> <span class="op">+</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#373">i</a>], <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#360">self</a>.<span class="ident">samples_per_frame</span>)
                 };
-                <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#353">self</a>.<span class="ident">write_buffer</span>.<span class="ident">push</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#373">write</a>);
+                <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#360">self</a>.<span class="ident">write_buffer</span>.<span class="ident">push</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#380">write</a>);
             }
             <span class="comment">// tracing::trace!(</span>
             <span class="comment">//     &quot;read from {}, to {}. resulting in {} elems&quot;,</span>
@@ -835,13 +850,14 @@
             <span class="comment">//     read.len()</span>
             <span class="comment">// );</span>
         }
-        <span class="prelude-val">Some</span>((<span class="kw-2">&amp;</span><a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#353">self</a>.<span class="ident">read_buffer</span>, <span class="kw-2">&amp;mut</span> <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#353">self</a>.<span class="ident">write_buffer</span>))
+        <span class="prelude-val">Some</span>((<span class="kw-2">&amp;</span><a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#360">self</a>.<span class="ident">read_buffer</span>, <span class="kw-2">&amp;mut</span> <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#360">self</a>.<span class="ident">write_buffer</span>))
     }
 }
 
 <span class="doccomment">/// Callback command passed to the [audio callback](crate::VoicemeeterRemote::audio_callback_register).</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;interface&quot;</span>)]</span> <span class="comment">// for doc_cfg</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">CallbackCommand</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Starting command</span>
     <span class="ident">Starting</span>(<span class="ident">Starting</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>),
@@ -867,28 +883,28 @@
         <span class="ident">command</span>: <a class="ident" href="../../../../src/voicemeeter/bindings.rs.html#222">VBVMR_CBCOMMAND</a>,
         <span class="ident">ptr</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#46">RawCallbackData</a>,
     ) -&gt; <span class="self">Self</span> {
-        <span class="kw">match</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#414">command</a> {
+        <span class="kw">match</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#422">command</a> {
             <span class="ident">VBVMR_CBCOMMAND::STARTING</span> =&gt; {
-                <span class="ident"><span class="self">Self</span>::Starting</span>(<span class="ident">Starting::new</span>(<span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#415">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#68">as_audio_info</a>() }))
+                <span class="ident"><span class="self">Self</span>::Starting</span>(<span class="ident">Starting::new</span>(<span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#423">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#68">as_audio_info</a>() }))
             }
-            <span class="ident">VBVMR_CBCOMMAND::ENDING</span> =&gt; <span class="ident"><span class="self">Self</span>::Ending</span>(<span class="ident">Ending::new</span>(<span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#415">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#68">as_audio_info</a>() })),
-            <span class="ident">VBVMR_CBCOMMAND::CHANGE</span> =&gt; <span class="ident"><span class="self">Self</span>::Change</span>(<span class="ident">Change::new</span>(<span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#415">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#68">as_audio_info</a>() })),
+            <span class="ident">VBVMR_CBCOMMAND::ENDING</span> =&gt; <span class="ident"><span class="self">Self</span>::Ending</span>(<span class="ident">Ending::new</span>(<span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#423">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#68">as_audio_info</a>() })),
+            <span class="ident">VBVMR_CBCOMMAND::CHANGE</span> =&gt; <span class="ident"><span class="self">Self</span>::Change</span>(<span class="ident">Change::new</span>(<span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#423">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#68">as_audio_info</a>() })),
             <span class="ident">VBVMR_CBCOMMAND::BUFFER_IN</span> =&gt; {
-                <span class="ident"><span class="self">Self</span>::BufferIn</span>(<span class="ident">BufferIn::new</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#413">program</a>, <span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#415">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#79">as_audio_buffer</a>() }))
+                <span class="ident"><span class="self">Self</span>::BufferIn</span>(<span class="ident">BufferIn::new</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#421">program</a>, <span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#423">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#79">as_audio_buffer</a>() }))
             }
             <span class="ident">VBVMR_CBCOMMAND::BUFFER_OUT</span> =&gt; {
-                <span class="ident"><span class="self">Self</span>::BufferOut</span>(<span class="ident">BufferOut::new</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#413">program</a>, <span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#415">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#79">as_audio_buffer</a>() }))
+                <span class="ident"><span class="self">Self</span>::BufferOut</span>(<span class="ident">BufferOut::new</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#421">program</a>, <span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#423">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#79">as_audio_buffer</a>() }))
             }
             <span class="ident">VBVMR_CBCOMMAND::BUFFER_MAIN</span> =&gt; {
-                <span class="ident"><span class="self">Self</span>::BufferMain</span>(<span class="ident">BufferMain::new</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#413">program</a>, <span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#415">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#79">as_audio_buffer</a>() }))
+                <span class="ident"><span class="self">Self</span>::BufferMain</span>(<span class="ident">BufferMain::new</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#421">program</a>, <span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#423">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#79">as_audio_buffer</a>() }))
             }
-            <span class="ident">i</span> =&gt; <span class="ident"><span class="self">Self</span>::Other</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#432">i</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#415">ptr</a>),
+            <span class="ident">i</span> =&gt; <span class="ident"><span class="self">Self</span>::Other</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#440">i</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#423">ptr</a>),
         }
     }
 
     <span class="doccomment">/// Get the command &quot;name&quot;</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a><span class="op">&gt;</span> {
-        <span class="prelude-val">Some</span>(<span class="kw">match</span> <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#437">self</a> {
+        <span class="prelude-val">Some</span>(<span class="kw">match</span> <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#445">self</a> {
             <span class="ident"><span class="self">Self</span>::Starting</span>(<span class="kw">_</span>) =&gt; <span class="string">&quot;Starting&quot;</span>,
             <span class="ident"><span class="self">Self</span>::Ending</span>(<span class="kw">_</span>) =&gt; <span class="string">&quot;Ending&quot;</span>,
             <span class="ident"><span class="self">Self</span>::Change</span>(<span class="kw">_</span>) =&gt; <span class="string">&quot;Change&quot;</span>,

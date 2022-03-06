@@ -60,9 +60,9 @@
 <span id="55">55</span>
 <span id="56">56</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Start stop functions for voicemeeter audio callback</span>
-<span class="kw">use</span> <a class="ident" href="../../../../src/voicemeeter/interface.rs.html#19-22"><span class="kw">crate</span>::VoicemeeterRemote</a>;
+<span class="kw">use</span> <a class="ident" href="../../../../src/voicemeeter/interface.rs.html#20-23"><span class="kw">crate</span>::VoicemeeterRemote</a>;
 
-<span class="kw">impl</span> <a class="ident" href="../../../../src/voicemeeter/interface.rs.html#19-22">VoicemeeterRemote</a> {
+<span class="kw">impl</span> <a class="ident" href="../../../../src/voicemeeter/interface.rs.html#20-23">VoicemeeterRemote</a> {
     <span class="doccomment">/// Audio callback start.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">audio_callback_start</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <a class="ident" href="../../../../src/voicemeeter/interface/callback/start_stop.rs.html#30-41">AudioCallbackStartError</a><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="kw">unsafe</span> { <a class="self" href="../../../../src/voicemeeter/interface/callback/start_stop.rs.html#6">self</a>.<span class="ident">raw</span>.<a class="ident" href="../../../../src/voicemeeter/bindings.rs.html#1831">VBVMR_AudioCallbackStart</a>() };

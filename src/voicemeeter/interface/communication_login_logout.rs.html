@@ -106,9 +106,9 @@
 </pre><pre class="rust"><code><span class="doccomment">//! Communication with and to Voicemeeter</span>
 <span class="kw">use</span> <a class="ident" href="../../../src/voicemeeter/types.rs.html#61-72"><span class="kw">crate</span>::types::VoicemeeterApplication</a>;
 
-<span class="kw">use</span> <a class="ident" href="../../../src/voicemeeter/interface.rs.html#19-22"><span class="kw">super</span>::VoicemeeterRemote</a>;
+<span class="kw">use</span> <a class="ident" href="../../../src/voicemeeter/interface.rs.html#20-23"><span class="kw">super</span>::VoicemeeterRemote</a>;
 
-<span class="kw">impl</span> <a class="ident" href="../../../src/voicemeeter/interface.rs.html#19-22">VoicemeeterRemote</a> {
+<span class="kw">impl</span> <a class="ident" href="../../../src/voicemeeter/interface.rs.html#20-23">VoicemeeterRemote</a> {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">login</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><a class="ident" href="../../../src/voicemeeter/interface/communication_login_logout.rs.html#47-52">VoicemeeterStatus</a>, <a class="ident" href="../../../src/voicemeeter/interface/communication_login_logout.rs.html#56-63">LoginError</a><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="kw">unsafe</span> { <a class="self" href="../../../src/voicemeeter/interface/communication_login_logout.rs.html#7">self</a>.<span class="ident">raw</span>.<a class="ident" href="../../../src/voicemeeter/bindings.rs.html#1465">VBVMR_Login</a>() };
         <span class="kw">match</span> <a class="ident" href="../../../src/voicemeeter/interface/communication_login_logout.rs.html#8">res</a> {
