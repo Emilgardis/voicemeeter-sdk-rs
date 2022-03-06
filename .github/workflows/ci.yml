@@ -54,7 +54,7 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: 1.59
+          toolchain: nightly
           override: true
           components: rustfmt
       - name: Run fmt -- --check
