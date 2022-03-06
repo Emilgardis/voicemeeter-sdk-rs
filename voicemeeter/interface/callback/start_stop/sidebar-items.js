@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["AudioCallbackStartError",""],["AudioCallbackStopError",""]]});
+initSidebarItems({"enum":[["AudioCallbackStartError","Errors that can occur while registering the audio callback."],["AudioCallbackStopError","Errors that can occur while unregistering the audio callback."]]});

@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["IsParametersDirtyError",""],["SetParameterError",""],["SetParametersError",""]]});
+initSidebarItems({"enum":[["SetParameterError","Errors that can happen when setting a parameter."],["SetParametersError","Errors that can happen when setting parameters."]]});

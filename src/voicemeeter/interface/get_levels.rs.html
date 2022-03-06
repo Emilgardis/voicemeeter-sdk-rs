@@ -74,77 +74,109 @@
 <span id="69">69</span>
 <span id="70">70</span>
 <span id="71">71</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <a class="ident" href="https://doc.rust-lang.org/nightly/core/ptr/index.html">std::ptr</a>;
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Level and midi related functions</span>
+<span class="kw">use</span> <a class="ident" href="https://doc.rust-lang.org/nightly/core/ptr/index.html">std::ptr</a>;
 
-<span class="kw">use</span> <a class="ident" href="../../../src/voicemeeter/types.rs.html#91-97"><span class="kw">crate</span>::types::LevelType</a>;
+<span class="kw">pub</span> <span class="kw">use</span> <a class="ident" href="../../../src/voicemeeter/types.rs.html#101-112"><span class="kw">crate</span>::types::LevelType</a>;
 
-<span class="kw">use</span> <a class="ident" href="../../../src/voicemeeter/interface.rs.html#17-20"><span class="kw">super</span>::VoicemeeterRemote</a>;
+<span class="kw">use</span> <a class="ident" href="../../../src/voicemeeter/interface.rs.html#19-22"><span class="kw">super</span>::VoicemeeterRemote</a>;
 
-<span class="kw">impl</span> <a class="ident" href="../../../src/voicemeeter/interface.rs.html#17-20">VoicemeeterRemote</a> {
+<span class="kw">impl</span> <a class="ident" href="../../../src/voicemeeter/interface.rs.html#19-22">VoicemeeterRemote</a> {
     <span class="comment">// TODO: one thread only</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_level</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">level_type</span>: <a class="ident" href="../../../src/voicemeeter/types.rs.html#91-97">LevelType</a>, <span class="ident">channel</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>, <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#48-59">GetLevelError</a><span class="op">&gt;</span> {
+    <span class="comment">// FIXME: Use channel enum</span>
+    <span class="doccomment">/// Get the level of a channel</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_level</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">level_type</span>: <a class="ident" href="../../../src/voicemeeter/types.rs.html#101-112">LevelType</a>, <span class="ident">channel</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>, <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#54-70">GetLevelError</a><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">f</span> <span class="op">=</span> <span class="ident">std::f32::NAN</span>;
-        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="kw">unsafe</span> { <a class="self" href="../../../src/voicemeeter/interface/get_levels.rs.html#9">self</a>.<span class="ident">raw</span>.<a class="ident" href="../../../src/voicemeeter/bindings.rs.html#1635-1640">VBVMR_GetLevel</a>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#9">level_type</a> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>, <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#9">channel</a>, <span class="kw-2">&amp;mut</span> <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#10">f</a>) };
-        <span class="kw">match</span> <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#11">res</a> {
-            <span class="number">0</span> =&gt; <span class="prelude-val">Ok</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#10">f</a>),
-            <span class="op">-</span><span class="number">1</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#50">GetLevelError::CannotGetClient</a>),
-            <span class="op">-</span><span class="number">2</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#52">GetLevelError::NoServer</a>),
-            <span class="op">-</span><span class="number">3</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#54">GetLevelError::NoLevel</a>),
-            <span class="op">-</span><span class="number">4</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#56">GetLevelError::OutOfRange</a>),
-            <span class="ident">s</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#58">GetLevelError::Other</a>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#18">s</a>)),
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="kw">unsafe</span> { <a class="self" href="../../../src/voicemeeter/interface/get_levels.rs.html#12">self</a>.<span class="ident">raw</span>.<a class="ident" href="../../../src/voicemeeter/bindings.rs.html#1635-1640">VBVMR_GetLevel</a>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#12">level_type</a> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>, <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#12">channel</a>, <span class="kw-2">&amp;mut</span> <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#13">f</a>) };
+        <span class="kw">match</span> <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#14">res</a> {
+            <span class="number">0</span> =&gt; <span class="prelude-val">Ok</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#13">f</a>),
+            <span class="op">-</span><span class="number">1</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#57">GetLevelError::CannotGetClient</a>),
+            <span class="op">-</span><span class="number">2</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#60">GetLevelError::NoServer</a>),
+            <span class="op">-</span><span class="number">3</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#63">GetLevelError::NoLevel</a>),
+            <span class="op">-</span><span class="number">4</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#66">GetLevelError::OutOfRange</a>),
+            <span class="ident">s</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#69">GetLevelError::Other</a>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#21">s</a>)),
         }
     }
 
     <span class="comment">// TODO: one thread only</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_midi_message</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><span class="op">&gt;</span>, <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#62-71">GetMidiMessageError</a><span class="op">&gt;</span> {
+    <span class="doccomment">/// Get a midi message.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_midi_message</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a><span class="op">&gt;</span>, <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#74-87">GetMidiMessageError</a><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">v</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="number">0</span>; <span class="number">1024</span>];
-        <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <a class="self" href="../../../src/voicemeeter/interface/get_levels.rs.html#23">self</a>.<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#32">get_midi_message_buff</a>(<span class="kw-2">&amp;mut</span> <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#24">v</a>)<span class="question-mark">?</span>;
-        <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#24">v</a>.<span class="ident">truncate</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#25">len</a>);
-        <span class="prelude-val">Ok</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#24">v</a>)
+        <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <a class="self" href="../../../src/voicemeeter/interface/get_levels.rs.html#27">self</a>.<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#37">get_midi_message_buff</a>(<span class="kw-2">&amp;mut</span> <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#28">v</a>)<span class="question-mark">?</span>;
+        <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#28">v</a>.<span class="ident">truncate</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#29">len</a>);
+        <span class="prelude-val">Ok</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#28">v</a>)
     }
 
     <span class="comment">// TODO: one thread only</span>
+    <span class="doccomment">/// Get a midi message with a set buffer.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_midi_message_buff</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">buffer</span>: <span class="kw-2">&amp;mut</span> [<a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>]) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#62-71">GetMidiMessageError</a><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_midi_message_buff</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">buffer</span>: <span class="kw-2">&amp;mut</span> [<a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>]) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#74-87">GetMidiMessageError</a><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="kw">unsafe</span> {
-            <a class="self" href="../../../src/voicemeeter/interface/get_levels.rs.html#32">self</a>.<span class="ident">raw</span>
-                .<a class="ident" href="../../../src/voicemeeter/bindings.rs.html#1657-1661">VBVMR_GetMidiMessage</a>(<span class="macro">ptr::addr_of_mut!</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#32">buffer</a>[<span class="number">0</span>]), <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#32">buffer</a>.<span class="ident">len</span>() <span class="kw">as</span> <span class="kw">_</span>)
+            <a class="self" href="../../../src/voicemeeter/interface/get_levels.rs.html#37">self</a>.<span class="ident">raw</span>
+                .<a class="ident" href="../../../src/voicemeeter/bindings.rs.html#1657-1661">VBVMR_GetMidiMessage</a>(<span class="macro">ptr::addr_of_mut!</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#37">buffer</a>[<span class="number">0</span>]), <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#37">buffer</a>.<span class="ident">len</span>() <span class="kw">as</span> <span class="kw">_</span>)
         };
-        <span class="kw">match</span> <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#33">res</a> {
-            <span class="ident">res</span> <span class="kw">if</span> <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#38">res</a> <span class="op">&gt;</span><span class="op">=</span> <span class="number">0</span> =&gt; <span class="prelude-val">Ok</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#38">res</a> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>),
-            <span class="op">-</span><span class="number">1</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#64">GetMidiMessageError::CannotGetClient</a>),
-            <span class="op">-</span><span class="number">2</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#66">GetMidiMessageError::NoServer</a>),
-            <span class="ident">v</span> @ <span class="op">-</span><span class="number">5</span> <span class="op">|</span> <span class="ident">v</span> @ <span class="op">-</span><span class="number">6</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#68">GetMidiMessageError::NoMidiData</a>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#41">v</a>)),
-            <span class="ident">s</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#70">GetMidiMessageError::Other</a>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#42">s</a>)),
+        <span class="kw">match</span> <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#38">res</a> {
+            <span class="ident">res</span> <span class="kw">if</span> <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#43">res</a> <span class="op">&gt;</span><span class="op">=</span> <span class="number">0</span> =&gt; <span class="prelude-val">Ok</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#43">res</a> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>),
+            <span class="op">-</span><span class="number">1</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#77">GetMidiMessageError::CannotGetClient</a>),
+            <span class="op">-</span><span class="number">2</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#80">GetMidiMessageError::NoServer</a>),
+            <span class="ident">v</span> @ <span class="op">-</span><span class="number">5</span> <span class="op">|</span> <span class="ident">v</span> @ <span class="op">-</span><span class="number">6</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#83">GetMidiMessageError::NoMidiData</a>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#46">v</a>)),
+            <span class="ident">s</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#86">GetMidiMessageError::Other</a>(<a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#47">s</a>)),
         }
     }
 }
 
+<span class="doccomment">/// Errors that can happen when querying levels from Voicemeeter.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">thiserror::Error</span>, <span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#48-59">GetLevelError</a> {
+<span class="kw">pub</span> <span class="kw">enum</span> <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#54-70">GetLevelError</a> {
+    <span class="doccomment">/// Cannot get client.</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;cannot get client (unexpected)&quot;</span>)]</span>
     <span class="ident">CannotGetClient</span>,
+    <span class="doccomment">/// No server found.</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;no server&quot;</span>)]</span>
     <span class="ident">NoServer</span>,
+    <span class="doccomment">/// No level found.</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;no level available&quot;</span>)]</span>
     <span class="ident">NoLevel</span>,
+    <span class="doccomment">/// Level is out of range.</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;out of range&quot;</span>)]</span>
     <span class="ident">OutOfRange</span>,
+    <span class="doccomment">/// An unexpected error code occured.</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;unexpected error occurred: error code {0}&quot;</span>)]</span>
     <span class="ident">Other</span>(<a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>),
 }
 
+<span class="doccomment">/// Errors that can happen when querying midi messages from Voicemeeter.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">thiserror::Error</span>, <span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#62-71">GetMidiMessageError</a> {
+<span class="kw">pub</span> <span class="kw">enum</span> <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#74-87">GetMidiMessageError</a> {
+    <span class="doccomment">/// Cannot get client.</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;cannot get client (unexpected)&quot;</span>)]</span>
     <span class="ident">CannotGetClient</span>,
+    <span class="doccomment">/// No server found.</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;no server&quot;</span>)]</span>
     <span class="ident">NoServer</span>,
+    <span class="doccomment">/// No midi data found.</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;no level available&quot;</span>)]</span>
     <span class="ident">NoMidiData</span>(<a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>),
+    <span class="doccomment">/// An unexpected error code occured.</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;unexpected error occurred: error code {0}&quot;</span>)]</span>
     <span class="ident">Other</span>(<a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>),
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="voicemeeter" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0-nightly (8769f4ef2 2022-03-02)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="voicemeeter" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0-nightly (c274e4969 2022-03-05)" ></div>
 </body></html>

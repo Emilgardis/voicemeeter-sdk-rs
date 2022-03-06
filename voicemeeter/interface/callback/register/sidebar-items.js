@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["AudioCallbackRegisterError",""],["AudioCallbackUnregisterError",""]],"struct":[["CallbackGuard",""]]});
+initSidebarItems({"enum":[["AudioCallbackRegisterError","Errors that can occur while registering an audio callback."],["AudioCallbackUnregisterError","Errors that can occur while unregistering the audio callback."]],"struct":[["CallbackGuard","Guard type for the callback. If this is dropped the callback data will be leaked."]]});

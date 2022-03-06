@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["GetMacroButtonStatusError",""],["IsMacroButtonDirtyError",""],["SetMacroButtonStatusError",""]],"struct":[["Status",""]]});
+initSidebarItems({"enum":[["GetMacroButtonStatusError","Errors that can happen when getting macrobutton status."],["IsMacroButtonDirtyError","Errors that can happen when querying macro button “dirty” flag."],["SetMacroButtonStatusError","Errors that can happen when setting macrobutton status."]],"struct":[["MacroButtonStatus","Status of a macro button."]]});

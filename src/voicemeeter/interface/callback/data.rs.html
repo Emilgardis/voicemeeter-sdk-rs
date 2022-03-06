@@ -65,68 +65,108 @@
 <span id="60">60</span>
 <span id="61">61</span>
 <span id="62">62</span>
-</pre><pre class="rust"><code><span class="kw">pub</span> <span class="kw">type</span> <span class="ident">AudioInfo</span> <span class="op">=</span> <a class="ident" href="../../../../src/voicemeeter/bindings.rs.html#75"><span class="kw">crate</span>::bindings::VBVMR_T_AUDIOINFO</a>;
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Underlying data types for callbacks</span>
+
+<span class="kw">use</span> <a class="ident" href="https://doc.rust-lang.org/nightly/core/ptr/non_null/struct.NonNull.html">std::ptr::NonNull</a>;
+
+<span class="doccomment">/// Audio information</span>
+<span class="kw">pub</span> <span class="kw">type</span> <span class="ident">AudioInfo</span> <span class="op">=</span> <a class="ident" href="../../../../src/voicemeeter/bindings.rs.html#75"><span class="kw">crate</span>::bindings::VBVMR_T_AUDIOINFO</a>;
+<span class="doccomment">/// Audio buffers</span>
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">AudioBuffer</span> <span class="op">=</span> <a class="ident" href="../../../../src/voicemeeter/bindings.rs.html#177"><span class="kw">crate</span>::bindings::VBVMR_T_AUDIOBUFFER</a>;
 
-<span class="kw">impl</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#2">AudioBuffer</a> {
+<span class="kw">impl</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#8">AudioBuffer</a> {
     <span class="comment">//#[tracing::instrument(level = &quot;debug&quot;, skip(self))]</span>
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">read_write_buffer</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (<span class="kw-2">&amp;</span>[<span class="kw-2">*mut</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>], <span class="kw-2">&amp;</span>[<span class="kw-2">*mut</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]) {
-        <span class="kw">let</span> <span class="ident">first_ptr_r</span> <span class="op">=</span> <a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#6">self</a>.<span class="ident">audiobuffer_r</span>[<span class="number">0</span>];
-        <span class="kw">let</span> <span class="ident">first_ptr_w</span> <span class="op">=</span> <a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#6">self</a>.<span class="ident">audiobuffer_w</span>[<span class="number">0</span>];
-        <span class="kw">for</span> (<span class="ident">idx</span>, <span class="ident">ptr</span>) <span class="kw">in</span> <a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#6">self</a>
+        <span class="kw">let</span> <span class="ident">first_ptr_r</span> <span class="op">=</span> <a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#12">self</a>.<span class="ident">audiobuffer_r</span>[<span class="number">0</span>];
+        <span class="kw">let</span> <span class="ident">first_ptr_w</span> <span class="op">=</span> <a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#12">self</a>.<span class="ident">audiobuffer_w</span>[<span class="number">0</span>];
+        <span class="kw">for</span> (<span class="ident">idx</span>, <span class="ident">ptr</span>) <span class="kw">in</span> <a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#12">self</a>
             .<span class="ident">audiobuffer_r</span>
             .<span class="ident">iter</span>()
             .<a class="ident" href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">enumerate</a>()
-            .<a class="ident" href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">take</a>(<a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#6">self</a>.<span class="ident">audiobuffer_nbi</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>)
+            .<a class="ident" href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">take</a>(<a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#12">self</a>.<span class="ident">audiobuffer_nbi</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>)
         {
-            <span class="macro">debug_assert!</span>(<span class="op">!</span><a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#9">ptr</a>.<span class="ident">is_null</span>(), <span class="string">&quot;ptr: {:?} was null at idx: {}&quot;</span>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#9">ptr</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#9">idx</a>);
+            <span class="macro">debug_assert!</span>(<span class="op">!</span><a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#15">ptr</a>.<span class="ident">is_null</span>(), <span class="string">&quot;ptr: {:?} was null at idx: {}&quot;</span>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#15">ptr</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#15">idx</a>);
         }
-        <span class="kw">for</span> (<span class="ident">idx</span>, <span class="ident">ptr</span>) <span class="kw">in</span> <a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#6">self</a>
+        <span class="kw">for</span> (<span class="ident">idx</span>, <span class="ident">ptr</span>) <span class="kw">in</span> <a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#12">self</a>
             .<span class="ident">audiobuffer_w</span>
             .<span class="ident">iter</span>()
             .<a class="ident" href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">enumerate</a>()
-            .<a class="ident" href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">take</a>(<a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#6">self</a>.<span class="ident">audiobuffer_nbo</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>)
+            .<a class="ident" href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">take</a>(<a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#12">self</a>.<span class="ident">audiobuffer_nbo</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>)
         {
-            <span class="macro">debug_assert!</span>(<span class="op">!</span><a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#17">ptr</a>.<span class="ident">is_null</span>(), <span class="string">&quot;ptr: {:?} was null at idx: {}&quot;</span>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#17">ptr</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#17">idx</a>);
+            <span class="macro">debug_assert!</span>(<span class="op">!</span><a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#23">ptr</a>.<span class="ident">is_null</span>(), <span class="string">&quot;ptr: {:?} was null at idx: {}&quot;</span>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#23">ptr</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#23">idx</a>);
         }
         <span class="comment">//tracing::trace!(&quot;read_write_buffer: {:?}&quot;, self);</span>
 
         <span class="kw">let</span> <span class="ident">k</span> <span class="op">=</span> (
-            <span class="kw-2">&amp;</span><a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#6">self</a>.<span class="ident">audiobuffer_r</span>[..<a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#6">self</a>.<span class="ident">audiobuffer_nbi</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>],
-            <span class="kw-2">&amp;</span><a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#6">self</a>.<span class="ident">audiobuffer_w</span>[..<a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#6">self</a>.<span class="ident">audiobuffer_nbo</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>],
+            <span class="kw-2">&amp;</span><a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#12">self</a>.<span class="ident">audiobuffer_r</span>[..<a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#12">self</a>.<span class="ident">audiobuffer_nbi</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>],
+            <span class="kw-2">&amp;</span><a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#12">self</a>.<span class="ident">audiobuffer_w</span>[..<a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#12">self</a>.<span class="ident">audiobuffer_nbo</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>],
         );
         <span class="comment">// sanity check</span>
-        <span class="macro">debug_assert_eq!</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#7">first_ptr_r</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#27">k</a>.<span class="number">0</span>[<span class="number">0</span>]);
-        <span class="macro">debug_assert_eq!</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#8">first_ptr_w</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#27">k</a>.<span class="number">1</span>[<span class="number">0</span>]);
-        <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#27">k</a>
+        <span class="macro">debug_assert_eq!</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#13">first_ptr_r</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#33">k</a>.<span class="number">0</span>[<span class="number">0</span>]);
+        <span class="macro">debug_assert_eq!</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#14">first_ptr_w</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#33">k</a>.<span class="number">1</span>[<span class="number">0</span>]);
+        <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#33">k</a>
     }
 }
 
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">transparent</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RawCallbackData</span>(<span class="ident">std::ptr::NonNull</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/core/ffi/enum.c_void.html">std::ffi::c_void</a><span class="op">&gt;</span>);
+<span class="doccomment">/// Raw callback data</span>
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">RawCallbackData</span>(<span class="ident">NonNull</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/core/ffi/enum.c_void.html">std::ffi::c_void</a><span class="op">&gt;</span>);
 
-<span class="kw">impl</span> <a class="ident" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html">std::fmt::Debug</a> <span class="kw">for</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#39">RawCallbackData</a> {
+<span class="kw">impl</span> <a class="ident" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html">std::fmt::Debug</a> <span class="kw">for</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#46">RawCallbackData</a> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">std::fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <a class="ident" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html">std::fmt::Result</a> {
-        <span class="macro">write!</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#42">f</a>, <span class="string">&quot;{:p}&quot;</span>, <a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#42">self</a>.<span class="number">0</span>)
+        <span class="macro">write!</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#49">f</a>, <span class="string">&quot;{:p}&quot;</span>, <a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#49">self</a>.<span class="number">0</span>)
     }
 }
 <span class="comment">// All of these tracing::instrument need to be skipped or we crash.</span>
-<span class="kw">impl</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#39">RawCallbackData</a> {
-    <span class="comment">//#[tracing::instrument(level = &quot;trace&quot;, skip_all,name = &quot;RawCallbackData::from_ptr&quot;)]</span>
+<span class="kw">impl</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#46">RawCallbackData</a> {
+    <span class="comment">//#[tracing::instrument(level = &quot;trace&quot;, skip_all,name = &quot;RawCallbackData::from_ptr&quot;)]&#39;</span>
+    <span class="doccomment">/// Create a new `RawCallbackData` from a raw pointer.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_ptr</span>(<span class="ident">ptr</span>: <span class="kw-2">*mut</span> <a class="ident" href="https://doc.rust-lang.org/nightly/core/ffi/enum.c_void.html">std::ffi::c_void</a>) -&gt; <span class="self">Self</span> {
-        <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#39">RawCallbackData</a>(<span class="ident">std::ptr::NonNull::new</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#49">ptr</a>).<span class="ident">unwrap</span>())
+        <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#46">RawCallbackData</a>(<span class="ident">NonNull::new</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#57">ptr</a>).<span class="ident">unwrap</span>())
     }
     <span class="comment">// TODO: Safety</span>
     <span class="comment">//#[tracing::instrument(level = &quot;trace&quot;, skip_all,name = &quot;RawCallbackData::as_audio_info&quot;)]</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">as_audio_info</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#1">AudioInfo</a> {
-        <span class="kw">unsafe</span> { <a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#54">self</a>.<span class="number">0</span>.<span class="ident">cast</span>().<span class="ident">as_mut</span>() }
+    <span class="doccomment">/// Get the audio information from the raw callback data.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Safety</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// 1. This should not be called without ensuring that the pointer is in &quot;scope&quot; and that it is an [`AudioInfo`]</span>
+    <span class="doccomment">/// 2. All other conditions of [NonNull::as_ref] has to be met as well</span>
+    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">as_audio_info</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#6">AudioInfo</a> {
+        <span class="kw">unsafe</span> { <a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#68">self</a>.<span class="number">0</span>.<span class="ident">cast</span>().<span class="ident">as_ref</span>() }
     }
     <span class="comment">// TODO: Safety</span>
     <span class="comment">//#[tracing::instrument(level = &quot;trace&quot;, skip_all,name = &quot;RawCallbackData::as_audio_buffer&quot;)]</span>
-    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">as_audio_buffer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#2">AudioBuffer</a> {
-        <span class="kw">unsafe</span> { <a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#59">self</a>.<span class="number">0</span>.<span class="ident">cast</span>().<span class="ident">as_mut</span>() }
+    <span class="doccomment">/// Get the audio information from the raw callback data.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Safety</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// 1. This should not be called without ensuring that the pointer is in &quot;scope&quot; and that it is an [`AudioBuffer`]</span>
+    <span class="doccomment">/// 2. All other conditions of [NonNull::as_ref] has to be met as well</span>
+    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">as_audio_buffer</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#8">AudioBuffer</a> {
+        <span class="kw">unsafe</span> { <a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#79">self</a>.<span class="number">0</span>.<span class="ident">cast</span>().<span class="ident">as_ref</span>() }
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="voicemeeter" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0-nightly (8769f4ef2 2022-03-02)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="voicemeeter" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0-nightly (c274e4969 2022-03-05)" ></div>
 </body></html>

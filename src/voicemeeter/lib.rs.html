@@ -132,27 +132,75 @@
 <span id="127">127</span>
 <span id="128">128</span>
 <span id="129">129</span>
-</pre><pre class="rust"><code><span class="attribute">#![<span class="ident">deny</span>(<span class="ident">unsafe_op_in_unsafe_fn</span>)]</span>
-<span class="doccomment">///! Voicemeeter sdk</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
+<span id="144">144</span>
+<span id="145">145</span>
+<span id="146">146</span>
+<span id="147">147</span>
+<span id="148">148</span>
+<span id="149">149</span>
+<span id="150">150</span>
+<span id="151">151</span>
+<span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
+<span id="159">159</span>
+</pre><pre class="rust"><code><span class="attribute">#![<span class="ident">warn</span>(<span class="ident">missing_docs</span>)]</span>
+<span class="attribute">#![<span class="ident">deny</span>(<span class="ident">unsafe_op_in_unsafe_fn</span>)]</span>
+<span class="attribute">#![<span class="ident">deny</span>(<span class="ident">rustdoc::broken_intra_doc_links</span>)]</span>
+<span class="doccomment">//! Voicemeeter sdk</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Create a new instance of the Voicemeeter SDK. The instance is automatically logged in.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ```rust,no_run</span>
+<span class="doccomment">//! use voicemeeter::VoicemeeterRemote;</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! let remote = VoicemeeterRemote::new()?;</span>
+<span class="doccomment">//! println!(&quot;{}&quot;, remote.get_voicemeeter_version()?);</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())</span>
+<span class="doccomment">//! ```</span>
+
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_docs</span>)]</span>
+<span class="doccomment">/// Raw FFI Bindings</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">rustdoc::broken_intra_doc_links</span>)]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <a class="ident" href="../../src/voicemeeter/bindings.rs.html#3-1891">bindings</a>;
-<span class="kw">pub</span> <span class="kw">mod</span> <a class="ident" href="../../src/voicemeeter/interface.rs.html#1-61">interface</a>;
-<span class="kw">pub</span> <span class="kw">mod</span> <a class="ident" href="../../src/voicemeeter/types.rs.html#1-227">types</a>;
+<span class="kw">pub</span> <span class="kw">mod</span> <a class="ident" href="../../src/voicemeeter/interface.rs.html#1-67">interface</a>;
+<span class="kw">pub</span> <span class="kw">mod</span> <a class="ident" href="../../src/voicemeeter/types.rs.html#1-264">types</a>;
 
 <span class="kw">use</span> <span class="ident">std::ffi</span>::{<a class="ident" href="https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsStr.html">OsStr</a>, <a class="ident" href="https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsString.html">OsString</a>};
 
 <span class="kw">use</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/io/index.html">std::io</a>;
 <span class="kw">use</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/path/struct.Path.html">std::path::Path</a>;
 
+<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="kw">pub</span> <span class="kw">static</span> <span class="ident">VOICEMEETER_REMOTE</span>: <span class="ident">once_cell::sync::OnceCell</span><span class="op">&lt;</span><a class="ident" href="../../src/voicemeeter/bindings.rs.html#1245-1340">VoicemeeterRemoteRaw</a><span class="op">&gt;</span> <span class="op">=</span>
     <span class="ident">once_cell::sync::OnceCell::new</span>();
 
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">inline</span>, <span class="ident">hidden</span>)]</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">bindings</span>::{<a class="ident" href="../../src/voicemeeter/bindings.rs.html#1245-1340">VoicemeeterRemoteRaw</a>, <a class="ident" href="../../src/voicemeeter/bindings.rs.html#260">VBVMR_AUDIOCALLBACK</a> <span class="kw">as</span> <span class="ident">AudioCallbackMode</span>};
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">inline</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <a class="ident" href="../../src/voicemeeter/interface.rs.html#17-20">interface::VoicemeeterRemote</a>;
+<span class="kw">pub</span> <span class="kw">use</span> <a class="ident" href="../../src/voicemeeter/interface.rs.html#19-22">interface::VoicemeeterRemote</a>;
 
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">inline</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <a class="ident" href="../../src/voicemeeter/interface/callback/commands.rs.html#348-356">interface::callback::commands::CallbackCommand</a>;
+<span class="kw">pub</span> <span class="kw">use</span> <a class="ident" href="../../src/voicemeeter/interface/callback/commands.rs.html#392-407">interface::callback::commands::CallbackCommand</a>;
 
 <span class="kw">use</span> <span class="ident">winreg::enums</span>::{<span class="ident">KEY_READ</span>, <span class="ident">KEY_WOW64_32KEY</span>};
 
@@ -162,12 +210,12 @@
 
 <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
 <span class="doccomment">/// Get a reference to voicemeeter remote</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_voicemeeter_raw</span>() -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <a class="ident" href="../../src/voicemeeter/bindings.rs.html#1245-1340">VoicemeeterRemoteRaw</a>, <a class="ident" href="../../src/voicemeeter/lib.rs.html#53-60">LoadError</a><span class="op">&gt;</span> {
-    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">remote</span>) <span class="op">=</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#12-13">VOICEMEETER_REMOTE</a>.<span class="ident">get</span>() {
-        <span class="prelude-val">Ok</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#32">remote</a>)
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_voicemeeter_raw</span>() -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <a class="ident" href="../../src/voicemeeter/bindings.rs.html#1245-1340">VoicemeeterRemoteRaw</a>, <a class="ident" href="../../src/voicemeeter/lib.rs.html#72-82">LoadError</a><span class="op">&gt;</span> {
+    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">remote</span>) <span class="op">=</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#30-31">VOICEMEETER_REMOTE</a>.<span class="ident">get</span>() {
+        <span class="prelude-val">Ok</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#50">remote</a>)
     } <span class="kw">else</span> {
-        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#64">find_voicemeeter_remote_with_registry</a>()<span class="question-mark">?</span>;
-        <a class="ident" href="../../src/voicemeeter/lib.rs.html#43">load_voicemeeter_from_path</a>(<span class="kw-2">&amp;</span><a class="ident" href="../../src/voicemeeter/lib.rs.html#35">path</a>)
+        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#86">find_voicemeeter_remote_with_registry</a>()<span class="question-mark">?</span>;
+        <a class="ident" href="../../src/voicemeeter/lib.rs.html#61">load_voicemeeter_from_path</a>(<span class="kw-2">&amp;</span><a class="ident" href="../../src/voicemeeter/lib.rs.html#53">path</a>)
     }
 }
 
@@ -175,53 +223,57 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// Errors if it&#39;s already loaded</span>
 <span class="attribute">#[<span class="ident">tracing::instrument</span>]</span>
-<span class="kw">fn</span> <span class="ident">load_voicemeeter_from_path</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#44">path</a>: <span class="kw-2">&amp;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsStr.html">OsStr</a>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <a class="ident" href="../../src/voicemeeter/bindings.rs.html#1245-1340">VoicemeeterRemoteRaw</a>, <a class="ident" href="../../src/voicemeeter/lib.rs.html#53-60">LoadError</a><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">load_voicemeeter_from_path</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#62">path</a>: <span class="kw-2">&amp;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsStr.html">OsStr</a>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <a class="ident" href="../../src/voicemeeter/bindings.rs.html#1245-1340">VoicemeeterRemoteRaw</a>, <a class="ident" href="../../src/voicemeeter/lib.rs.html#72-82">LoadError</a><span class="op">&gt;</span> {
     <span class="macro">tracing::debug!</span>(<span class="string">&quot;loading voicemeeter&quot;</span>);
-    <a class="ident" href="../../src/voicemeeter/lib.rs.html#12-13">VOICEMEETER_REMOTE</a>
-        .<span class="ident">set</span>(<span class="kw">unsafe</span> { <span class="ident">VoicemeeterRemoteRaw::new</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#44">path</a>)<span class="question-mark">?</span> })
-        .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#55">LoadError::AlreadyLoaded</a>)<span class="question-mark">?</span>;
-    <span class="kw">unsafe</span> { <span class="prelude-val">Ok</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#12-13">VOICEMEETER_REMOTE</a>.<span class="ident">get_unchecked</span>()) }
+    <a class="ident" href="../../src/voicemeeter/lib.rs.html#30-31">VOICEMEETER_REMOTE</a>
+        .<span class="ident">set</span>(<span class="kw">unsafe</span> { <span class="ident">VoicemeeterRemoteRaw::new</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#62">path</a>)<span class="question-mark">?</span> })
+        .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#75">LoadError::AlreadyLoaded</a>)<span class="question-mark">?</span>;
+    <span class="kw">unsafe</span> { <span class="prelude-val">Ok</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#30-31">VOICEMEETER_REMOTE</a>.<span class="ident">get_unchecked</span>()) }
 }
 
+<span class="doccomment">/// Load error while loading the Voicemeeter remote DLL</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">thiserror::Error</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#53-60">LoadError</a> {
+<span class="kw">pub</span> <span class="kw">enum</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#72-82">LoadError</a> {
+    <span class="doccomment">/// Remote is already loaded. Not a hard error.</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;library is already loaded&quot;</span>)]</span>
     <span class="ident">AlreadyLoaded</span>,
+    <span class="doccomment">/// Error while loading the DLL.</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;library could not be loaded&quot;</span>)]</span>
     <span class="ident">LoadingError</span>(<span class="attribute">#[<span class="ident">from</span>]</span> <a class="ident" href="https://docs.rs/libloading/0.7.3/libloading/error/enum.Error.html">libloading::Error</a>),
+    <span class="doccomment">/// Could not locate the dll</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;library could not be located&quot;</span>)]</span>
-    <span class="ident">RemoteFileError</span>(<span class="attribute">#[<span class="ident">from</span>]</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#102-108">RemoteFileError</a>),
+    <span class="ident">RemoteFileError</span>(<span class="attribute">#[<span class="ident">from</span>]</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#125-133">RemoteFileError</a>),
 }
 
 <span class="doccomment">/// Get VoiceMeeterRemote via registry key</span>
 <span class="attribute">#[<span class="ident">tracing::instrument</span>]</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">find_voicemeeter_remote_with_registry</span>() -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsString.html">OsString</a>, <a class="ident" href="../../src/voicemeeter/lib.rs.html#102-108">RemoteFileError</a><span class="op">&gt;</span> {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">find_voicemeeter_remote_with_registry</span>() -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsString.html">OsString</a>, <a class="ident" href="../../src/voicemeeter/lib.rs.html#125-133">RemoteFileError</a><span class="op">&gt;</span> {
     <span class="macro">tracing::debug!</span>(<span class="string">&quot;finding voicemeeter dll&quot;</span>);
     <span class="kw">let</span> <span class="ident">hklm</span> <span class="op">=</span> <span class="ident">winreg::RegKey::predef</span>(<span class="ident">winreg::enums::HKEY_LOCAL_MACHINE</span>);
-    <span class="kw">let</span> <span class="ident">voicemeeter_uninst</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">reg</span>) <span class="op">=</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#66">hklm</a>
-        .<span class="ident">open_subkey</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#26">UNINSTALLER_DIR</a>)
-        .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#69">s</a>.<span class="ident">open_subkey</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#25">INSTALLER_UNINST_KEY</a>))
+    <span class="kw">let</span> <span class="ident">voicemeeter_uninst</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">reg</span>) <span class="op">=</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#88">hklm</a>
+        .<span class="ident">open_subkey</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#44">UNINSTALLER_DIR</a>)
+        .<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#91">s</a>.<span class="ident">open_subkey</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#43">INSTALLER_UNINST_KEY</a>))
     {
         <span class="comment">// TODO: This will almost always fail, esp. on 64bit systems.</span>
-        <a class="ident" href="../../src/voicemeeter/lib.rs.html#67">reg</a>
+        <a class="ident" href="../../src/voicemeeter/lib.rs.html#89">reg</a>
     } <span class="kw">else</span> {
-        <a class="ident" href="../../src/voicemeeter/lib.rs.html#66">hklm</a>.<span class="ident">open_subkey_with_flags</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#26">UNINSTALLER_DIR</a>, <span class="ident">KEY_READ</span> <span class="op">|</span> <span class="ident">KEY_WOW64_32KEY</span>)
-            .<span class="ident">map_err</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#113">RegistryError::CouldNotFindUninstallReg</a>)<span class="question-mark">?</span>
-            .<span class="ident">open_subkey</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#25">INSTALLER_UNINST_KEY</a>)
-            .<span class="ident">map_err</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#115">RegistryError::CouldNotFindVM</a>)<span class="question-mark">?</span>
+        <a class="ident" href="../../src/voicemeeter/lib.rs.html#88">hklm</a>.<span class="ident">open_subkey_with_flags</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#44">UNINSTALLER_DIR</a>, <span class="ident">KEY_READ</span> <span class="op">|</span> <span class="ident">KEY_WOW64_32KEY</span>)
+            .<span class="ident">map_err</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#140">RegistryError::CouldNotFindUninstallReg</a>)<span class="question-mark">?</span>
+            .<span class="ident">open_subkey</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#43">INSTALLER_UNINST_KEY</a>)
+            .<span class="ident">map_err</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#143">RegistryError::CouldNotFindVM</a>)<span class="question-mark">?</span>
     };
-    <span class="kw">let</span> <span class="ident">path</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html">String</a> <span class="op">=</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#67">voicemeeter_uninst</a>
+    <span class="kw">let</span> <span class="ident">path</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html">String</a> <span class="op">=</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#89">voicemeeter_uninst</a>
         .<span class="ident">get_value</span>(<span class="string">&quot;UninstallString&quot;</span>)
-        .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#117">RegistryError::CouldNotFindUninstallString</a>)<span class="question-mark">?</span>;
-    <span class="kw">let</span> <span class="ident">remote</span> <span class="op">=</span> <span class="ident">Path::new</span>(<span class="kw-2">&amp;</span><a class="ident" href="../../src/voicemeeter/lib.rs.html#79">path</a>)
+        .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#146">RegistryError::CouldNotFindUninstallString</a>)<span class="question-mark">?</span>;
+    <span class="kw">let</span> <span class="ident">remote</span> <span class="op">=</span> <span class="ident">Path::new</span>(<span class="kw-2">&amp;</span><a class="ident" href="../../src/voicemeeter/lib.rs.html#101">path</a>)
         .<span class="ident">parent</span>()
-        .<span class="ident">ok_or</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#119">RegistryError::UninstallStringInvalid</a>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#79">path</a>.<a class="ident" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html">clone</a>()))
-        .<span class="ident">map</span>(<span class="op">|</span><span class="ident">p</span><span class="op">|</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#85">p</a>.<span class="ident">join</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#27">LIBRARY_NAME_64</a>))<span class="question-mark">?</span>;
+        .<span class="ident">ok_or</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#149">RegistryError::UninstallStringInvalid</a>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#101">path</a>.<a class="ident" href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html">clone</a>()))
+        .<span class="ident">map</span>(<span class="op">|</span><span class="ident">p</span><span class="op">|</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#107">p</a>.<span class="ident">join</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#45">LIBRARY_NAME_64</a>))<span class="question-mark">?</span>;
 
-    <span class="kw">if</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#82">remote</a>.<span class="ident">exists</span>() {
-        <span class="prelude-val">Ok</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#82">remote</a>.<span class="ident">into_os_string</span>())
+    <span class="kw">if</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#104">remote</a>.<span class="ident">exists</span>() {
+        <span class="prelude-val">Ok</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#104">remote</a>.<span class="ident">into_os_string</span>())
     } <span class="kw">else</span> {
-        <span class="prelude-val">Err</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#105">RemoteFileError::NotFound</a>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#82">remote</a>.<span class="ident">display</span>().<a class="ident" href="https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html">to_string</a>()))
+        <span class="prelude-val">Err</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#129">RemoteFileError::NotFound</a>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#104">remote</a>.<span class="ident">display</span>().<a class="ident" href="https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html">to_string</a>()))
     }
 }
 
@@ -232,35 +284,43 @@
     <span class="prelude-val">Ok</span>(())
 }
 
+<span class="doccomment">/// Error while trying to get Voicemeeter location</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">thiserror::Error</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#102-108">RemoteFileError</a> {
+<span class="kw">pub</span> <span class="kw">enum</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#125-133">RemoteFileError</a> {
+    <span class="doccomment">/// Voicemeeter dll not found at path</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;could not find voicemeeter folder: {}&quot;</span>, <span class="number">0</span>)]</span>
     <span class="comment">// TODO: OsString?</span>
     <span class="ident">NotFound</span>(<a class="ident" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html">String</a>),
-    <span class="attribute">#[<span class="ident">error</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#106">transparent</a>)]</span>
-    <span class="ident">RegistryError</span>(<span class="attribute">#[<span class="ident">from</span>]</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#111-120">RegistryError</a>),
+    <span class="doccomment">/// Registry error</span>
+    <span class="attribute">#[<span class="ident">error</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#131">transparent</a>)]</span>
+    <span class="ident">RegistryError</span>(<span class="attribute">#[<span class="ident">from</span>]</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#137-150">RegistryError</a>),
 }
 
+<span class="doccomment">/// Registry errors</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">thiserror::Error</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#111-120">RegistryError</a> {
+<span class="kw">pub</span> <span class="kw">enum</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#137-150">RegistryError</a> {
+    <span class="doccomment">/// Could not find the uninstall folder in HKLM for 32-bit apps</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;could not find uninstall folder in hklm&quot;</span>)]</span>
     <span class="ident">CouldNotFindUninstallReg</span>(<span class="attribute">#[<span class="ident">source</span>]</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/io/error/struct.Error.html">io::Error</a>),
+    <span class="doccomment">/// Could not find voicemeeter in uninstall registry</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;could not find voicemeeter in registry. Is Voicemeeter installed?&quot;</span>)]</span>
     <span class="ident">CouldNotFindVM</span>(<span class="attribute">#[<span class="ident">source</span>]</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/io/error/struct.Error.html">io::Error</a>),
+    <span class="doccomment">/// Could not find voicemeeter uninstall string in registry</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;could not find voicemeeter uninstall string&quot;</span>)]</span>
     <span class="ident">CouldNotFindUninstallString</span>,
+    <span class="doccomment">/// Given uninstall exe is not a valid path</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;given uninstall exe is not a valid path: {:?}&quot;</span>, <span class="number">0</span>)]</span>
     <span class="ident">UninstallStringInvalid</span>(<a class="ident" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html">String</a>),
 }
 
 <span class="doccomment">/// Get a pointer to a `T` if option is [`Some`](Option::Some) or a null ptr if it&#39;s [`None`](Option::None)</span>
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">opt_or_null</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">option</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;mut</span> <span class="ident">T</span><span class="op">&gt;</span>) -&gt; <span class="kw-2">*mut</span> <span class="kw-2">&amp;mut</span> <span class="ident">T</span> {
-    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#123">option</a> {
-        <span class="macro">std::ptr::addr_of_mut!</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#124">p</a>)
+    <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">mut</span> <span class="ident">p</span>) <span class="op">=</span> <a class="ident" href="../../src/voicemeeter/lib.rs.html#153">option</a> {
+        <span class="macro">std::ptr::addr_of_mut!</span>(<a class="ident" href="../../src/voicemeeter/lib.rs.html#154">p</a>)
     } <span class="kw">else</span> {
         <span class="ident">std::ptr::null_mut</span>()
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="voicemeeter" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0-nightly (8769f4ef2 2022-03-02)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="voicemeeter" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0-nightly (c274e4969 2022-03-05)" ></div>
 </body></html>

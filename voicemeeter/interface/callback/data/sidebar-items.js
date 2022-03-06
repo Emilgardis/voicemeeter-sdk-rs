@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["RawCallbackData",""]],"type":[["AudioBuffer",""],["AudioInfo",""]]});
+initSidebarItems({"struct":[["RawCallbackData","Raw callback data"]],"type":[["AudioBuffer","Audio buffers"],["AudioInfo","Audio information"]]});

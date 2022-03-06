@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["LoginError",""],["LogoutError",""],["RunVoicemeeterError",""],["VoicemeeterStatus",""]]});
+initSidebarItems({"enum":[["LoginError","Errors that can happen when loging in."],["LogoutError","Errors that can happen when loging out."],["RunVoicemeeterError","Errors that can happen when opening voicemeeter."],["VoicemeeterStatus","The status of the Voicemeeter instance."]]});
