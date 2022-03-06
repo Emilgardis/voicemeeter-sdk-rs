@@ -1,5 +1,22 @@
+#![warn(missing_docs)]
 #![deny(unsafe_op_in_unsafe_fn)]
-///! Voicemeeter sdk
+#![deny(rustdoc::broken_intra_doc_links)]
+//! Voicemeeter sdk
+//!
+//! Create a new instance of the Voicemeeter SDK. The instance is automatically logged in.
+//!
+//! ```rust,no_run
+//! use voicemeeter::VoicemeeterRemote;
+//!
+//! let remote = VoicemeeterRemote::new()?;
+//! println!("{}", remote.get_voicemeeter_version()?);
+//!
+//! Ok::<(), Box<dyn std::error::Error>>(())
+//! ```
+
+#[allow(missing_docs)]
+/// Raw FFI Bindings
+#[allow(rustdoc::broken_intra_doc_links)]
 pub mod bindings;
 pub mod interface;
 pub mod types;
@@ -9,6 +26,7 @@ use std::ffi::{OsStr, OsString};
 use std::io;
 use std::path::Path;
 
+#[doc(hidden)]
 pub static VOICEMEETER_REMOTE: once_cell::sync::OnceCell<VoicemeeterRemoteRaw> =
     once_cell::sync::OnceCell::new();
 
@@ -49,12 +67,16 @@ fn load_voicemeeter_from_path(path: &OsStr) -> Result<&'static VoicemeeterRemote
     unsafe { Ok(VOICEMEETER_REMOTE.get_unchecked()) }
 }
 
+/// Load error while loading the Voicemeeter remote DLL
 #[derive(Debug, thiserror::Error)]
 pub enum LoadError {
+    /// Remote is already loaded. Not a hard error.
     #[error("library is already loaded")]
     AlreadyLoaded,
+    /// Error while loading the DLL.
     #[error("library could not be loaded")]
     LoadingError(#[from] libloading::Error),
+    /// Could not locate the dll
     #[error("library could not be located")]
     RemoteFileError(#[from] RemoteFileError),
 }
@@ -98,23 +120,31 @@ fn registry_check() -> Result<(), RemoteFileError> {
     Ok(())
 }
 
+/// Error while trying to get Voicemeeter location
 #[derive(Debug, thiserror::Error)]
 pub enum RemoteFileError {
+    /// Voicemeeter dll not found at path
     #[error("could not find voicemeeter folder: {}", 0)]
     // TODO: OsString?
     NotFound(String),
+    /// Registry error
     #[error(transparent)]
     RegistryError(#[from] RegistryError),
 }
 
+/// Registry errors
 #[derive(Debug, thiserror::Error)]
 pub enum RegistryError {
+    /// Could not find the uninstall folder in HKLM for 32-bit apps
     #[error("could not find uninstall folder in hklm")]
     CouldNotFindUninstallReg(#[source] io::Error),
+    /// Could not find voicemeeter in uninstall registry
     #[error("could not find voicemeeter in registry. Is Voicemeeter installed?")]
     CouldNotFindVM(#[source] io::Error),
+    /// Could not find voicemeeter uninstall string in registry
     #[error("could not find voicemeeter uninstall string")]
     CouldNotFindUninstallString,
+    /// Given uninstall exe is not a valid path
     #[error("given uninstall exe is not a valid path: {:?}", 0)]
     UninstallStringInvalid(String),
 }

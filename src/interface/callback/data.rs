@@ -1,4 +1,10 @@
+//! Underlying data types for callbacks
+
+use std::ptr::NonNull;
+
+/// Audio information
 pub type AudioInfo = crate::bindings::VBVMR_T_AUDIOINFO;
+/// Audio buffers
 pub type AudioBuffer = crate::bindings::VBVMR_T_AUDIOBUFFER;
 
 impl AudioBuffer {
@@ -36,7 +42,8 @@ impl AudioBuffer {
 }
 
 #[repr(transparent)]
-pub struct RawCallbackData(std::ptr::NonNull<std::ffi::c_void>);
+/// Raw callback data
+pub struct RawCallbackData(NonNull<std::ffi::c_void>);
 
 impl std::fmt::Debug for RawCallbackData {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -45,18 +52,31 @@ impl std::fmt::Debug for RawCallbackData {
 }
 // All of these tracing::instrument need to be skipped or we crash.
 impl RawCallbackData {
-    //#[tracing::instrument(level = "trace", skip_all,name = "RawCallbackData::from_ptr")]
+    //#[tracing::instrument(level = "trace", skip_all,name = "RawCallbackData::from_ptr")]'
+    /// Create a new `RawCallbackData` from a raw pointer.
     pub fn from_ptr(ptr: *mut std::ffi::c_void) -> Self {
-        RawCallbackData(std::ptr::NonNull::new(ptr).unwrap())
+        RawCallbackData(NonNull::new(ptr).unwrap())
     }
     // TODO: Safety
     //#[tracing::instrument(level = "trace", skip_all,name = "RawCallbackData::as_audio_info")]
+    /// Get the audio information from the raw callback data.
+    ///
+    /// # Safety
+    ///
+    /// 1. This should not be called without ensuring that the pointer is in "scope" and that it is an [`AudioInfo`]
+    /// 2. All other conditions of [NonNull::as_ref] has to be met as well
     pub unsafe fn as_audio_info<'a>(&self) -> &'a AudioInfo {
-        unsafe { self.0.cast().as_mut() }
+        unsafe { self.0.cast().as_ref() }
     }
     // TODO: Safety
     //#[tracing::instrument(level = "trace", skip_all,name = "RawCallbackData::as_audio_buffer")]
+    /// Get the audio information from the raw callback data.
+    ///
+    /// # Safety
+    ///
+    /// 1. This should not be called without ensuring that the pointer is in "scope" and that it is an [`AudioBuffer`]
+    /// 2. All other conditions of [NonNull::as_ref] has to be met as well
     pub unsafe fn as_audio_buffer<'a>(&self) -> &'a AudioBuffer {
-        unsafe { self.0.cast().as_mut() }
+        unsafe { self.0.cast().as_ref() }
     }
 }

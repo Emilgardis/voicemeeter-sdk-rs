@@ -1,3 +1,4 @@
+//! Functions for callbacks in Voicemeeter.
 use std::{
     ffi::{CString, NulError},
     os::raw::c_long,
@@ -76,6 +77,7 @@ where
     )
 }
 
+/// Guard type for the callback. If this is dropped the callback data will be leaked.
 #[must_use = "This structure contains the raw pointer to the closure environment, if this is not returned you will leak memory"]
 pub struct CallbackGuard<'a, F> {
     guard: *mut F,
@@ -83,6 +85,8 @@ pub struct CallbackGuard<'a, F> {
 }
 
 impl VoicemeeterRemote {
+    // FIXME: examples
+    /// Register a callback for audio.
     #[tracing::instrument(skip(application_name, callback), fields(application_name, mode))]
     pub fn audio_callback_register<'a, 'cb, F>(
         &'a self,
@@ -117,6 +121,7 @@ impl VoicemeeterRemote {
         })
     }
 
+    /// Unregister a callback. This implicitly calls [`VoicemeeterRemote::audio_callback_stop`].
     pub fn audio_callback_unregister<F>(
         &self,
         guard: CallbackGuard<'_, F>,
@@ -132,27 +137,47 @@ impl VoicemeeterRemote {
             s => Err(AudioCallbackUnregisterError::Unexpected(s)),
         }
     }
+
+    /// Unregister a callback without dropping the callback, thus leaking data. This implicitly calls [`VoicemeeterRemote::audio_callback_stop`].
+    pub fn audio_callback_unregister_leak<F>(&self) -> Result<(), AudioCallbackUnregisterError> {
+        let res = unsafe { self.raw.VBVMR_AudioCallbackUnregister() };
+        match res {
+            0 => Ok(()),
+            -1 => Err(AudioCallbackUnregisterError::NoServer),
+            1 => Err(AudioCallbackUnregisterError::AlreadyUnregistered),
+            s => Err(AudioCallbackUnregisterError::Unexpected(s)),
+        }
+    }
 }
 
+/// Errors that can occur while registering an audio callback.
 #[derive(Debug, Clone, thiserror::Error)]
 pub enum AudioCallbackRegisterError {
     // TODO: is this correct?
+    /// No server.
     #[error("no server")]
     NoServer,
-    #[error("an application `{}` is already registered for this callback type", _0.to_string_lossy())]
+    /// Application is already registered.
+    #[error("an application `{}` is already registered", _0.to_string_lossy())]
     AlreadyRegistered(CString),
+    /// Could not make a c-string. This is a bug.
     #[error("could not make application name into a c-string")]
     NulError(#[from] NulError),
-    #[error("an unexpected error occurred")]
+    /// An unknown error code occured.
+    #[error("unexpected error occurred: error code {0}")]
     Unexpected(i32),
 }
 
+/// Errors that can occur while unregistering the audio callback.
 #[derive(Debug, Clone, thiserror::Error)]
 pub enum AudioCallbackUnregisterError {
+    /// No server.
     #[error("no server")]
     NoServer,
+    /// Application is already unregistered.
     #[error("callback already unregistered")]
     AlreadyUnregistered,
-    #[error("an unexpected error occurred")]
+    /// An unknown error code occured.
+    #[error("an unexpected error occurred: error code {0}")]
     Unexpected(i32),
 }

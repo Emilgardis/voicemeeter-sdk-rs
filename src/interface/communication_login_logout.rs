@@ -1,3 +1,4 @@
+//! Communication with and to Voicemeeter
 use crate::types::VoicemeeterApplication;
 
 use super::VoicemeeterRemote;
@@ -12,7 +13,7 @@ impl VoicemeeterRemote {
             s => Err(LoginError::Unexpected(s)),
         }
     }
-
+    /// Logout from the voicemeeter instance.
     pub fn logout(mut self) -> Result<(), LogoutError> {
         self._logout()?;
         Ok(())
@@ -26,6 +27,7 @@ impl VoicemeeterRemote {
         }
     }
 
+    /// Invoke Voicemeeter to open and be visible on previous location.
     pub fn run_voicemeeter(
         &self,
         r#type: VoicemeeterApplication,
@@ -41,30 +43,42 @@ impl VoicemeeterRemote {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+/// The status of the Voicemeeter instance.
 pub enum VoicemeeterStatus {
+    /// Voicemeeter is launched.
     Launched,
+    /// Voicemeeter is not launched.
     NotLaunched,
 }
 
+/// Errors that can happen when loging in.
 #[derive(Debug, thiserror::Error, Clone)]
 pub enum LoginError {
+    /// The login failed.
     #[error("unexpected login (logout was expected before)")]
     LoginFailed,
+    /// An unexpected error occured.
     #[error("cannot get client (unexpected): {0}")]
     Unexpected(i32),
 }
 
+/// Errors that can happen when loging out.
 #[derive(Debug, thiserror::Error, Clone)]
 pub enum LogoutError {
+    /// An unexpected error occured.
     #[error("cannot get client (unexpected): {0}")]
     Unexpected(i32),
 }
+/// Errors that can happen when [opening](VoicemeeterRemote::run_voicemeeter) voicemeeter.
 #[derive(Debug, thiserror::Error, Clone)]
 pub enum RunVoicemeeterError {
+    /// Voicemeeter is not installed.
     #[error("voicemeeter is not installed")]
     NotInstalled,
+    /// Unknown voicemeeter type.
     #[error("unknown type")]
     UnknownType,
+    /// An unexpected error occured.
     #[error("unexpected error occurred: error code {0}")]
     Other(i32),
 }

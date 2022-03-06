@@ -1,3 +1,4 @@
+//! Basic types used in voicemeeter
 /// A Zero Indexed Index
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
 #[repr(transparent)]
@@ -21,6 +22,7 @@ impl From<u32> for ZIndex {
     }
 }
 
+/// A macro button. Zero indexed
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
 #[repr(transparent)]
 pub struct LogicalButton(pub ZIndex);
@@ -49,16 +51,23 @@ impl From<u32> for LogicalButton {
     }
 }
 
+/// Voicemeeter Parameter
 #[aliri_braid::braid()]
 pub struct Parameter;
 
+/// Voicemeeter application type.
 #[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
 #[repr(C)]
 pub enum VoicemeeterApplication {
+    /// Standard "base" voicemeeter.
     Voicemeeter = 1,
+    /// Voicemeeter Banana.
     VoicemeeterBanana = 2,
+    /// Voicemeeter Potato.
     VoicemeeterPotato = 3,
+    /// Voicemeeter Potato x64.
     PotatoX64Bits = 6,
+    /// Unknown voicemeeter type
     Other,
 }
 
@@ -86,13 +95,19 @@ impl From<i32> for VoicemeeterApplication {
     }
 }
 
+/// Level type, used for [`VoicemeeterRemote::get_level`](super::VoicemeeterRemote::get_level)
 #[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
 #[repr(C)]
 pub enum LevelType {
+    /// Pre fader input levels.
     PreFaderInputLevels = 0,
+    /// Pre fader output levels.
     PostFaderInputLevels = 1,
+    /// Post mute input levels.
     PostMuteInputLevels = 2,
+    /// Output levels
     OutputLevels = 3,
+    #[doc(hidden)]
     Other,
 }
 
@@ -108,45 +123,65 @@ impl From<i32> for LevelType {
     }
 }
 
+/// A channel. Used for callback in [`VoicemeeterRemote::audio_callback_register`](super::VoicemeeterRemote::audio_callback_register) with [`BufferInData::read_write_buffer_on_channel`](crate::interface::callback::BufferInData::read_write_buffer_on_channel)
 #[derive(Debug, Clone, Copy, Eq, PartialEq)]
 pub enum Channel {
+    /// Strip 1. Available on all Voicemeeter versions.
     Strip1,
+    /// Strip 2. Available on all Voicemeeter versions.
     Strip2,
+    /// Strip 3. Available on Voicemeeter Banana and Potato.
     Strip3,
+    /// Strip 4. Available on Voicemeeter Banana and Potato.
     Strip4,
+    /// Strip 5. Available on Voicemeeter Potato.
     Strip5,
+    /// Output A1. Available on all Voicemeeter versions.
     OutputA1,
+    /// Output A2. Available on all Voicemeeter versions.
     OutputA2,
+    /// Output A3. Available on Voicemeeter Banana and Potato.
     OutputA3,
+    /// Output A4. Available on Voicemeeter Potato.
     OutputA4,
+    /// Output A5. Available on Voicemeeter Potato.
     OutputA5,
+    /// Virtual Output. Available on all Voicemeeter versions.
     VirtualOutput,
+    /// Virtual Output B1. Available on all Voicemeeter versions. Alias for [`VirtualOutput`](Self::VirtualOutput)
     VirtualOutputB1,
+    /// Virtual Output B2. Available on Voicemeeter Banana and Potato.
     VirtualOutputB2,
+    /// Virtual Output B3. Available on Voicemeeter Potato.
     VirtualOutputB3,
+    /// Virtual Input. Available on all Voicemeeter versions.
     VirtualInput,
+    /// Virtual Input Aux. Available on Voicemeeter Banana and Potato.
     VirtualInputAux,
+    /// Virtual Input8. Available on Voicemeeter Potato.
     VirtualInput8,
 }
 
+/// Index in the buffers for a channel.
 #[derive(Debug, Clone, Copy)]
 pub struct ChannelIndex {
+    /// Start index.
     pub start: usize,
+    /// End index.
     pub size: usize,
 }
 
 impl ChannelIndex {
-    pub const fn new(start: usize, size: usize) -> Self {
+    /// Create a new index.
+    pub(crate) const fn new(start: usize, size: usize) -> Self {
         Self { start, size }
-    }
-    pub const fn offset(&self) -> usize {
-        self.start + self.size
     }
 }
 const fn ci(start: usize, size: usize) -> Option<ChannelIndex> {
     Some(ChannelIndex::new(start, size))
 }
 impl Channel {
+    /// Get the [`ChannelIndex`] for this channel in the buffers when in [main mode](crate::interface::callback::CallbackCommand::BufferMain), if available in the current program.
     pub const fn main(
         &self,
         program: &VoicemeeterApplication,
@@ -197,13 +232,15 @@ impl Channel {
             _ => (None, None),
         }
     }
+    /// Get the [`ChannelIndex`] for this channel in the buffers when in [input mode](crate::interface::callback::CallbackCommand::BufferIn), if available in the current program.
     pub const fn input(&self, program: &VoicemeeterApplication) -> Option<ChannelIndex> {
         self.main(program).0
     }
+    /// Get the [`ChannelIndex`] for this channel in the buffers when in [output mode](crate::interface::callback::CallbackCommand::BufferOut), if available in the current program.
     pub const fn output(&self, program: &VoicemeeterApplication) -> Option<ChannelIndex> {
         self.main(program).1
     }
-
+    /// Get all channels available in Voicemeeter Potato.
     pub fn potato_channels() -> Vec<Channel> {
         vec![
             Channel::Strip1,

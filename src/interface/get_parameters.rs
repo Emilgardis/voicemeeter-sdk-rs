@@ -1,13 +1,23 @@
+//! Parameter related functions and types
 use std::{
     ffi::{CStr, CString, NulError},
     os::raw::c_char,
     ptr,
 };
 
+use crate::types::ParameterRef;
+
 use super::VoicemeeterRemote;
 
 impl VoicemeeterRemote {
     // FIXME: Only call from one thread, limit it
+    /// Check if parameters have changed
+    ///
+    /// Call this function periodically to check if parameters have changed, typically every 10ms.
+    ///
+    /// # Security
+    ///
+    /// This method must only be called from one thread.
     pub fn is_parameters_dirty(&self) -> Result<bool, IsParametersDirtyError> {
         let res = unsafe { self.raw.VBVMR_IsParametersDirty() };
         match res {
@@ -19,7 +29,8 @@ impl VoicemeeterRemote {
         }
     }
     // FIXME: Prefer using abstraction [linkme]
-    pub fn get_parameter_float(&self, param: impl AsRef<str>) -> Result<f32, GetParameterError> {
+    /// Get the float value of a parameter.
+    pub fn get_parameter_float(&self, param: &ParameterRef) -> Result<f32, GetParameterError> {
         let mut f = 0.0f32;
         let param = CString::new(param.as_ref())?;
         let res = unsafe {
@@ -40,6 +51,7 @@ impl VoicemeeterRemote {
             s => Err(GetParameterError::Other(s)),
         }
     }
+    /// Get the string value of a parameter.
     pub fn get_parameter_string(
         &self,
         param: impl AsRef<str>,
@@ -71,30 +83,41 @@ impl VoicemeeterRemote {
     }
 }
 
+/// Errors that can happen when getting a parameter.
 #[derive(Debug, thiserror::Error, Clone)]
 pub enum GetParameterError {
+    /// Could not make a c-compatible string. This is a bug.
     #[error("could not make into a c-string")]
     NulError(#[from] NulError),
     // TODO: is this correct? docs say "error (unexpected)""
+    /// Cannot get client.
     #[error("cannot get client (unexpected)")]
     CannotGetClient,
+    /// No server.
     #[error("no server")]
     NoServer,
+    /// Unknown parameter.
     #[error("unknown parameter: {0}")]
     UnknownParameter(String),
+    /// Structure mismatch.
     #[error("tried to parse parameter {0:?} as a {1} but it is not")]
     StructureMismatch(String, &'static str),
+    /// An unknown error code occured.
     #[error("unexpected error occurred: error code {0}")]
     Other(i32),
 }
 
+/// Errors that can happen when querying parameter "dirty" flag.
 #[derive(Debug, thiserror::Error, Clone)]
 pub enum IsParametersDirtyError {
     // TODO: is this correct? docs say "error (unexpected)""
+    /// Cannot get client.
     #[error("cannot get client (unexpected)")]
     CannotGetClient,
+    /// No server.
     #[error("no server")]
     NoServer,
+    /// An unknown error code occured.
     #[error("unexpected error occurred: error code {0}")]
     Other(i32),
 }

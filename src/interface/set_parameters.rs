@@ -1,12 +1,16 @@
+//! Functions and data types for setting parameter values.
 use std::ffi::CString;
+
+use crate::types::ParameterRef;
 
 use super::VoicemeeterRemote;
 
 impl VoicemeeterRemote {
     // FIXME: Prefer using abstraction [linkme]
+    /// Set the float value of a parameter.
     pub fn set_parameter_float(
         &self,
-        param: impl AsRef<str>,
+        param: &ParameterRef,
         _value: f32,
     ) -> Result<(), SetParameterError> {
         let f = 0.0f32;
@@ -25,6 +29,7 @@ impl VoicemeeterRemote {
             s => Err(SetParameterError::Other(s)),
         }
     }
+    /// Set the string value of a parameter.
     pub fn set_parameter_string(
         &self,
         param: impl AsRef<str>,
@@ -48,6 +53,8 @@ impl VoicemeeterRemote {
         }
     }
 
+    // TODO: Example script.
+    /// Set parameters using a script. Similar to macro button scripts.
     pub fn set_parameters(&self, script: &str) -> Result<(), SetParametersError> {
         let _f = 0.0f32;
         let script = CString::new(script).unwrap();
@@ -63,34 +70,31 @@ impl VoicemeeterRemote {
     }
 }
 
+/// Errors that can happen when setting parameters.
 #[derive(Debug, thiserror::Error, Clone)]
 pub enum SetParametersError {
+    /// Script error
     #[error("script error on line: {0}")]
     ScriptError(usize),
+    /// An error occured when setting parameters.
     #[error(transparent)]
     SetParameterError(#[from] SetParameterError),
 }
 
+/// Errors that can happen when setting a parameter.
 #[derive(Debug, thiserror::Error, Clone)]
 pub enum SetParameterError {
     // TODO: is this correct? docs say "error (unexpected)""
+    /// Cannot get client.
     #[error("cannot get client (unexpected)")]
     CannotGetClient,
+    /// No server.
     #[error("no server")]
     NoServer,
+    /// Unknown parameter.
     #[error("unknown parameter: {0}")]
     UnknownParameter(String),
-    #[error("unexpected error occurred: error code {0}")]
-    Other(i32),
-}
-
-#[derive(Debug, thiserror::Error, Clone)]
-pub enum IsParametersDirtyError {
-    // TODO: is this correct? docs say "error (unexpected)""
-    #[error("cannot get client (unexpected)")]
-    CannotGetClient,
-    #[error("no server")]
-    NoServer,
+    /// An unknown error code occured.
     #[error("unexpected error occurred: error code {0}")]
     Other(i32),
 }

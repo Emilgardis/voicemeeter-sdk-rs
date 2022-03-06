@@ -1,10 +1,21 @@
+//! Functions and data types for macro buttons.
 use crate::{bindings::VBVMR_MACROBUTTON_MODE, types::LogicalButton};
 
 use super::VoicemeeterRemote;
 
-pub struct Status(bool);
+/// Status of a macro button.
+#[repr(transparent)]
+pub struct MacroButtonStatus(pub bool);
 
-impl std::fmt::Display for Status {
+impl std::ops::Deref for MacroButtonStatus {
+    type Target = bool;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl std::fmt::Display for MacroButtonStatus {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         if self.0 {
             f.write_str("🟢")
@@ -16,6 +27,13 @@ impl std::fmt::Display for Status {
 
 impl VoicemeeterRemote {
     // FIXME: Only call from one thread, limit it
+    /// Check if macro buttons have changed
+    ///
+    /// Call this function periodically to check if the macro buttons have changed, typically every 10ms.
+    ///
+    /// # Security
+    ///
+    /// This method must only be called from one thread.
     pub fn is_macrobutton_dirty(&self) -> Result<bool, IsMacroButtonDirtyError> {
         let res = unsafe { self.raw.VBVMR_MacroButton_IsDirty() };
         match res {
@@ -27,15 +45,16 @@ impl VoicemeeterRemote {
         }
     }
 
+    /// Get a specific macro buttons status.
     pub fn get_macrobutton_state(
         &self,
         button: impl Into<LogicalButton>,
-    ) -> Result<Status, GetMacroButtonStatusError> {
+    ) -> Result<MacroButtonStatus, GetMacroButtonStatusError> {
         let mut f = 0.0f32;
         let button = button.into();
         let res = unsafe { self.raw.VBVMR_MacroButton_GetStatus(button.0 .0, &mut f, 0) };
         match res {
-            0 => Ok(Status(f == 1.)),
+            0 => Ok(MacroButtonStatus(f == 1.)),
             -1 => Err(GetMacroButtonStatusError::CannotGetClient),
             -2 => Err(GetMacroButtonStatusError::NoServer),
             -3 => Err(GetMacroButtonStatusError::UnknownParameter(button)), // FIXME: Lossless always (assuming vmr doesn't modify :) ), unsafe?
@@ -74,15 +93,16 @@ impl VoicemeeterRemote {
         }
     }
 
+    /// Get the trigger state of the macrobutton.
     pub fn get_macrobutton_trigger_state(
         &self,
         button: impl Into<LogicalButton>,
-    ) -> Result<Status, GetMacroButtonStatusError> {
+    ) -> Result<MacroButtonStatus, GetMacroButtonStatusError> {
         let mut f = 0.0f32;
         let button = button.into();
         let res = unsafe { self.raw.VBVMR_MacroButton_GetStatus(button.0 .0, &mut f, 3) };
         match res {
-            0 => Ok(Status(f == 1.)),
+            0 => Ok(MacroButtonStatus(f == 1.)),
             -1 => Err(GetMacroButtonStatusError::CannotGetClient),
             -2 => Err(GetMacroButtonStatusError::NoServer),
             -3 => Err(GetMacroButtonStatusError::UnknownParameter(button)), // FIXME: Lossless always (assuming vmr doesn't modify :) ), unsafe?
@@ -91,6 +111,7 @@ impl VoicemeeterRemote {
         }
     }
 
+    /// Set the trigger state of the macrobutton.
     pub fn set_macrobutton_trigger_state(
         &self,
         button: impl Into<LogicalButton>,
@@ -112,43 +133,59 @@ impl VoicemeeterRemote {
     }
 }
 
+/// Errors that can happen when querying macro button "dirty" flag.
 #[derive(Debug, thiserror::Error, Clone)]
 pub enum IsMacroButtonDirtyError {
     // TODO: is this correct? docs say "error (unexpected)""
+    /// Cannot get client.
     #[error("cannot get client (unexpected)")]
     CannotGetClient,
+    /// No server.
     #[error("no server")]
     NoServer,
+    /// An unknown error code occured.
     #[error("unexpected error occurred: error code {0}")]
     Other(i32),
 }
 
+/// Errors that can happen when getting macrobutton status.
 #[derive(Debug, thiserror::Error, Clone)]
 pub enum GetMacroButtonStatusError {
     // TODO: is this correct? docs say "error"
+    /// Cannot get client.
     #[error("cannot get client (unexpected)")]
     CannotGetClient,
+    /// No server.
     #[error("no server")]
     NoServer,
+    /// Unknown parameter/button.
     #[error("unknown button: {}", 0.0)]
     UnknownParameter(LogicalButton),
+    /// Structure mismatch.
     #[error("tried to parse parameter {0:?} as a {1} but it is not")]
     StructureMismatch(LogicalButton, i32),
+    /// An unknown error code occured.
     #[error("unexpected error occurred: error code {0}")]
     Other(i32),
 }
 
+/// Errors that can happen when setting macrobutton status.
 #[derive(Debug, thiserror::Error, Clone)]
 pub enum SetMacroButtonStatusError {
     // TODO: is this correct? docs say "error"
+    /// Cannot get client.
     #[error("cannot get client (unexpected)")]
     CannotGetClient,
+    /// No server.
     #[error("no server")]
     NoServer,
+    /// Unknown parameter/button.
     #[error("unknown button: {}", 0.0)]
     UnknownParameter(LogicalButton),
+    /// Structure mismatch.
     #[error("tried to parse parameter {0:?} as a {1} but it is not")]
     StructureMismatch(LogicalButton, i32),
+    /// An unknown error code occured.
     #[error("unexpected error occurred: error code {0}")]
     Other(i32),
 }

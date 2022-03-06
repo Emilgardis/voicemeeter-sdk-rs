@@ -1,3 +1,6 @@
+//! Callback command types.
+//!
+//! These are returned to the callback function.
 use crate::{
     bindings::VBVMR_CBCOMMAND,
     types::{Channel, VoicemeeterApplication},
@@ -41,59 +44,81 @@ implement! { @audio_buffer
     BufferMain,
 }
 
+/// Callback command with audio info. Used to abstract away the command type in client code
 pub trait HasAudioInfo {
+    /// Get the audio info.
     fn get(&self) -> &AudioInfo;
 }
 
+/// Callback command with audio buffer. Used to abstract away the command type in client code
 pub trait HasAudioBuffer {
+    /// Get the audio buffer.
     fn get(&self) -> &AudioBuffer;
 }
 
+// FIXME: add .mds for these docs
+
+/// Starting command.
 #[derive(Debug)]
 pub struct Starting<'a> {
+    /// Audio info
     pub info: &'a AudioInfo,
 }
 
 impl<'a> Starting<'a> {
+    /// Create a new `Starting` command.
     //#[tracing::instrument(skip_all, name = "Starting::new")]
-    pub fn new(info: &'a AudioInfo) -> Self {
+    pub(crate) fn new(info: &'a AudioInfo) -> Self {
         Self { info }
     }
 }
 
+/// Ending command.
 #[derive(Debug)]
 pub struct Ending<'a> {
+    /// Audio info
     pub info: &'a AudioInfo,
 }
 
 impl<'a> Ending<'a> {
+    /// Create a new `Ending` command.
     //#[tracing::instrument(skip_all, name = "Ending::new")]
-    pub fn new(info: &'a AudioInfo) -> Self {
+    pub(crate) fn new(info: &'a AudioInfo) -> Self {
         Self { info }
     }
 }
 
+/// Change command.
 #[derive(Debug)]
 pub struct Change<'a> {
+    /// Audio info
     pub info: &'a AudioInfo,
 }
 
 impl<'a> Change<'a> {
+    /// Create a new `Change` command.
     //#[tracing::instrument(skip_all, name = "Change::new")]
-    pub fn new(info: &'a AudioInfo) -> Self {
+    pub(crate) fn new(info: &'a AudioInfo) -> Self {
         Self { info }
     }
 }
 
+/// Data for input mode.
 #[derive(Debug)]
 pub struct BufferIn<'a> {
+    /// Buffer data for input mode
     pub buffer: BufferInData<'a>,
+    /// Sample rate
     pub sr: usize,
+    /// Number of samples per frame
     pub nbs: usize,
+    /// Total number of inputs in buffer.
     pub nbi: usize,
+    /// Total number of outputs in buffer.
     pub nbo: usize,
 }
 
+/// Buffer for input mode.
 #[derive(Debug)]
 pub struct BufferInData<'a> {
     data: (&'a [*mut f32], &'a [*mut f32]),
@@ -105,7 +130,7 @@ pub struct BufferInData<'a> {
 
 impl<'a> BufferIn<'a> {
     //#[tracing::instrument(skip_all, name = "BufferIn::new")]
-    pub fn new(program: VoicemeeterApplication, buffer: &'a AudioBuffer) -> Self {
+    pub(crate) fn new(program: VoicemeeterApplication, buffer: &'a AudioBuffer) -> Self {
         Self {
             sr: buffer.audiobuffer_sr as usize,
             nbs: buffer.audiobuffer_nbs as usize,
@@ -118,7 +143,7 @@ impl<'a> BufferIn<'a> {
 
 impl<'a> BufferInData<'a> {
     //#[tracing::instrument(skip_all, name = "BufferInData::new")]
-    pub fn new(
+    pub(crate) fn new(
         program: VoicemeeterApplication,
         data: &'a AudioBuffer,
         samples_per_frame: usize,
@@ -135,6 +160,7 @@ impl<'a> BufferInData<'a> {
     // FIXME: These should be an iterator, maybe.
     //#[tracing::instrument(skip(self), name = "BufferInData::read_write_buffer_on_channel")]
     #[allow(clippy::type_complexity)]
+    /// Get the read and write buffers for a specific [channel](Channel).
     pub fn read_write_buffer_on_channel<'b>(
         &'b mut self,
         channel: &Channel,
@@ -165,15 +191,22 @@ impl<'a> BufferInData<'a> {
     }
 }
 
+/// Data for output mode.
 #[derive(Debug)]
 pub struct BufferOut<'a> {
+    /// Sample rate
     pub sr: usize,
+    /// Buffer data for output mode
     pub buffer: BufferOutData<'a>,
+    /// Number of samples per frame
     pub nbs: usize,
+    /// Total number of inputs in buffer.
     pub nbi: usize,
+    /// Total number of outputs in buffer.
     pub nbo: usize,
 }
 
+/// Buffer for output mode.
 #[derive(Debug)]
 pub struct BufferOutData<'a> {
     data: (&'a [*mut f32], &'a [*mut f32]),
@@ -185,7 +218,7 @@ pub struct BufferOutData<'a> {
 
 impl<'a> BufferOut<'a> {
     //#[tracing::instrument(skip_all, name = "BufferOut::new")]
-    pub fn new(program: VoicemeeterApplication, buffer: &'a AudioBuffer) -> Self {
+    pub(crate) fn new(program: VoicemeeterApplication, buffer: &'a AudioBuffer) -> Self {
         Self {
             sr: buffer.audiobuffer_sr as usize,
             nbs: buffer.audiobuffer_nbs as usize,
@@ -198,7 +231,7 @@ impl<'a> BufferOut<'a> {
 
 impl<'a> BufferOutData<'a> {
     //#[tracing::instrument(skip_all, name = "BufferOutData::new")]
-    pub fn new(
+    pub(crate) fn new(
         program: VoicemeeterApplication,
         data: &'a AudioBuffer,
         samples_per_frame: usize,
@@ -222,6 +255,7 @@ impl<'a> BufferOutData<'a> {
     // FIXME: These should be an iterator, maybe.
     //#[tracing::instrument(skip(self), name = "BufferOutData::read_write_buffer_on_channel")]
     #[allow(clippy::type_complexity)]
+    /// Get the read and write buffers for a specific [channel](Channel).
     pub fn read_write_buffer_on_channel<'b>(
         &'b mut self,
         channel: &Channel,
@@ -252,15 +286,22 @@ impl<'a> BufferOutData<'a> {
     }
 }
 
+/// Data for main mode.
 #[derive(Debug)]
 pub struct BufferMain<'a> {
+    /// Buffer data for main mode
     pub buffer: BufferMainData<'a>,
+    /// Sample rate
     pub sr: usize,
+    /// Number of samples per frame
     pub nbs: usize,
+    /// Total number of inputs in buffer.
     pub nbi: usize,
+    /// Total number of outputs in buffer.
     pub nbo: usize,
 }
 
+/// Buffer for main mode.
 #[derive(Debug)]
 pub struct BufferMainData<'a> {
     data: (&'a [*mut f32], &'a [*mut f32]),
@@ -272,7 +313,7 @@ pub struct BufferMainData<'a> {
 
 impl<'a> BufferMain<'a> {
     //#[tracing::instrument(skip_all, name = "BufferMain::new")]
-    pub fn new(program: VoicemeeterApplication, buffer: &'a AudioBuffer) -> Self {
+    pub(crate) fn new(program: VoicemeeterApplication, buffer: &'a AudioBuffer) -> Self {
         Self {
             sr: buffer.audiobuffer_sr as usize,
             nbs: buffer.audiobuffer_nbs as usize,
@@ -285,7 +326,7 @@ impl<'a> BufferMain<'a> {
 
 impl<'a> BufferMainData<'a> {
     //#[tracing::instrument(skip_all, name = "BufferMainData::new")]
-    pub fn new(
+    pub(crate) fn new(
         program: VoicemeeterApplication,
         data: &'a AudioBuffer,
         samples_per_frame: usize,
@@ -299,6 +340,7 @@ impl<'a> BufferMainData<'a> {
         }
     }
 
+    /// Get the data inside the buffer as slices of pointers
     pub fn data<'b>(&'b self) -> (&'a [*mut f32], &'a [*mut f32]) {
         self.data
     }
@@ -306,6 +348,7 @@ impl<'a> BufferMainData<'a> {
     // FIXME: These should be an iterator, maybe.
     //#[tracing::instrument(skip(self), name = "BufferMainData::read_write_buffer_on_channel")]
     #[allow(clippy::type_complexity)]
+    /// Get the read and write buffers for a specific [channel](Channel).
     pub fn read_write_buffer_on_channel<'b>(
         &'b mut self,
         channel: &Channel,
@@ -343,15 +386,23 @@ impl<'a> BufferMainData<'a> {
     }
 }
 
+/// Callback command passed to the [audio callback](crate::VoicemeeterRemote::audio_callback_register).
 #[derive(Debug)]
 #[repr(i32)]
 pub enum CallbackCommand<'a> {
+    /// Starting command
     Starting(Starting<'a>),
+    /// Ending command
     Ending(Ending<'a>),
+    /// Change command
     Change(Change<'a>),
+    /// BufferIn command
     BufferIn(BufferIn<'a>),
+    /// BufferOut command
     BufferOut(BufferOut<'a>),
+    /// BufferMain command
     BufferMain(BufferMain<'a>),
+    /// Other inknown command
     Other(VBVMR_CBCOMMAND, RawCallbackData),
 }
 
@@ -381,15 +432,17 @@ impl<'a> CallbackCommand<'a> {
             i => Self::Other(i, ptr),
         }
     }
-    pub fn name(&self) -> &'static str {
-        match self {
+
+    /// Get the command "name"
+    pub fn name(&self) -> Option<&'static str> {
+        Some(match self {
             Self::Starting(_) => "Starting",
             Self::Ending(_) => "Ending",
             Self::Change(_) => "Change",
             Self::BufferIn(_) => "BufferIn",
             Self::BufferOut(_) => "BufferOut",
             Self::BufferMain(_) => "BufferMain",
-            Self::Other(_, _) => "unknown",
-        }
+            Self::Other(_, _) => return None,
+        })
     }
 }

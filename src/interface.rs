@@ -1,3 +1,4 @@
+//! The interface for Voicemeeter remote.-
 use crate::{types::VoicemeeterApplication, LoadError};
 
 use self::{
@@ -13,6 +14,7 @@ pub mod get_parameters;
 pub mod macro_buttons;
 pub mod set_parameters;
 
+/// Interface for voicemeeter.
 #[derive(Clone)]
 pub struct VoicemeeterRemote {
     raw: &'static crate::bindings::VoicemeeterRemoteRaw,
@@ -50,12 +52,16 @@ impl Drop for VoicemeeterRemote {
     }
 }
 
+/// Errors that can occur when initializing the Voicemeeter remote DLL.
 #[derive(Debug, thiserror::Error)]
 pub enum InitializationError {
+    /// Error while loading the DLL.
     #[error("could not load the client")]
     LoadError(#[from] LoadError),
+    /// Error when logging in.
     #[error("could not login")]
     LoginError(#[from] LoginError),
+    /// Error when getting the Voicemeeter application type.
     #[error("could not get voicemeeter type")]
     InformationError(#[from] GetVoicemeeterInformationError),
 }

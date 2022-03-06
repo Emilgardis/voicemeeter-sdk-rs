@@ -1,3 +1,4 @@
+//! Device related interfaces.
 use std::{ffi::CStr, os::raw::c_char, ptr};
 
 use crate::{
@@ -8,6 +9,7 @@ use crate::{
 use super::VoicemeeterRemote;
 
 impl VoicemeeterRemote {
+    /// Get the number of Audio Input Devices available on the system.
     pub fn get_total_input_device(&self) -> Result<i32, GetTotalDeviceError> {
         let res = unsafe { self.raw.VBVMR_Input_GetDeviceNumber() };
         if res < 0 {
@@ -16,6 +18,7 @@ impl VoicemeeterRemote {
             Ok(res)
         }
     }
+    /// Get the number of Audio Output Devices available on the system.
     pub fn get_total_output_device(&self) -> Result<i32, GetTotalDeviceError> {
         let res = unsafe { self.raw.VBVMR_Output_GetDeviceNumber() };
         if res < 0 {
@@ -24,6 +27,7 @@ impl VoicemeeterRemote {
             Ok(res)
         }
     }
+    /// Get the desctiption of a specific Audio Input Device.
     pub fn get_input_device(
         &self,
         index: impl Into<ZIndex>,
@@ -87,6 +91,7 @@ impl VoicemeeterRemote {
         }
     }
 
+    /// Get the desctiption of a specific Audio Output Device.
     pub fn get_output_device(
         &self,
         index: impl Into<ZIndex>,
@@ -136,24 +141,34 @@ impl VoicemeeterRemote {
     }
 }
 
+/// A Audio Input Device.
 #[derive(Debug)]
 pub struct InputDevice {
+    /// The type of the device.
     pub r#type: bindings::VBVMR_DEVTYPE,
+    /// Device name
     pub name: String,
+    /// Hardware ID
     pub hardware_id: String,
 }
 
+/// A Audio Output Device.
 #[derive(Debug)]
 pub struct OutputDevice {
+    /// The type of the device.
     pub r#type: bindings::VBVMR_DEVTYPE,
+    /// Device name
     pub name: String,
+    /// Hardware ID
     pub hardware_id: String,
 }
 
+/// Error when getting the device description.
 #[derive(Debug, thiserror::Error, Clone)]
 #[error("unexpected device: error code {0}")]
-pub struct GetDeviceError(i32);
+pub struct GetDeviceError(pub i32);
 
+/// Error when getting the total devices.
 #[derive(Debug, thiserror::Error, Clone)]
 #[error("could not get total device number: error code {0}")]
-pub struct GetTotalDeviceError(i32);
+pub struct GetTotalDeviceError(pub i32);
