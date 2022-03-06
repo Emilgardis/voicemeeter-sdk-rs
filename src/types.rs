@@ -29,7 +29,7 @@ pub struct LogicalButton(pub ZIndex);
 
 impl std::fmt::Display for LogicalButton {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "MB:{}", self.0 .0)
+        write!(f, "MB:{}", self.0.0)
     }
 }
 
@@ -123,9 +123,14 @@ impl From<i32> for LevelType {
     }
 }
 
-/// A channel. Used for callback in [`VoicemeeterRemote::audio_callback_register`](super::VoicemeeterRemote::audio_callback_register) with [`BufferInData::read_write_buffer_on_channel`](crate::interface::callback::BufferInData::read_write_buffer_on_channel)
+/// A device.
+///
+/// Used for callback in [`VoicemeeterRemote::audio_callback_register`](super::VoicemeeterRemote::audio_callback_register) with
+/// [`BufferInData::read_write_buffer_on_device`](crate::interface::callback::BufferInData::read_write_buffer_on_device),
+/// [`BufferOutData::read_write_buffer_on_device`](crate::interface::callback::BufferOutData::read_write_buffer_on_device) or
+/// [`BufferMainData::read_write_buffer_on_device`](crate::interface::callback::BufferMainData::read_write_buffer_on_device)
 #[derive(Debug, Clone, Copy, Eq, PartialEq)]
-pub enum Channel {
+pub enum Device {
     /// Strip 1. Available on all Voicemeeter versions.
     Strip1,
     /// Strip 2. Available on all Voicemeeter versions.
@@ -162,7 +167,7 @@ pub enum Channel {
     VirtualInput8,
 }
 
-/// Index in the buffers for a channel.
+/// Index in the buffers for a [devices'](Device) channel.
 #[derive(Debug, Clone, Copy)]
 pub struct ChannelIndex {
     /// Start index.
@@ -180,7 +185,7 @@ impl ChannelIndex {
 const fn ci(start: usize, size: usize) -> Option<ChannelIndex> {
     Some(ChannelIndex::new(start, size))
 }
-impl Channel {
+impl Device {
     /// Get the [`ChannelIndex`] for this channel in the buffers when in [main mode](crate::interface::callback::CallbackCommand::BufferMain), if available in the current program.
     pub const fn main(
         &self,
@@ -188,45 +193,45 @@ impl Channel {
     ) -> (Option<ChannelIndex>, Option<ChannelIndex>) {
         match program {
             VoicemeeterApplication::Voicemeeter => match self {
-                Channel::Strip1 => (ci(0, 2), None),
-                Channel::Strip2 => (ci(2, 2), None),
-                Channel::OutputA1 => (ci(12, 8), ci(0, 8)),
-                Channel::OutputA2 => (ci(12, 8), ci(0, 8)),
-                Channel::VirtualOutput | Channel::VirtualOutputB1 => (ci(20, 8), ci(8, 8)),
-                Channel::VirtualInput => (ci(4, 8), None),
+                Device::Strip1 => (ci(0, 2), None),
+                Device::Strip2 => (ci(2, 2), None),
+                Device::OutputA1 => (ci(12, 8), ci(0, 8)),
+                Device::OutputA2 => (ci(12, 8), ci(0, 8)),
+                Device::VirtualOutput | Device::VirtualOutputB1 => (ci(20, 8), ci(8, 8)),
+                Device::VirtualInput => (ci(4, 8), None),
                 _ => (None, None),
             },
             VoicemeeterApplication::VoicemeeterBanana => match self {
-                Channel::Strip1 => (ci(0, 2), None),
-                Channel::Strip2 => (ci(2, 2), None),
-                Channel::Strip3 => (ci(4, 2), None),
-                Channel::OutputA1 => (ci(22, 8), ci(0, 8)),
-                Channel::OutputA2 => (ci(30, 8), ci(8, 8)),
-                Channel::OutputA3 => (ci(38, 8), ci(16, 8)),
-                Channel::VirtualOutput | Channel::VirtualOutputB1 => (ci(46, 8), ci(24, 8)),
-                Channel::VirtualOutputB2 => (ci(54, 8), ci(32, 8)),
-                Channel::VirtualInput => (ci(6, 8), None),
-                Channel::VirtualInputAux => (ci(14, 8), None),
+                Device::Strip1 => (ci(0, 2), None),
+                Device::Strip2 => (ci(2, 2), None),
+                Device::Strip3 => (ci(4, 2), None),
+                Device::OutputA1 => (ci(22, 8), ci(0, 8)),
+                Device::OutputA2 => (ci(30, 8), ci(8, 8)),
+                Device::OutputA3 => (ci(38, 8), ci(16, 8)),
+                Device::VirtualOutput | Device::VirtualOutputB1 => (ci(46, 8), ci(24, 8)),
+                Device::VirtualOutputB2 => (ci(54, 8), ci(32, 8)),
+                Device::VirtualInput => (ci(6, 8), None),
+                Device::VirtualInputAux => (ci(14, 8), None),
                 _ => (None, None),
             },
             VoicemeeterApplication::VoicemeeterPotato | VoicemeeterApplication::PotatoX64Bits => {
                 match self {
-                    Channel::Strip1 => (ci(0, 8), None),
-                    Channel::Strip2 => (ci(2, 8), None),
-                    Channel::Strip3 => (ci(4, 8), None),
-                    Channel::Strip4 => (ci(6, 8), None),
-                    Channel::Strip5 => (ci(8, 8), None),
-                    Channel::OutputA1 => (ci(34, 8), ci(0, 8)),
-                    Channel::OutputA2 => (ci(42, 8), ci(8, 8)),
-                    Channel::OutputA3 => (ci(50, 8), ci(16, 8)),
-                    Channel::OutputA4 => (ci(58, 8), ci(24, 8)),
-                    Channel::OutputA5 => (ci(66, 8), ci(32, 8)),
-                    Channel::VirtualOutput | Channel::VirtualOutputB1 => (ci(74, 8), ci(40, 8)),
-                    Channel::VirtualOutputB2 => (ci(82, 8), ci(48, 8)),
-                    Channel::VirtualOutputB3 => (ci(82, 8), ci(56, 8)),
-                    Channel::VirtualInput => (ci(10, 8), None),
-                    Channel::VirtualInputAux => (ci(18, 8), None),
-                    Channel::VirtualInput8 => (ci(26, 8), None),
+                    Device::Strip1 => (ci(0, 8), None),
+                    Device::Strip2 => (ci(2, 8), None),
+                    Device::Strip3 => (ci(4, 8), None),
+                    Device::Strip4 => (ci(6, 8), None),
+                    Device::Strip5 => (ci(8, 8), None),
+                    Device::OutputA1 => (ci(34, 8), ci(0, 8)),
+                    Device::OutputA2 => (ci(42, 8), ci(8, 8)),
+                    Device::OutputA3 => (ci(50, 8), ci(16, 8)),
+                    Device::OutputA4 => (ci(58, 8), ci(24, 8)),
+                    Device::OutputA5 => (ci(66, 8), ci(32, 8)),
+                    Device::VirtualOutput | Device::VirtualOutputB1 => (ci(74, 8), ci(40, 8)),
+                    Device::VirtualOutputB2 => (ci(82, 8), ci(48, 8)),
+                    Device::VirtualOutputB3 => (ci(82, 8), ci(56, 8)),
+                    Device::VirtualInput => (ci(10, 8), None),
+                    Device::VirtualInputAux => (ci(18, 8), None),
+                    Device::VirtualInput8 => (ci(26, 8), None),
                 }
             }
             _ => (None, None),
@@ -241,24 +246,24 @@ impl Channel {
         self.main(program).1
     }
     /// Get all channels available in Voicemeeter Potato.
-    pub fn potato_channels() -> Vec<Channel> {
+    pub fn potato_channels() -> Vec<Device> {
         vec![
-            Channel::Strip1,
-            Channel::Strip2,
-            Channel::Strip3,
-            Channel::Strip4,
-            Channel::Strip5,
-            Channel::OutputA1,
-            Channel::OutputA2,
-            Channel::OutputA3,
-            Channel::OutputA4,
-            Channel::OutputA5,
-            Channel::VirtualOutput,
-            Channel::VirtualOutputB2,
-            Channel::VirtualOutputB3,
-            Channel::VirtualInput,
-            Channel::VirtualInputAux,
-            Channel::VirtualInput8,
+            Device::Strip1,
+            Device::Strip2,
+            Device::Strip3,
+            Device::Strip4,
+            Device::Strip5,
+            Device::OutputA1,
+            Device::OutputA2,
+            Device::OutputA3,
+            Device::OutputA4,
+            Device::OutputA5,
+            Device::VirtualOutput,
+            Device::VirtualOutputB2,
+            Device::VirtualOutputB3,
+            Device::VirtualInput,
+            Device::VirtualInputAux,
+            Device::VirtualInput8,
         ]
     }
 }

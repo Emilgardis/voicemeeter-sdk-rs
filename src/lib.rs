@@ -1,6 +1,7 @@
 #![warn(missing_docs)]
 #![deny(unsafe_op_in_unsafe_fn)]
 #![deny(rustdoc::broken_intra_doc_links)]
+#![cfg_attr(docsrs, feature(doc_auto_cfg))]
 //! Voicemeeter sdk
 //!
 //! Create a new instance of the Voicemeeter SDK. The instance is automatically logged in.
@@ -18,7 +19,9 @@
 /// Raw FFI Bindings
 #[allow(rustdoc::broken_intra_doc_links)]
 pub mod bindings;
+#[cfg(feature = "interface")]
 pub mod interface;
+#[cfg(feature = "interface")]
 pub mod types;
 
 use std::ffi::{OsStr, OsString};
@@ -27,15 +30,18 @@ use std::io;
 use std::path::Path;
 
 #[doc(hidden)]
+#[cfg(feature = "interface")]
 pub static VOICEMEETER_REMOTE: once_cell::sync::OnceCell<VoicemeeterRemoteRaw> =
     once_cell::sync::OnceCell::new();
 
 #[doc(inline, hidden)]
 pub use bindings::{VoicemeeterRemoteRaw, VBVMR_AUDIOCALLBACK as AudioCallbackMode};
 #[doc(inline)]
+#[cfg(feature = "interface")]
 pub use interface::VoicemeeterRemote;
 
 #[doc(inline)]
+#[cfg(feature = "interface")]
 pub use interface::callback::commands::CallbackCommand;
 
 use winreg::enums::{KEY_READ, KEY_WOW64_32KEY};
@@ -150,6 +156,7 @@ pub enum RegistryError {
 }
 
 /// Get a pointer to a `T` if option is [`Some`](Option::Some) or a null ptr if it's [`None`](Option::None)
+#[cfg(feature = "interface")]
 pub(crate) fn opt_or_null<T>(option: Option<&mut T>) -> *mut &mut T {
     if let Some(mut p) = option {
         std::ptr::addr_of_mut!(p)

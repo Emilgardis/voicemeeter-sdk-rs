@@ -52,12 +52,12 @@ impl VoicemeeterRemote {
     ) -> Result<MacroButtonStatus, GetMacroButtonStatusError> {
         let mut f = 0.0f32;
         let button = button.into();
-        let res = unsafe { self.raw.VBVMR_MacroButton_GetStatus(button.0 .0, &mut f, 0) };
+        let res = unsafe { self.raw.VBVMR_MacroButton_GetStatus(button.0.0, &mut f, 0) };
         match res {
             0 => Ok(MacroButtonStatus(f == 1.)),
             -1 => Err(GetMacroButtonStatusError::CannotGetClient),
             -2 => Err(GetMacroButtonStatusError::NoServer),
-            -3 => Err(GetMacroButtonStatusError::UnknownParameter(button)), // FIXME: Lossless always (assuming vmr doesn't modify :) ), unsafe?
+            -3 => Err(GetMacroButtonStatusError::UnknownParameter(button)), /* FIXME: Lossless always (assuming vmr doesn't modify :) ), unsafe? */
             -5 => Err(GetMacroButtonStatusError::StructureMismatch(button, 1)),
             s => Err(GetMacroButtonStatusError::Other(s)),
         }
@@ -81,13 +81,13 @@ impl VoicemeeterRemote {
         };
         let res = unsafe {
             self.raw
-                .VBVMR_MacroButton_SetStatus(button.0 .0, (state as u32) as f32, bitmode.0)
+                .VBVMR_MacroButton_SetStatus(button.0.0, (state as u32) as f32, bitmode.0)
         };
         match res {
             0 => Ok(()),
             -1 => Err(SetMacroButtonStatusError::CannotGetClient),
             -2 => Err(SetMacroButtonStatusError::NoServer),
-            -3 => Err(SetMacroButtonStatusError::UnknownParameter(button)), // FIXME: Lossless always (assuming vmr doesn't modify :) ), unsafe?
+            -3 => Err(SetMacroButtonStatusError::UnknownParameter(button)), /* FIXME: Lossless always (assuming vmr doesn't modify :) ), unsafe? */
             -5 => Err(SetMacroButtonStatusError::StructureMismatch(button, 1)),
             s => Err(SetMacroButtonStatusError::Other(s)),
         }
@@ -100,12 +100,12 @@ impl VoicemeeterRemote {
     ) -> Result<MacroButtonStatus, GetMacroButtonStatusError> {
         let mut f = 0.0f32;
         let button = button.into();
-        let res = unsafe { self.raw.VBVMR_MacroButton_GetStatus(button.0 .0, &mut f, 3) };
+        let res = unsafe { self.raw.VBVMR_MacroButton_GetStatus(button.0.0, &mut f, 3) };
         match res {
             0 => Ok(MacroButtonStatus(f == 1.)),
             -1 => Err(GetMacroButtonStatusError::CannotGetClient),
             -2 => Err(GetMacroButtonStatusError::NoServer),
-            -3 => Err(GetMacroButtonStatusError::UnknownParameter(button)), // FIXME: Lossless always (assuming vmr doesn't modify :) ), unsafe?
+            -3 => Err(GetMacroButtonStatusError::UnknownParameter(button)), /* FIXME: Lossless always (assuming vmr doesn't modify :) ), unsafe? */
             -5 => Err(GetMacroButtonStatusError::StructureMismatch(button, 3)),
             s => Err(GetMacroButtonStatusError::Other(s)),
         }
@@ -120,13 +120,13 @@ impl VoicemeeterRemote {
         let button = button.into();
         let res = unsafe {
             self.raw
-                .VBVMR_MacroButton_SetStatus(button.0 .0, (state as u32) as f32, 3)
+                .VBVMR_MacroButton_SetStatus(button.0.0, (state as u32) as f32, 3)
         };
         match res {
             0 => Ok(()),
             -1 => Err(SetMacroButtonStatusError::CannotGetClient),
             -2 => Err(SetMacroButtonStatusError::NoServer),
-            -3 => Err(SetMacroButtonStatusError::UnknownParameter(button)), // FIXME: Lossless always (assuming vmr doesn't modify :) ), unsafe?
+            -3 => Err(SetMacroButtonStatusError::UnknownParameter(button)), /* FIXME: Lossless always (assuming vmr doesn't modify :) ), unsafe? */
             -5 => Err(SetMacroButtonStatusError::StructureMismatch(button, 3)),
             s => Err(SetMacroButtonStatusError::Other(s)),
         }

@@ -16,6 +16,7 @@ pub mod set_parameters;
 
 /// Interface for voicemeeter.
 #[derive(Clone)]
+#[cfg(feature = "interface")] // for doc_cfg
 pub struct VoicemeeterRemote {
     raw: &'static crate::bindings::VoicemeeterRemoteRaw,
     program: VoicemeeterApplication,

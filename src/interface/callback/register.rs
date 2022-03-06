@@ -10,16 +10,16 @@ use crate::{
     VoicemeeterRemote,
 };
 
-/******************************************************************************/
-/*                             VB-AUDIO CALLBACK                              */
-/******************************************************************************/
-/* 4x Functions to process all voicemeeter audio input and output channels    */
-/*                                                                            */
-/* VBVMR_AudioCallbackRegister	 :to register your audio callback(s)          */
-/* VBVMR_AudioCallbackStart	     :to start the audio stream                   */
-/* VBVMR_AudioCallbackStop    	 :to stop the audio stream                    */
-/* VBVMR_AudioCallbackUnregister :to unregister / Release callback(s)         */
-/******************************************************************************/
+/***************************************************************************** */
+/* VB-AUDIO CALLBACK */
+/***************************************************************************** */
+/* 4x Functions to process all voicemeeter audio input and output channels */
+/*  */
+/* VBVMR_AudioCallbackRegister	 :to register your audio callback(s) */
+/* VBVMR_AudioCallbackStart	     :to start the audio stream */
+/* VBVMR_AudioCallbackStop    	 :to stop the audio stream */
+/* VBVMR_AudioCallbackUnregister :to unregister / Release callback(s) */
+/***************************************************************************** */
 
 // Thanks to sgrif, http://blog.sagetheprogrammer.com/neat-rust-tricks-passing-rust-closures-to-c
 fn register_audio_callback<'cb, F>(
@@ -29,7 +29,7 @@ fn register_audio_callback<'cb, F>(
     callback: F,
 ) -> Result<*mut F, AudioCallbackRegisterError>
 where
-    F: FnMut(CallbackCommand<'cb>, i32) -> c_long + 'static,
+    F: FnMut(CallbackCommand<'cb>, i32) -> c_long,
 {
     // This leaks
     let data = Box::into_raw(Box::new(callback));
@@ -77,7 +77,7 @@ where
     )
 }
 
-/// Guard type for the callback. If this is dropped the callback data will be leaked.
+/// Guard type for the callback. If this is dropped the callback data will be leaked and newer dropped.
 #[must_use = "This structure contains the raw pointer to the closure environment, if this is not returned you will leak memory"]
 pub struct CallbackGuard<'a, F> {
     guard: *mut F,
@@ -87,15 +87,21 @@ pub struct CallbackGuard<'a, F> {
 impl VoicemeeterRemote {
     // FIXME: examples
     /// Register a callback for audio.
+    ///
+    /// # Examples
+    ///
+    /// ```rust,no_run
+    #[doc = include_str!("../../../examples/output.rs")]
+    /// ```
     #[tracing::instrument(skip(application_name, callback), fields(application_name, mode))]
-    pub fn audio_callback_register<'a, 'cb, F>(
+    pub fn audio_callback_register<'a, 'cb, 'g, F>(
         &'a self,
         mode: crate::AudioCallbackMode,
         application_name: impl AsRef<str>,
         callback: F,
-    ) -> Result<CallbackGuard<F>, AudioCallbackRegisterError>
+    ) -> Result<CallbackGuard<'g, F>, AudioCallbackRegisterError>
     where
-        F: FnMut(CallbackCommand<'cb>, i32) -> c_long + 'static,
+        F: FnMut(CallbackCommand<'cb>, i32) -> c_long + 'g,
     {
         // TODO: SAFETY!!!
         let application_name = application_name.as_ref();

@@ -24,6 +24,11 @@ ctrlc = "3"
 tracing-error = "0.2.0"
 fundsp = {version = "0.3.2", features = ["hacker_32"]}
 
+[features]
+default = ["interface"]
+
+interface = []
+
 [workspace]
 members = [".", "codegen"]
 

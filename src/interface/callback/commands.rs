@@ -3,7 +3,7 @@
 //! These are returned to the callback function.
 use crate::{
     bindings::VBVMR_CBCOMMAND,
-    types::{Channel, VoicemeeterApplication},
+    types::{Device, VoicemeeterApplication},
 };
 
 use super::data::{AudioBuffer, AudioInfo, RawCallbackData};
@@ -151,8 +151,8 @@ impl<'a> BufferInData<'a> {
         Self {
             data: data.read_write_buffer(),
             samples_per_frame,
-            read_buffer: Vec::with_capacity(data.audiobuffer_nbs as usize),
-            write_buffer: Vec::with_capacity(data.audiobuffer_nbs as usize),
+            read_buffer: Vec::with_capacity(8),
+            write_buffer: Vec::with_capacity(8),
             program,
         }
     }
@@ -160,10 +160,10 @@ impl<'a> BufferInData<'a> {
     // FIXME: These should be an iterator, maybe.
     //#[tracing::instrument(skip(self), name = "BufferInData::read_write_buffer_on_channel")]
     #[allow(clippy::type_complexity)]
-    /// Get the read and write buffers for a specific [channel](Channel).
-    pub fn read_write_buffer_on_channel<'b>(
+    /// Get the read and write buffers for a specific [device](Device).
+    pub fn read_write_buffer_on_device<'b>(
         &'b mut self,
-        channel: &Channel,
+        channel: &Device,
     ) -> Option<(&'b [&'a [f32]], &'b mut [&'a mut [f32]])> {
         self.read_buffer.clear();
         self.write_buffer.clear();
@@ -246,19 +246,19 @@ impl<'a> BufferOutData<'a> {
         Self {
             data: rw,
             samples_per_frame,
-            read_buffer: Vec::with_capacity(data.audiobuffer_nbs as usize),
-            write_buffer: Vec::with_capacity(data.audiobuffer_nbs as usize),
+            read_buffer: Vec::with_capacity(8),
+            write_buffer: Vec::with_capacity(8),
             program,
         }
     }
 
     // FIXME: These should be an iterator, maybe.
-    //#[tracing::instrument(skip(self), name = "BufferOutData::read_write_buffer_on_channel")]
+    //#[tracing::instrument(skip(self), name = "BufferOutData::read_write_buffer_on_device")]
     #[allow(clippy::type_complexity)]
-    /// Get the read and write buffers for a specific [channel](Channel).
-    pub fn read_write_buffer_on_channel<'b>(
+    /// Get the read and write buffers for a specific [device](Device).
+    pub fn read_write_buffer_on_device<'b>(
         &'b mut self,
-        channel: &Channel,
+        channel: &Device,
     ) -> Option<(&'b [&'a [f32]], &'b mut [&'a mut [f32]])> {
         self.read_buffer.clear();
         self.write_buffer.clear();
@@ -334,8 +334,8 @@ impl<'a> BufferMainData<'a> {
         Self {
             data: data.read_write_buffer(),
             samples_per_frame,
-            read_buffer: Vec::with_capacity(data.audiobuffer_nbs as usize),
-            write_buffer: Vec::with_capacity(data.audiobuffer_nbs as usize),
+            read_buffer: Vec::with_capacity(8),
+            write_buffer: Vec::with_capacity(8),
             program,
         }
     }
@@ -345,20 +345,27 @@ impl<'a> BufferMainData<'a> {
         self.data
     }
 
+    // FIXME: There should be a way to get distinct r/w buffers, right now you can not easily get Strip1 read and OutputA1 write for example.
+
     // FIXME: These should be an iterator, maybe.
-    //#[tracing::instrument(skip(self), name = "BufferMainData::read_write_buffer_on_channel")]
+    //#[tracing::instrument(skip(self), name = "BufferMainData::read_write_buffer_on_device")]
     #[allow(clippy::type_complexity)]
-    /// Get the read and write buffers for a specific [channel](Channel).
-    pub fn read_write_buffer_on_channel<'b>(
+    /// Get the read and write buffers for a specific [device](Device).
+    ///
+    /// # Notes
+    ///
+    /// The output may be empty if the device does not have an output in the buffer. The second slice will then be empty.
+    /// If there is no input buffer for this device, the result would be [None](Option::None).
+    pub fn read_write_buffer_on_device<'b>(
         &'b mut self,
-        channel: &Channel,
+        channel: &Device,
     ) -> Option<(&'b [&'a [f32]], &'b mut [&'a mut [f32]])> {
         // FIXME: Find a way to not clear everytime.
         self.read_buffer.clear();
         self.write_buffer.clear();
         let idx = channel.main(&self.program);
         //println!("channel: program: {}, {channel:?}, idx: {idx:?}", &self.program);
-        // There should not be any channels without a read but a write
+        // There should not be any device without a read but a write
         let (r_idx, w_idx) = (idx.0?, idx.1);
         tracing::trace!("getting buffers: {:?}, {:?}", r_idx, w_idx);
         let (read, write) = self.data;
@@ -389,6 +396,7 @@ impl<'a> BufferMainData<'a> {
 /// Callback command passed to the [audio callback](crate::VoicemeeterRemote::audio_callback_register).
 #[derive(Debug)]
 #[repr(i32)]
+#[cfg(feature = "interface")] // for doc_cfg
 pub enum CallbackCommand<'a> {
     /// Starting command
     Starting(Starting<'a>),

@@ -1,141 +1,65 @@
-#![allow(clippy::pedantic, unused, clippy::complexity)]
-use std::sync::mpsc::channel;
-use std::time::Duration;
-use tracing::Instrument;
-use tracing_subscriber::fmt::format::FmtSpan;
-use voicemeeter::{
-    interface::callback::commands::{BufferOut, BufferOutData, HasAudioBuffer},
-    types::Channel,
-    AudioCallbackMode, CallbackCommand,
-};
+use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::Arc;
+use voicemeeter::types::Device;
+use voicemeeter::{CallbackCommand, VoicemeeterRemote};
 
-pub fn main() -> Result<(), color_eyre::Report> {
-    install_eyre()?;
-    install_tracing();
-    let (tx, rx) = channel();
-    let remote = voicemeeter::VoicemeeterRemote::new()?;
-    let r2 = remote.clone();
+pub fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // Setup a hook for catching ctrl+c to properly stop the program.
+    let running = Arc::new(AtomicBool::new(true));
+    let r = running.clone();
     ctrlc::set_handler(move || {
-        r2.audio_callback_stop();
-        tx.send(()).expect("Could not send signal on channel.")
+        r.store(false, Ordering::SeqCst);
     })
     .expect("Error setting Ctrl-C handler");
-    println!("{}", remote.get_voicemeeter_version()?);
-    let hello = "lol".to_string();
+
+    // Get the client.
+    let remote = VoicemeeterRemote::new()?;
+    // This is the callback command that will be called by voicemeeter on every audio frame, start, stop and change.
     let mut frame = 0;
-    let mut first = false;
-    std::thread::sleep(std::time::Duration::from_millis(512));
-    use fundsp::hacker_32::*;
-    let mut equalizer: An<_> = branch::<U2, _, _>(|_| {
-        pipe::<U12, _, _>(|i| bell_hz(1000.0 + 1000.0 * i as f32, 1.0f32, db_amp(0.0f32)))
-    });
-    //let mut equalizer = multipass::<U8>();
-    equalizer.reset(Some(192_000.0));
-    equalizer.node_mut(0).node_mut(0).set_gain(0.);
-    let mut cb = move |command, _| {
-        tracing::trace!("{}", hello);
-
+    // This callback can capture data from its scope
+    let callback = |command: CallbackCommand, _nnn: i32| -> i32 {
         match command {
-            CallbackCommand::Starting(info) => {
-                println!("Starting: {:#?}", info);
-            }
-            CallbackCommand::Ending(_) => println!("good bye!"),
-            CallbackCommand::Change(_) => todo!(),
-            CallbackCommand::BufferMain(mut data) => {
-                if !first {
-                    first = true;
-                    std::thread::sleep(std::time::Duration::from_millis(512));
-                }
-                // unsafe {
-                //     let data = unsafe { data.buffer.data() };
-                //     let read = data.0; // std::slice::from_raw_parts_mut(data.0[0], 1024);
-                //     let base_offset = std::ptr::addr_of!(read[0]);
-                //     println!("{:?}", read.iter().map(|x| format!("{0:p}: {1:?}",  x, x.as_ref())).collect::<Vec<_>>());
-                // }
-                let buffer = &mut data.buffer;
-                for channel in Channel::potato_channels() {
-                    let channel = &channel;
-                    let (buffer_in, buffer_out) = match buffer.read_write_buffer_on_channel(channel)
-                    {
-                        Some(b) => b,
-                        None => continue,
-                    };
+            CallbackCommand::Starting(info) => println!("starting!\n{info:?}"),
+            CallbackCommand::Ending(_) => println!("ending!"),
+            CallbackCommand::Change(info) => println!("application change requested!\n{info:?}"),
+            // In MAIN mode, this command is used for every audio frame.
+            voicemeeter::CallbackCommand::BufferMain(mut data) => {
+                frame += 1;
+                // The data returned by voicemeeter is a slice of frames per "channel" containing another slice with `data.nbs` samples.
+                // each device has a number of channels (e.g left, right, center, etc. typically 8 channels)
+                for device in [Device::OutputA1, Device::OutputA2] {
+                    // The `read_write_buffer_on_device` method on the buffer will return a slice of all channels for the given device.
+                    let (buffer_in, buffer_out): (&[&[f32]], &mut [&mut [f32]]) =
+                        match data.buffer.read_write_buffer_on_device(&device) {
+                            Some(b) => b,
+                            None => continue,
+                        };
+                    // If the input is as large as the output (which is always true for OutputA1 and OutputA2),
+                    // write the input to the output
                     if buffer_out.len() == buffer_in.len() {
-                        assert!(data.nbs % 64 == 0);
-                        equalizer.process(128, buffer_in, buffer_out);
-                    } else {
+                        for (write, read) in buffer_out.iter_mut().zip(buffer_in.iter()) {
+                            write.clone_from_slice(read);
+                        }
                     }
-
-                    // for (e, (write, read)) in
-                    //     buffer_out.iter_mut().zip(output.iter()).enumerate()
-                    // {
-                    //     write.clone_from_slice(read);
-                    //     //read.iter().by_ref().zip(write.iter_mut()).for_each(|(i,s)|*s = sine.next() as f32);
-                    // }
-                    //tracing::info!("len w: {}", buffer_out.len());
                 }
             }
-            CallbackCommand::Other(_, _) => {}
-            b => todo!("not implemented for: {:?}", b.name()),
+            _ => (),
         }
-        frame += 1;
         0
     };
-    struct Test {
-        a: std::os::raw::c_long,
-        b: std::os::raw::c_long,
-    }
-    let guard = remote.audio_callback_register(AudioCallbackMode::MAIN, "TESTing", cb)?;
-    //std::thread::sleep(std::time::Duration::from_secs(5));
+    let guard =
+        remote.audio_callback_register(voicemeeter::AudioCallbackMode::MAIN, "my_app", callback)?;
+    // It is good practice to wait a bit here before starting the callback, otherwise you may experience some crackling.
+    // Other reason for crackle is not quick enough execution, try running in release mode for optimizations.
+    std::thread::sleep(std::time::Duration::from_millis(500));
+
     remote.audio_callback_start()?;
-    println!("callback started");
-    rx.recv().unwrap();
+
+    while running.load(Ordering::SeqCst) {
+        std::hint::spin_loop()
+    }
+
     remote.audio_callback_unregister(guard)?;
-
+    println!("total frames: {frame}");
     Ok(())
-}
-
-fn install_eyre() -> eyre::Result<()> {
-    let (panic_hook, eyre_hook) = color_eyre::config::HookBuilder::default()
-        .add_default_filters()
-        .into_hooks();
-
-    eyre_hook.install()?;
-
-    std::panic::set_hook(Box::new(move |pi| {
-        tracing::error!("{}", panic_hook.panic_report(pi));
-    }));
-    Ok(())
-}
-
-fn install_tracing() {
-    use tracing_error::ErrorLayer;
-    use tracing_subscriber::prelude::*;
-    use tracing_subscriber::{fmt, EnvFilter};
-
-    let fmt_layer = fmt::layer()
-        .with_target(false)
-        .with_file(true)
-        .with_line_number(true)
-        .with_span_events(FmtSpan::NONE)
-        //.without_time()
-        .compact();
-    #[rustfmt::skip]
-    let filter_layer = EnvFilter::try_from_default_env()
-        .or_else(|_| EnvFilter::try_new("info"))
-        .map(|f| {
-            f.add_directive("hyper=error".parse().expect("could not make directive"))
-                .add_directive("h2=error".parse().expect("could not make directive"))
-                .add_directive("rustls=error".parse().expect("could not make directive"))
-                .add_directive("tungstenite=error".parse().expect("could not make directive"))
-                .add_directive("retainer=info".parse().expect("could not make directive"))
-            //.add_directive("tower_http=error".parse().unwrap())
-        })
-        .expect("could not make filter layer");
-
-    tracing_subscriber::registry()
-        .with(filter_layer)
-        .with(fmt_layer)
-        .with(ErrorLayer::default())
-        .init();
 }
