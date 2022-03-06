@@ -29,6 +29,18 @@ default = ["interface"]
 
 interface = []
 
+[[example]]
+name = "output"
+required-features = ["interface"]
+
+[[example]]
+name = "test_raw"
+required-features = []
+
+[[example]]
+name = "test"
+required-features = ["interface"]
+
 [workspace]
 members = [".", "codegen"]
 
