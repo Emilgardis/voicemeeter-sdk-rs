@@ -62,3 +62,8 @@ opt-level = 3
 
 [profile.dev.package.backtrace]
 opt-level = 3
+
+[package.metadata.docs.rs]
+rustc-args = ["--cfg", "docsrs"]
+all-features = true
+targets = ["x86_64-pc-windows-msvc"]
