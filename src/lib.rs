@@ -103,7 +103,7 @@ pub(crate) fn find_voicemeeter_remote_with_registry() -> Result<OsString, Remote
         .map_err(|_| RegistryError::CouldNotFindUninstallString)?;
     let remote = Path::new(&path)
         .parent()
-        .ok_or(RegistryError::UninstallStringInvalid(path.clone()))
+        .ok_or_else(|| RegistryError::UninstallStringInvalid(path.clone()))
         .map(|p| p.join(LIBRARY_NAME_64))?;
 
     if remote.exists() {
