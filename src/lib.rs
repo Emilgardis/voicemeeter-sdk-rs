@@ -12,7 +12,7 @@
 //! let remote = VoicemeeterRemote::new()?;
 //! println!("{}", remote.get_voicemeeter_version()?);
 //!
-//! Ok::<(), Box<dyn std::error::Error>>(())
+//! # Ok::<(), Box<dyn std::error::Error>>(())
 //! ```
 
 #[allow(missing_docs)]
