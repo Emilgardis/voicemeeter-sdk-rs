@@ -88,6 +88,11 @@ impl VoicemeeterRemote {
     // FIXME: examples
     /// Register a callback for audio.
     ///
+    /// The callback is a function that will be called when the audio stream is started, changed or stopped and when data is sent to it.
+    /// 
+    /// The callback takes two arguments, the command sent from voicemeeter and a currently unused [i32] parameter for additional data.
+    /// 
+    /// The [mode](crate::AudioCallbackMode) determines what buffers are returned.
     /// # Examples
     ///
     /// ```rust,no_run

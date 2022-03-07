@@ -6,7 +6,7 @@ use crate::{
     types::{Device, VoicemeeterApplication},
 };
 
-use super::data::{AudioBuffer, AudioInfo, RawCallbackData};
+use super::data::{AudioBuffer, AudioInfo, RawCallbackData, BufferMainData, BufferOutData, BufferInData};
 
 macro_rules! implement {
     (@audio_info $($name:ident),* $(,)?) => {
@@ -118,15 +118,7 @@ pub struct BufferIn<'a> {
     pub nbo: usize,
 }
 
-/// Buffer for input mode.
-#[derive(Debug)]
-pub struct BufferInData<'a> {
-    data: (&'a [*mut f32], &'a [*mut f32]),
-    read_buffer: Vec<&'a [f32]>,
-    write_buffer: Vec<&'a mut [f32]>,
-    samples_per_frame: usize,
-    program: VoicemeeterApplication,
-}
+
 
 impl<'a> BufferIn<'a> {
     //#[tracing::instrument(skip_all, name = "BufferIn::new")]
@@ -141,55 +133,7 @@ impl<'a> BufferIn<'a> {
     }
 }
 
-impl<'a> BufferInData<'a> {
-    //#[tracing::instrument(skip_all, name = "BufferInData::new")]
-    pub(crate) fn new(
-        program: VoicemeeterApplication,
-        data: &'a AudioBuffer,
-        samples_per_frame: usize,
-    ) -> Self {
-        Self {
-            data: data.read_write_buffer(),
-            samples_per_frame,
-            read_buffer: Vec::with_capacity(8),
-            write_buffer: Vec::with_capacity(8),
-            program,
-        }
-    }
 
-    // FIXME: These should be an iterator, maybe.
-    //#[tracing::instrument(skip(self), name = "BufferInData::read_write_buffer_on_channel")]
-    #[allow(clippy::type_complexity)]
-    /// Get the read and write buffers for a specific [device](Device).
-    pub fn read_write_buffer_on_device<'b>(
-        &'b mut self,
-        channel: &Device,
-    ) -> Option<(&'b [&'a [f32]], &'b mut [&'a mut [f32]])> {
-        self.read_buffer.clear();
-        self.write_buffer.clear();
-        let idx = channel.input(&self.program)?;
-        // There should not be any channels without a read but a write
-        let (read, write) = self.data;
-        // FIXME: assert that the range is contiguous
-        for i in 0..idx.size {
-            let read =
-                unsafe { std::slice::from_raw_parts(read[idx.start + i], self.samples_per_frame) };
-            self.read_buffer.push(read);
-
-            let write = unsafe {
-                std::slice::from_raw_parts_mut(write[idx.start + i], self.samples_per_frame)
-            };
-            self.write_buffer.push(write);
-            // tracing::trace!(
-            //     "read from {}, to {}. resulting in {} elems",
-            //     r_idx.start,
-            //     r_idx.size,
-            //     read.len()
-            // );
-        }
-        Some((&self.read_buffer, &mut self.write_buffer))
-    }
-}
 
 /// Data for output mode.
 #[derive(Debug)]
@@ -206,16 +150,6 @@ pub struct BufferOut<'a> {
     pub nbo: usize,
 }
 
-/// Buffer for output mode.
-#[derive(Debug)]
-pub struct BufferOutData<'a> {
-    data: (&'a [*mut f32], &'a [*mut f32]),
-    read_buffer: Vec<&'a [f32]>,
-    write_buffer: Vec<&'a mut [f32]>,
-    samples_per_frame: usize,
-    program: VoicemeeterApplication,
-}
-
 impl<'a> BufferOut<'a> {
     //#[tracing::instrument(skip_all, name = "BufferOut::new")]
     pub(crate) fn new(program: VoicemeeterApplication, buffer: &'a AudioBuffer) -> Self {
@@ -229,62 +163,7 @@ impl<'a> BufferOut<'a> {
     }
 }
 
-impl<'a> BufferOutData<'a> {
-    //#[tracing::instrument(skip_all, name = "BufferOutData::new")]
-    pub(crate) fn new(
-        program: VoicemeeterApplication,
-        data: &'a AudioBuffer,
-        samples_per_frame: usize,
-    ) -> Self {
-        let rw = data.read_write_buffer();
-        unsafe {
-            tracing::trace!(
-                "hmm, {:?}",
-                &std::mem::transmute_copy::<_, &[&mut f32]>(&rw.0)
-            );
-        }
-        Self {
-            data: rw,
-            samples_per_frame,
-            read_buffer: Vec::with_capacity(8),
-            write_buffer: Vec::with_capacity(8),
-            program,
-        }
-    }
 
-    // FIXME: These should be an iterator, maybe.
-    //#[tracing::instrument(skip(self), name = "BufferOutData::read_write_buffer_on_device")]
-    #[allow(clippy::type_complexity)]
-    /// Get the read and write buffers for a specific [device](Device).
-    pub fn read_write_buffer_on_device<'b>(
-        &'b mut self,
-        channel: &Device,
-    ) -> Option<(&'b [&'a [f32]], &'b mut [&'a mut [f32]])> {
-        self.read_buffer.clear();
-        self.write_buffer.clear();
-        let idx = channel.output(&self.program)?;
-        // There should not be any channels without a read but a write
-        let (read, write) = self.data;
-        // FIXME: assert that the range is contiguous
-        for i in 0..idx.size {
-            let read =
-                unsafe { std::slice::from_raw_parts(read[idx.start + i], self.samples_per_frame) };
-            self.read_buffer.push(read);
-
-            let write = unsafe {
-                std::slice::from_raw_parts_mut(write[idx.start + i], self.samples_per_frame)
-            };
-            self.write_buffer.push(write);
-            // tracing::trace!(
-            //     "read from {}, to {}. resulting in {} elems",
-            //     r_idx.start,
-            //     r_idx.size,
-            //     read.len()
-            // );
-        }
-        Some((&self.read_buffer, &mut self.write_buffer))
-    }
-}
 
 /// Data for main mode.
 #[derive(Debug)]
@@ -301,15 +180,7 @@ pub struct BufferMain<'a> {
     pub nbo: usize,
 }
 
-/// Buffer for main mode.
-#[derive(Debug)]
-pub struct BufferMainData<'a> {
-    data: (&'a [*mut f32], &'a [*mut f32]),
-    read_buffer: Vec<&'a [f32]>,
-    write_buffer: Vec<&'a mut [f32]>,
-    samples_per_frame: usize,
-    program: VoicemeeterApplication,
-}
+
 
 impl<'a> BufferMain<'a> {
     //#[tracing::instrument(skip_all, name = "BufferMain::new")]
@@ -321,75 +192,6 @@ impl<'a> BufferMain<'a> {
             nbo: buffer.audiobuffer_nbo as usize,
             buffer: BufferMainData::new(program, buffer, buffer.audiobuffer_nbs as usize),
         }
-    }
-}
-
-impl<'a> BufferMainData<'a> {
-    //#[tracing::instrument(skip_all, name = "BufferMainData::new")]
-    pub(crate) fn new(
-        program: VoicemeeterApplication,
-        data: &'a AudioBuffer,
-        samples_per_frame: usize,
-    ) -> Self {
-        Self {
-            data: data.read_write_buffer(),
-            samples_per_frame,
-            read_buffer: Vec::with_capacity(8),
-            write_buffer: Vec::with_capacity(8),
-            program,
-        }
-    }
-
-    /// Get the data inside the buffer as slices of pointers
-    pub fn data<'b>(&'b self) -> (&'a [*mut f32], &'a [*mut f32]) {
-        self.data
-    }
-
-    // FIXME: There should be a way to get distinct r/w buffers, right now you can not easily get Strip1 read and OutputA1 write for example.
-
-    // FIXME: These should be an iterator, maybe.
-    //#[tracing::instrument(skip(self), name = "BufferMainData::read_write_buffer_on_device")]
-    #[allow(clippy::type_complexity)]
-    /// Get the read and write buffers for a specific [device](Device).
-    ///
-    /// # Notes
-    ///
-    /// The output may be empty if the device does not have an output in the buffer. The second slice will then be empty.
-    /// If there is no input buffer for this device, the result would be [None](Option::None).
-    pub fn read_write_buffer_on_device<'b>(
-        &'b mut self,
-        channel: &Device,
-    ) -> Option<(&'b [&'a [f32]], &'b mut [&'a mut [f32]])> {
-        // FIXME: Find a way to not clear everytime.
-        self.read_buffer.clear();
-        self.write_buffer.clear();
-        let idx = channel.main(&self.program);
-        //println!("channel: program: {}, {channel:?}, idx: {idx:?}", &self.program);
-        // There should not be any device without a read but a write
-        let (r_idx, w_idx) = (idx.0?, idx.1);
-        tracing::trace!("getting buffers: {:?}, {:?}", r_idx, w_idx);
-        let (read, write) = self.data;
-        // FIXME: assert that the range is contiguous
-        for i in 0..r_idx.size {
-            let read = unsafe {
-                std::slice::from_raw_parts(read[r_idx.start + i], self.samples_per_frame)
-            };
-            self.read_buffer.push(read);
-
-            if let Some(ref w_idx) = w_idx {
-                let write = unsafe {
-                    std::slice::from_raw_parts_mut(write[w_idx.start + i], self.samples_per_frame)
-                };
-                self.write_buffer.push(write);
-            }
-            // tracing::trace!(
-            //     "read from {}, to {}. resulting in {} elems",
-            //     r_idx.start,
-            //     r_idx.size,
-            //     read.len()
-            // );
-        }
-        Some((&self.read_buffer, &mut self.write_buffer))
     }
 }
 
