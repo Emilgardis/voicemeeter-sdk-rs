@@ -21,6 +21,10 @@ Licensed under either of <a href="LICENSE-APACHE">Apache License, Version
 2.0</a> or <a href="LICENSE-MIT">MIT license</a> at your option.
 </sup>
 
+<sup>
+Usage of the VoicemeeterRemote.dll is governed by the license agreement found in <a href="https://github.com/vburel2018/Voicemeeter-SDK">
+</sup>
+
 <br>
 
 <sub>
