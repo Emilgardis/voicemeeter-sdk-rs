@@ -5,6 +5,6 @@ pub mod register;
 pub mod start_stop;
 
 pub use commands::{
-    BufferIn, BufferInData, BufferMain, BufferMainData, BufferOut, BufferOutData, CallbackCommand,
-    HasAudioBuffer, HasAudioInfo,
+    BufferIn, BufferMain, BufferOut, CallbackCommand, HasAudioBuffer, HasAudioInfo,
 };
+pub use data::{BufferInData, BufferMainData, BufferOutData};
