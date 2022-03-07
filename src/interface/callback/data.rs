@@ -2,7 +2,7 @@
 
 mod buffer_abstraction;
 
-pub use buffer_abstraction::{input, main, output};
+pub use buffer_abstraction::{input, main, output, DeviceBuffer};
 
 use std::ptr::NonNull;
 
@@ -101,33 +101,44 @@ trait BufferDataExt<'a> {
     unsafe fn device_write<'b, const N: usize>(
         &'a self,
         device: &Device,
-    ) -> Option<[&'b mut [f32]; N]> {
-        let idx = self.channel_index_write(device)?;
+    ) -> DeviceBuffer<[&'b mut [f32]; N]> {
+        let idx = if let Some(idx) = self.channel_index_write(device) {
+            idx
+        } else {
+            return DeviceBuffer::None;
+        };
         assert_eq!(N, idx.size);
         let data = self.data().1;
         // Each channel inside idx.start..(idx..start+idx.size) will be a *mut f32 that points to an array of `nbs` f32s.
         let mut array = [(); N].map(|_| <_>::default());
         for i in 0..N {
-            let ptr = data[idx.start+i];
+            let ptr = data[idx.start + i];
             array[i] = unsafe { std::slice::from_raw_parts_mut(ptr, self.samples_per_frame()) };
         }
-        Some(array)
+        DeviceBuffer::Buffer(array)
     }
     /// Get the device read buffer for a device at idx.start..idx.start+N.
     ///
     /// This is unsafe because it can create mutable references arbitrarily.
     #[inline]
-    unsafe fn device_read<'b, const N: usize>(&'a self, device: &Device) -> Option<[&'b [f32]; N]> {
-        let idx = self.channel_index_read(device)?;
+    unsafe fn device_read<'b, const N: usize>(
+        &'a self,
+        device: &Device,
+    ) -> DeviceBuffer<[&'b [f32]; N]> {
+        let idx = if let Some(idx) = self.channel_index_read(device) {
+            idx
+        } else {
+            return DeviceBuffer::None;
+        };
         assert_eq!(N, idx.size, "on device: {device:?}");
         let data = self.data().0;
         // Each channel inside idx.start..(idx..start+idx.size) will be a *mut f32 that points to an array of `nbs` f32s.
         let mut array = [(); N].map(|_| <_>::default());
         for i in 0..N {
-            let ptr = data[idx.start+i];
+            let ptr = data[idx.start + i];
             array[i] = unsafe { std::slice::from_raw_parts(ptr, self.samples_per_frame()) };
         }
-        Some(array)
+        DeviceBuffer::Buffer(array)
     }
 }
 
@@ -180,7 +191,9 @@ impl<'a> BufferMainData<'a> {
     }
 
     /// Get all buffers
-    pub fn get_all_buffers<'b>(&'a mut self) -> (main::ReadDevices<'a, 'b>, main::WriteDevices<'a, 'b>) {
+    pub fn get_all_buffers<'b>(
+        &'a mut self,
+    ) -> (main::ReadDevices<'a, 'b>, main::WriteDevices<'a, 'b>) {
         (main::ReadDevices::new(self), main::WriteDevices::new(self))
     }
 
@@ -279,8 +292,13 @@ impl<'a> BufferOutData<'a> {
     }
 
     /// Get all buffers
-    pub fn get_all_buffers<'b>(&'a mut self) -> (output::ReadDevices<'a, 'b>, output::WriteDevices<'a, 'b>) {
-        (output::ReadDevices::new(self), output::WriteDevices::new(self))
+    pub fn get_all_buffers<'b>(
+        &'a mut self,
+    ) -> (output::ReadDevices<'a, 'b>, output::WriteDevices<'a, 'b>) {
+        (
+            output::ReadDevices::new(self),
+            output::WriteDevices::new(self),
+        )
     }
 
     // FIXME: These should be an iterator, maybe.
@@ -366,8 +384,13 @@ impl<'a> BufferInData<'a> {
     }
 
     /// Get all buffers
-    pub fn get_all_buffers<'b>(&'a mut self) -> (input::ReadDevices<'a, 'b>, input::WriteDevices<'a, 'b>) {
-        (input::ReadDevices::new(self), input::WriteDevices::new(self))
+    pub fn get_all_buffers<'b>(
+        &'a mut self,
+    ) -> (input::ReadDevices<'a, 'b>, input::WriteDevices<'a, 'b>) {
+        (
+            input::ReadDevices::new(self),
+            input::WriteDevices::new(self),
+        )
     }
 
     // FIXME: These should be an iterator, maybe.

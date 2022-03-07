@@ -41,7 +41,7 @@ pub use interface::VoicemeeterRemote;
 
 #[doc(inline)]
 #[cfg(feature = "interface")]
-pub use interface::callback::commands::CallbackCommand;
+pub use interface::callback::{commands::CallbackCommand, data::DeviceBuffer};
 
 use winreg::enums::{KEY_READ, KEY_WOW64_32KEY};
 

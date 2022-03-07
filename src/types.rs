@@ -79,9 +79,18 @@ impl VoicemeeterApplication {
             VoicemeeterApplication::Voicemeeter => {
                 &[Strip1, Strip2, VirtualInput, OutputA1, VirtualOutputB1]
             }
-            VoicemeeterApplication::VoicemeeterBanana => {
-                &[Strip1, Strip2, Strip3, VirtualInput, VirtualInputAux, OutputA1, OutputA2, OutputA3, VirtualOutputB1, VirtualOutputB2]
-            }
+            VoicemeeterApplication::VoicemeeterBanana => &[
+                Strip1,
+                Strip2,
+                Strip3,
+                VirtualInput,
+                VirtualInputAux,
+                OutputA1,
+                OutputA2,
+                OutputA3,
+                VirtualOutputB1,
+                VirtualOutputB2,
+            ],
             VoicemeeterApplication::VoicemeeterPotato | VoicemeeterApplication::PotatoX64Bits => {
                 Device::all()
             }

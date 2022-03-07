@@ -25,25 +25,13 @@ pub fn main() -> Result<(), Box<dyn std::error::Error>> {
             CallbackCommand::Starting(info) => println!("starting!\n{info:?}"),
             CallbackCommand::Ending(_) => println!("ending!"),
             CallbackCommand::Change(info) => println!("application change requested!\n{info:?}"),
-            // Output mode modifies the 
+            // Output mode modifies the
             voicemeeter::CallbackCommand::BufferOut(mut data) => {
                 frame += 1;
                 // The `get_all_buffers` method returns all possible devices for the current application.
                 let (read, mut write) = data.buffer.get_all_buffers();
-                // Below, we check that output_a1 is available (should always be true) and then apply a function on it.
-                if let (Some(read_a1), Some(ref mut write_a1)) = (read.output_a1, &mut write.output_a1) {
-                    // `output_a1` gives us an array with 8 slices, each slice is a channel with `data.nbs` samples.
-                    for (read_a1_channel, write_a1_channel) in
-                        read_a1.iter().zip(write_a1.iter_mut())
-                    {
-                        write_a1_channel
-                            .iter_mut()
-                            .enumerate()
-                            .map(|(i, f)| *f = read_a1_channel[i] * 0.5) // lower each sample by a half
-                            .for_each(drop);
-                    }
-                }
-
+                // Apply a function on all channels and their samples on OutputA1.
+                write.output_a1.apply(&read.output_a1, |_ch, r| r * 0.5);
                 // the buffer write type has a convenience method to copy data for specified devices.
                 write.copy_device_from(
                     &read,
