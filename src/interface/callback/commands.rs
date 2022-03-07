@@ -3,7 +3,7 @@
 //! These are returned to the callback function.
 use crate::{
     bindings::VBVMR_CBCOMMAND,
-    types::{Device, VoicemeeterApplication},
+    types::VoicemeeterApplication,
 };
 
 use super::data::{AudioBuffer, AudioInfo, RawCallbackData, BufferMainData, BufferOutData, BufferInData};

@@ -19,7 +19,8 @@ pub mod set_parameters;
 #[cfg(feature = "interface")] // for doc_cfg
 pub struct VoicemeeterRemote {
     raw: &'static crate::bindings::VoicemeeterRemoteRaw,
-    program: VoicemeeterApplication,
+    /// The type of the running Voicemeeter instance.
+    pub program: VoicemeeterApplication,
 }
 
 impl std::fmt::Debug for VoicemeeterRemote {

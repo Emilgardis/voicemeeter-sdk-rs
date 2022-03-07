@@ -1,8 +1,12 @@
 //! Underlying data types for callbacks
 
+mod buffer_abstraction;
+
+pub use buffer_abstraction::{input, main, output};
+
 use std::ptr::NonNull;
 
-use crate::types::{VoicemeeterApplication, Device};
+use crate::types::{ChannelIndex, Device, VoicemeeterApplication};
 
 /// Audio information
 pub type AudioInfo = crate::bindings::VBVMR_T_AUDIOINFO;
@@ -83,6 +87,50 @@ impl RawCallbackData {
     }
 }
 
+trait BufferDataExt<'a> {
+    /// Get the data inside the buffer as slices of pointers
+    fn data<'b>(&'b self) -> (&'a [*mut f32], &'a [*mut f32]);
+    /// Given a device, return a channel index
+    fn channel_index_write(&self, device: &Device) -> Option<ChannelIndex>;
+    fn channel_index_read(&self, device: &Device) -> Option<ChannelIndex>;
+    fn samples_per_frame(&self) -> usize;
+    /// Get the device write buffer for a device at idx.start..idx.start+N.
+    ///
+    /// This is unsafe because it can create mutable references arbitrarily.
+    #[inline]
+    unsafe fn device_write<'b, const N: usize>(
+        &'a self,
+        device: &Device,
+    ) -> Option<[&'b mut [f32]; N]> {
+        let idx = self.channel_index_write(device)?;
+        assert_eq!(N, idx.size);
+        let data = self.data().1;
+        // Each channel inside idx.start..(idx..start+idx.size) will be a *mut f32 that points to an array of `nbs` f32s.
+        let mut array = [(); N].map(|_| <_>::default());
+        for i in 0..N {
+            let ptr = data[idx.start+i];
+            array[i] = unsafe { std::slice::from_raw_parts_mut(ptr, self.samples_per_frame()) };
+        }
+        Some(array)
+    }
+    /// Get the device read buffer for a device at idx.start..idx.start+N.
+    ///
+    /// This is unsafe because it can create mutable references arbitrarily.
+    #[inline]
+    unsafe fn device_read<'b, const N: usize>(&'a self, device: &Device) -> Option<[&'b [f32]; N]> {
+        let idx = self.channel_index_read(device)?;
+        assert_eq!(N, idx.size, "on device: {device:?}");
+        let data = self.data().0;
+        // Each channel inside idx.start..(idx..start+idx.size) will be a *mut f32 that points to an array of `nbs` f32s.
+        let mut array = [(); N].map(|_| <_>::default());
+        for i in 0..N {
+            let ptr = data[idx.start+i];
+            array[i] = unsafe { std::slice::from_raw_parts(ptr, self.samples_per_frame()) };
+        }
+        Some(array)
+    }
+}
+
 /// Buffer for main mode.
 #[derive(Debug)]
 pub struct BufferMainData<'a> {
@@ -93,6 +141,27 @@ pub struct BufferMainData<'a> {
     program: VoicemeeterApplication,
 }
 
+impl<'a> BufferDataExt<'a> for BufferMainData<'a> {
+    #[inline]
+    fn data<'b>(&'b self) -> (&'a [*mut f32], &'a [*mut f32]) {
+        self.data
+    }
+
+    #[inline]
+    fn channel_index_read(&self, device: &Device) -> Option<ChannelIndex> {
+        device.main(&self.program).0
+    }
+
+    #[inline]
+    fn channel_index_write(&self, device: &Device) -> Option<ChannelIndex> {
+        device.main(&self.program).1
+    }
+
+    #[inline]
+    fn samples_per_frame(&self) -> usize {
+        self.samples_per_frame
+    }
+}
 
 impl<'a> BufferMainData<'a> {
     //#[tracing::instrument(skip_all, name = "BufferMainData::new")]
@@ -110,12 +179,10 @@ impl<'a> BufferMainData<'a> {
         }
     }
 
-    /// Get the data inside the buffer as slices of pointers
-    pub fn data<'b>(&'b self) -> (&'a [*mut f32], &'a [*mut f32]) {
-        self.data
+    /// Get all buffers
+    pub fn get_all_buffers<'b>(&'a mut self) -> (main::ReadDevices<'a, 'b>, main::WriteDevices<'a, 'b>) {
+        (main::ReadDevices::new(self), main::WriteDevices::new(self))
     }
-
-    // FIXME: There should be a way to get distinct r/w buffers, right now you can not easily get Strip1 read and OutputA1 write for example.
 
     // FIXME: These should be an iterator, maybe.
     //#[tracing::instrument(skip(self), name = "BufferMainData::read_write_buffer_on_device")]
@@ -173,6 +240,27 @@ pub struct BufferOutData<'a> {
     program: VoicemeeterApplication,
 }
 
+impl<'a> BufferDataExt<'a> for BufferOutData<'a> {
+    #[inline]
+    fn data<'b>(&'b self) -> (&'a [*mut f32], &'a [*mut f32]) {
+        self.data
+    }
+
+    #[inline]
+    fn channel_index_read(&self, device: &Device) -> Option<ChannelIndex> {
+        device.output(&self.program)
+    }
+
+    #[inline]
+    fn channel_index_write(&self, device: &Device) -> Option<ChannelIndex> {
+        device.output(&self.program)
+    }
+
+    #[inline]
+    fn samples_per_frame(&self) -> usize {
+        self.samples_per_frame
+    }
+}
 
 impl<'a> BufferOutData<'a> {
     //#[tracing::instrument(skip_all, name = "BufferOutData::new")]
@@ -181,20 +269,18 @@ impl<'a> BufferOutData<'a> {
         data: &'a AudioBuffer,
         samples_per_frame: usize,
     ) -> Self {
-        let rw = data.read_write_buffer();
-        unsafe {
-            tracing::trace!(
-                "hmm, {:?}",
-                &std::mem::transmute_copy::<_, &[&mut f32]>(&rw.0)
-            );
-        }
         Self {
-            data: rw,
+            data: data.read_write_buffer(),
             samples_per_frame,
             read_buffer: Vec::with_capacity(8),
             write_buffer: Vec::with_capacity(8),
             program,
         }
+    }
+
+    /// Get all buffers
+    pub fn get_all_buffers<'b>(&'a mut self) -> (output::ReadDevices<'a, 'b>, output::WriteDevices<'a, 'b>) {
+        (output::ReadDevices::new(self), output::WriteDevices::new(self))
     }
 
     // FIXME: These should be an iterator, maybe.
@@ -241,6 +327,28 @@ pub struct BufferInData<'a> {
     program: VoicemeeterApplication,
 }
 
+impl<'a> BufferDataExt<'a> for BufferInData<'a> {
+    #[inline]
+    fn data<'b>(&'b self) -> (&'a [*mut f32], &'a [*mut f32]) {
+        self.data
+    }
+
+    #[inline]
+    fn channel_index_read(&self, device: &Device) -> Option<ChannelIndex> {
+        device.input(&self.program)
+    }
+
+    #[inline]
+    fn channel_index_write(&self, device: &Device) -> Option<ChannelIndex> {
+        device.input(&self.program)
+    }
+
+    #[inline]
+    fn samples_per_frame(&self) -> usize {
+        self.samples_per_frame
+    }
+}
+
 impl<'a> BufferInData<'a> {
     //#[tracing::instrument(skip_all, name = "BufferInData::new")]
     pub(crate) fn new(
@@ -255,6 +363,11 @@ impl<'a> BufferInData<'a> {
             write_buffer: Vec::with_capacity(8),
             program,
         }
+    }
+
+    /// Get all buffers
+    pub fn get_all_buffers<'b>(&'a mut self) -> (input::ReadDevices<'a, 'b>, input::WriteDevices<'a, 'b>) {
+        (input::ReadDevices::new(self), input::WriteDevices::new(self))
     }
 
     // FIXME: These should be an iterator, maybe.
