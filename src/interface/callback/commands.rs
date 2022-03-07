@@ -1,12 +1,11 @@
 //! Callback command types.
 //!
 //! These are returned to the callback function.
-use crate::{
-    bindings::VBVMR_CBCOMMAND,
-    types::VoicemeeterApplication,
-};
+use crate::{bindings::VBVMR_CBCOMMAND, types::VoicemeeterApplication};
 
-use super::data::{AudioBuffer, AudioInfo, RawCallbackData, BufferMainData, BufferOutData, BufferInData};
+use super::data::{
+    AudioBuffer, AudioInfo, BufferInData, BufferMainData, BufferOutData, RawCallbackData,
+};
 
 macro_rules! implement {
     (@audio_info $($name:ident),* $(,)?) => {
@@ -118,8 +117,6 @@ pub struct BufferIn<'a> {
     pub nbo: usize,
 }
 
-
-
 impl<'a> BufferIn<'a> {
     //#[tracing::instrument(skip_all, name = "BufferIn::new")]
     pub(crate) fn new(program: VoicemeeterApplication, buffer: &'a AudioBuffer) -> Self {
@@ -132,8 +129,6 @@ impl<'a> BufferIn<'a> {
         }
     }
 }
-
-
 
 /// Data for output mode.
 #[derive(Debug)]
@@ -163,8 +158,6 @@ impl<'a> BufferOut<'a> {
     }
 }
 
-
-
 /// Data for main mode.
 #[derive(Debug)]
 pub struct BufferMain<'a> {
@@ -179,8 +172,6 @@ pub struct BufferMain<'a> {
     /// Total number of outputs in buffer.
     pub nbo: usize,
 }
-
-
 
 impl<'a> BufferMain<'a> {
     //#[tracing::instrument(skip_all, name = "BufferMain::new")]
