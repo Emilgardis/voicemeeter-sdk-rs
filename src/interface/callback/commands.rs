@@ -103,7 +103,6 @@ impl<'a> Change<'a> {
 }
 
 /// Data for input mode.
-#[derive(Debug)]
 pub struct BufferIn<'a> {
     /// Buffer data for input mode
     pub buffer: BufferInData<'a>,
@@ -131,7 +130,6 @@ impl<'a> BufferIn<'a> {
 }
 
 /// Data for output mode.
-#[derive(Debug)]
 pub struct BufferOut<'a> {
     /// Sample rate
     pub sr: usize,
@@ -159,7 +157,6 @@ impl<'a> BufferOut<'a> {
 }
 
 /// Data for main mode.
-#[derive(Debug)]
 pub struct BufferMain<'a> {
     /// Buffer data for main mode
     pub buffer: BufferMainData<'a>,
@@ -187,7 +184,6 @@ impl<'a> BufferMain<'a> {
 }
 
 /// Callback command passed to the [audio callback](crate::VoicemeeterRemote::audio_callback_register).
-#[derive(Debug)]
 #[repr(i32)]
 #[cfg(feature = "interface")] // for doc_cfg
 pub enum CallbackCommand<'a> {
