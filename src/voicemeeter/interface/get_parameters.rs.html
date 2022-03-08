@@ -126,6 +126,7 @@
 <span id="121">121</span>
 <span id="122">122</span>
 <span id="123">123</span>
+<span id="124">124</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Parameter related functions and types</span>
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">ffi</span>::{<a class="ident" href="https://doc.rust-lang.org/nightly/std/ffi/c_str/struct.CStr.html">CStr</a>, <a class="ident" href="https://doc.rust-lang.org/nightly/std/ffi/c_str/struct.CString.html">CString</a>, <a class="ident" href="https://doc.rust-lang.org/nightly/std/ffi/c_str/struct.NulError.html">NulError</a>},
@@ -133,12 +134,12 @@
     <a class="ident" href="https://doc.rust-lang.org/nightly/core/ptr/index.html">ptr</a>,
 };
 
-<span class="kw">use</span> <a class="ident" href="../../../src/voicemeeter/types.rs.html#55"><span class="kw">crate</span>::types::ParameterRef</a>;
+<span class="kw">use</span> <a class="ident" href="../../../src/voicemeeter/types.rs.html#56"><span class="kw">crate</span>::types::ParameterRef</a>;
 
 <span class="kw">use</span> <a class="ident" href="../../../src/voicemeeter/interface.rs.html#20-24"><span class="kw">super</span>::VoicemeeterRemote</a>;
 
 <span class="kw">impl</span> <a class="ident" href="../../../src/voicemeeter/interface.rs.html#20-24">VoicemeeterRemote</a> {
-    <span class="comment">// FIXME: Only call from one thread, limit it</span>
+    <span class="comment">// TODO: Only call from one thread, limit it</span>
     <span class="doccomment">/// Check if parameters have changed</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Call this function periodically to check if parameters have changed, typically every 10ms.</span>
@@ -146,19 +147,19 @@
     <span class="doccomment">/// # Security</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This method must only be called from one thread.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_parameters_dirty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#112-123">IsParametersDirtyError</a><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_parameters_dirty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#113-124">IsParametersDirtyError</a><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="kw">unsafe</span> { <a class="self" href="../../../src/voicemeeter/interface/get_parameters.rs.html#21">self</a>.<span class="ident">raw</span>.<a class="ident" href="../../../src/voicemeeter/bindings.rs.html#1539">VBVMR_IsParametersDirty</a>() };
         <span class="kw">match</span> <a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#22">res</a> {
             <span class="number">0</span> =&gt; <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>),
             <span class="number">1</span> =&gt; <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>),
-            <span class="op">-</span><span class="number">1</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#116">IsParametersDirtyError::CannotGetClient</a>),
-            <span class="op">-</span><span class="number">2</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#119">IsParametersDirtyError::NoServer</a>),
-            <span class="ident">s</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#122">IsParametersDirtyError::Other</a>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#28">s</a>)),
+            <span class="op">-</span><span class="number">1</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#117">IsParametersDirtyError::CannotGetClient</a>),
+            <span class="op">-</span><span class="number">2</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#120">IsParametersDirtyError::NoServer</a>),
+            <span class="ident">s</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#123">IsParametersDirtyError::Other</a>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#28">s</a>)),
         }
     }
-    <span class="comment">// FIXME: Prefer using abstraction [linkme]</span>
+    <span class="comment">// TODO: Provide abstraction, e.g ParameterThing::Struct.blabla()</span>
     <span class="doccomment">/// Get the float value of a parameter.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_parameter_float</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">param</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../src/voicemeeter/types.rs.html#55">ParameterRef</a>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>, <a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#88-108">GetParameterError</a><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_parameter_float</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">param</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../src/voicemeeter/types.rs.html#56">ParameterRef</a>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>, <a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#89-109">GetParameterError</a><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">f</span> <span class="op">=</span> <span class="number">0.0f32</span>;
         <span class="kw">let</span> <span class="ident">param</span> <span class="op">=</span> <span class="ident">CString::new</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#33">param</a>.<a class="ident" href="https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html">as_ref</a>())<span class="question-mark">?</span>;
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="kw">unsafe</span> {
@@ -167,53 +168,54 @@
         };
         <span class="kw">match</span> <a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#36">res</a> {
             <span class="number">0</span> =&gt; <span class="prelude-val">Ok</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#34">f</a>),
-            <span class="op">-</span><span class="number">1</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#95">GetParameterError::CannotGetClient</a>),
-            <span class="op">-</span><span class="number">2</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#98">GetParameterError::NoServer</a>),
-            <span class="op">-</span><span class="number">3</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#101">GetParameterError::UnknownParameter</a>(
+            <span class="op">-</span><span class="number">1</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#96">GetParameterError::CannotGetClient</a>),
+            <span class="op">-</span><span class="number">2</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#99">GetParameterError::NoServer</a>),
+            <span class="op">-</span><span class="number">3</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#102">GetParameterError::UnknownParameter</a>(
                 <a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#35">param</a>.<span class="ident">to_string_lossy</span>().<span class="ident">into_owned</span>(),
-            )), <span class="comment">// FIXME: Lossless always (assuming vmr doesn&#39;t modify :) ), unsafe?</span>
-            <span class="op">-</span><span class="number">5</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#104">GetParameterError::StructureMismatch</a>(
+            )), <span class="comment">// NOTE: Lossless always (assuming vmr doesn&#39;t modify :) ), unsafe?</span>
+            <span class="op">-</span><span class="number">5</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#105">GetParameterError::StructureMismatch</a>(
                 <a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#35">param</a>.<span class="ident">to_string_lossy</span>().<span class="ident">into_owned</span>(),
                 <span class="string">&quot;float&quot;</span>,
             )),
-            <span class="ident">s</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#107">GetParameterError::Other</a>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#51">s</a>)),
+            <span class="ident">s</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#108">GetParameterError::Other</a>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#51">s</a>)),
         }
     }
+    <span class="comment">// TODO: Provide abstraction, e.g ParameterThing::Struct.blabla()</span>
     <span class="doccomment">/// Get the string value of a parameter.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_parameter_string</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">param</span>: <span class="kw">impl</span> <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span>,
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html">String</a>, <a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#88-108">GetParameterError</a><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">param</span> <span class="op">=</span> <span class="ident">CString::new</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#57">param</a>.<a class="ident" href="https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html">as_ref</a>()).<span class="ident">unwrap</span>();
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html">String</a>, <a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#89-109">GetParameterError</a><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">param</span> <span class="op">=</span> <span class="ident">CString::new</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#58">param</a>.<a class="ident" href="https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html">as_ref</a>()).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">output</span> <span class="op">=</span> [<span class="number">0</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_char.html">c_char</a>; <span class="number">512</span>];
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="kw">unsafe</span> {
-            <a class="self" href="../../../src/voicemeeter/interface/get_parameters.rs.html#56">self</a>.<span class="ident">raw</span>
-                .<a class="ident" href="../../../src/voicemeeter/bindings.rs.html#1565-1569">VBVMR_GetParameterStringA</a>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#59">param</a>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="kw">_</span>, <span class="macro">ptr::addr_of_mut!</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#60">output</a>[<span class="number">0</span>]))
+            <a class="self" href="../../../src/voicemeeter/interface/get_parameters.rs.html#57">self</a>.<span class="ident">raw</span>
+                .<a class="ident" href="../../../src/voicemeeter/bindings.rs.html#1565-1569">VBVMR_GetParameterStringA</a>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#60">param</a>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="kw">_</span>, <span class="macro">ptr::addr_of_mut!</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#61">output</a>[<span class="number">0</span>]))
         };
-        <span class="kw">match</span> <a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#61">res</a> {
+        <span class="kw">match</span> <a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#62">res</a> {
             <span class="number">0</span> =&gt; {
-                <span class="kw">let</span> <span class="ident">output</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">CStr::from_ptr</span>(<span class="macro">ptr::addr_of!</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#60">output</a>[<span class="number">0</span>])) }
+                <span class="kw">let</span> <span class="ident">output</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">CStr::from_ptr</span>(<span class="macro">ptr::addr_of!</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#61">output</a>[<span class="number">0</span>])) }
                     .<span class="ident">to_string_lossy</span>()
                     .<span class="ident">into_owned</span>();
-                <span class="prelude-val">Ok</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#67">output</a>)
+                <span class="prelude-val">Ok</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#68">output</a>)
             }
-            <span class="op">-</span><span class="number">1</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#95">GetParameterError::CannotGetClient</a>),
-            <span class="op">-</span><span class="number">2</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#98">GetParameterError::NoServer</a>),
-            <span class="op">-</span><span class="number">3</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#101">GetParameterError::UnknownParameter</a>(
-                <a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#59">param</a>.<span class="ident">to_string_lossy</span>().<span class="ident">into_owned</span>(),
-            )), <span class="comment">// FIXME: Lossless always (assuming vmr doesn&#39;t modify :) ), unsafe?</span>
-            <span class="op">-</span><span class="number">5</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#104">GetParameterError::StructureMismatch</a>(
-                <a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#59">param</a>.<span class="ident">to_string_lossy</span>().<span class="ident">into_owned</span>(),
+            <span class="op">-</span><span class="number">1</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#96">GetParameterError::CannotGetClient</a>),
+            <span class="op">-</span><span class="number">2</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#99">GetParameterError::NoServer</a>),
+            <span class="op">-</span><span class="number">3</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#102">GetParameterError::UnknownParameter</a>(
+                <a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#60">param</a>.<span class="ident">to_string_lossy</span>().<span class="ident">into_owned</span>(),
+            )), <span class="comment">// NOTE: Lossless always (assuming vmr doesn&#39;t modify :) ), unsafe?</span>
+            <span class="op">-</span><span class="number">5</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#105">GetParameterError::StructureMismatch</a>(
+                <a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#60">param</a>.<span class="ident">to_string_lossy</span>().<span class="ident">into_owned</span>(),
                 <span class="string">&quot;float&quot;</span>,
             )),
-            <span class="ident">s</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#107">GetParameterError::Other</a>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#81">s</a>)),
+            <span class="ident">s</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#108">GetParameterError::Other</a>(<a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#82">s</a>)),
         }
     }
 }
 
 <span class="doccomment">/// Errors that can happen when getting a parameter.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">thiserror::Error</span>, <span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#88-108">GetParameterError</a> {
+<span class="kw">pub</span> <span class="kw">enum</span> <a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#89-109">GetParameterError</a> {
     <span class="doccomment">/// Could not make a c-compatible string. This is a bug.</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;could not make into a c-string&quot;</span>)]</span>
     <span class="ident">NulError</span>(<span class="attribute">#[<span class="ident">from</span>]</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/ffi/c_str/struct.NulError.html">NulError</a>),
@@ -237,7 +239,7 @@
 
 <span class="doccomment">/// Errors that can happen when querying parameter &quot;dirty&quot; flag.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">thiserror::Error</span>, <span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#112-123">IsParametersDirtyError</a> {
+<span class="kw">pub</span> <span class="kw">enum</span> <a class="ident" href="../../../src/voicemeeter/interface/get_parameters.rs.html#113-124">IsParametersDirtyError</a> {
     <span class="comment">// TODO: is this correct? docs say &quot;error (unexpected)&quot;&quot;</span>
     <span class="doccomment">/// Cannot get client.</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;cannot get client (unexpected)&quot;</span>)]</span>

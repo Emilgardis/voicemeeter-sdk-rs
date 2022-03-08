@@ -195,8 +195,6 @@
 <span id="190">190</span>
 <span id="191">191</span>
 <span id="192">192</span>
-<span id="193">193</span>
-<span id="194">194</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Functions for callbacks in Voicemeeter.</span>
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">ffi</span>::{<a class="ident" href="https://doc.rust-lang.org/nightly/std/ffi/c_str/struct.CString.html">CString</a>, <a class="ident" href="https://doc.rust-lang.org/nightly/std/ffi/c_str/struct.NulError.html">NulError</a>},
@@ -226,7 +224,7 @@
     <span class="ident">mode</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/bindings.rs.html#260"><span class="kw">crate</span>::AudioCallbackMode</a>,
     <span class="ident">application</span>: <span class="kw-2">*mut</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_char.html">std::os::raw::c_char</a>,
     <span class="ident">callback</span>: <span class="ident">F</span>,
-) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">*mut</span> <span class="ident">F</span>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#166-180">AudioCallbackRegisterError</a><span class="op">&gt;</span>
+) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">*mut</span> <span class="ident">F</span>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#164-178">AudioCallbackRegisterError</a><span class="op">&gt;</span>
 <span class="kw">where</span>
     <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="ident">CallbackCommand</span><span class="op">&lt;</span><span class="lifetime">&#39;cb</span><span class="op">&gt;</span>, <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>) -&gt; <a class="ident" href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">c_long</a>,
 {
@@ -244,11 +242,11 @@
     <span class="macro">tracing::debug!</span>(<span class="string">&quot;registered application&quot;</span>);
     <span class="kw">match</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#37">res</a> {
         <span class="number">0</span> =&gt; <span class="prelude-val">Ok</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#35">data</a>),
-        <span class="op">-</span><span class="number">1</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#170">AudioCallbackRegisterError::NoServer</a>),
-        <span class="number">1</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#173">AudioCallbackRegisterError::AlreadyRegistered</a>(<span class="kw">unsafe</span> {
+        <span class="op">-</span><span class="number">1</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#168">AudioCallbackRegisterError::NoServer</a>),
+        <span class="number">1</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#171">AudioCallbackRegisterError::AlreadyRegistered</a>(<span class="kw">unsafe</span> {
             <span class="ident">CString::from_raw</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#28">application</a>)
         })),
-        <span class="ident">s</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#179">AudioCallbackRegisterError::Unexpected</a>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#52">s</a>)),
+        <span class="ident">s</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#177">AudioCallbackRegisterError::Unexpected</a>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#52">s</a>)),
     }
 }
 
@@ -267,7 +265,7 @@
     <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#66">callback</a>(
         <span class="kw">unsafe</span> {
             <span class="ident">CallbackCommand::new_unchecked</span>(
-                <a class="ident" href="../../../../src/voicemeeter/types.rs.html#69"><span class="kw">crate</span>::types::VoicemeeterApplication::PotatoX64Bits</a>,
+                <a class="ident" href="../../../../src/voicemeeter/types.rs.html#70"><span class="kw">crate</span>::types::VoicemeeterApplication::PotatoX64Bits</a>,
                 <a class="ident" href="../../../../src/voicemeeter/bindings.rs.html#222">VBVMR_CBCOMMAND</a>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#58">command</a>),
                 <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#67">ptr</a>,
             )
@@ -284,7 +282,6 @@
 }
 
 <span class="kw">impl</span> <a class="ident" href="../../../../src/voicemeeter/interface.rs.html#20-24">VoicemeeterRemote</a> {
-    <span class="comment">// FIXME: examples</span>
     <span class="doccomment">/// Register a callback for audio.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// The callback is a function that will be called when the audio stream is started, changed or stopped and when data is sent to it.</span>
@@ -303,30 +300,29 @@
         <span class="ident">mode</span>: <a class="ident" href="../../../../src/voicemeeter/bindings.rs.html#260"><span class="kw">crate</span>::AudioCallbackMode</a>,
         <span class="ident">application_name</span>: <span class="kw">impl</span> <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span>,
         <span class="ident">callback</span>: <span class="ident">F</span>,
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">CallbackGuard</span><span class="op">&lt;</span><span class="lifetime">&#39;g</span>, <span class="ident">F</span><span class="op">&gt;</span>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#166-180">AudioCallbackRegisterError</a><span class="op">&gt;</span>
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">CallbackGuard</span><span class="op">&lt;</span><span class="lifetime">&#39;g</span>, <span class="ident">F</span><span class="op">&gt;</span>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#164-178">AudioCallbackRegisterError</a><span class="op">&gt;</span>
     <span class="kw">where</span>
         <span class="ident">F</span>: <span class="ident">FnMut</span>(<span class="ident">CallbackCommand</span><span class="op">&lt;</span><span class="lifetime">&#39;cb</span><span class="op">&gt;</span>, <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>) -&gt; <a class="ident" href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">c_long</a> <span class="op">+</span> <span class="lifetime">&#39;g</span>,
     {
-        <span class="comment">// TODO: SAFETY!!!</span>
-        <span class="kw">let</span> <span class="ident">application_name</span> <span class="op">=</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#105">application_name</a>.<a class="ident" href="https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html">as_ref</a>();
-        <span class="ident">tracing::Span::current</span>().<span class="ident">record</span>(<span class="string">&quot;application_name&quot;</span>, <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#112">application_name</a>);
+        <span class="kw">let</span> <span class="ident">application_name</span> <span class="op">=</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#104">application_name</a>.<a class="ident" href="https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html">as_ref</a>();
+        <span class="ident">tracing::Span::current</span>().<span class="ident">record</span>(<span class="string">&quot;application_name&quot;</span>, <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#110">application_name</a>);
         <span class="comment">//let ctx_span = tracing::trace_span!(&quot;voicemeeter_callback&quot;);</span>
         <span class="comment">//ctx_span.record(&quot;application_name&quot;, &amp;application_name).record(&quot;mode&quot;, &amp;mode.0).follows_from(tracing::Span::current());</span>
-        <span class="macro">assert!</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#112">application_name</a>.<span class="ident">len</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="number">64</span>);
+        <span class="macro">assert!</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#110">application_name</a>.<span class="ident">len</span>() <span class="op">&lt;</span><span class="op">=</span> <span class="number">64</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">application</span> <span class="op">=</span> [<span class="number">0u8</span>; <span class="number">64</span>];
-        <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#117">application</a>[<span class="number">0</span>..<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#112">application_name</a>.<span class="ident">len</span>()].<span class="ident">copy_from_slice</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#112">application_name</a>.<span class="ident">as_bytes</span>());
-        <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="macro">ptr::addr_of!</span>(<a class="self" href="../../../../src/voicemeeter/interface/callback/register.rs.html#103">self</a>.<span class="ident">program</span>);
+        <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#115">application</a>[<span class="number">0</span>..<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#110">application_name</a>.<span class="ident">len</span>()].<span class="ident">copy_from_slice</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#110">application_name</a>.<span class="ident">as_bytes</span>());
+        <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="macro">ptr::addr_of!</span>(<a class="self" href="../../../../src/voicemeeter/interface/callback/register.rs.html#102">self</a>.<span class="ident">program</span>);
         <span class="macro">tracing::info!</span>(<span class="string">&quot;a: {ptr:p}&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">g</span> <span class="op">=</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#25-32">register_audio_callback</a>(
-            <a class="self" href="../../../../src/voicemeeter/interface/callback/register.rs.html#103">self</a>,
-            <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#104">mode</a>,
-            <span class="macro">ptr::addr_of_mut!</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#117">application</a>) <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="kw">_</span>,
-            <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#106">callback</a>,
+            <a class="self" href="../../../../src/voicemeeter/interface/callback/register.rs.html#102">self</a>,
+            <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#103">mode</a>,
+            <span class="macro">ptr::addr_of_mut!</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#115">application</a>) <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="kw">_</span>,
+            <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#105">callback</a>,
         )<span class="question-mark">?</span>;
 
         <span class="prelude-val">Ok</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#82-85">CallbackGuard</a> {
-            <span class="ident">guard</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#122">g</a>,
+            <span class="ident">guard</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#120">g</a>,
             <span class="ident">lt</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html">Default::default</a>(),
         })
     }
@@ -335,40 +331,40 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">audio_callback_unregister</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">guard</span>: <span class="ident">CallbackGuard</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">F</span><span class="op">&gt;</span>,
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#184-194">AudioCallbackUnregisterError</a><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="kw">unsafe</span> { <a class="self" href="../../../../src/voicemeeter/interface/callback/register.rs.html#137">self</a>.<span class="ident">raw</span>.<a class="ident" href="../../../../src/voicemeeter/bindings.rs.html#1843">VBVMR_AudioCallbackUnregister</a>() };
-        <span class="kw">match</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#140">res</a> {
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#182-192">AudioCallbackUnregisterError</a><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="kw">unsafe</span> { <a class="self" href="../../../../src/voicemeeter/interface/callback/register.rs.html#135">self</a>.<span class="ident">raw</span>.<a class="ident" href="../../../../src/voicemeeter/bindings.rs.html#1843">VBVMR_AudioCallbackUnregister</a>() };
+        <span class="kw">match</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#138">res</a> {
             <span class="number">0</span> =&gt; {
-                <span class="kw">unsafe</span> { <span class="ident">Box::from_raw</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#138">guard</a>.<span class="ident">guard</span>) };
+                <span class="kw">unsafe</span> { <span class="ident">Box::from_raw</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#136">guard</a>.<span class="ident">guard</span>) };
                 <span class="prelude-val">Ok</span>(())
             }
-            <span class="op">-</span><span class="number">1</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#187">AudioCallbackUnregisterError::NoServer</a>),
-            <span class="number">1</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#190">AudioCallbackUnregisterError::AlreadyUnregistered</a>),
-            <span class="ident">s</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#193">AudioCallbackUnregisterError::Unexpected</a>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#148">s</a>)),
+            <span class="op">-</span><span class="number">1</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#185">AudioCallbackUnregisterError::NoServer</a>),
+            <span class="number">1</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#188">AudioCallbackUnregisterError::AlreadyUnregistered</a>),
+            <span class="ident">s</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#191">AudioCallbackUnregisterError::Unexpected</a>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#146">s</a>)),
         }
     }
 
     <span class="doccomment">/// Unregister a callback without dropping the callback, thus leaking data. This implicitly calls [`VoicemeeterRemote::audio_callback_stop`].</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">audio_callback_unregister_leak</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#184-194">AudioCallbackUnregisterError</a><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="kw">unsafe</span> { <a class="self" href="../../../../src/voicemeeter/interface/callback/register.rs.html#153">self</a>.<span class="ident">raw</span>.<a class="ident" href="../../../../src/voicemeeter/bindings.rs.html#1843">VBVMR_AudioCallbackUnregister</a>() };
-        <span class="kw">match</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#154">res</a> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">audio_callback_unregister_leak</span><span class="op">&lt;</span><span class="ident">F</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#182-192">AudioCallbackUnregisterError</a><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="kw">unsafe</span> { <a class="self" href="../../../../src/voicemeeter/interface/callback/register.rs.html#151">self</a>.<span class="ident">raw</span>.<a class="ident" href="../../../../src/voicemeeter/bindings.rs.html#1843">VBVMR_AudioCallbackUnregister</a>() };
+        <span class="kw">match</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#152">res</a> {
             <span class="number">0</span> =&gt; <span class="prelude-val">Ok</span>(()),
-            <span class="op">-</span><span class="number">1</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#187">AudioCallbackUnregisterError::NoServer</a>),
-            <span class="number">1</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#190">AudioCallbackUnregisterError::AlreadyUnregistered</a>),
-            <span class="ident">s</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#193">AudioCallbackUnregisterError::Unexpected</a>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#159">s</a>)),
+            <span class="op">-</span><span class="number">1</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#185">AudioCallbackUnregisterError::NoServer</a>),
+            <span class="number">1</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#188">AudioCallbackUnregisterError::AlreadyUnregistered</a>),
+            <span class="ident">s</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#191">AudioCallbackUnregisterError::Unexpected</a>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#157">s</a>)),
         }
     }
 }
 
 <span class="doccomment">/// Errors that can occur while registering an audio callback.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">thiserror::Error</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#166-180">AudioCallbackRegisterError</a> {
+<span class="kw">pub</span> <span class="kw">enum</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#164-178">AudioCallbackRegisterError</a> {
     <span class="comment">// TODO: is this correct?</span>
     <span class="doccomment">/// No server.</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;no server&quot;</span>)]</span>
     <span class="ident">NoServer</span>,
     <span class="doccomment">/// Application is already registered.</span>
-    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;an application `{}` is already registered&quot;</span>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#172">_0</a>.<span class="ident">to_string_lossy</span>())]</span>
+    <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;an application `{}` is already registered&quot;</span>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#170">_0</a>.<span class="ident">to_string_lossy</span>())]</span>
     <span class="ident">AlreadyRegistered</span>(<a class="ident" href="https://doc.rust-lang.org/nightly/std/ffi/c_str/struct.CString.html">CString</a>),
     <span class="doccomment">/// Could not make a c-string. This is a bug.</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;could not make application name into a c-string&quot;</span>)]</span>
@@ -380,7 +376,7 @@
 
 <span class="doccomment">/// Errors that can occur while unregistering the audio callback.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">thiserror::Error</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#184-194">AudioCallbackUnregisterError</a> {
+<span class="kw">pub</span> <span class="kw">enum</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#182-192">AudioCallbackUnregisterError</a> {
     <span class="doccomment">/// No server.</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;no server&quot;</span>)]</span>
     <span class="ident">NoServer</span>,

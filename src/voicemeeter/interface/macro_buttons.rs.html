@@ -195,7 +195,7 @@
 <span id="190">190</span>
 <span id="191">191</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Functions and data types for macro buttons.</span>
-<span class="kw">use</span> <span class="kw">crate</span>::{<a class="ident" href="../../../src/voicemeeter/bindings.rs.html#272">bindings::VBVMR_MACROBUTTON_MODE</a>, <a class="ident" href="../../../src/voicemeeter/types.rs.html#28">types::LogicalButton</a>};
+<span class="kw">use</span> <span class="kw">crate</span>::{<a class="ident" href="../../../src/voicemeeter/bindings.rs.html#272">bindings::VBVMR_MACROBUTTON_MODE</a>, <a class="ident" href="../../../src/voicemeeter/types.rs.html#29">types::LogicalButton</a>};
 
 <span class="kw">use</span> <a class="ident" href="../../../src/voicemeeter/interface.rs.html#20-24"><span class="kw">super</span>::VoicemeeterRemote</a>;
 
@@ -356,10 +356,10 @@
     <span class="ident">NoServer</span>,
     <span class="doccomment">/// Unknown parameter/button.</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;unknown button: {}&quot;</span>, <span class="number">0.0</span>)]</span>
-    <span class="ident">UnknownParameter</span>(<a class="ident" href="../../../src/voicemeeter/types.rs.html#28">LogicalButton</a>),
+    <span class="ident">UnknownParameter</span>(<a class="ident" href="../../../src/voicemeeter/types.rs.html#29">LogicalButton</a>),
     <span class="doccomment">/// Structure mismatch.</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;tried to parse parameter {0:?} as a {1} but it is not&quot;</span>)]</span>
-    <span class="ident">StructureMismatch</span>(<a class="ident" href="../../../src/voicemeeter/types.rs.html#28">LogicalButton</a>, <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>),
+    <span class="ident">StructureMismatch</span>(<a class="ident" href="../../../src/voicemeeter/types.rs.html#29">LogicalButton</a>, <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>),
     <span class="doccomment">/// An unknown error code occured.</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;unexpected error occurred: error code {0}&quot;</span>)]</span>
     <span class="ident">Other</span>(<a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>),
@@ -377,10 +377,10 @@
     <span class="ident">NoServer</span>,
     <span class="doccomment">/// Unknown parameter/button.</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;unknown button: {}&quot;</span>, <span class="number">0.0</span>)]</span>
-    <span class="ident">UnknownParameter</span>(<a class="ident" href="../../../src/voicemeeter/types.rs.html#28">LogicalButton</a>),
+    <span class="ident">UnknownParameter</span>(<a class="ident" href="../../../src/voicemeeter/types.rs.html#29">LogicalButton</a>),
     <span class="doccomment">/// Structure mismatch.</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;tried to parse parameter {0:?} as a {1} but it is not&quot;</span>)]</span>
-    <span class="ident">StructureMismatch</span>(<a class="ident" href="../../../src/voicemeeter/types.rs.html#28">LogicalButton</a>, <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>),
+    <span class="ident">StructureMismatch</span>(<a class="ident" href="../../../src/voicemeeter/types.rs.html#29">LogicalButton</a>, <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>),
     <span class="doccomment">/// An unknown error code occured.</span>
     <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;unexpected error occurred: error code {0}&quot;</span>)]</span>
     <span class="ident">Other</span>(<a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>),

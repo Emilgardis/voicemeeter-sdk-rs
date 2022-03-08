@@ -73,7 +73,7 @@
 <span id="68">68</span>
 <span id="69">69</span>
 </pre><pre class="rust"><code><span class="doccomment">//! The interface for Voicemeeter remote.-</span>
-<span class="kw">use</span> <span class="kw">crate</span>::{<a class="ident" href="../../src/voicemeeter/types.rs.html#61-72">types::VoicemeeterApplication</a>, <a class="ident" href="../../src/voicemeeter/lib.rs.html#77-87">LoadError</a>};
+<span class="kw">use</span> <span class="kw">crate</span>::{<a class="ident" href="../../src/voicemeeter/types.rs.html#62-73">types::VoicemeeterApplication</a>, <a class="ident" href="../../src/voicemeeter/lib.rs.html#77-87">LoadError</a>};
 
 <span class="kw">use</span> <span class="self">self</span>::{
     <a class="ident" href="../../src/voicemeeter/interface/communication_login_logout.rs.html#56-63">communication_login_logout::LoginError</a>, <a class="ident" href="../../src/voicemeeter/interface/general_information.rs.html#50-63">general_information::GetVoicemeeterInformationError</a>,
@@ -83,10 +83,10 @@
 <span class="kw">pub</span> <span class="kw">mod</span> <a class="ident" href="../../src/voicemeeter/interface/communication_login_logout.rs.html#1-100">communication_login_logout</a>;
 <span class="kw">pub</span> <span class="kw">mod</span> <a class="ident" href="../../src/voicemeeter/interface/device.rs.html#1-174">device</a>;
 <span class="kw">pub</span> <span class="kw">mod</span> <a class="ident" href="../../src/voicemeeter/interface/general_information.rs.html#1-63">general_information</a>;
-<span class="kw">pub</span> <span class="kw">mod</span> <a class="ident" href="../../src/voicemeeter/interface/get_levels.rs.html#1-87">get_levels</a>;
-<span class="kw">pub</span> <span class="kw">mod</span> <a class="ident" href="../../src/voicemeeter/interface/get_parameters.rs.html#1-123">get_parameters</a>;
+<span class="kw">pub</span> <span class="kw">mod</span> <a class="ident" href="../../src/voicemeeter/interface/get_levels.rs.html#1-97">get_levels</a>;
+<span class="kw">pub</span> <span class="kw">mod</span> <a class="ident" href="../../src/voicemeeter/interface/get_parameters.rs.html#1-124">get_parameters</a>;
 <span class="kw">pub</span> <span class="kw">mod</span> <a class="ident" href="../../src/voicemeeter/interface/macro_buttons.rs.html#1-191">macro_buttons</a>;
-<span class="kw">pub</span> <span class="kw">mod</span> <a class="ident" href="../../src/voicemeeter/interface/set_parameters.rs.html#1-100">set_parameters</a>;
+<span class="kw">pub</span> <span class="kw">mod</span> <a class="ident" href="../../src/voicemeeter/interface/set_parameters.rs.html#1-101">set_parameters</a>;
 
 <span class="doccomment">/// Interface for voicemeeter.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
@@ -94,7 +94,7 @@
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">VoicemeeterRemote</span> {
     <span class="ident">raw</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <a class="ident" href="../../src/voicemeeter/bindings.rs.html#1245-1340"><span class="kw">crate</span>::bindings::VoicemeeterRemoteRaw</a>,
     <span class="doccomment">/// The type of the running Voicemeeter instance.</span>
-    <span class="kw">pub</span> <span class="ident">program</span>: <a class="ident" href="../../src/voicemeeter/types.rs.html#61-72">VoicemeeterApplication</a>,
+    <span class="kw">pub</span> <span class="ident">program</span>: <a class="ident" href="../../src/voicemeeter/types.rs.html#62-73">VoicemeeterApplication</a>,
 }
 
 <span class="kw">impl</span> <a class="ident" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html">std::fmt::Debug</a> <span class="kw">for</span> <a class="ident" href="../../src/voicemeeter/interface.rs.html#20-24">VoicemeeterRemote</a> {
@@ -117,7 +117,7 @@
     <span class="kw">fn</span> <span class="ident">from_raw</span>(<span class="ident">raw</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <a class="ident" href="../../src/voicemeeter/bindings.rs.html#1245-1340"><span class="kw">crate</span>::VoicemeeterRemoteRaw</a>) -&gt; <a class="ident" href="../../src/voicemeeter/interface.rs.html#20-24">VoicemeeterRemote</a> {
         <span class="self">Self</span> {
             <a class="ident" href="../../src/voicemeeter/interface.rs.html#43">raw</a>,
-            <span class="ident">program</span>: <a class="ident" href="../../src/voicemeeter/types.rs.html#71">VoicemeeterApplication::Other</a>,
+            <span class="ident">program</span>: <a class="ident" href="../../src/voicemeeter/types.rs.html#72">VoicemeeterApplication::Other</a>,
         }
     }
 }
