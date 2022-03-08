@@ -5,29 +5,35 @@ use super::BufferDataExt;
 use super::Device;
 
 pub(crate) mod sealed {
-    pub trait Buffer<'b> {
+    pub trait Buffer<'a, 'b>
+    where
+        'b: 'a,
+    {
         const N: usize;
-        fn as_slice(&self) -> &[&'b [f32]];
+        fn as_slice(&'a self) -> &'a [&'b [f32]];
     }
-    pub trait BufferMut<'b> {
+    pub trait BufferMut<'a, 'b>
+    where
+        'b: 'a,
+    {
         const N: usize;
 
-        fn as_mut_slice(&mut self) -> &mut [&'b mut [f32]];
+        fn as_mut_slice(&'a mut self) -> &'a mut [&'b mut [f32]];
     }
 }
 
-impl<'b, const N: usize> Buffer<'b> for [&'b [f32]; N] {
+impl<'a, 'b: 'a, const N: usize> Buffer<'a, 'b> for [&'b [f32]; N] {
     const N: usize = N;
 
-    fn as_slice(&self) -> &[&'b [f32]] {
+    fn as_slice(&'a self) -> &'a [&'b [f32]] {
         self
     }
 }
 
-impl<'b, const N: usize> BufferMut<'b> for [&'b mut [f32]; N] {
+impl<'a, 'b: 'a, const N: usize> BufferMut<'a, 'b> for [&'b mut [f32]; N] {
     const N: usize = N;
 
-    fn as_mut_slice(&mut self) -> &mut [&'b mut [f32]] {
+    fn as_mut_slice(&'a mut self) -> &'a mut [&'b mut [f32]] {
         self
     }
 }
@@ -75,24 +81,24 @@ impl<T> DeviceBuffer<T> {
 }
 
 // mutable buffer impls
-impl<'b, B> DeviceBuffer<B>
+impl<'a, 'b: 'a, B> DeviceBuffer<B>
 where
-    B: BufferMut<'b>,
+    B: BufferMut<'a, 'b>,
 {
     /// Get the buffer as a mutable slice
-    pub fn as_mut_slice(&mut self) -> &mut [&'b mut [f32]] {
+    pub fn as_mut_slice(&'a mut self) -> &'a mut [&'b mut [f32]] {
         match self {
             Self::None => &mut [],
             Self::Buffer(b) => b.as_mut_slice(),
         }
     }
-
-    /// Given a device, apply a specific function on all channels of the device.
+    /// Given a device, apply a specific function on all channels
     ///
-    /// The function is given the current channel as the first argument
-    pub fn apply<'b2, F, B2: Buffer<'b2>>(&mut self, read: &DeviceBuffer<B2>, mut f: F)
+    /// The function is given the current channel as the first argument,
+    /// the samples in the read buffer as the second argument, and the write buffer as the third argument.
+    pub fn apply<F, B2: Buffer<'a, 'b>>(&'a mut self, read: &'a DeviceBuffer<B2>, mut f: F)
     where
-        F: FnMut(usize, &'b2 f32) -> f32,
+        F: FnMut(usize, &[f32], &mut [f32]),
     {
         assert_eq!(B::N, B2::N);
         for (channel, (read, write)) in read
@@ -101,21 +107,41 @@ where
             .zip(self.as_mut_slice().iter_mut())
             .enumerate()
         {
-            write
-                .iter_mut()
-                .enumerate()
-                .map(|(i, w)| *w = f(channel, &read[i]))
-                .for_each(drop)
+            f(channel, read, write);
+        }
+    }
+
+    /// Given a device, apply a specific function on all channels and their samples.
+    ///
+    /// The function is given the current channel as the first argument,
+    /// the current sample in the read buffer as the second argument, and the current sample in the write buffer as the third argument.
+    pub fn apply_all_samples<F, B2: Buffer<'a, 'b>>(
+        &'a mut self,
+        read: &'a DeviceBuffer<B2>,
+        mut f: F,
+    ) where
+        F: FnMut(usize, &f32, &mut f32),
+    {
+        assert_eq!(B::N, B2::N);
+        for (channel, (read, write)) in read
+            .as_slice()
+            .iter()
+            .zip(self.as_mut_slice().iter_mut())
+            .enumerate()
+        {
+            for (i, sample) in write.iter_mut().enumerate() {
+                f(channel, &read[i], sample);
+            }
         }
     }
 }
 
-impl<'b, B> DeviceBuffer<B>
+impl<'a, 'b: 'a, B> DeviceBuffer<B>
 where
-    B: Buffer<'b>,
+    B: Buffer<'a, 'b>,
 {
     /// Get the buffer as a slice
-    pub fn as_slice(&self) -> &[&'b [f32]] {
+    pub fn as_slice(&'a self) -> &'a [&'b [f32]] {
         match self {
             Self::None => &mut [],
             Self::Buffer(b) => b.as_slice(),
@@ -430,9 +456,9 @@ pub mod output {
         }
 
         /// Copies data from a read buffer into the output.
-        pub fn copy_device_from(
+        pub fn copy_device_from<'a2, 'b2>(
             &mut self,
-            read: &ReadDevices<'_, '_>,
+            read: &ReadDevices<'a2, 'b2>,
             devices: impl IntoIterator<Item = Device>,
         ) {
             for device in devices {

@@ -1,9 +1,17 @@
+#![feature(array_methods)]
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::Arc;
 use voicemeeter::types::Device;
 use voicemeeter::{AudioCallbackMode, CallbackCommand, VoicemeeterRemote};
 
 pub fn main() -> Result<(), Box<dyn std::error::Error>> {
+    tracing_subscriber::FmtSubscriber::builder()
+        .with_env_filter(
+            tracing_subscriber::EnvFilter::try_from_default_env()
+                .unwrap_or(tracing_subscriber::EnvFilter::new("info")),
+        )
+        .with_writer(std::io::stderr)
+        .init();
     // Setup a hook for catching ctrl+c to properly stop the program.
     let running = Arc::new(AtomicBool::new(true));
     let r = running.clone();
@@ -16,13 +24,23 @@ pub fn main() -> Result<(), Box<dyn std::error::Error>> {
     let remote = VoicemeeterRemote::new()?;
 
     let mut frame = 0;
+    let mut sample_rate = None;
+    let mut sine_r_phase = 0.;
+    // A simple sine generator
+    let mut sine_r = |sr: f32| {
+        sine_r_phase = (sine_r_phase + 440.0 * 1.0 / sr).fract();
+        std::f32::consts::TAU * sine_r_phase
+    };
 
     // This is the callback command that will be called by voicemeeter on every audio frame,
     // start, stop and change.
     // This callback can capture data from its scope
     let callback = |command: CallbackCommand, _nnn: i32| -> i32 {
         match command {
-            CallbackCommand::Starting(info) => println!("starting!\n{info:?}"),
+            CallbackCommand::Starting(info) => {
+                sample_rate = Some(info.info.samplerate);
+                println!("starting!\n{info:?}")
+            }
             CallbackCommand::Ending(_) => println!("ending!"),
             CallbackCommand::Change(info) => println!("application change requested!\n{info:?}"),
             // Output mode modifies the
@@ -30,8 +48,19 @@ pub fn main() -> Result<(), Box<dyn std::error::Error>> {
                 frame += 1;
                 // The `get_all_buffers` method returns all possible devices for the current application.
                 let (read, mut write) = data.buffer.get_all_buffers();
-                // Apply a function on all channels and their samples on OutputA1.
-                write.output_a1.apply(&read.output_a1, |_ch, r| r * 0.5);
+                // Apply a function on all channels  of `OutputA1`.
+                write.output_a1.apply_all_samples(
+                    &read.output_a1,
+                    |ch: usize, r: &f32, w: &mut f32| {
+                        // if right
+                        if ch == 0 {
+                            *w = sine_r(sample_rate.unwrap() as f32);
+                        // otherwise
+                        } else {
+                            *w = *r;
+                        }
+                    },
+                );
                 // the buffer write type has a convenience method to copy data for specified devices.
                 write.copy_device_from(
                     &read,
@@ -45,9 +74,9 @@ pub fn main() -> Result<(), Box<dyn std::error::Error>> {
                         Device::VirtualOutputB2,
                         Device::VirtualOutputB3,
                     ],
-                )
+                );
             }
-            // MAIN mode, this command is used for every audio frame and acts like a main i/o hub for the audio.
+            // The MAIN command acts like a main i/o hub for all audio.
             // Below example will show how to use devices without `get_all_buffers`
             voicemeeter::CallbackCommand::BufferMain(mut data) => {
                 // The data returned by voicemeeter is a slice of frames per "channel"
@@ -71,6 +100,7 @@ pub fn main() -> Result<(), Box<dyn std::error::Error>> {
                         }
                     }
                 }
+
                 // Instead of the above, the equivalent with convenience functions would be
                 let (read, mut write) = data.buffer.get_all_buffers();
                 write.copy_device_from(&read, remote.program.devices());
