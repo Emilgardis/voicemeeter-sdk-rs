@@ -43,10 +43,10 @@ pub fn main() -> Result<(), Box<dyn std::error::Error>> {
             CallbackCommand::Ending(_) => println!("ending!"),
             CallbackCommand::Change(info) => println!("application change requested!\n{info:?}"),
             // Output mode modifies the
-            voicemeeter::CallbackCommand::BufferOut(mut data) => {
+            voicemeeter::CallbackCommand::BufferOut(data) => {
                 frame += 1;
                 // The `get_all_buffers` method returns all possible devices for the current application.
-                let (read, mut write) = data.buffer.get_all_buffers();
+                let (read, mut write) = data.buffer.get_buffers();
                 // Apply a function on all channels  of `OutputA1`.
                 write.output_a1.apply_all_samples(
                     &read.output_a1,
@@ -101,7 +101,7 @@ pub fn main() -> Result<(), Box<dyn std::error::Error>> {
                 }
 
                 // Instead of the above, the equivalent with convenience functions would be
-                let (read, mut write) = data.buffer.get_all_buffers();
+                let (read, mut write) = data.buffer.get_buffers();
                 write.copy_device_from(&read, remote.program.devices());
             }
             _ => (),

@@ -141,16 +141,20 @@ trait BufferDataExt<'a> {
 }
 
 /// Buffer for main mode.
-#[derive(Debug)]
 pub struct BufferMainData<'a> {
-    data: (&'a [*mut f32], &'a [*mut f32]),
-    read_buffer: Vec<&'a [f32]>,
-    write_buffer: Vec<&'a mut [f32]>,
-    samples_per_frame: usize,
-    program: VoicemeeterApplication,
+    /// Read
+    pub read_buffer: main::ReadDevices<'a, 'a>,
+    /// Write
+    pub write_buffer: main::WriteDevices<'a, 'a>,
 }
 
-impl<'a> BufferDataExt<'a> for BufferMainData<'a> {
+pub(crate) struct Main<'a> {
+    program: VoicemeeterApplication,
+    samples_per_frame: usize,
+    data: (&'a [*mut f32], &'a [*mut f32]),
+}
+
+impl<'a> BufferDataExt<'a> for Main<'a> {
     #[inline]
     fn data<'b>(&'b self) -> (&'a [*mut f32], &'a [*mut f32]) {
         self.data
@@ -174,25 +178,30 @@ impl<'a> BufferDataExt<'a> for BufferMainData<'a> {
 
 impl<'a> BufferMainData<'a> {
     //#[tracing::instrument(skip_all, name = "BufferMainData::new")]
-    pub(crate) fn new(
+    pub(crate) fn new<'b: 'a>(
         program: VoicemeeterApplication,
-        data: &'a AudioBuffer,
+        data: &'b AudioBuffer,
         samples_per_frame: usize,
     ) -> Self {
-        Self {
+        let data = Main {
             data: data.read_write_buffer(),
             samples_per_frame,
-            read_buffer: Vec::with_capacity(8),
-            write_buffer: Vec::with_capacity(8),
             program,
+        };
+        Self {
+            read_buffer: main::ReadDevices::new(&data),
+            write_buffer: main::WriteDevices::new(&data),
         }
     }
 
-    /// Get all buffers
-    pub fn get_all_buffers<'b>(
-        &'a mut self,
-    ) -> (main::ReadDevices<'a, 'b>, main::WriteDevices<'a, 'b>) {
-        (main::ReadDevices::new(self), main::WriteDevices::new(self))
+    /// Convenience function to get the read and write buffers
+    /// 
+    /// ```rust,no_run
+    /// # use voicemeeter::interface::callback::BufferMain; let data: BufferMain = unimplemented!();
+    /// # let (read, mut write) = data.buffer.get_buffers(); 
+    /// ```
+    pub fn get_buffers(self) -> (main::ReadDevices<'a, 'a>, main::WriteDevices<'a, 'a>) {
+        (self.read_buffer, self.write_buffer)
     }
 
     //#[tracing::instrument(skip(self), name = "BufferMainData::read_write_buffer_on_device")]
@@ -203,60 +212,37 @@ impl<'a> BufferMainData<'a> {
     /// The output may be empty if the device does not have an output in the buffer. The second slice will then be empty.
     /// If there is no input buffer for this device, the result would be [None](Option::None).
     #[allow(clippy::type_complexity)]
-    pub fn read_write_buffer_on_device<'b>(
-        &'b mut self,
-        channel: &Device,
-    ) -> Option<(&'b [&'a [f32]], &'b mut [&'a mut [f32]])> {
-        // FIXME: Find a way to not clear everytime.
-        self.read_buffer.clear();
-        self.write_buffer.clear();
-        let idx = channel.main(&self.program);
-        //println!("channel: program: {}, {channel:?}, idx: {idx:?}", &self.program);
-        // There should not be any device without a read but a write
-        let (r_idx, w_idx) = (idx.0?, idx.1);
-        tracing::trace!("getting buffers: {:?}, {:?}", r_idx, w_idx);
-        let (read, write) = self.data;
-        for i in 0..r_idx.size {
-            // by contract from voicemeeter, the ranges will be contigous
-            let read = unsafe {
-                std::slice::from_raw_parts(read[r_idx.start + i], self.samples_per_frame)
-            };
-            self.read_buffer.push(read);
-
-            if let Some(ref w_idx) = w_idx {
-                // by contract from voicemeeter, the ranges will be contigous
-                let write = unsafe {
-                    std::slice::from_raw_parts_mut(write[w_idx.start + i], self.samples_per_frame)
-                };
-                self.write_buffer.push(write);
-            }
-            // tracing::trace!(
-            //     "read from {}, to {}. resulting in {} elems",
-            //     r_idx.start,
-            //     r_idx.size,
-            //     read.len()
-            // );
+    pub fn read_write_buffer_on_device(
+        &mut self,
+        device: &Device,
+    ) -> Option<(&'a [&'a [f32]], &'a mut [&'a mut [f32]])> {
+        let read = self.read_buffer.device(device);
+        if read.is_none() {
+            return None;
         }
-        Some((&self.read_buffer, &mut self.write_buffer))
+        todo!()
+        // Some((read.to_slice(), self.write_buffer.device_mut(device).to_mut_slice()))
     }
 }
 
 /// Buffer for output mode.
-#[derive(Debug)]
 pub struct BufferOutData<'a> {
-    data: (&'a [*mut f32], &'a [*mut f32]),
-    read_buffer: Vec<&'a [f32]>,
-    write_buffer: Vec<&'a mut [f32]>,
-    samples_per_frame: usize,
+    /// Read
+    pub read_buffer: output::ReadDevices<'a, 'a>,
+    /// Write
+    pub write_buffer: output::WriteDevices<'a, 'a>,
+}
+pub(crate) struct Output<'a> {
     program: VoicemeeterApplication,
+    samples_per_frame: usize,
+    data: (&'a [*mut f32], &'a [*mut f32]),
 }
 
-impl<'a> BufferDataExt<'a> for BufferOutData<'a> {
+impl<'a> BufferDataExt<'a> for Output<'a> {
     #[inline]
     fn data<'b>(&'b self) -> (&'a [*mut f32], &'a [*mut f32]) {
         self.data
     }
-
     #[inline]
     fn channel_index_read(&self, device: &Device) -> Option<ChannelIndex> {
         device.output(&self.program)
@@ -280,75 +266,56 @@ impl<'a> BufferOutData<'a> {
         data: &'a AudioBuffer,
         samples_per_frame: usize,
     ) -> Self {
-        Self {
+        let data = Output {
             data: data.read_write_buffer(),
             samples_per_frame,
-            read_buffer: Vec::with_capacity(8),
-            write_buffer: Vec::with_capacity(8),
             program,
+        };
+        Self {
+            read_buffer: output::ReadDevices::new(&data),
+            write_buffer: output::WriteDevices::new(&data),
         }
     }
 
-    /// Get all buffers
-    pub fn get_all_buffers<'b>(
-        &'a mut self,
-    ) -> (output::ReadDevices<'a, 'b>, output::WriteDevices<'a, 'b>) {
-        (
-            output::ReadDevices::new(self),
-            output::WriteDevices::new(self),
-        )
+    /// Convenience function to get the read and write buffers
+    /// 
+    /// ```rust,no_run
+    /// # use voicemeeter::interface::callback::BufferOut; let data: BufferOut = unimplemented!();
+    /// # let (read, mut write) = data.buffer.get_buffers(); 
+    /// ```
+    pub fn get_buffers(self) -> (output::ReadDevices<'a, 'a>, output::WriteDevices<'a, 'a>) {
+        (self.read_buffer, self.write_buffer)
     }
 
     //#[tracing::instrument(skip(self), name = "BufferOutData::read_write_buffer_on_device")]
     /// Get the read and write buffers for a specific [device](Device).
     #[allow(clippy::type_complexity)]
     pub fn read_write_buffer_on_device<'b>(
-        &'b mut self,
+        &mut self,
         channel: &Device,
     ) -> Option<(&'b [&'a [f32]], &'b mut [&'a mut [f32]])> {
-        self.read_buffer.clear();
-        self.write_buffer.clear();
-        let idx = channel.output(&self.program)?;
-        // There should not be any channels without a read but a write
-        let (read, write) = self.data;
-        for i in 0..idx.size {
-            // by contract from voicemeeter, the ranges will be contigous
-            let read =
-                unsafe { std::slice::from_raw_parts(read[idx.start + i], self.samples_per_frame) };
-            self.read_buffer.push(read);
-
-            // by contract from voicemeeter, the ranges will be contigous
-            let write = unsafe {
-                std::slice::from_raw_parts_mut(write[idx.start + i], self.samples_per_frame)
-            };
-            self.write_buffer.push(write);
-            // tracing::trace!(
-            //     "read from {}, to {}. resulting in {} elems",
-            //     r_idx.start,
-            //     r_idx.size,
-            //     read.len()
-            // );
-        }
-        Some((&self.read_buffer, &mut self.write_buffer))
+       todo!()
     }
 }
 
 /// Buffer for input mode.
-#[derive(Debug)]
 pub struct BufferInData<'a> {
-    data: (&'a [*mut f32], &'a [*mut f32]),
-    read_buffer: Vec<&'a [f32]>,
-    write_buffer: Vec<&'a mut [f32]>,
-    samples_per_frame: usize,
+    /// Read
+    pub read_buffer: input::ReadDevices<'a,'a>,
+    /// Write
+    pub write_buffer: input::WriteDevices<'a,'a>,
+}
+pub(crate) struct Input<'a> {
     program: VoicemeeterApplication,
+    samples_per_frame: usize,
+    data: (&'a [*mut f32], &'a [*mut f32]),
 }
 
-impl<'a> BufferDataExt<'a> for BufferInData<'a> {
+impl<'a> BufferDataExt<'a> for Input<'a> {
     #[inline]
     fn data<'b>(&'b self) -> (&'a [*mut f32], &'a [*mut f32]) {
         self.data
     }
-
     #[inline]
     fn channel_index_read(&self, device: &Device) -> Option<ChannelIndex> {
         device.input(&self.program)
@@ -372,56 +339,35 @@ impl<'a> BufferInData<'a> {
         data: &'a AudioBuffer,
         samples_per_frame: usize,
     ) -> Self {
-        Self {
+        let data = Input {
             data: data.read_write_buffer(),
             samples_per_frame,
-            read_buffer: Vec::with_capacity(8),
-            write_buffer: Vec::with_capacity(8),
             program,
+        };
+        Self {
+            read_buffer: input::ReadDevices::new(&data),
+            write_buffer: input::WriteDevices::new(&data),
+            
         }
     }
 
-    /// Get all buffers
-    pub fn get_all_buffers<'b>(
-        &'a mut self,
-    ) -> (input::ReadDevices<'a, 'b>, input::WriteDevices<'a, 'b>) {
-        (
-            input::ReadDevices::new(self),
-            input::WriteDevices::new(self),
-        )
+    /// Convenience function to get the read and write buffers
+    /// 
+    /// ```rust,no_run
+    /// # use voicemeeter::interface::callback::BufferIn; let data: BufferIn = unimplemented!();
+    /// # let (read, mut write) = data.buffer.get_buffers(); 
+    /// ```
+    pub fn get_buffers(self) -> (input::ReadDevices<'a, 'a>, input::WriteDevices<'a, 'a>) {
+        (self.read_buffer, self.write_buffer)
     }
 
     //#[tracing::instrument(skip(self), name = "BufferInData::read_write_buffer_on_channel")]
     /// Get the read and write buffers for a specific [device](Device).
     #[allow(clippy::type_complexity)]
     pub fn read_write_buffer_on_device<'b>(
-        &'b mut self,
+        &mut self,
         channel: &Device,
     ) -> Option<(&'b [&'a [f32]], &'b mut [&'a mut [f32]])> {
-        self.read_buffer.clear();
-        self.write_buffer.clear();
-        let idx = channel.input(&self.program)?;
-        // There should not be any channels without a read but a write
-        let (read, write) = self.data;
-        // FIXME: assert that the range is contiguous
-        for i in 0..idx.size {
-            // by contract from voicemeeter, the ranges will be contigous
-            let read =
-                unsafe { std::slice::from_raw_parts(read[idx.start + i], self.samples_per_frame) };
-            self.read_buffer.push(read);
-
-            // by contract from voicemeeter, the ranges will be contigous
-            let write = unsafe {
-                std::slice::from_raw_parts_mut(write[idx.start + i], self.samples_per_frame)
-            };
-            self.write_buffer.push(write);
-            // tracing::trace!(
-            //     "read from {}, to {}. resulting in {} elems",
-            //     r_idx.start,
-            //     r_idx.size,
-            //     read.len()
-            // );
-        }
-        Some((&self.read_buffer, &mut self.write_buffer))
+        todo!()
     }
 }
