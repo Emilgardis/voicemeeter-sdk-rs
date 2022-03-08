@@ -3,6 +3,7 @@ name = "voicemeeter"
 version = "0.1.0"
 edition = "2021"
 license = "MIT"
+repository = "https://github.com/Emilgardis/voicemeeter-sdk-rs"
 description = "FFI bindings to Voicemeeter SDK"
 
 [dependencies]
@@ -55,7 +56,6 @@ opt-level = 3
 
 [profile.release.package.fundsp]
 opt-level = 3
-
 
 [profile.dev.package.diff]
 opt-level = 3
