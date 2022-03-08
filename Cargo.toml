@@ -3,6 +3,7 @@ name = "voicemeeter"
 version = "0.1.0"
 edition = "2021"
 license = "MIT"
+keywords = ["voicemeeter", "ffi", "audio", "windows"]
 repository = "https://github.com/Emilgardis/voicemeeter-sdk-rs"
 description = "FFI bindings to Voicemeeter SDK"
 
