@@ -1,19 +1,29 @@
 //! Level and midi related functions
 use std::ptr;
 
-pub use crate::types::LevelType;
+pub use crate::types::{Device, LevelType};
 
 use super::VoicemeeterRemote;
 
 impl VoicemeeterRemote {
     // TODO: one thread only
-    // FIXME: Use channel enum
-    /// Get the level of a channel
-    pub fn get_level(&self, level_type: LevelType, channel: i32) -> Result<f32, GetLevelError> {
+    /// Get the level of a channel on a device
+    pub fn get_level(
+        &self,
+        level_type: LevelType,
+        device: Device,
+        channel: usize,
+    ) -> Result<Option<f32>, GetLevelError> {
         let mut f = std::f32::NAN;
-        let res = unsafe { self.raw.VBVMR_GetLevel(level_type as i32, channel, &mut f) };
+        let dev_num =
+            if let Some(dev_num) = device.as_level_device_num(&self.program, level_type, channel) {
+                dev_num as i32
+            } else {
+                return Ok(None);
+            };
+        let res = unsafe { self.raw.VBVMR_GetLevel(level_type as i32, dev_num, &mut f) };
         match res {
-            0 => Ok(f),
+            0 => Ok(Some(f)),
             -1 => Err(GetLevelError::CannotGetClient),
             -2 => Err(GetLevelError::NoServer),
             -3 => Err(GetLevelError::NoLevel),

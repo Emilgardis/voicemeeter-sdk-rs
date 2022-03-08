@@ -85,7 +85,6 @@ pub struct CallbackGuard<'a, F> {
 }
 
 impl VoicemeeterRemote {
-    // FIXME: examples
     /// Register a callback for audio.
     ///
     /// The callback is a function that will be called when the audio stream is started, changed or stopped and when data is sent to it.

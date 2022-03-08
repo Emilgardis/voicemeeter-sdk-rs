@@ -6,7 +6,7 @@ use crate::types::ParameterRef;
 use super::VoicemeeterRemote;
 
 impl VoicemeeterRemote {
-    // FIXME: Prefer using abstraction [linkme]
+    // TODO: Provide abstraction, e.g ParameterThing::Struct.blabla()
     /// Set the float value of a parameter.
     pub fn set_parameter_float(
         &self,
@@ -25,10 +25,11 @@ impl VoicemeeterRemote {
             -2 => Err(SetParameterError::NoServer),
             -3 => Err(SetParameterError::UnknownParameter(
                 param.to_string_lossy().into_owned(),
-            )), // FIXME: Lossless always (assuming vmr doesn't modify :) ), unsafe?
+            )), // NOTE: Lossless always (assuming vmr doesn't modify :) ), unsafe?
             s => Err(SetParameterError::Other(s)),
         }
     }
+    // TODO: Provide abstraction, e.g ParameterThing::Struct.blabla()
     /// Set the string value of a parameter.
     pub fn set_parameter_string(
         &self,
@@ -48,7 +49,7 @@ impl VoicemeeterRemote {
             -2 => Err(SetParameterError::NoServer),
             -3 => Err(SetParameterError::UnknownParameter(
                 param.to_string_lossy().into_owned(),
-            )), // FIXME: Lossless always (assuming vmr doesn't modify :) ), unsafe?
+            )), // NOTE: Lossless always (assuming vmr doesn't modify :) ), unsafe?
             s => Err(SetParameterError::Other(s)),
         }
     }

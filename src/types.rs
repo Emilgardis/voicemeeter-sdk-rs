@@ -1,4 +1,5 @@
 //! Basic types used in voicemeeter
+
 /// A Zero Indexed Index
 #[derive(Debug, Clone, Copy, Hash, PartialEq, Eq)]
 #[repr(transparent)]
@@ -207,6 +208,11 @@ impl ChannelIndex {
     pub(crate) const fn new(start: usize, size: usize) -> Self {
         Self { start, size }
     }
+
+    /// Get the channel index for
+    pub fn get(&self, channel: usize) -> Option<usize> {
+        (self.start..(self.start + self.size)).nth(channel)
+    }
 }
 const fn ci(start: usize, size: usize) -> Option<ChannelIndex> {
     Some(ChannelIndex::new(start, size))
@@ -291,5 +297,21 @@ impl Device {
             Device::VirtualInputAux,
             Device::VirtualInput8,
         ]
+    }
+
+    /// Gives the devices number for the current application for getting level.
+    pub(crate) fn as_level_device_num(
+        &self,
+        program: &VoicemeeterApplication,
+        level_type: LevelType,
+        channel: usize,
+    ) -> Option<usize> {
+        match level_type {
+            LevelType::PreFaderInputLevels
+            | LevelType::PostFaderInputLevels
+            | LevelType::PostMuteInputLevels => self.input(program)?.get(channel),
+            LevelType::OutputLevels => todo!(),
+            LevelType::Other => None,
+        }
     }
 }
