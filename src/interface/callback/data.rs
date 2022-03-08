@@ -63,7 +63,6 @@ impl RawCallbackData {
     pub fn from_ptr(ptr: *mut std::ffi::c_void) -> Self {
         RawCallbackData(NonNull::new(ptr).unwrap())
     }
-    // TODO: Safety
     //#[tracing::instrument(level = "trace", skip_all,name = "RawCallbackData::as_audio_info")]
     /// Get the audio information from the raw callback data.
     ///
@@ -74,7 +73,6 @@ impl RawCallbackData {
     pub unsafe fn as_audio_info<'a>(&self) -> &'a AudioInfo {
         unsafe { self.0.cast().as_ref() }
     }
-    // TODO: Safety
     //#[tracing::instrument(level = "trace", skip_all,name = "RawCallbackData::as_audio_buffer")]
     /// Get the audio information from the raw callback data.
     ///
@@ -197,7 +195,6 @@ impl<'a> BufferMainData<'a> {
         (main::ReadDevices::new(self), main::WriteDevices::new(self))
     }
 
-    // FIXME: These should be an iterator, maybe.
     //#[tracing::instrument(skip(self), name = "BufferMainData::read_write_buffer_on_device")]
     /// Get the read and write buffers for a specific [device](Device).
     ///
@@ -219,14 +216,15 @@ impl<'a> BufferMainData<'a> {
         let (r_idx, w_idx) = (idx.0?, idx.1);
         tracing::trace!("getting buffers: {:?}, {:?}", r_idx, w_idx);
         let (read, write) = self.data;
-        // FIXME: assert that the range is contiguous
         for i in 0..r_idx.size {
+            // by contract from voicemeeter, the ranges will be contigous
             let read = unsafe {
                 std::slice::from_raw_parts(read[r_idx.start + i], self.samples_per_frame)
             };
             self.read_buffer.push(read);
 
             if let Some(ref w_idx) = w_idx {
+                // by contract from voicemeeter, the ranges will be contigous
                 let write = unsafe {
                     std::slice::from_raw_parts_mut(write[w_idx.start + i], self.samples_per_frame)
                 };
@@ -301,7 +299,6 @@ impl<'a> BufferOutData<'a> {
         )
     }
 
-    // FIXME: These should be an iterator, maybe.
     //#[tracing::instrument(skip(self), name = "BufferOutData::read_write_buffer_on_device")]
     /// Get the read and write buffers for a specific [device](Device).
     #[allow(clippy::type_complexity)]
@@ -314,12 +311,13 @@ impl<'a> BufferOutData<'a> {
         let idx = channel.output(&self.program)?;
         // There should not be any channels without a read but a write
         let (read, write) = self.data;
-        // FIXME: assert that the range is contiguous
         for i in 0..idx.size {
+            // by contract from voicemeeter, the ranges will be contigous
             let read =
                 unsafe { std::slice::from_raw_parts(read[idx.start + i], self.samples_per_frame) };
             self.read_buffer.push(read);
 
+            // by contract from voicemeeter, the ranges will be contigous
             let write = unsafe {
                 std::slice::from_raw_parts_mut(write[idx.start + i], self.samples_per_frame)
             };
@@ -393,7 +391,6 @@ impl<'a> BufferInData<'a> {
         )
     }
 
-    // FIXME: These should be an iterator, maybe.
     //#[tracing::instrument(skip(self), name = "BufferInData::read_write_buffer_on_channel")]
     /// Get the read and write buffers for a specific [device](Device).
     #[allow(clippy::type_complexity)]
@@ -408,10 +405,12 @@ impl<'a> BufferInData<'a> {
         let (read, write) = self.data;
         // FIXME: assert that the range is contiguous
         for i in 0..idx.size {
+            // by contract from voicemeeter, the ranges will be contigous
             let read =
                 unsafe { std::slice::from_raw_parts(read[idx.start + i], self.samples_per_frame) };
             self.read_buffer.push(read);
 
+            // by contract from voicemeeter, the ranges will be contigous
             let write = unsafe {
                 std::slice::from_raw_parts_mut(write[idx.start + i], self.samples_per_frame)
             };

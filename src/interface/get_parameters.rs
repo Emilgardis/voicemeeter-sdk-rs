@@ -10,7 +10,7 @@ use crate::types::ParameterRef;
 use super::VoicemeeterRemote;
 
 impl VoicemeeterRemote {
-    // FIXME: Only call from one thread, limit it
+    // TODO: Only call from one thread, limit it
     /// Check if parameters have changed
     ///
     /// Call this function periodically to check if parameters have changed, typically every 10ms.
@@ -28,7 +28,7 @@ impl VoicemeeterRemote {
             s => Err(IsParametersDirtyError::Other(s)),
         }
     }
-    // FIXME: Prefer using abstraction [linkme]
+    // TODO: Provide abstraction, e.g ParameterThing::Struct.blabla()
     /// Get the float value of a parameter.
     pub fn get_parameter_float(&self, param: &ParameterRef) -> Result<f32, GetParameterError> {
         let mut f = 0.0f32;
@@ -43,7 +43,7 @@ impl VoicemeeterRemote {
             -2 => Err(GetParameterError::NoServer),
             -3 => Err(GetParameterError::UnknownParameter(
                 param.to_string_lossy().into_owned(),
-            )), // FIXME: Lossless always (assuming vmr doesn't modify :) ), unsafe?
+            )), // NOTE: Lossless always (assuming vmr doesn't modify :) ), unsafe?
             -5 => Err(GetParameterError::StructureMismatch(
                 param.to_string_lossy().into_owned(),
                 "float",
@@ -51,6 +51,7 @@ impl VoicemeeterRemote {
             s => Err(GetParameterError::Other(s)),
         }
     }
+    // TODO: Provide abstraction, e.g ParameterThing::Struct.blabla()
     /// Get the string value of a parameter.
     pub fn get_parameter_string(
         &self,
@@ -73,7 +74,7 @@ impl VoicemeeterRemote {
             -2 => Err(GetParameterError::NoServer),
             -3 => Err(GetParameterError::UnknownParameter(
                 param.to_string_lossy().into_owned(),
-            )), // FIXME: Lossless always (assuming vmr doesn't modify :) ), unsafe?
+            )), // NOTE: Lossless always (assuming vmr doesn't modify :) ), unsafe?
             -5 => Err(GetParameterError::StructureMismatch(
                 param.to_string_lossy().into_owned(),
                 "float",

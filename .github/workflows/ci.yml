@@ -79,11 +79,11 @@ jobs:
       - uses: Swatinem/rust-cache@v1
         with:
           sharedKey: rust-${{ env.MSRV }}
-      - name: Run clippy --all-targets --no-default-features -- -D warnings
+      - name: Run clippy --no-default-features -- -D warnings
         uses: actions-rs/clippy-check@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          args: --all-targets --no-default-features -- -D warnings
+          args: --no-default-features -- -D warnings
       - name: Run clippy --all-targets --all-features -- -D warnings
         uses: actions-rs/clippy-check@v1
         with:

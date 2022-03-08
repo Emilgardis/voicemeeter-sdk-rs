@@ -85,7 +85,6 @@ pub struct CallbackGuard<'a, F> {
 }
 
 impl VoicemeeterRemote {
-    // FIXME: examples
     /// Register a callback for audio.
     ///
     /// The callback is a function that will be called when the audio stream is started, changed or stopped and when data is sent to it.
@@ -108,7 +107,6 @@ impl VoicemeeterRemote {
     where
         F: FnMut(CallbackCommand<'cb>, i32) -> c_long + 'g,
     {
-        // TODO: SAFETY!!!
         let application_name = application_name.as_ref();
         tracing::Span::current().record("application_name", &application_name);
         //let ctx_span = tracing::trace_span!("voicemeeter_callback");
