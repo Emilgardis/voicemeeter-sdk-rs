@@ -63,7 +63,6 @@ impl RawCallbackData {
     pub fn from_ptr(ptr: *mut std::ffi::c_void) -> Self {
         RawCallbackData(NonNull::new(ptr).unwrap())
     }
-    // TODO: Safety
     //#[tracing::instrument(level = "trace", skip_all,name = "RawCallbackData::as_audio_info")]
     /// Get the audio information from the raw callback data.
     ///
@@ -74,7 +73,6 @@ impl RawCallbackData {
     pub unsafe fn as_audio_info<'a>(&self) -> &'a AudioInfo {
         unsafe { self.0.cast().as_ref() }
     }
-    // TODO: Safety
     //#[tracing::instrument(level = "trace", skip_all,name = "RawCallbackData::as_audio_buffer")]
     /// Get the audio information from the raw callback data.
     ///

@@ -130,7 +130,6 @@ fn registry_check() -> Result<(), RemoteFileError> {
 pub enum RemoteFileError {
     /// Voicemeeter dll not found at path
     #[error("could not find voicemeeter folder: {}", 0)]
-    // TODO: OsString?
     NotFound(String),
     /// Registry error
     #[error(transparent)]

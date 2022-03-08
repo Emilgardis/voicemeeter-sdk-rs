@@ -208,8 +208,6 @@ pub enum CallbackCommand<'a> {
 }
 
 impl<'a> CallbackCommand<'a> {
-    // TODO: adding a field here makes the program segfault
-    //#[tracing::instrument(skip_all, name = "CallbackCommand::new_unchecked")]
     pub(crate) unsafe fn new_unchecked(
         program: VoicemeeterApplication,
         command: VBVMR_CBCOMMAND,
