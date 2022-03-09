@@ -186,6 +186,7 @@ impl<'a> BufferMain<'a> {
 /// Callback command passed to the [audio callback](crate::VoicemeeterRemote::audio_callback_register).
 #[repr(i32)]
 #[cfg(feature = "interface")] // for doc_cfg
+#[allow(clippy::large_enum_variant)]
 pub enum CallbackCommand<'a> {
     /// Starting command
     Starting(Starting<'a>),

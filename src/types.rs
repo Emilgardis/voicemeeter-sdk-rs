@@ -153,11 +153,6 @@ impl From<i32> for LevelType {
 }
 
 /// A device.
-///
-/// Used for callback in [`VoicemeeterRemote::audio_callback_register`](super::VoicemeeterRemote::audio_callback_register) with
-/// [`BufferInData::read_write_buffer_on_device`](crate::interface::callback::BufferInData::read_write_buffer_on_device),
-/// [`BufferOutData::read_write_buffer_on_device`](crate::interface::callback::BufferOutData::read_write_buffer_on_device) or
-/// [`BufferMainData::read_write_buffer_on_device`](crate::interface::callback::BufferMainData::read_write_buffer_on_device)
 #[derive(Debug, Clone, Copy, Eq, PartialEq)]
 pub enum Device {
     /// Strip 1. Available on all Voicemeeter versions.
@@ -310,7 +305,7 @@ impl Device {
             LevelType::PreFaderInputLevels
             | LevelType::PostFaderInputLevels
             | LevelType::PostMuteInputLevels => self.input(program)?.get(channel),
-            LevelType::OutputLevels => todo!(),
+            LevelType::OutputLevels => self.output(program)?.get(channel),
             LevelType::Other => None,
         }
     }

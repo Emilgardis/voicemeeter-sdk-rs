@@ -61,12 +61,11 @@ pub fn main() -> Result<(), Box<dyn std::error::Error>> {
                     },
                 );
                 // Apply another function on all channels of `OutputA2`.
-                write.output_a2.apply(
-                    &read.output_a2,
-                    |_ch: usize, r: &[f32], w: &mut [f32]| {
+                write
+                    .output_a2
+                    .apply(&read.output_a2, |_ch: usize, r: &[f32], w: &mut [f32]| {
                         w.copy_from_slice(r)
-                    },
-                );
+                    });
                 // the buffer write type has a convenience method to copy data for specified devices.
                 write.copy_device_from(
                     &read,
