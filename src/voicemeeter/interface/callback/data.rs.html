@@ -432,9 +432,9 @@
 <span id="427">427</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Underlying data types for callbacks</span>
 
-<span class="kw">mod</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data/buffer_abstraction.rs.html#1-736">buffer_abstraction</a>;
+<span class="kw">mod</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data/buffer_abstraction.rs.html#1-644">buffer_abstraction</a>;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">buffer_abstraction</span>::{<a class="ident" href="../../../../src/voicemeeter/interface/callback/data/buffer_abstraction.rs.html#573-736">input</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data/buffer_abstraction.rs.html#195-405">main</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data/buffer_abstraction.rs.html#408-570">output</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data/buffer_abstraction.rs.html#62-67">DeviceBuffer</a>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">buffer_abstraction</span>::{<a class="ident" href="../../../../src/voicemeeter/interface/callback/data/buffer_abstraction.rs.html#497-644">input</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data/buffer_abstraction.rs.html#153-342">main</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data/buffer_abstraction.rs.html#345-494">output</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data/buffer_abstraction.rs.html#42-47">DeviceBuffer</a>};
 
 <span class="kw">use</span> <a class="ident" href="https://doc.rust-lang.org/nightly/core/ptr/non_null/struct.NonNull.html">std::ptr::NonNull</a>;
 
@@ -535,7 +535,7 @@
         <span class="kw">let</span> <span class="ident">idx</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#100">self</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#92">channel_index_write</a>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#101">device</a>) {
             <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#103">idx</a>
         } <span class="kw">else</span> {
-            <span class="kw">return</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data/buffer_abstraction.rs.html#64">DeviceBuffer::None</a>;
+            <span class="kw">return</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data/buffer_abstraction.rs.html#44">DeviceBuffer::None</a>;
         };
         <span class="macro">assert_eq!</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#99">N</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#103">idx</a>.<span class="ident">size</span>);
         <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#100">self</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#90">data</a>().<span class="number">1</span>;
@@ -545,7 +545,7 @@
             <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#109">data</a>[<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#103">idx</a>.<span class="ident">start</span> <span class="op">+</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#112">i</a>];
             <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#111">array</a>[<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#112">i</a>] <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">std::slice::from_raw_parts_mut</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#113">ptr</a>, <a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#100">self</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#94">samples_per_frame</a>()) };
         }
-        <a class="ident" href="../../../../src/voicemeeter/interface/callback/data/buffer_abstraction.rs.html#66">DeviceBuffer::Buffer</a>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#111">array</a>)
+        <a class="ident" href="../../../../src/voicemeeter/interface/callback/data/buffer_abstraction.rs.html#46">DeviceBuffer::Buffer</a>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#111">array</a>)
     }
     <span class="doccomment">/// Get the device read buffer for a device at idx.start..idx.start+N.</span>
     <span class="doccomment">///</span>
@@ -558,7 +558,7 @@
         <span class="kw">let</span> <span class="ident">idx</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#123">self</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#93">channel_index_read</a>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#124">device</a>) {
             <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#126">idx</a>
         } <span class="kw">else</span> {
-            <span class="kw">return</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data/buffer_abstraction.rs.html#64">DeviceBuffer::None</a>;
+            <span class="kw">return</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data/buffer_abstraction.rs.html#44">DeviceBuffer::None</a>;
         };
         <span class="macro">assert_eq!</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#122">N</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#126">idx</a>.<span class="ident">size</span>, <span class="string">&quot;on device: {device:?}&quot;</span>);
         <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#123">self</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#90">data</a>().<span class="number">0</span>;
@@ -568,7 +568,7 @@
             <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#132">data</a>[<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#126">idx</a>.<span class="ident">start</span> <span class="op">+</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#135">i</a>];
             <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#134">array</a>[<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#135">i</a>] <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">std::slice::from_raw_parts</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#136">ptr</a>, <a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#123">self</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#94">samples_per_frame</a>()) };
         }
-        <a class="ident" href="../../../../src/voicemeeter/interface/callback/data/buffer_abstraction.rs.html#66">DeviceBuffer::Buffer</a>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#134">array</a>)
+        <a class="ident" href="../../../../src/voicemeeter/interface/callback/data/buffer_abstraction.rs.html#46">DeviceBuffer::Buffer</a>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#134">array</a>)
     }
 }
 
