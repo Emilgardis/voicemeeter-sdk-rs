@@ -247,16 +247,13 @@
 <span id="242">242</span>
 <span id="243">243</span>
 <span id="244">244</span>
-<span id="245">245</span>
-<span id="246">246</span>
-<span id="247">247</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Callback command types.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! These are returned to the callback function.</span>
 <span class="kw">use</span> <span class="kw">crate</span>::{<a class="ident" href="../../../../src/voicemeeter/bindings.rs.html#222">bindings::VBVMR_CBCOMMAND</a>, <a class="ident" href="../../../../src/voicemeeter/types.rs.html#62-73">types::VoicemeeterApplication</a>};
 
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::data</span>::{
-    <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#14">AudioBuffer</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#12">AudioInfo</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#338-344">BufferInData</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#145-151">BufferMainData</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#246-252">BufferOutData</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#52">RawCallbackData</a>,
+    <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#14">AudioBuffer</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#12">AudioInfo</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#276-281">BufferInData</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#144-149">BufferMainData</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#211-216">BufferOutData</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#52">RawCallbackData</a>,
 };
 
 <span class="macro">macro_rules!</span> <span class="ident">implement</span> {
@@ -355,7 +352,6 @@
 }
 
 <span class="doccomment">/// Data for input mode.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BufferIn</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Buffer data for input mode</span>
     <span class="kw">pub</span> <span class="ident">buffer</span>: <span class="ident">BufferInData</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
@@ -371,19 +367,18 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">BufferIn</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="comment">//#[tracing::instrument(skip_all, name = &quot;BufferIn::new&quot;)]</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">program</span>: <a class="ident" href="../../../../src/voicemeeter/types.rs.html#62-73">VoicemeeterApplication</a>, <span class="ident">buffer</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#14">AudioBuffer</a>) -&gt; <span class="self">Self</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">program</span>: <a class="ident" href="../../../../src/voicemeeter/types.rs.html#62-73">VoicemeeterApplication</a>, <span class="ident">buffer</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#14">AudioBuffer</a>) -&gt; <span class="self">Self</span> {
         <span class="self">Self</span> {
-            <span class="ident">sr</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#122">buffer</a>.<span class="ident">audiobuffer_sr</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
-            <span class="ident">nbs</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#122">buffer</a>.<span class="ident">audiobuffer_nbs</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
-            <span class="ident">nbi</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#122">buffer</a>.<span class="ident">audiobuffer_nbi</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
-            <span class="ident">nbo</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#122">buffer</a>.<span class="ident">audiobuffer_nbo</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
-            <span class="ident">buffer</span>: <span class="ident">BufferInData::new</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#122">program</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#122">buffer</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#122">buffer</a>.<span class="ident">audiobuffer_nbs</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>),
+            <span class="ident">sr</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#121">buffer</a>.<span class="ident">audiobuffer_sr</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
+            <span class="ident">nbs</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#121">buffer</a>.<span class="ident">audiobuffer_nbs</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
+            <span class="ident">nbi</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#121">buffer</a>.<span class="ident">audiobuffer_nbi</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
+            <span class="ident">nbo</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#121">buffer</a>.<span class="ident">audiobuffer_nbo</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
+            <span class="ident">buffer</span>: <span class="ident">BufferInData::new</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#121">program</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#121">buffer</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#121">buffer</a>.<span class="ident">audiobuffer_nbs</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>),
         }
     }
 }
 
 <span class="doccomment">/// Data for output mode.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BufferOut</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Sample rate</span>
     <span class="kw">pub</span> <span class="ident">sr</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
@@ -399,19 +394,18 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">BufferOut</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="comment">//#[tracing::instrument(skip_all, name = &quot;BufferOut::new&quot;)]</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">program</span>: <a class="ident" href="../../../../src/voicemeeter/types.rs.html#62-73">VoicemeeterApplication</a>, <span class="ident">buffer</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#14">AudioBuffer</a>) -&gt; <span class="self">Self</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">program</span>: <a class="ident" href="../../../../src/voicemeeter/types.rs.html#62-73">VoicemeeterApplication</a>, <span class="ident">buffer</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#14">AudioBuffer</a>) -&gt; <span class="self">Self</span> {
         <span class="self">Self</span> {
-            <span class="ident">sr</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#150">buffer</a>.<span class="ident">audiobuffer_sr</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
-            <span class="ident">nbs</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#150">buffer</a>.<span class="ident">audiobuffer_nbs</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
-            <span class="ident">nbi</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#150">buffer</a>.<span class="ident">audiobuffer_nbi</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
-            <span class="ident">nbo</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#150">buffer</a>.<span class="ident">audiobuffer_nbo</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
-            <span class="ident">buffer</span>: <span class="ident">BufferOutData::new</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#150">program</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#150">buffer</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#150">buffer</a>.<span class="ident">audiobuffer_nbs</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>),
+            <span class="ident">sr</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#148">buffer</a>.<span class="ident">audiobuffer_sr</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
+            <span class="ident">nbs</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#148">buffer</a>.<span class="ident">audiobuffer_nbs</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
+            <span class="ident">nbi</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#148">buffer</a>.<span class="ident">audiobuffer_nbi</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
+            <span class="ident">nbo</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#148">buffer</a>.<span class="ident">audiobuffer_nbo</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
+            <span class="ident">buffer</span>: <span class="ident">BufferOutData::new</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#148">program</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#148">buffer</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#148">buffer</a>.<span class="ident">audiobuffer_nbs</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>),
         }
     }
 }
 
 <span class="doccomment">/// Data for main mode.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BufferMain</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Buffer data for main mode</span>
     <span class="kw">pub</span> <span class="ident">buffer</span>: <span class="ident">BufferMainData</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
@@ -427,21 +421,21 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">BufferMain</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="comment">//#[tracing::instrument(skip_all, name = &quot;BufferMain::new&quot;)]</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">program</span>: <a class="ident" href="../../../../src/voicemeeter/types.rs.html#62-73">VoicemeeterApplication</a>, <span class="ident">buffer</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#14">AudioBuffer</a>) -&gt; <span class="self">Self</span> {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">program</span>: <a class="ident" href="../../../../src/voicemeeter/types.rs.html#62-73">VoicemeeterApplication</a>, <span class="ident">buffer</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#14">AudioBuffer</a>) -&gt; <span class="self">Self</span> {
         <span class="self">Self</span> {
-            <span class="ident">sr</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#178">buffer</a>.<span class="ident">audiobuffer_sr</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
-            <span class="ident">nbs</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#178">buffer</a>.<span class="ident">audiobuffer_nbs</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
-            <span class="ident">nbi</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#178">buffer</a>.<span class="ident">audiobuffer_nbi</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
-            <span class="ident">nbo</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#178">buffer</a>.<span class="ident">audiobuffer_nbo</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
-            <span class="ident">buffer</span>: <span class="ident">BufferMainData::new</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#178">program</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#178">buffer</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#178">buffer</a>.<span class="ident">audiobuffer_nbs</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>),
+            <span class="ident">sr</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#175">buffer</a>.<span class="ident">audiobuffer_sr</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
+            <span class="ident">nbs</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#175">buffer</a>.<span class="ident">audiobuffer_nbs</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
+            <span class="ident">nbi</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#175">buffer</a>.<span class="ident">audiobuffer_nbi</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
+            <span class="ident">nbo</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#175">buffer</a>.<span class="ident">audiobuffer_nbo</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
+            <span class="ident">buffer</span>: <span class="ident">BufferMainData::new</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#175">program</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#175">buffer</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#175">buffer</a>.<span class="ident">audiobuffer_nbs</span> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>),
         }
     }
 }
 
 <span class="doccomment">/// Callback command passed to the [audio callback](crate::VoicemeeterRemote::audio_callback_register).</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">i32</span>)]</span>
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;interface&quot;</span>)]</span> <span class="comment">// for doc_cfg</span>
+<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::large_enum_variant</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">CallbackCommand</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Starting command</span>
     <span class="ident">Starting</span>(<span class="ident">Starting</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>),
@@ -465,28 +459,28 @@
         <span class="ident">command</span>: <a class="ident" href="../../../../src/voicemeeter/bindings.rs.html#222">VBVMR_CBCOMMAND</a>,
         <span class="ident">ptr</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#52">RawCallbackData</a>,
     ) -&gt; <span class="self">Self</span> {
-        <span class="kw">match</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#213">command</a> {
+        <span class="kw">match</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#210">command</a> {
             <span class="ident">VBVMR_CBCOMMAND::STARTING</span> =&gt; {
-                <span class="ident"><span class="self">Self</span>::Starting</span>(<span class="ident">Starting::new</span>(<span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#214">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#73">as_audio_info</a>() }))
+                <span class="ident"><span class="self">Self</span>::Starting</span>(<span class="ident">Starting::new</span>(<span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#211">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#73">as_audio_info</a>() }))
             }
-            <span class="ident">VBVMR_CBCOMMAND::ENDING</span> =&gt; <span class="ident"><span class="self">Self</span>::Ending</span>(<span class="ident">Ending::new</span>(<span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#214">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#73">as_audio_info</a>() })),
-            <span class="ident">VBVMR_CBCOMMAND::CHANGE</span> =&gt; <span class="ident"><span class="self">Self</span>::Change</span>(<span class="ident">Change::new</span>(<span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#214">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#73">as_audio_info</a>() })),
+            <span class="ident">VBVMR_CBCOMMAND::ENDING</span> =&gt; <span class="ident"><span class="self">Self</span>::Ending</span>(<span class="ident">Ending::new</span>(<span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#211">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#73">as_audio_info</a>() })),
+            <span class="ident">VBVMR_CBCOMMAND::CHANGE</span> =&gt; <span class="ident"><span class="self">Self</span>::Change</span>(<span class="ident">Change::new</span>(<span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#211">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#73">as_audio_info</a>() })),
             <span class="ident">VBVMR_CBCOMMAND::BUFFER_IN</span> =&gt; {
-                <span class="ident"><span class="self">Self</span>::BufferIn</span>(<span class="ident">BufferIn::new</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#212">program</a>, <span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#214">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#83">as_audio_buffer</a>() }))
+                <span class="ident"><span class="self">Self</span>::BufferIn</span>(<span class="ident">BufferIn::new</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#209">program</a>, <span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#211">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#83">as_audio_buffer</a>() }))
             }
             <span class="ident">VBVMR_CBCOMMAND::BUFFER_OUT</span> =&gt; {
-                <span class="ident"><span class="self">Self</span>::BufferOut</span>(<span class="ident">BufferOut::new</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#212">program</a>, <span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#214">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#83">as_audio_buffer</a>() }))
+                <span class="ident"><span class="self">Self</span>::BufferOut</span>(<span class="ident">BufferOut::new</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#209">program</a>, <span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#211">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#83">as_audio_buffer</a>() }))
             }
             <span class="ident">VBVMR_CBCOMMAND::BUFFER_MAIN</span> =&gt; {
-                <span class="ident"><span class="self">Self</span>::BufferMain</span>(<span class="ident">BufferMain::new</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#212">program</a>, <span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#214">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#83">as_audio_buffer</a>() }))
+                <span class="ident"><span class="self">Self</span>::BufferMain</span>(<span class="ident">BufferMain::new</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#209">program</a>, <span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#211">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#83">as_audio_buffer</a>() }))
             }
-            <span class="ident">i</span> =&gt; <span class="ident"><span class="self">Self</span>::Other</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#231">i</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#214">ptr</a>),
+            <span class="ident">i</span> =&gt; <span class="ident"><span class="self">Self</span>::Other</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#228">i</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#211">ptr</a>),
         }
     }
 
     <span class="doccomment">/// Get the command &quot;name&quot;</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a><span class="op">&gt;</span> {
-        <span class="prelude-val">Some</span>(<span class="kw">match</span> <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#236">self</a> {
+        <span class="prelude-val">Some</span>(<span class="kw">match</span> <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#233">self</a> {
             <span class="ident"><span class="self">Self</span>::Starting</span>(<span class="kw">_</span>) =&gt; <span class="string">&quot;Starting&quot;</span>,
             <span class="ident"><span class="self">Self</span>::Ending</span>(<span class="kw">_</span>) =&gt; <span class="string">&quot;Ending&quot;</span>,
             <span class="ident"><span class="self">Self</span>::Change</span>(<span class="kw">_</span>) =&gt; <span class="string">&quot;Change&quot;</span>,
