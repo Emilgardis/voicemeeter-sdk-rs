@@ -281,7 +281,7 @@ pub mod main {
     }
     impl<'a, 'b> ReadDevices<'a, 'b> {
         /// Create a new buffer for this mode
-        pub(crate) fn new(buffer: &'_ Main) -> Self {
+        pub(crate) unsafe fn new(buffer: &'_ mut Main) -> Self {
             unsafe {
                 Self {
                     strip1: buffer.device_read(&Device::Strip1),
@@ -366,7 +366,7 @@ pub mod main {
     }
     impl<'a, 'b> WriteDevices<'a, 'b> {
         /// Create a new buffer for this mode
-        pub(crate) fn new(buffer: &'_ Main) -> Self {
+        pub(crate) unsafe fn new(buffer: &'_ mut Main) -> Self {
             unsafe {
                 Self {
                     output_a1: buffer.device_write(&Device::OutputA1),
@@ -461,7 +461,7 @@ pub mod output {
     }
     impl<'a, 'b> ReadDevices<'a, 'b> {
         /// Create a new buffer for this mode
-        pub(crate) fn new(buffer: &'_ Output) -> Self {
+        pub(crate) unsafe fn new(buffer: &'_ mut Output) -> Self {
             unsafe {
                 Self {
                     output_a1: buffer.device_read(&Device::OutputA1),
@@ -531,7 +531,7 @@ pub mod output {
     }
     impl<'a, 'b> WriteDevices<'a, 'b> {
         /// Create a new buffer for this mode
-        pub(crate) fn new(buffer: &'_ Output) -> Self {
+        pub(crate) unsafe fn new(buffer: &'_ mut Output) -> Self {
             unsafe {
                 Self {
                     output_a1: buffer.device_write(&Device::OutputA1),
@@ -625,7 +625,7 @@ pub mod input {
     }
     impl<'a, 'b> ReadDevices<'a, 'b> {
         /// Create a new buffer for this mode
-        pub(crate) fn new(buffer: &'_ Input) -> Self {
+        pub(crate) unsafe fn new(buffer: &'_ mut Input) -> Self {
             unsafe {
                 Self {
                     strip1: buffer.device_read(&Device::Strip1),
@@ -696,7 +696,7 @@ pub mod input {
     }
     impl<'a, 'b> WriteDevices<'a, 'b> {
         /// Create a new buffer for this mode
-        pub(crate) fn new(buffer: &'_ Input) -> Self {
+        pub(crate) unsafe fn new(buffer: &'_ mut Input) -> Self {
             unsafe {
                 Self {
                     strip1: buffer.device_write(&Device::Strip1),

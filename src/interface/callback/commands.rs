@@ -118,7 +118,7 @@ pub struct BufferIn<'a> {
 
 impl<'a> BufferIn<'a> {
     //#[tracing::instrument(skip_all, name = "BufferIn::new")]
-    pub(crate) fn new(program: VoicemeeterApplication, buffer: &'a AudioBuffer) -> Self {
+    pub(crate) fn new(program: VoicemeeterApplication, buffer: &'a mut AudioBuffer) -> Self {
         Self {
             sr: buffer.audiobuffer_sr as usize,
             nbs: buffer.audiobuffer_nbs as usize,
@@ -145,7 +145,7 @@ pub struct BufferOut<'a> {
 
 impl<'a> BufferOut<'a> {
     //#[tracing::instrument(skip_all, name = "BufferOut::new")]
-    pub(crate) fn new(program: VoicemeeterApplication, buffer: &'a AudioBuffer) -> Self {
+    pub(crate) fn new(program: VoicemeeterApplication, buffer: &'a mut AudioBuffer) -> Self {
         Self {
             sr: buffer.audiobuffer_sr as usize,
             nbs: buffer.audiobuffer_nbs as usize,
@@ -172,7 +172,7 @@ pub struct BufferMain<'a> {
 
 impl<'a> BufferMain<'a> {
     //#[tracing::instrument(skip_all, name = "BufferMain::new")]
-    pub(crate) fn new(program: VoicemeeterApplication, buffer: &'a AudioBuffer) -> Self {
+    pub(crate) fn new(program: VoicemeeterApplication, buffer: &'a mut AudioBuffer) -> Self {
         Self {
             sr: buffer.audiobuffer_sr as usize,
             nbs: buffer.audiobuffer_nbs as usize,
