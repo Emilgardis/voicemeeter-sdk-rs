@@ -548,15 +548,15 @@ pub mod output {
         }
 
         /// Copies data from a read buffer into the output.
-        pub fn copy_device_from<'a2, 'b2>(
+        pub fn copy_device_from<'i>(
             &'a mut self,
-            read: &ReadDevices<'a2, 'b2>,
-            devices: impl IntoIterator<Item = Device>,
+            read: &ReadDevices<'_, '_>,
+            devices: impl IntoIterator<Item = &'i Device>,
         ) {
             for device in devices {
                 // TODO: when stable use let_else.
-                let write = self.device_mut(&device);
-                let read = read.device(&device);
+                let write = self.device_mut(device);
+                let read = read.device(device);
                 if let (DeviceBuffer::Buffer(read), DeviceBuffer::Buffer(write)) = (read, write) {
                     assert_eq!(read.len(), write.len());
                     for (read, write) in read.iter().zip(write.iter_mut()) {
