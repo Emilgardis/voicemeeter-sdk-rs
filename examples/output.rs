@@ -1,7 +1,7 @@
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::Arc;
 use voicemeeter::types::Device;
-use voicemeeter::{AudioCallbackMode, CallbackCommand, VoicemeeterRemote};
+use voicemeeter::{AudioCallbackMode, CallbackCommand, DeviceBuffer, VoicemeeterRemote};
 
 pub fn main() -> Result<(), Box<dyn std::error::Error>> {
     tracing_subscriber::FmtSubscriber::builder()
@@ -43,10 +43,10 @@ pub fn main() -> Result<(), Box<dyn std::error::Error>> {
             CallbackCommand::Ending(_) => println!("ending!"),
             CallbackCommand::Change(info) => println!("application change requested!\n{info:?}"),
             // Output mode modifies the
-            voicemeeter::CallbackCommand::BufferOut(mut data) => {
+            voicemeeter::CallbackCommand::BufferOut(data) => {
                 frame += 1;
-                // The `get_all_buffers` method returns all possible devices for the current application.
-                let (read, mut write) = data.buffer.get_all_buffers();
+                // The `get_buffers` method gives the read and write buffers in a tuple.
+                let (read, mut write) = data.buffer.get_buffers();
                 // Apply a function on all channels  of `OutputA1`.
                 write.output_a1.apply_all_samples(
                     &read.output_a1,
@@ -60,12 +60,18 @@ pub fn main() -> Result<(), Box<dyn std::error::Error>> {
                         }
                     },
                 );
+                // Apply another function on all channels of `OutputA2`.
+                write
+                    .output_a2
+                    .apply(&read.output_a2, |_ch: usize, r: &[f32], w: &mut [f32]| {
+                        w.copy_from_slice(r)
+                    });
                 // the buffer write type has a convenience method to copy data for specified devices.
                 write.copy_device_from(
                     &read,
                     [
                         //Device::OutputA1,
-                        Device::OutputA2,
+                        //Device::OutputA2,
                         Device::OutputA3,
                         Device::OutputA4,
                         Device::OutputA5,
@@ -82,16 +88,18 @@ pub fn main() -> Result<(), Box<dyn std::error::Error>> {
                 // containing another slice with `data.nbs` samples.
                 // Each device has a number of channels
                 // (e.g left, right, center, etc. typically 8 channels)
-                for device in [Device::OutputA1, Device::OutputA2] {
+                for device in remote.program.devices() {
                     // The `read_write_buffer_on_device` method on the buffer will return
                     // a slice of all channels for the given device.
-                    let (buffer_in, buffer_out): (&[&[f32]], &mut [&mut [f32]]) =
-                        match data.buffer.read_write_buffer_on_device(&device) {
-                            Some(b) => b,
-                            None => continue,
-                        };
+                    let (buffer_in, buffer_out): (&[&[f32]], &mut [&mut [f32]]) = match (
+                        data.buffer.read.device(device),
+                        data.buffer.write.device_mut(device),
+                    ) {
+                        (DeviceBuffer::Buffer(r), DeviceBuffer::Buffer(w)) => (r, w),
+                        _ => continue,
+                    };
                     // If the input is as large as the output
-                    // (which is always true for OutputA1 and OutputA2),
+                    // (which should always be true)
                     if buffer_out.len() == buffer_in.len() {
                         for (read, write) in buffer_in.iter().zip(buffer_out.iter_mut()) {
                             // Write the input to the output
@@ -101,7 +109,7 @@ pub fn main() -> Result<(), Box<dyn std::error::Error>> {
                 }
 
                 // Instead of the above, the equivalent with convenience functions would be
-                let (read, mut write) = data.buffer.get_all_buffers();
+                let (read, mut write) = data.buffer.get_buffers();
                 write.copy_device_from(&read, remote.program.devices());
             }
             _ => (),

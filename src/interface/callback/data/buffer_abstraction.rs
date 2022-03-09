@@ -3,38 +3,59 @@
 use self::sealed::{Buffer, BufferMut};
 use super::BufferDataExt;
 use super::Device;
+use super::{Input, Main, Output};
 
 pub(crate) mod sealed {
     pub trait Buffer<'a, 'b>
     where
         'b: 'a,
     {
-        const N: usize;
         fn as_slice(&'a self) -> &'a [&'b [f32]];
+        fn len(&'a self) -> usize {
+            self.as_slice().len()
+        }
     }
     pub trait BufferMut<'a, 'b>
     where
         'b: 'a,
     {
-        const N: usize;
-
-        fn as_mut_slice(&'a mut self) -> &'a mut [&'b mut [f32]];
+        fn as_mut_slice(&mut self) -> &mut [&'b mut [f32]];
+        fn len(&'a self) -> usize;
     }
 }
 
 impl<'a, 'b: 'a, const N: usize> Buffer<'a, 'b> for [&'b [f32]; N] {
-    const N: usize = N;
-
     fn as_slice(&'a self) -> &'a [&'b [f32]] {
         self
+    }
+
+    fn len(&'a self) -> usize {
+        N
+    }
+}
+
+impl<'a, 'b: 'a> Buffer<'a, 'b> for &'a [&'b [f32]] {
+    fn as_slice(&'a self) -> &'a [&'b [f32]] {
+        *self
     }
 }
 
 impl<'a, 'b: 'a, const N: usize> BufferMut<'a, 'b> for [&'b mut [f32]; N] {
-    const N: usize = N;
-
-    fn as_mut_slice(&'a mut self) -> &'a mut [&'b mut [f32]] {
+    fn as_mut_slice(&mut self) -> &mut [&'b mut [f32]] {
         self
+    }
+
+    fn len(&'a self) -> usize {
+        N
+    }
+}
+
+impl<'a, 'b: 'a> BufferMut<'a, 'b> for &'a mut [&'b mut [f32]] {
+    fn as_mut_slice(&mut self) -> &mut [&'b mut [f32]] {
+        *self
+    }
+    fn len(&'a self) -> usize {
+        self.as_ref().len()
     }
 }
 
@@ -44,6 +65,12 @@ pub enum DeviceBuffer<T> {
     None,
     /// Device buffer
     Buffer(T),
+}
+
+impl<T> Default for DeviceBuffer<T> {
+    fn default() -> Self {
+        DeviceBuffer::None
+    }
 }
 
 impl<T> DeviceBuffer<T> {
@@ -78,6 +105,20 @@ impl<T> DeviceBuffer<T> {
             Self::Buffer(t) => DeviceBuffer::Buffer(t),
         }
     }
+
+    /// Returns `true` if the device buffer is [`None`].
+    ///
+    /// [`None`]: DeviceBuffer::None
+    pub fn is_none(&self) -> bool {
+        matches!(self, Self::None)
+    }
+
+    /// Returns `true` if the device buffer is [`Buffer`].
+    ///
+    /// [`Buffer`]: DeviceBuffer::Buffer
+    pub fn is_buffer(&self) -> bool {
+        matches!(self, Self::Buffer(..))
+    }
 }
 
 // mutable buffer impls
@@ -85,11 +126,19 @@ impl<'a, 'b: 'a, B> DeviceBuffer<B>
 where
     B: BufferMut<'a, 'b>,
 {
-    /// Get the buffer as a mutable slice
-    pub fn as_mut_slice(&'a mut self) -> &'a mut [&'b mut [f32]] {
+    /// Make the buffer into a mutable slice
+    pub fn to_mut_slice(&'a mut self) -> &'a mut [&'b mut [f32]] {
         match self {
             Self::None => &mut [],
             Self::Buffer(b) => b.as_mut_slice(),
+        }
+    }
+
+    /// Get the buffer as a mutable slice
+    pub fn as_mut_slice(&mut self) -> DeviceBuffer<&mut [&'b mut [f32]]> {
+        match self {
+            Self::None => DeviceBuffer::None,
+            Self::Buffer(b) => DeviceBuffer::Buffer(b.as_mut_slice()),
         }
     }
     /// Given a device, apply a specific function on all channels
@@ -100,11 +149,11 @@ where
     where
         F: FnMut(usize, &[f32], &mut [f32]),
     {
-        assert_eq!(B::N, B2::N);
+        // FIXME: Assert that the sizes are equal for optimization
         for (channel, (read, write)) in read
-            .as_slice()
+            .to_slice()
             .iter()
-            .zip(self.as_mut_slice().iter_mut())
+            .zip(self.to_mut_slice().iter_mut())
             .enumerate()
         {
             f(channel, read, write);
@@ -122,11 +171,11 @@ where
     ) where
         F: FnMut(usize, &f32, &mut f32),
     {
-        assert_eq!(B::N, B2::N);
+        // FIXME: Assert that the sizes are equal for optimization
         for (channel, (read, write)) in read
-            .as_slice()
+            .to_slice()
             .iter()
-            .zip(self.as_mut_slice().iter_mut())
+            .zip(self.to_mut_slice().iter_mut())
             .enumerate()
         {
             for (i, sample) in write.iter_mut().enumerate() {
@@ -140,11 +189,19 @@ impl<'a, 'b: 'a, B> DeviceBuffer<B>
 where
     B: Buffer<'a, 'b>,
 {
-    /// Get the buffer as a slice
-    pub fn as_slice(&'a self) -> &'a [&'b [f32]] {
+    /// Make the buffer into a slice
+    pub fn to_slice(&'a self) -> &'a [&'b [f32]] {
         match self {
             Self::None => &mut [],
             Self::Buffer(b) => b.as_slice(),
+        }
+    }
+
+    /// Get the buffer as a mutable slice
+    pub fn as_slice(&'a self) -> DeviceBuffer<&'a [&'b [f32]]> {
+        match self {
+            Self::None => DeviceBuffer::None,
+            Self::Buffer(b) => DeviceBuffer::Buffer(b.as_slice()),
         }
     }
 }
@@ -152,9 +209,9 @@ where
 /// Main mode
 pub mod main {
     use super::*;
-    use crate::interface::callback::BufferMainData;
 
     /// Read interface for main mode
+    #[derive(Default)]
     pub struct ReadDevices<'a, 'b> {
         /// Channel read buffer for [`Strip1`](Device::Strip1).
         ///
@@ -224,7 +281,7 @@ pub mod main {
     }
     impl<'a, 'b> ReadDevices<'a, 'b> {
         /// Create a new buffer for this mode
-        pub(crate) fn new(buffer: &'a BufferMainData) -> Self {
+        pub(crate) unsafe fn new(buffer: &'_ mut Main) -> Self {
             unsafe {
                 Self {
                     strip1: buffer.device_read(&Device::Strip1),
@@ -247,9 +304,31 @@ pub mod main {
                 }
             }
         }
+        /// Grab the device buffer for a specific device
+        pub fn device(&'a self, device: &Device) -> DeviceBuffer<&'a [&'b [f32]]> {
+            match device {
+                Device::Strip1 => self.strip1.as_slice(),
+                Device::Strip2 => self.strip2.as_slice(),
+                Device::Strip3 => self.strip3.as_slice(),
+                Device::Strip4 => self.strip4.as_slice(),
+                Device::Strip5 => self.strip5.as_slice(),
+                Device::OutputA1 => self.output_a1.as_slice(),
+                Device::OutputA2 => self.output_a2.as_slice(),
+                Device::OutputA3 => self.output_a3.as_slice(),
+                Device::OutputA4 => self.output_a4.as_slice(),
+                Device::OutputA5 => self.output_a5.as_slice(),
+                Device::VirtualOutputB1 => self.virtual_output_b1.as_slice(),
+                Device::VirtualOutputB2 => self.virtual_output_b2.as_slice(),
+                Device::VirtualOutputB3 => self.virtual_output_b3.as_slice(),
+                Device::VirtualInput => self.virtual_input.as_slice(),
+                Device::VirtualInputAux => self.virtual_input_aux.as_slice(),
+                Device::VirtualInput8 => self.virtual_input8.as_slice(),
+            }
+        }
     }
 
     /// Write interface for main mode
+    #[derive(Default)]
     pub struct WriteDevices<'a, 'b> {
         /// Channel write buffer for [`OutputA1`](Device::OutputA1).
         ///
@@ -287,7 +366,7 @@ pub mod main {
     }
     impl<'a, 'b> WriteDevices<'a, 'b> {
         /// Create a new buffer for this mode
-        pub(crate) fn new(buffer: &'a BufferMainData) -> Self {
+        pub(crate) unsafe fn new(buffer: &'_ mut Main) -> Self {
             unsafe {
                 Self {
                     output_a1: buffer.device_write(&Device::OutputA1),
@@ -311,31 +390,29 @@ pub mod main {
         ) {
             for device in devices {
                 // TODO: when stable use let_else.
-                let (read, write) = match device {
-                    Device::OutputA1 => (read.output_a1.as_ref(), self.output_a1.as_mut()),
-                    Device::OutputA2 => (read.output_a2.as_ref(), self.output_a2.as_mut()),
-                    Device::OutputA3 => (read.output_a3.as_ref(), self.output_a3.as_mut()),
-                    Device::OutputA4 => (read.output_a4.as_ref(), self.output_a4.as_mut()),
-                    Device::OutputA5 => (read.output_a5.as_ref(), self.output_a5.as_mut()),
-                    Device::VirtualOutputB1 => (
-                        read.virtual_output_b1.as_ref(),
-                        self.virtual_output_b1.as_mut(),
-                    ),
-                    Device::VirtualOutputB2 => (
-                        read.virtual_output_b2.as_ref(),
-                        self.virtual_output_b2.as_mut(),
-                    ),
-                    Device::VirtualOutputB3 => (
-                        read.virtual_output_b3.as_ref(),
-                        self.virtual_output_b3.as_mut(),
-                    ),
-                    _ => continue,
-                };
+                let write = self.device_mut(device);
+                let read = read.device(device);
                 if let (DeviceBuffer::Buffer(read), DeviceBuffer::Buffer(write)) = (read, write) {
+                    assert_eq!(read.len(), write.len());
                     for (read, write) in read.iter().zip(write.iter_mut()) {
                         write.copy_from_slice(read)
                     }
                 }
+            }
+        }
+
+        /// Grab the device buffer for a specific device
+        pub fn device_mut(&mut self, device: &Device) -> DeviceBuffer<&mut [&'b mut [f32]]> {
+            match device {
+                Device::OutputA1 => self.output_a1.as_mut_slice(),
+                Device::OutputA2 => self.output_a2.as_mut_slice(),
+                Device::OutputA3 => self.output_a3.as_mut_slice(),
+                Device::OutputA4 => self.output_a4.as_mut_slice(),
+                Device::OutputA5 => self.output_a5.as_mut_slice(),
+                Device::VirtualOutputB1 => self.virtual_output_b1.as_mut_slice(),
+                Device::VirtualOutputB2 => self.virtual_output_b2.as_mut_slice(),
+                Device::VirtualOutputB3 => self.virtual_output_b3.as_mut_slice(),
+                _ => DeviceBuffer::None,
             }
         }
     }
@@ -344,9 +421,9 @@ pub mod main {
 /// Output mode
 pub mod output {
     use super::*;
-    use crate::interface::callback::BufferOutData;
 
     /// Read interface for output mode
+    #[derive(Default)]
     pub struct ReadDevices<'a, 'b> {
         /// Channel read buffer for [`OutputA1`](Device::OutputA1).
         ///
@@ -384,7 +461,7 @@ pub mod output {
     }
     impl<'a, 'b> ReadDevices<'a, 'b> {
         /// Create a new buffer for this mode
-        pub(crate) fn new(buffer: &'a BufferOutData) -> Self {
+        pub(crate) unsafe fn new(buffer: &'_ mut Output) -> Self {
             unsafe {
                 Self {
                     output_a1: buffer.device_read(&Device::OutputA1),
@@ -399,9 +476,24 @@ pub mod output {
                 }
             }
         }
+        /// Grab the device buffer for a specific device
+        pub fn device(&'a self, device: &Device) -> DeviceBuffer<&'a [&'b [f32]]> {
+            match device {
+                Device::OutputA1 => self.output_a1.as_slice(),
+                Device::OutputA2 => self.output_a2.as_slice(),
+                Device::OutputA3 => self.output_a3.as_slice(),
+                Device::OutputA4 => self.output_a4.as_slice(),
+                Device::OutputA5 => self.output_a5.as_slice(),
+                Device::VirtualOutputB1 => self.virtual_output_b1.as_slice(),
+                Device::VirtualOutputB2 => self.virtual_output_b2.as_slice(),
+                Device::VirtualOutputB3 => self.virtual_output_b3.as_slice(),
+                _ => DeviceBuffer::None,
+            }
+        }
     }
 
     /// Write interface for output mode
+    #[derive(Default)]
     pub struct WriteDevices<'a, 'b> {
         /// Channel write buffer for [`OutputA1`](Device::OutputA1).
         ///
@@ -439,7 +531,7 @@ pub mod output {
     }
     impl<'a, 'b> WriteDevices<'a, 'b> {
         /// Create a new buffer for this mode
-        pub(crate) fn new(buffer: &'a BufferOutData) -> Self {
+        pub(crate) unsafe fn new(buffer: &'_ mut Output) -> Self {
             unsafe {
                 Self {
                     output_a1: buffer.device_write(&Device::OutputA1),
@@ -457,37 +549,34 @@ pub mod output {
 
         /// Copies data from a read buffer into the output.
         pub fn copy_device_from<'a2, 'b2>(
-            &mut self,
+            &'a mut self,
             read: &ReadDevices<'a2, 'b2>,
             devices: impl IntoIterator<Item = Device>,
         ) {
             for device in devices {
                 // TODO: when stable use let_else.
-                let (read, write) = match device {
-                    Device::OutputA1 => (read.output_a1.as_ref(), self.output_a1.as_mut()),
-                    Device::OutputA2 => (read.output_a2.as_ref(), self.output_a2.as_mut()),
-                    Device::OutputA3 => (read.output_a3.as_ref(), self.output_a3.as_mut()),
-                    Device::OutputA4 => (read.output_a4.as_ref(), self.output_a4.as_mut()),
-                    Device::OutputA5 => (read.output_a5.as_ref(), self.output_a5.as_mut()),
-                    Device::VirtualOutputB1 => (
-                        read.virtual_output_b1.as_ref(),
-                        self.virtual_output_b1.as_mut(),
-                    ),
-                    Device::VirtualOutputB2 => (
-                        read.virtual_output_b2.as_ref(),
-                        self.virtual_output_b2.as_mut(),
-                    ),
-                    Device::VirtualOutputB3 => (
-                        read.virtual_output_b3.as_ref(),
-                        self.virtual_output_b3.as_mut(),
-                    ),
-                    _ => continue,
-                };
+                let write = self.device_mut(&device);
+                let read = read.device(&device);
                 if let (DeviceBuffer::Buffer(read), DeviceBuffer::Buffer(write)) = (read, write) {
+                    assert_eq!(read.len(), write.len());
                     for (read, write) in read.iter().zip(write.iter_mut()) {
                         write.copy_from_slice(read)
                     }
                 }
+            }
+        }
+        /// Grab the device buffer for a specific device
+        pub fn device_mut(&mut self, device: &Device) -> DeviceBuffer<&mut [&'b mut [f32]]> {
+            match device {
+                Device::OutputA1 => self.output_a1.as_mut_slice(),
+                Device::OutputA2 => self.output_a2.as_mut_slice(),
+                Device::OutputA3 => self.output_a3.as_mut_slice(),
+                Device::OutputA4 => self.output_a4.as_mut_slice(),
+                Device::OutputA5 => self.output_a5.as_mut_slice(),
+                Device::VirtualOutputB1 => self.virtual_output_b1.as_mut_slice(),
+                Device::VirtualOutputB2 => self.virtual_output_b2.as_mut_slice(),
+                Device::VirtualOutputB3 => self.virtual_output_b3.as_mut_slice(),
+                _ => DeviceBuffer::None,
             }
         }
     }
@@ -496,9 +585,9 @@ pub mod output {
 /// Input mode
 pub mod input {
     use super::*;
-    use crate::interface::callback::BufferInData;
 
     /// Read interface for input mode
+    #[derive(Default)]
     pub struct ReadDevices<'a, 'b> {
         /// Channel read buffer for [`Strip1`](Device::Strip1).
         ///
@@ -536,7 +625,7 @@ pub mod input {
     }
     impl<'a, 'b> ReadDevices<'a, 'b> {
         /// Create a new buffer for this mode
-        pub(crate) fn new(buffer: &'a BufferInData) -> Self {
+        pub(crate) unsafe fn new(buffer: &'_ mut Input) -> Self {
             unsafe {
                 Self {
                     strip1: buffer.device_read(&Device::Strip1),
@@ -551,9 +640,25 @@ pub mod input {
                 }
             }
         }
+
+        /// Grab the device buffer for a specific device
+        pub fn device(&'a self, device: &Device) -> DeviceBuffer<&'a [&'b [f32]]> {
+            match device {
+                Device::Strip1 => self.strip1.as_slice(),
+                Device::Strip2 => self.strip2.as_slice(),
+                Device::Strip3 => self.strip3.as_slice(),
+                Device::Strip4 => self.strip4.as_slice(),
+                Device::Strip5 => self.strip5.as_slice(),
+                Device::VirtualInput => self.virtual_input.as_slice(),
+                Device::VirtualInputAux => self.virtual_input_aux.as_slice(),
+                Device::VirtualInput8 => self.virtual_input8.as_slice(),
+                _ => DeviceBuffer::None,
+            }
+        }
     }
 
     /// Write interface for input mode
+    #[derive(Default)]
     pub struct WriteDevices<'a, 'b> {
         /// Channel write buffer for [`Strip1`](Device::Strip1).
         ///
@@ -591,7 +696,7 @@ pub mod input {
     }
     impl<'a, 'b> WriteDevices<'a, 'b> {
         /// Create a new buffer for this mode
-        pub(crate) fn new(buffer: &'a BufferInData) -> Self {
+        pub(crate) unsafe fn new(buffer: &'_ mut Input) -> Self {
             unsafe {
                 Self {
                     strip1: buffer.device_write(&Device::Strip1),
@@ -608,36 +713,35 @@ pub mod input {
         }
 
         /// Copies data from a read buffer into the output.
-        pub fn copy_device_from(
+        pub fn copy_device_from<'i>(
             &mut self,
             read: &ReadDevices<'_, '_>,
-            devices: impl IntoIterator<Item = Device>,
+            devices: impl IntoIterator<Item = &'i Device>,
         ) {
             for device in devices {
                 // TODO: when stable use let_else.
-                let (read, write) = match device {
-                    Device::Strip1 => (read.strip1.as_slice(), self.strip1.as_mut_slice()),
-                    Device::Strip2 => (read.strip2.as_slice(), self.strip2.as_mut_slice()),
-                    Device::Strip3 => (read.strip3.as_slice(), self.strip3.as_mut_slice()),
-                    Device::Strip4 => (read.strip4.as_slice(), self.strip4.as_mut_slice()),
-                    Device::Strip5 => (read.strip5.as_slice(), self.strip5.as_mut_slice()),
-                    Device::VirtualInput => (
-                        read.virtual_input.as_slice(),
-                        self.virtual_input.as_mut_slice(),
-                    ),
-                    Device::VirtualInputAux => (
-                        read.virtual_input_aux.as_slice(),
-                        self.virtual_input_aux.as_mut_slice(),
-                    ),
-                    Device::VirtualInput8 => (
-                        read.virtual_input8.as_slice(),
-                        self.virtual_input8.as_mut_slice(),
-                    ),
-                    _ => continue,
-                };
-                for (read, write) in read.iter().zip(write.iter_mut()) {
-                    write.copy_from_slice(read)
+                let write = self.device_mut(device);
+                let read = read.device(device);
+                if let (DeviceBuffer::Buffer(read), DeviceBuffer::Buffer(write)) = (read, write) {
+                    assert_eq!(read.len(), write.len());
+                    for (read, write) in read.iter().zip(write.iter_mut()) {
+                        write.copy_from_slice(read)
+                    }
                 }
+            }
+        }
+        /// Grab the device buffer for a specific device
+        pub fn device_mut(&mut self, device: &Device) -> DeviceBuffer<&mut [&'b mut [f32]]> {
+            match device {
+                Device::Strip1 => self.strip1.as_mut_slice(),
+                Device::Strip2 => self.strip2.as_mut_slice(),
+                Device::Strip3 => self.strip3.as_mut_slice(),
+                Device::Strip4 => self.strip4.as_mut_slice(),
+                Device::Strip5 => self.strip5.as_mut_slice(),
+                Device::VirtualInput => self.virtual_input.as_mut_slice(),
+                Device::VirtualInputAux => self.virtual_input_aux.as_mut_slice(),
+                Device::VirtualInput8 => self.virtual_input8.as_mut_slice(),
+                _ => DeviceBuffer::None,
             }
         }
     }

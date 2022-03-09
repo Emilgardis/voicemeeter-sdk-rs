@@ -103,7 +103,6 @@ impl<'a> Change<'a> {
 }
 
 /// Data for input mode.
-#[derive(Debug)]
 pub struct BufferIn<'a> {
     /// Buffer data for input mode
     pub buffer: BufferInData<'a>,
@@ -119,7 +118,7 @@ pub struct BufferIn<'a> {
 
 impl<'a> BufferIn<'a> {
     //#[tracing::instrument(skip_all, name = "BufferIn::new")]
-    pub(crate) fn new(program: VoicemeeterApplication, buffer: &'a AudioBuffer) -> Self {
+    pub(crate) fn new(program: VoicemeeterApplication, buffer: &'a mut AudioBuffer) -> Self {
         Self {
             sr: buffer.audiobuffer_sr as usize,
             nbs: buffer.audiobuffer_nbs as usize,
@@ -131,7 +130,6 @@ impl<'a> BufferIn<'a> {
 }
 
 /// Data for output mode.
-#[derive(Debug)]
 pub struct BufferOut<'a> {
     /// Sample rate
     pub sr: usize,
@@ -147,7 +145,7 @@ pub struct BufferOut<'a> {
 
 impl<'a> BufferOut<'a> {
     //#[tracing::instrument(skip_all, name = "BufferOut::new")]
-    pub(crate) fn new(program: VoicemeeterApplication, buffer: &'a AudioBuffer) -> Self {
+    pub(crate) fn new(program: VoicemeeterApplication, buffer: &'a mut AudioBuffer) -> Self {
         Self {
             sr: buffer.audiobuffer_sr as usize,
             nbs: buffer.audiobuffer_nbs as usize,
@@ -159,7 +157,6 @@ impl<'a> BufferOut<'a> {
 }
 
 /// Data for main mode.
-#[derive(Debug)]
 pub struct BufferMain<'a> {
     /// Buffer data for main mode
     pub buffer: BufferMainData<'a>,
@@ -175,7 +172,7 @@ pub struct BufferMain<'a> {
 
 impl<'a> BufferMain<'a> {
     //#[tracing::instrument(skip_all, name = "BufferMain::new")]
-    pub(crate) fn new(program: VoicemeeterApplication, buffer: &'a AudioBuffer) -> Self {
+    pub(crate) fn new(program: VoicemeeterApplication, buffer: &'a mut AudioBuffer) -> Self {
         Self {
             sr: buffer.audiobuffer_sr as usize,
             nbs: buffer.audiobuffer_nbs as usize,
@@ -187,9 +184,9 @@ impl<'a> BufferMain<'a> {
 }
 
 /// Callback command passed to the [audio callback](crate::VoicemeeterRemote::audio_callback_register).
-#[derive(Debug)]
 #[repr(i32)]
 #[cfg(feature = "interface")] // for doc_cfg
+#[allow(clippy::large_enum_variant)]
 pub enum CallbackCommand<'a> {
     /// Starting command
     Starting(Starting<'a>),
