@@ -21,10 +21,10 @@ tracing = "0.1.31"
 color-eyre = { version = "0.6", features = ["capture-spantrace"] }
 eyre = { version = "0.6" }
 pretty_assertions = "1.1.0"
-tracing-subscriber = {version = "0.3.9", features = ["env-filter"]}
+tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
 ctrlc = "3"
 tracing-error = "0.2.0"
-fundsp = {version = "0.3.2", features = ["hacker_32"]}
+fundsp = { version = "0.3.2" }
 
 [features]
 default = ["interface"]
@@ -36,7 +36,7 @@ members = [".", "codegen"]
 
 [patch.crates-io]
 bindgen = { git = "https://github.com/Emilgardis/rust-bindgen", branch = "dynamic-comments" }
-fundsp  = { git = "https://github.com/Emilgardis/fundsp", branch = "hacker_32" }
+fundsp = { git = "https://github.com/SamiPerttu/fundsp", rev = "6da9162" }
 #fundsp  = { path = "../fundsp" }
 
 

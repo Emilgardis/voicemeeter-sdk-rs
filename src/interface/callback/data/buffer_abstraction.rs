@@ -549,7 +549,7 @@ pub mod output {
 
         /// Copies data from a read buffer into the output.
         pub fn copy_device_from<'i>(
-            &'a mut self,
+            &mut self,
             read: &ReadDevices<'_, '_>,
             devices: impl IntoIterator<Item = &'i Device>,
         ) {
