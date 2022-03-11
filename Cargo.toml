@@ -6,7 +6,7 @@ license = "MIT"
 keywords = ["voicemeeter", "ffi", "audio", "windows"]
 repository = "https://github.com/Emilgardis/voicemeeter-sdk-rs"
 description = "FFI bindings to Voicemeeter SDK"
-
+include = ["src/**/*", "./Cargo.toml", "./LICENSE", "./README.md", "examples/**/*"]
 [dependencies]
 libc = "0.2"
 winreg = "0.10"
