@@ -1,4 +1,5 @@
-#![allow(clippy::missing_safety_doc)]
+#![cfg(nightly)]
+#![allow(clippy::missing_safety_doc, clippy::let_and_return, unused)]
 #![feature(array_methods, array_from_fn)]
 //! Module for setting up miri interface. This is not intended to be used directly, but you could if wanted/needed.
 use voicemeeter::{
@@ -11,6 +12,7 @@ pub unsafe fn audio_info() -> *mut std::os::raw::c_void {
         samplerate: 44100,
         nbSamplePerFrame: 512,
     })) as _;
+    #[cfg(miri)]
     miri_static_root(ptr as *const u8);
     ptr
 }
@@ -37,6 +39,7 @@ pub unsafe fn audio_buffer(input: i32, output: i32) -> *mut std::os::raw::c_void
             }
         }),
     })) as _;
+    #[cfg(miri)]
     miri_static_root(ptr as *const u8);
     ptr
 }
@@ -44,6 +47,7 @@ pub unsafe fn audio_buffer(input: i32, output: i32) -> *mut std::os::raw::c_void
 /// Returns an audio buffer of size 512 for a channel. Data is not random
 pub unsafe fn make_channel() -> *mut f32 {
     let ptr = Box::leak(Box::new([0.0f32; 512])).as_mut_ptr();
+    #[cfg(miri)]
     miri_static_root(ptr as *const u8);
     ptr
 }
@@ -114,6 +118,7 @@ fn callback_stuff() {
     }
 }
 
+#[cfg(miri)]
 extern "Rust" {
     /// Miri-provided extern function to mark the block `ptr` points to as a "root"
     /// for some static memory. This memory and everything reachable by it is not
