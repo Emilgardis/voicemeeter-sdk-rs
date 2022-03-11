@@ -205,7 +205,9 @@ pub enum CallbackCommand<'a> {
 }
 
 impl<'a> CallbackCommand<'a> {
-    pub(crate) unsafe fn new_unchecked(
+    /// Make a new callback command. This is not meant to be used in consumer code.
+    #[doc(hidden)]
+    pub unsafe fn new_unchecked(
         program: VoicemeeterApplication,
         command: VBVMR_CBCOMMAND,
         ptr: RawCallbackData,
