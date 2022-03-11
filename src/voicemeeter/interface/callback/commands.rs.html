@@ -247,6 +247,8 @@
 <span id="242">242</span>
 <span id="243">243</span>
 <span id="244">244</span>
+<span id="245">245</span>
+<span id="246">246</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Callback command types.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! These are returned to the callback function.</span>
@@ -454,33 +456,35 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">CallbackCommand</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">new_unchecked</span>(
+    <span class="doccomment">/// Make a new callback command. This is not meant to be used in consumer code.</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">new_unchecked</span>(
         <span class="ident">program</span>: <a class="ident" href="../../../../src/voicemeeter/types.rs.html#62-73">VoicemeeterApplication</a>,
         <span class="ident">command</span>: <a class="ident" href="../../../../src/voicemeeter/bindings.rs.html#222">VBVMR_CBCOMMAND</a>,
         <span class="ident">ptr</span>: <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#52">RawCallbackData</a>,
     ) -&gt; <span class="self">Self</span> {
-        <span class="kw">match</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#210">command</a> {
+        <span class="kw">match</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#212">command</a> {
             <span class="ident">VBVMR_CBCOMMAND::STARTING</span> =&gt; {
-                <span class="ident"><span class="self">Self</span>::Starting</span>(<span class="ident">Starting::new</span>(<span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#211">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#73">as_audio_info</a>() }))
+                <span class="ident"><span class="self">Self</span>::Starting</span>(<span class="ident">Starting::new</span>(<span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#213">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#73">as_audio_info</a>() }))
             }
-            <span class="ident">VBVMR_CBCOMMAND::ENDING</span> =&gt; <span class="ident"><span class="self">Self</span>::Ending</span>(<span class="ident">Ending::new</span>(<span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#211">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#73">as_audio_info</a>() })),
-            <span class="ident">VBVMR_CBCOMMAND::CHANGE</span> =&gt; <span class="ident"><span class="self">Self</span>::Change</span>(<span class="ident">Change::new</span>(<span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#211">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#73">as_audio_info</a>() })),
+            <span class="ident">VBVMR_CBCOMMAND::ENDING</span> =&gt; <span class="ident"><span class="self">Self</span>::Ending</span>(<span class="ident">Ending::new</span>(<span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#213">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#73">as_audio_info</a>() })),
+            <span class="ident">VBVMR_CBCOMMAND::CHANGE</span> =&gt; <span class="ident"><span class="self">Self</span>::Change</span>(<span class="ident">Change::new</span>(<span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#213">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#73">as_audio_info</a>() })),
             <span class="ident">VBVMR_CBCOMMAND::BUFFER_IN</span> =&gt; {
-                <span class="ident"><span class="self">Self</span>::BufferIn</span>(<span class="ident">BufferIn::new</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#209">program</a>, <span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#211">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#83">as_audio_buffer</a>() }))
+                <span class="ident"><span class="self">Self</span>::BufferIn</span>(<span class="ident">BufferIn::new</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#211">program</a>, <span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#213">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#83">as_audio_buffer</a>() }))
             }
             <span class="ident">VBVMR_CBCOMMAND::BUFFER_OUT</span> =&gt; {
-                <span class="ident"><span class="self">Self</span>::BufferOut</span>(<span class="ident">BufferOut::new</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#209">program</a>, <span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#211">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#83">as_audio_buffer</a>() }))
+                <span class="ident"><span class="self">Self</span>::BufferOut</span>(<span class="ident">BufferOut::new</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#211">program</a>, <span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#213">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#83">as_audio_buffer</a>() }))
             }
             <span class="ident">VBVMR_CBCOMMAND::BUFFER_MAIN</span> =&gt; {
-                <span class="ident"><span class="self">Self</span>::BufferMain</span>(<span class="ident">BufferMain::new</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#209">program</a>, <span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#211">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#83">as_audio_buffer</a>() }))
+                <span class="ident"><span class="self">Self</span>::BufferMain</span>(<span class="ident">BufferMain::new</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#211">program</a>, <span class="kw">unsafe</span> { <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#213">ptr</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#83">as_audio_buffer</a>() }))
             }
-            <span class="ident">i</span> =&gt; <span class="ident"><span class="self">Self</span>::Other</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#228">i</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#211">ptr</a>),
+            <span class="ident">i</span> =&gt; <span class="ident"><span class="self">Self</span>::Other</span>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#230">i</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#213">ptr</a>),
         }
     }
 
     <span class="doccomment">/// Get the command &quot;name&quot;</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a><span class="op">&gt;</span> {
-        <span class="prelude-val">Some</span>(<span class="kw">match</span> <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#233">self</a> {
+        <span class="prelude-val">Some</span>(<span class="kw">match</span> <a class="self" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#235">self</a> {
             <span class="ident"><span class="self">Self</span>::Starting</span>(<span class="kw">_</span>) =&gt; <span class="string">&quot;Starting&quot;</span>,
             <span class="ident"><span class="self">Self</span>::Ending</span>(<span class="kw">_</span>) =&gt; <span class="string">&quot;Ending&quot;</span>,
             <span class="ident"><span class="self">Self</span>::Change</span>(<span class="kw">_</span>) =&gt; <span class="string">&quot;Change&quot;</span>,
