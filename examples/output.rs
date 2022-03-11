@@ -4,13 +4,6 @@ use voicemeeter::types::Device;
 use voicemeeter::{AudioCallbackMode, CallbackCommand, DeviceBuffer, VoicemeeterRemote};
 
 pub fn main() -> Result<(), Box<dyn std::error::Error>> {
-    tracing_subscriber::FmtSubscriber::builder()
-        .with_env_filter(
-            tracing_subscriber::EnvFilter::try_from_default_env()
-                .unwrap_or_else(|_| tracing_subscriber::EnvFilter::new("info")),
-        )
-        .with_writer(std::io::stderr)
-        .init();
     // Setup a hook for catching ctrl+c to properly stop the program.
     let running = Arc::new(AtomicBool::new(true));
     let r = running.clone();
@@ -66,10 +59,11 @@ pub fn main() -> Result<(), Box<dyn std::error::Error>> {
                     .apply(&read.output_a2, |_ch: usize, r: &[f32], w: &mut [f32]| {
                         w.copy_from_slice(r)
                     });
-                // the buffer write type has a convenience method to copy data for specified devices.
+                // the buffer write type has a convenience method to
+                // copy data for specified devices.
                 write.copy_device_from(
                     &read,
-                    [
+                    &[
                         //Device::OutputA1,
                         //Device::OutputA2,
                         Device::OutputA3,
@@ -82,15 +76,12 @@ pub fn main() -> Result<(), Box<dyn std::error::Error>> {
                 );
             }
             // The MAIN command acts like a main i/o hub for all audio.
-            // Below example will show how to use devices without `get_all_buffers`
             voicemeeter::CallbackCommand::BufferMain(mut data) => {
                 // The data returned by voicemeeter is a slice of frames per "channel"
                 // containing another slice with `data.nbs` samples.
                 // Each device has a number of channels
                 // (e.g left, right, center, etc. typically 8 channels)
                 for device in remote.program.devices() {
-                    // The `read_write_buffer_on_device` method on the buffer will return
-                    // a slice of all channels for the given device.
                     let (buffer_in, buffer_out): (&[&[f32]], &mut [&mut [f32]]) = match (
                         data.buffer.read.device(device),
                         data.buffer.write.device_mut(device),
@@ -99,7 +90,7 @@ pub fn main() -> Result<(), Box<dyn std::error::Error>> {
                         _ => continue,
                     };
                     // If the input is as large as the output
-                    // (which should always be true)
+                    // (which should always be true because of `DeviceBuffer`)
                     if buffer_out.len() == buffer_in.len() {
                         for (read, write) in buffer_in.iter().zip(buffer_out.iter_mut()) {
                             // Write the input to the output
