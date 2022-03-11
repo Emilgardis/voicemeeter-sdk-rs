@@ -32,7 +32,8 @@ default = ["interface"]
 interface = []
 
 [workspace]
-members = [".", "codegen"]
+default-members = ["."]
+members = [".", "codegen", "miri"]
 
 [patch.crates-io]
 bindgen = { git = "https://github.com/Emilgardis/rust-bindgen", branch = "dynamic-comments" }
@@ -63,6 +64,9 @@ opt-level = 3
 
 [profile.dev.package.backtrace]
 opt-level = 3
+
+[profile.dev-miri]
+inherits = "dev"
 
 [package.metadata.docs.rs]
 rustc-args = ["--cfg", "docsrs"]

@@ -21,6 +21,9 @@
 pub mod bindings;
 #[cfg(feature = "interface")]
 pub mod interface;
+#[cfg(miri)]
+#[doc(hidden)]
+pub mod miri;
 #[cfg(feature = "interface")]
 pub mod types;
 
