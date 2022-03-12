@@ -266,7 +266,17 @@ impl Device {
     }
     /// Get the [`ChannelIndex`] for this channel in the buffers when in [input mode](crate::interface::callback::CallbackCommand::BufferIn), if available in the current program.
     pub const fn input(&self, program: &VoicemeeterApplication) -> Option<ChannelIndex> {
-        self.main(program).0
+        match self {
+            Device::OutputA1
+            | Device::OutputA2
+            | Device::OutputA3
+            | Device::OutputA4
+            | Device::OutputA5
+            | Device::VirtualOutputB1
+            | Device::VirtualOutputB2
+            | Device::VirtualOutputB3 => None,
+            _ => self.main(program).0,
+        }
     }
     /// Get the [`ChannelIndex`] for this channel in the buffers when in [output mode](crate::interface::callback::CallbackCommand::BufferOut), if available in the current program.
     pub const fn output(&self, program: &VoicemeeterApplication) -> Option<ChannelIndex> {
