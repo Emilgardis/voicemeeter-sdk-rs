@@ -54,7 +54,7 @@ impl From<u32> for LogicalButton {
 
 /// Voicemeeter Parameter
 #[aliri_braid::braid()]
-pub struct Parameter;
+pub struct ParameterName;
 
 /// Voicemeeter application type.
 #[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]

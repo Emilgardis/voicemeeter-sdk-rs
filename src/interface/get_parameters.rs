@@ -5,7 +5,7 @@ use std::{
     ptr,
 };
 
-use crate::types::ParameterRef;
+use crate::types::ParameterNameRef;
 
 use super::VoicemeeterRemote;
 
@@ -30,7 +30,7 @@ impl VoicemeeterRemote {
     }
     // TODO: Provide abstraction, e.g ParameterThing::Struct.blabla()
     /// Get the float value of a parameter.
-    pub fn get_parameter_float(&self, param: &ParameterRef) -> Result<f32, GetParameterError> {
+    pub fn get_parameter_float(&self, param: &ParameterNameRef) -> Result<f32, GetParameterError> {
         let mut f = 0.0f32;
         let param = CString::new(param.as_ref())?;
         let res = unsafe {

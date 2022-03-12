@@ -1,7 +1,7 @@
 //! Functions and data types for setting parameter values.
 use std::ffi::CString;
 
-use crate::types::ParameterRef;
+use crate::types::ParameterNameRef;
 
 use super::VoicemeeterRemote;
 
@@ -10,14 +10,13 @@ impl VoicemeeterRemote {
     /// Set the float value of a parameter.
     pub fn set_parameter_float(
         &self,
-        param: &ParameterRef,
-        _value: f32,
+        param: &ParameterNameRef,
+        value: f32,
     ) -> Result<(), SetParameterError> {
-        let f = 0.0f32;
         let param = CString::new(param.as_ref()).unwrap();
         let res = unsafe {
             self.raw
-                .VBVMR_SetParameterFloat(param.as_ptr() as *mut _, f)
+                .VBVMR_SetParameterFloat(param.as_ptr() as *mut _, value)
         };
         match res {
             0 => Ok(()),
@@ -36,7 +35,6 @@ impl VoicemeeterRemote {
         param: impl AsRef<str>,
         value: &str,
     ) -> Result<(), SetParameterError> {
-        let _f = 0.0f32;
         let param = CString::new(param.as_ref()).unwrap();
         let value = CString::new(value).unwrap();
         let res = unsafe {
@@ -57,7 +55,6 @@ impl VoicemeeterRemote {
     // TODO: Example script.
     /// Set parameters using a script. Similar to macro button scripts.
     pub fn set_parameters(&self, script: &str) -> Result<(), SetParametersError> {
-        let _f = 0.0f32;
         let script = CString::new(script).unwrap();
         let res = unsafe { self.raw.VBVMR_SetParameters(script.as_ptr() as *mut _) };
 
