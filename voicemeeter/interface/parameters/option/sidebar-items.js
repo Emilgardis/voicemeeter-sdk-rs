@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["VoicemeeterOption","Option parameters for voicemeeter"]]});

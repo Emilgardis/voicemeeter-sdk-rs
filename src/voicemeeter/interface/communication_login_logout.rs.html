@@ -104,11 +104,11 @@
 <span id="99">99</span>
 <span id="100">100</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Communication with and to Voicemeeter</span>
-<span class="kw">use</span> <a class="ident" href="../../../src/voicemeeter/types.rs.html#62-73"><span class="kw">crate</span>::types::VoicemeeterApplication</a>;
+<span class="kw">use</span> <a class="ident" href="../../../src/voicemeeter/types.rs.html#67-78"><span class="kw">crate</span>::types::VoicemeeterApplication</a>;
 
-<span class="kw">use</span> <a class="ident" href="../../../src/voicemeeter/interface.rs.html#20-24"><span class="kw">super</span>::VoicemeeterRemote</a>;
+<span class="kw">use</span> <a class="ident" href="../../../src/voicemeeter/interface.rs.html#19-23"><span class="kw">super</span>::VoicemeeterRemote</a>;
 
-<span class="kw">impl</span> <a class="ident" href="../../../src/voicemeeter/interface.rs.html#20-24">VoicemeeterRemote</a> {
+<span class="kw">impl</span> <a class="ident" href="../../../src/voicemeeter/interface.rs.html#19-23">VoicemeeterRemote</a> {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">login</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><a class="ident" href="../../../src/voicemeeter/interface/communication_login_logout.rs.html#47-52">VoicemeeterStatus</a>, <a class="ident" href="../../../src/voicemeeter/interface/communication_login_logout.rs.html#56-63">LoginError</a><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="kw">unsafe</span> { <a class="self" href="../../../src/voicemeeter/interface/communication_login_logout.rs.html#7">self</a>.<span class="ident">raw</span>.<a class="ident" href="../../../src/voicemeeter/bindings.rs.html#1465">VBVMR_Login</a>() };
         <span class="kw">match</span> <a class="ident" href="../../../src/voicemeeter/interface/communication_login_logout.rs.html#8">res</a> {
@@ -135,7 +135,7 @@
     <span class="doccomment">/// Invoke Voicemeeter to open and be visible on previous location.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">run_voicemeeter</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">r#type</span>: <a class="ident" href="../../../src/voicemeeter/types.rs.html#62-73">VoicemeeterApplication</a>,
+        <span class="ident">r#type</span>: <a class="ident" href="../../../src/voicemeeter/types.rs.html#67-78">VoicemeeterApplication</a>,
     ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <a class="ident" href="../../../src/voicemeeter/interface/communication_login_logout.rs.html#74-84">RunVoicemeeterError</a><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="kw">unsafe</span> { <a class="self" href="../../../src/voicemeeter/interface/communication_login_logout.rs.html#32">self</a>.<span class="ident">raw</span>.<a class="ident" href="../../../src/voicemeeter/bindings.rs.html#1478-1481">VBVMR_RunVoicemeeter</a>(<a class="ident" href="../../../src/voicemeeter/interface/communication_login_logout.rs.html#33">r#type</a> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>) };
         <span class="kw">match</span> <a class="ident" href="../../../src/voicemeeter/interface/communication_login_logout.rs.html#35">res</a> {
@@ -204,5 +204,5 @@
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="voicemeeter" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0-nightly (5f4e06771 2022-03-10)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="voicemeeter" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0-nightly (285fa7ecd 2022-03-14)" ></div>
 </body></html>

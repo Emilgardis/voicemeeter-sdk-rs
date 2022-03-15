@@ -185,9 +185,9 @@
     <a class="ident" href="../../../src/voicemeeter/types.rs.html#6">types::ZIndex</a>,
 };
 
-<span class="kw">use</span> <a class="ident" href="../../../src/voicemeeter/interface.rs.html#20-24"><span class="kw">super</span>::VoicemeeterRemote</a>;
+<span class="kw">use</span> <a class="ident" href="../../../src/voicemeeter/interface.rs.html#19-23"><span class="kw">super</span>::VoicemeeterRemote</a>;
 
-<span class="kw">impl</span> <a class="ident" href="../../../src/voicemeeter/interface.rs.html#20-24">VoicemeeterRemote</a> {
+<span class="kw">impl</span> <a class="ident" href="../../../src/voicemeeter/interface.rs.html#19-23">VoicemeeterRemote</a> {
     <span class="doccomment">/// Get the number of Audio Input Devices available on the system.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_total_input_device</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>, <a class="ident" href="../../../src/voicemeeter/interface/device.rs.html#174">GetTotalDeviceError</a><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="kw">unsafe</span> { <a class="self" href="../../../src/voicemeeter/interface/device.rs.html#13">self</a>.<span class="ident">raw</span>.<a class="ident" href="../../../src/voicemeeter/bindings.rs.html#1772">VBVMR_Input_GetDeviceNumber</a>() };
@@ -352,5 +352,5 @@
 <span class="attribute">#[<span class="ident">error</span>(<span class="string">&quot;could not get total device number: error code {0}&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <a class="ident" href="../../../src/voicemeeter/interface/device.rs.html#174">GetTotalDeviceError</a>(<span class="kw">pub</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>);
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="voicemeeter" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0-nightly (5f4e06771 2022-03-10)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="voicemeeter" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0-nightly (285fa7ecd 2022-03-14)" ></div>
 </body></html>

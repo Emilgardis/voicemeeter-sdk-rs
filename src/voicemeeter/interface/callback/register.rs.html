@@ -204,7 +204,7 @@
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <a class="ident" href="../../../../src/voicemeeter/bindings.rs.html#222">bindings::VBVMR_CBCOMMAND</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#52">interface::callback::data::RawCallbackData</a>, <a class="ident" href="../../../../src/voicemeeter/interface/callback/commands.rs.html#190-205">CallbackCommand</a>,
-    <a class="ident" href="../../../../src/voicemeeter/interface.rs.html#20-24">VoicemeeterRemote</a>,
+    <a class="ident" href="../../../../src/voicemeeter/interface.rs.html#19-23">VoicemeeterRemote</a>,
 };
 
 <span class="comment">/***************************************************************************** */</span>
@@ -220,7 +220,7 @@
 
 <span class="comment">// Thanks to sgrif, http://blog.sagetheprogrammer.com/neat-rust-tricks-passing-rust-closures-to-c</span>
 <span class="kw">fn</span> <span class="ident">register_audio_callback</span><span class="op">&lt;</span><span class="lifetime">&#39;cb</span>, <span class="ident">F</span><span class="op">&gt;</span>(
-    <span class="ident">remote</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/interface.rs.html#20-24">VoicemeeterRemote</a>,
+    <span class="ident">remote</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/interface.rs.html#19-23">VoicemeeterRemote</a>,
     <span class="ident">mode</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/bindings.rs.html#260"><span class="kw">crate</span>::AudioCallbackMode</a>,
     <span class="ident">application</span>: <span class="kw-2">*mut</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_char.html">std::os::raw::c_char</a>,
     <span class="ident">callback</span>: <span class="ident">F</span>,
@@ -265,7 +265,7 @@
     <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#66">callback</a>(
         <span class="kw">unsafe</span> {
             <span class="ident">CallbackCommand::new_unchecked</span>(
-                <a class="ident" href="../../../../src/voicemeeter/types.rs.html#70"><span class="kw">crate</span>::types::VoicemeeterApplication::PotatoX64Bits</a>,
+                <a class="ident" href="../../../../src/voicemeeter/types.rs.html#75"><span class="kw">crate</span>::types::VoicemeeterApplication::PotatoX64Bits</a>,
                 <a class="ident" href="../../../../src/voicemeeter/bindings.rs.html#222">VBVMR_CBCOMMAND</a>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#58">command</a>),
                 <a class="ident" href="../../../../src/voicemeeter/interface/callback/register.rs.html#67">ptr</a>,
             )
@@ -281,7 +281,7 @@
     <span class="ident">lt</span>: <span class="ident">std::marker::PhantomData</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> ()<span class="op">&gt;</span>,
 }
 
-<span class="kw">impl</span> <a class="ident" href="../../../../src/voicemeeter/interface.rs.html#20-24">VoicemeeterRemote</a> {
+<span class="kw">impl</span> <a class="ident" href="../../../../src/voicemeeter/interface.rs.html#19-23">VoicemeeterRemote</a> {
     <span class="doccomment">/// Register a callback for audio.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// The callback is a function that will be called when the audio stream is started, changed or stopped and when data is sent to it.</span>
@@ -388,5 +388,5 @@
     <span class="ident">Unexpected</span>(<a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>),
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="voicemeeter" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0-nightly (5f4e06771 2022-03-10)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="voicemeeter" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0-nightly (285fa7ecd 2022-03-14)" ></div>
 </body></html>

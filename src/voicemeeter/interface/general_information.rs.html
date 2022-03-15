@@ -67,15 +67,15 @@
 <span id="62">62</span>
 <span id="63">63</span>
 </pre><pre class="rust"><code><span class="doccomment">//! General information about the running Voicemeeter instance.</span>
-<span class="kw">use</span> <a class="ident" href="../../../src/voicemeeter/types.rs.html#62-73"><span class="kw">crate</span>::types::VoicemeeterApplication</a>;
+<span class="kw">use</span> <a class="ident" href="../../../src/voicemeeter/types.rs.html#67-78"><span class="kw">crate</span>::types::VoicemeeterApplication</a>;
 
-<span class="kw">use</span> <a class="ident" href="../../../src/voicemeeter/interface.rs.html#20-24"><span class="kw">super</span>::VoicemeeterRemote</a>;
+<span class="kw">use</span> <a class="ident" href="../../../src/voicemeeter/interface.rs.html#19-23"><span class="kw">super</span>::VoicemeeterRemote</a>;
 
-<span class="kw">impl</span> <a class="ident" href="../../../src/voicemeeter/interface.rs.html#20-24">VoicemeeterRemote</a> {
+<span class="kw">impl</span> <a class="ident" href="../../../src/voicemeeter/interface.rs.html#19-23">VoicemeeterRemote</a> {
     <span class="doccomment">/// Get the application type of the running Voicemeeter instance.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_voicemeeter_type</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><a class="ident" href="../../../src/voicemeeter/types.rs.html#62-73">VoicemeeterApplication</a>, <a class="ident" href="../../../src/voicemeeter/interface/general_information.rs.html#50-63">GetVoicemeeterInformationError</a><span class="op">&gt;</span> {
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><a class="ident" href="../../../src/voicemeeter/types.rs.html#67-78">VoicemeeterApplication</a>, <a class="ident" href="../../../src/voicemeeter/interface/general_information.rs.html#50-63">GetVoicemeeterInformationError</a><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">t</span> <span class="op">=</span> <span class="number">0i32</span>;
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="kw">unsafe</span> { <a class="self" href="../../../src/voicemeeter/interface/general_information.rs.html#9">self</a>.<span class="ident">raw</span>.<a class="ident" href="../../../src/voicemeeter/bindings.rs.html#1509-1512">VBVMR_GetVoicemeeterType</a>(<span class="kw-2">&amp;mut</span> <a class="ident" href="../../../src/voicemeeter/interface/general_information.rs.html#11">t</a>) };
         <span class="kw">match</span> <a class="ident" href="../../../src/voicemeeter/interface/general_information.rs.html#12">res</a> {
@@ -93,8 +93,8 @@
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="kw">unsafe</span> { <a class="self" href="../../../src/voicemeeter/interface/general_information.rs.html#22">self</a>.<span class="ident">raw</span>.<a class="ident" href="../../../src/voicemeeter/bindings.rs.html#1525-1528">VBVMR_GetVoicemeeterVersion</a>(<span class="kw-2">&amp;mut</span> <a class="ident" href="../../../src/voicemeeter/interface/general_information.rs.html#24">t</a>) };
         <span class="kw">match</span> <a class="ident" href="../../../src/voicemeeter/interface/general_information.rs.html#25">res</a> {
             <span class="number">0</span> =&gt; {
-                <span class="kw">let</span> <span class="ident">a</span>: [<a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>; <span class="number">4</span>] <span class="op">=</span> <span class="ident">bytemuck::cast</span>(<a class="ident" href="../../../src/voicemeeter/interface/general_information.rs.html#24">t</a>);
-                <span class="prelude-val">Ok</span>(<a class="ident" href="../../../src/voicemeeter/interface/general_information.rs.html#40">VoicemeeterVersion</a>(<a class="ident" href="../../../src/voicemeeter/interface/general_information.rs.html#28">a</a>[<span class="number">3</span>], <a class="ident" href="../../../src/voicemeeter/interface/general_information.rs.html#28">a</a>[<span class="number">2</span>], <a class="ident" href="../../../src/voicemeeter/interface/general_information.rs.html#28">a</a>[<span class="number">1</span>], <a class="ident" href="../../../src/voicemeeter/interface/general_information.rs.html#28">a</a>[<span class="number">0</span>]))
+                <span class="kw">let</span> <span class="ident">a</span>: [<a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>; <span class="number">4</span>] <span class="op">=</span> <a class="ident" href="../../../src/voicemeeter/interface/general_information.rs.html#24">t</a>.<span class="ident">to_be_bytes</span>();
+                <span class="prelude-val">Ok</span>(<a class="ident" href="../../../src/voicemeeter/interface/general_information.rs.html#40">VoicemeeterVersion</a>(<a class="ident" href="../../../src/voicemeeter/interface/general_information.rs.html#28">a</a>[<span class="number">0</span>], <a class="ident" href="../../../src/voicemeeter/interface/general_information.rs.html#28">a</a>[<span class="number">1</span>], <a class="ident" href="../../../src/voicemeeter/interface/general_information.rs.html#28">a</a>[<span class="number">2</span>], <a class="ident" href="../../../src/voicemeeter/interface/general_information.rs.html#28">a</a>[<span class="number">3</span>]))
             }
             <span class="op">-</span><span class="number">1</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/general_information.rs.html#53">GetVoicemeeterInformationError::CannotGetClient</a>),
             <span class="op">-</span><span class="number">2</span> =&gt; <span class="prelude-val">Err</span>(<a class="ident" href="../../../src/voicemeeter/interface/general_information.rs.html#56">GetVoicemeeterInformationError::NoServer</a>),
@@ -130,5 +130,5 @@
     <span class="ident">InvalidResponse</span>(<a class="ident" href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html">String</a>),
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="voicemeeter" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0-nightly (5f4e06771 2022-03-10)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="voicemeeter" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0-nightly (285fa7ecd 2022-03-14)" ></div>
 </body></html>

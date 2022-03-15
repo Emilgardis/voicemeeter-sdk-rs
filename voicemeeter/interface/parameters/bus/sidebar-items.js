@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Bus","Parameters for a bus."],["BusDevice","Bus device parameters"],["BusModeParameter","Parameters for bus mode"],["EqChannelParameter","Parameter for EQ on a specific channel"]]});

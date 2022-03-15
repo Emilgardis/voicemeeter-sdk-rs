@@ -349,7 +349,7 @@
 
 <span class="kw">use</span> <a class="ident" href="https://doc.rust-lang.org/nightly/core/ptr/non_null/struct.NonNull.html">std::ptr::NonNull</a>;
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::types</span>::{<a class="ident" href="../../../../src/voicemeeter/types.rs.html#194-199">ChannelIndex</a>, <a class="ident" href="../../../../src/voicemeeter/types.rs.html#157-190">Device</a>, <a class="ident" href="../../../../src/voicemeeter/types.rs.html#62-73">VoicemeeterApplication</a>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::types</span>::{<a class="ident" href="../../../../src/voicemeeter/types.rs.html#199-204">ChannelIndex</a>, <a class="ident" href="../../../../src/voicemeeter/types.rs.html#162-195">Device</a>, <a class="ident" href="../../../../src/voicemeeter/types.rs.html#67-78">VoicemeeterApplication</a>};
 
 <span class="doccomment">/// Audio information</span>
 <span class="kw">pub</span> <span class="kw">type</span> <span class="ident">AudioInfo</span> <span class="op">=</span> <a class="ident" href="../../../../src/voicemeeter/bindings.rs.html#75"><span class="kw">crate</span>::bindings::VBVMR_T_AUDIOINFO</a>;
@@ -432,8 +432,8 @@
     <span class="doccomment">/// Get the data inside the buffer as slices of pointers</span>
     <span class="kw">fn</span> <span class="ident">data</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>) -&gt; (<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="kw-2">*mut</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>], <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="kw-2">*mut</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]);
     <span class="doccomment">/// Given a device, return a channel index</span>
-    <span class="kw">fn</span> <span class="ident">channel_index_write</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#157-190">Device</a>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#194-199">ChannelIndex</a><span class="op">&gt;</span>;
-    <span class="kw">fn</span> <span class="ident">channel_index_read</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#157-190">Device</a>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#194-199">ChannelIndex</a><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">channel_index_write</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#162-195">Device</a>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#199-204">ChannelIndex</a><span class="op">&gt;</span>;
+    <span class="kw">fn</span> <span class="ident">channel_index_read</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#162-195">Device</a>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#199-204">ChannelIndex</a><span class="op">&gt;</span>;
     <span class="kw">fn</span> <span class="ident">samples_per_frame</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>;
     <span class="doccomment">/// Get the device write buffer for a device at idx.start..idx.start+N.</span>
     <span class="doccomment">///</span>
@@ -441,7 +441,7 @@
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">device_write</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span>, <span class="kw">const</span> <span class="ident">N</span>: <span class="ident">usize</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>,
-        <span class="ident">device</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#157-190">Device</a>,
+        <span class="ident">device</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#162-195">Device</a>,
     ) -&gt; <span class="ident">DeviceBuffer</span><span class="op">&lt;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="kw-2">mut</span> [<a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]; <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#99">N</a>]<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">idx</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#100">self</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#92">channel_index_write</a>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#101">device</a>) {
             <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#103">idx</a>
@@ -464,7 +464,7 @@
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">device_read</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span>, <span class="kw">const</span> <span class="ident">N</span>: <span class="ident">usize</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>,
-        <span class="ident">device</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#157-190">Device</a>,
+        <span class="ident">device</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#162-195">Device</a>,
     ) -&gt; <span class="ident">DeviceBuffer</span><span class="op">&lt;</span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> [<a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]; <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#122">N</a>]<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">idx</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">idx</span>) <span class="op">=</span> <a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#123">self</a>.<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#93">channel_index_read</a>(<a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#124">device</a>) {
             <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#126">idx</a>
@@ -492,7 +492,7 @@
 }
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">Main</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="ident">program</span>: <a class="ident" href="../../../../src/voicemeeter/types.rs.html#62-73">VoicemeeterApplication</a>,
+    <span class="ident">program</span>: <a class="ident" href="../../../../src/voicemeeter/types.rs.html#67-78">VoicemeeterApplication</a>,
     <span class="ident">samples_per_frame</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
     <span class="ident">data</span>: (<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="kw-2">*mut</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>], <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="kw-2">*mut</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]),
 }
@@ -504,13 +504,13 @@
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">channel_index_read</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#157-190">Device</a>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#194-199">ChannelIndex</a><span class="op">&gt;</span> {
-        <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#164">device</a>.<a class="ident" href="../../../../src/voicemeeter/types.rs.html#217-220">main</a>(<span class="kw-2">&amp;</span><a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#164">self</a>.<span class="ident">program</span>).<span class="number">0</span>
+    <span class="kw">fn</span> <span class="ident">channel_index_read</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#162-195">Device</a>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#199-204">ChannelIndex</a><span class="op">&gt;</span> {
+        <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#164">device</a>.<a class="ident" href="../../../../src/voicemeeter/types.rs.html#222-225">main</a>(<span class="kw-2">&amp;</span><a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#164">self</a>.<span class="ident">program</span>).<span class="number">0</span>
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">channel_index_write</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#157-190">Device</a>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#194-199">ChannelIndex</a><span class="op">&gt;</span> {
-        <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#169">device</a>.<a class="ident" href="../../../../src/voicemeeter/types.rs.html#217-220">main</a>(<span class="kw-2">&amp;</span><a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#169">self</a>.<span class="ident">program</span>).<span class="number">1</span>
+    <span class="kw">fn</span> <span class="ident">channel_index_write</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#162-195">Device</a>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#199-204">ChannelIndex</a><span class="op">&gt;</span> {
+        <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#169">device</a>.<a class="ident" href="../../../../src/voicemeeter/types.rs.html#222-225">main</a>(<span class="kw-2">&amp;</span><a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#169">self</a>.<span class="ident">program</span>).<span class="number">1</span>
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
@@ -522,7 +522,7 @@
 <span class="comment">//#[tracing::instrument(skip_all, name = &quot;BufferMainData::new&quot;)]</span>
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">BufferMainData</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span>: <span class="lifetime">&#39;a</span><span class="op">&gt;</span>(
-        <span class="ident">program</span>: <a class="ident" href="../../../../src/voicemeeter/types.rs.html#62-73">VoicemeeterApplication</a>,
+        <span class="ident">program</span>: <a class="ident" href="../../../../src/voicemeeter/types.rs.html#67-78">VoicemeeterApplication</a>,
         <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#14">AudioBuffer</a>,
         <span class="ident">samples_per_frame</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
     ) -&gt; <span class="self">Self</span> {
@@ -558,7 +558,7 @@
     <span class="kw">pub</span> <span class="ident">write</span>: <span class="ident">output::WriteDevices</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
 }
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">Output</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="ident">program</span>: <a class="ident" href="../../../../src/voicemeeter/types.rs.html#62-73">VoicemeeterApplication</a>,
+    <span class="ident">program</span>: <a class="ident" href="../../../../src/voicemeeter/types.rs.html#67-78">VoicemeeterApplication</a>,
     <span class="ident">samples_per_frame</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
     <span class="ident">data</span>: (<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="kw-2">*mut</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>], <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="kw-2">*mut</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]),
 }
@@ -569,13 +569,13 @@
         <a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#225">self</a>.<span class="ident">data</span>
     }
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">channel_index_read</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#157-190">Device</a>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#194-199">ChannelIndex</a><span class="op">&gt;</span> {
-        <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#229">device</a>.<a class="ident" href="../../../../src/voicemeeter/types.rs.html#272">output</a>(<span class="kw-2">&amp;</span><a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#229">self</a>.<span class="ident">program</span>)
+    <span class="kw">fn</span> <span class="ident">channel_index_read</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#162-195">Device</a>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#199-204">ChannelIndex</a><span class="op">&gt;</span> {
+        <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#229">device</a>.<a class="ident" href="../../../../src/voicemeeter/types.rs.html#287">output</a>(<span class="kw-2">&amp;</span><a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#229">self</a>.<span class="ident">program</span>)
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">channel_index_write</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#157-190">Device</a>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#194-199">ChannelIndex</a><span class="op">&gt;</span> {
-        <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#234">device</a>.<a class="ident" href="../../../../src/voicemeeter/types.rs.html#272">output</a>(<span class="kw-2">&amp;</span><a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#234">self</a>.<span class="ident">program</span>)
+    <span class="kw">fn</span> <span class="ident">channel_index_write</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#162-195">Device</a>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#199-204">ChannelIndex</a><span class="op">&gt;</span> {
+        <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#234">device</a>.<a class="ident" href="../../../../src/voicemeeter/types.rs.html#287">output</a>(<span class="kw-2">&amp;</span><a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#234">self</a>.<span class="ident">program</span>)
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
@@ -587,7 +587,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">BufferOutData</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="comment">//#[tracing::instrument(skip_all, name = &quot;BufferOutData::new&quot;)]</span>
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(
-        <span class="ident">program</span>: <a class="ident" href="../../../../src/voicemeeter/types.rs.html#62-73">VoicemeeterApplication</a>,
+        <span class="ident">program</span>: <a class="ident" href="../../../../src/voicemeeter/types.rs.html#67-78">VoicemeeterApplication</a>,
         <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#14">AudioBuffer</a>,
         <span class="ident">samples_per_frame</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
     ) -&gt; <span class="self">Self</span> {
@@ -623,7 +623,7 @@
     <span class="kw">pub</span> <span class="ident">write</span>: <span class="ident">input::WriteDevices</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
 }
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">Input</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="ident">program</span>: <a class="ident" href="../../../../src/voicemeeter/types.rs.html#62-73">VoicemeeterApplication</a>,
+    <span class="ident">program</span>: <a class="ident" href="../../../../src/voicemeeter/types.rs.html#67-78">VoicemeeterApplication</a>,
     <span class="ident">samples_per_frame</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
     <span class="ident">data</span>: (<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="kw-2">*mut</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>], <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="kw-2">*mut</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]),
 }
@@ -634,13 +634,13 @@
         <a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#290">self</a>.<span class="ident">data</span>
     }
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">channel_index_read</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#157-190">Device</a>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#194-199">ChannelIndex</a><span class="op">&gt;</span> {
-        <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#294">device</a>.<a class="ident" href="../../../../src/voicemeeter/types.rs.html#268">input</a>(<span class="kw-2">&amp;</span><a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#294">self</a>.<span class="ident">program</span>)
+    <span class="kw">fn</span> <span class="ident">channel_index_read</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#162-195">Device</a>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#199-204">ChannelIndex</a><span class="op">&gt;</span> {
+        <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#294">device</a>.<a class="ident" href="../../../../src/voicemeeter/types.rs.html#273">input</a>(<span class="kw-2">&amp;</span><a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#294">self</a>.<span class="ident">program</span>)
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">channel_index_write</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#157-190">Device</a>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#194-199">ChannelIndex</a><span class="op">&gt;</span> {
-        <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#299">device</a>.<a class="ident" href="../../../../src/voicemeeter/types.rs.html#268">input</a>(<span class="kw-2">&amp;</span><a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#299">self</a>.<span class="ident">program</span>)
+    <span class="kw">fn</span> <span class="ident">channel_index_write</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">device</span>: <span class="kw-2">&amp;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#162-195">Device</a>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="../../../../src/voicemeeter/types.rs.html#199-204">ChannelIndex</a><span class="op">&gt;</span> {
+        <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#299">device</a>.<a class="ident" href="../../../../src/voicemeeter/types.rs.html#273">input</a>(<span class="kw-2">&amp;</span><a class="self" href="../../../../src/voicemeeter/interface/callback/data.rs.html#299">self</a>.<span class="ident">program</span>)
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
@@ -652,7 +652,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">BufferInData</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="comment">//#[tracing::instrument(skip_all, name = &quot;BufferInData::new&quot;)]</span>
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(
-        <span class="ident">program</span>: <a class="ident" href="../../../../src/voicemeeter/types.rs.html#62-73">VoicemeeterApplication</a>,
+        <span class="ident">program</span>: <a class="ident" href="../../../../src/voicemeeter/types.rs.html#67-78">VoicemeeterApplication</a>,
         <span class="ident">data</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <a class="ident" href="../../../../src/voicemeeter/interface/callback/data.rs.html#14">AudioBuffer</a>,
         <span class="ident">samples_per_frame</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
     ) -&gt; <span class="self">Self</span> {
@@ -680,5 +680,5 @@
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="voicemeeter" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0-nightly (5f4e06771 2022-03-10)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../../" data-current-crate="voicemeeter" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0-nightly (285fa7ecd 2022-03-14)" ></div>
 </body></html>

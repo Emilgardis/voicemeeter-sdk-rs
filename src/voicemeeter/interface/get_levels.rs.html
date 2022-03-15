@@ -103,22 +103,22 @@
 </pre><pre class="rust"><code><span class="doccomment">//! Level and midi related functions</span>
 <span class="kw">use</span> <a class="ident" href="https://doc.rust-lang.org/nightly/core/ptr/index.html">std::ptr</a>;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::types</span>::{<a class="ident" href="../../../src/voicemeeter/types.rs.html#157-190">Device</a>, <a class="ident" href="../../../src/voicemeeter/types.rs.html#130-141">LevelType</a>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::types</span>::{<a class="ident" href="../../../src/voicemeeter/types.rs.html#162-195">Device</a>, <a class="ident" href="../../../src/voicemeeter/types.rs.html#135-146">LevelType</a>};
 
-<span class="kw">use</span> <a class="ident" href="../../../src/voicemeeter/interface.rs.html#20-24"><span class="kw">super</span>::VoicemeeterRemote</a>;
+<span class="kw">use</span> <a class="ident" href="../../../src/voicemeeter/interface.rs.html#19-23"><span class="kw">super</span>::VoicemeeterRemote</a>;
 
-<span class="kw">impl</span> <a class="ident" href="../../../src/voicemeeter/interface.rs.html#20-24">VoicemeeterRemote</a> {
+<span class="kw">impl</span> <a class="ident" href="../../../src/voicemeeter/interface.rs.html#19-23">VoicemeeterRemote</a> {
     <span class="comment">// TODO: one thread only</span>
     <span class="doccomment">/// Get the level of a channel on a device</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_level</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">level_type</span>: <a class="ident" href="../../../src/voicemeeter/types.rs.html#130-141">LevelType</a>,
-        <span class="ident">device</span>: <a class="ident" href="../../../src/voicemeeter/types.rs.html#157-190">Device</a>,
+        <span class="ident">level_type</span>: <a class="ident" href="../../../src/voicemeeter/types.rs.html#135-146">LevelType</a>,
+        <span class="ident">device</span>: <a class="ident" href="../../../src/voicemeeter/types.rs.html#162-195">Device</a>,
         <span class="ident">channel</span>: <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
     ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a><span class="op">&gt;</span>, <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#64-80">GetLevelError</a><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">f</span> <span class="op">=</span> <span class="ident">std::f32::NAN</span>;
         <span class="kw">let</span> <span class="ident">dev_num</span> <span class="op">=</span>
-            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">dev_num</span>) <span class="op">=</span> <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#14">device</a>.<a class="ident" href="../../../src/voicemeeter/types.rs.html#298-303">as_level_device_num</a>(<span class="kw-2">&amp;</span><a class="self" href="../../../src/voicemeeter/interface/get_levels.rs.html#12">self</a>.<span class="ident">program</span>, <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#13">level_type</a>, <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#15">channel</a>) {
+            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">dev_num</span>) <span class="op">=</span> <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#14">device</a>.<a class="ident" href="../../../src/voicemeeter/types.rs.html#313-318">as_level_device_num</a>(<span class="kw-2">&amp;</span><a class="self" href="../../../src/voicemeeter/interface/get_levels.rs.html#12">self</a>.<span class="ident">program</span>, <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#13">level_type</a>, <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#15">channel</a>) {
                 <a class="ident" href="../../../src/voicemeeter/interface/get_levels.rs.html#19">dev_num</a> <span class="kw">as</span> <a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>
             } <span class="kw">else</span> {
                 <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
@@ -198,5 +198,5 @@
     <span class="ident">Other</span>(<a class="ident" href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>),
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="voicemeeter" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0-nightly (5f4e06771 2022-03-10)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="voicemeeter" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.61.0-nightly (285fa7ecd 2022-03-14)" ></div>
 </body></html>
