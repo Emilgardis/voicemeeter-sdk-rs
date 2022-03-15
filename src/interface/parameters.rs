@@ -28,7 +28,7 @@ use self::get_parameters::GetParameterError;
 use self::set_parameters::SetParameterError;
 
 impl VoicemeeterRemote {
-    /// Abstraction for voicemeeter parameters,
+    /// Get access to parameters of the application.
     ///
     /// # Examples
     ///
@@ -243,7 +243,17 @@ pub struct Parameters<'a> {
 impl<'a> Parameters<'a> {
     /// Parameters of a strip.
     ///
-    /// A strip is a input, "physical" or "virtual"
+    /// A strip is a input that can be physical or virtual
+    ///
+    /// # Availability
+    ///
+    /// On each Voicemeeter application, there are different amounts of strips
+    ///
+    /// Application | Strips | Physical | Virtual
+    /// :--- | :--- | :--- | :---
+    /// Voicemeeter | total: `3` | total: `2` _(starting on strip #0)_ | total: `1` _(starting on strip #2)_
+    /// Voicemeeter Banana | total: `5` | total: `3` _(starting on strip #0)_ | total: `2` _(starting on strip #3)_
+    /// Voicemeeter Potato | total: `8` | total: `5` _(starting on strip #0)_ | total: `3` _(starting on strip #5)_
     pub fn strip(&self, index: impl Into<ZIndex>) -> Result<Strip<'a>, OutOfRangeError> {
         let index = index.into();
         Ok(match (self.remote.program, index.0) {

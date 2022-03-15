@@ -21,6 +21,11 @@ impl<'a> Bus<'a> {
         Cow::Owned(format!("{BUS}[{}].{}", self.strip_index, dot.to_string()).into())
     }
 
+    /// Label
+    pub fn label(&self) -> StringParameter {
+        StringParameter::new(self.param("Label"), self.remote)
+    }
+
     /// Mono Button
     pub fn mono(&self) -> IntParameter {
         IntParameter::new(self.param("Mono"), self.remote, 0..=2)

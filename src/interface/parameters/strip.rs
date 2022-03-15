@@ -227,7 +227,7 @@ impl<'a> Strip<'a> {
 
     /// Label
     pub fn label(&self) -> StringParameter {
-        StringParameter::new(self.param("limit"), self.remote)
+        StringParameter::new(self.param("Label"), self.remote)
     }
 
     /// Out BUS Assignation
