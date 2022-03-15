@@ -6,7 +6,13 @@ pub fn main() -> Result<(), color_eyre::Report> {
         .with_writer(std::io::stderr)
         .init();
     let remote = voicemeeter::VoicemeeterRemote::new()?;
+    dbg!(remote.is_parameters_dirty()?);
     dbg!(remote.is_macrobutton_dirty()?);
+    dbg!(remote.parameters().option().sr().get()?);
+    dbg!(remote.is_parameters_dirty()?);
+    dbg!(remote.parameters().bus(0)?.mode().get()?);
+    //dbg!(remote.parameters().bus(0)?.mode().set_normal(false)?);
+    std::thread::sleep(std::time::Duration::from_millis(500));
     //dbg!(remote.run_voicemeeter(voicemeeter::types::VoicemeeterApplication::PotatoX64Bits)?);
     println!("{}", remote.get_voicemeeter_version()?);
     let mut stdout = std::io::stdout();

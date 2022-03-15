@@ -25,8 +25,8 @@ impl VoicemeeterRemote {
         let res = unsafe { self.raw.VBVMR_GetVoicemeeterVersion(&mut t) };
         match res {
             0 => {
-                let a: [u8; 4] = bytemuck::cast(t);
-                Ok(VoicemeeterVersion(a[3], a[2], a[1], a[0]))
+                let a: [u8; 4] = t.to_be_bytes();
+                Ok(VoicemeeterVersion(a[0], a[1], a[2], a[3]))
             }
             -1 => Err(GetVoicemeeterInformationError::CannotGetClient),
             -2 => Err(GetVoicemeeterInformationError::NoServer),

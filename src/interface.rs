@@ -10,9 +10,8 @@ pub mod communication_login_logout;
 pub mod device;
 pub mod general_information;
 pub mod get_levels;
-pub mod get_parameters;
 pub mod macro_buttons;
-pub mod set_parameters;
+pub mod parameters;
 
 /// Interface for voicemeeter.
 #[derive(Clone)]
