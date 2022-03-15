@@ -5,6 +5,11 @@
 #[repr(transparent)]
 pub struct ZIndex(pub(crate) i32);
 
+impl std::fmt::Display for ZIndex {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str(&self.0.to_string())
+    }
+}
 impl From<usize> for ZIndex {
     fn from(i: usize) -> Self {
         ZIndex(i as i32)
@@ -317,6 +322,54 @@ impl Device {
             | LevelType::PostMuteInputLevels => self.input(program)?.get(channel),
             LevelType::OutputLevels => self.output(program)?.get(channel),
             LevelType::Other => None,
+        }
+    }
+}
+
+/// Bus mode
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum BusMode {
+    /// Bus mode normal
+    Normal,
+    /// Bus mode Amix
+    Amix,
+    /// Bus mode Bmix
+    Bmix,
+    /// Bus mode Repeat
+    Repeat,
+    /// Bus mode Composite
+    Composite,
+    /// Bus mode TVMix
+    TvMix,
+    /// Bus mode UpMix21
+    UpMix21,
+    /// Bus mode UpMix41
+    UpMix41,
+    /// Bus mode UpMix61
+    UpMix61,
+    /// Bus mode CenterOnly
+    CenterOnly,
+    /// Bus mode LFEOnly
+    LfeOnly,
+    /// Bus mode RearOnly
+    RearOnly,
+}
+
+impl std::fmt::Display for BusMode {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            BusMode::Normal => f.write_str("normal"),
+            BusMode::Amix => f.write_str("Amix"),
+            BusMode::Bmix => f.write_str("Bmix"),
+            BusMode::Repeat => f.write_str("Repeat"),
+            BusMode::Composite => f.write_str("Composite"),
+            BusMode::TvMix => f.write_str("TVMix"),
+            BusMode::UpMix21 => f.write_str("UpMix21"),
+            BusMode::UpMix41 => f.write_str("UpMix41"),
+            BusMode::UpMix61 => f.write_str("UpMix61"),
+            BusMode::CenterOnly => f.write_str("CenterOnly"),
+            BusMode::LfeOnly => f.write_str("LFEOnly"),
+            BusMode::RearOnly => f.write_str("RearOnly"),
         }
     }
 }

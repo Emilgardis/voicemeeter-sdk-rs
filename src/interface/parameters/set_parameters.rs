@@ -3,17 +3,18 @@ use std::ffi::CString;
 
 use crate::types::ParameterNameRef;
 
-use super::VoicemeeterRemote;
+use crate::VoicemeeterRemote;
 
 impl VoicemeeterRemote {
-    // TODO: Provide abstraction, e.g ParameterThing::Struct.blabla()
-    /// Set the float value of a parameter.
+    /// Set the float value of a parameter. See also [`VoicemeeterRemote::parameters()`]
+    #[tracing::instrument(skip(self))]
     pub fn set_parameter_float(
         &self,
         param: &ParameterNameRef,
         value: f32,
     ) -> Result<(), SetParameterError> {
         let param = CString::new(param.as_ref()).unwrap();
+        tracing::debug!("setting float parameter");
         let res = unsafe {
             self.raw
                 .VBVMR_SetParameterFloat(param.as_ptr() as *mut _, value)
@@ -28,15 +29,17 @@ impl VoicemeeterRemote {
             s => Err(SetParameterError::Other(s)),
         }
     }
-    // TODO: Provide abstraction, e.g ParameterThing::Struct.blabla()
-    /// Set the string value of a parameter.
+
+    /// Set the string value of a parameter. See also [`VoicemeeterRemote::parameters()`]
+    #[tracing::instrument(skip(self))]
     pub fn set_parameter_string(
         &self,
-        param: impl AsRef<str>,
+        param: &ParameterNameRef,
         value: &str,
     ) -> Result<(), SetParameterError> {
         let param = CString::new(param.as_ref()).unwrap();
         let value = CString::new(value).unwrap();
+        tracing::debug!("setting string parameter");
         let res = unsafe {
             self.raw
                 .VBVMR_SetParameterStringA(param.as_ptr() as *mut _, value.as_ptr() as *mut _)
