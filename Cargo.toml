@@ -5,7 +5,7 @@ edition = "2021"
 license = "MIT OR Apache-2.0"
 keywords = ["voicemeeter", "ffi", "audio", "windows"]
 repository = "https://github.com/Emilgardis/voicemeeter-sdk-rs"
-description = "FFI bindings to Voicemeeter SDK"
+description = "Voicemeeter Remote bindings and abstractions"
 include = [
     "src/**/*",
     "./Cargo.toml",
