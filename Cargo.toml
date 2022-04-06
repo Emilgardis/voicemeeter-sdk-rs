@@ -73,6 +73,6 @@ opt-level = 3
 inherits = "dev"
 
 [package.metadata.docs.rs]
-rustc-args = ["--cfg", "docsrs"]
+rustdoc-args = ["--cfg", "docsrs"]
 all-features = true
 targets = ["x86_64-pc-windows-msvc"]
