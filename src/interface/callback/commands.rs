@@ -189,16 +189,30 @@ impl<'a> BufferMain<'a> {
 #[allow(clippy::large_enum_variant)]
 pub enum CallbackCommand<'a> {
     /// Starting command
+    ///
+    /// this is the first call of your Callback, made to let you initialize your
+    /// possible different DSP processing objects, allocate memory, precompute date...
     Starting(Starting<'a>),
     /// Ending command
+    ///
+    /// this is the last call of your Callback, to release all your structure
+    /// previously allocated in the first call.
     Ending(Ending<'a>),
     /// Change command
+    ///
+    /// this command is called if the samplerate or buffer size have changed
     Change(Change<'a>),
     /// BufferIn command
+    ///
+    /// buffers for inputs
     BufferIn(BufferIn<'a>),
     /// BufferOut command
+    ///
+    /// buffers for outputs
     BufferOut(BufferOut<'a>),
     /// BufferMain command
+    ///
+    /// buffers for all i/o
     BufferMain(BufferMain<'a>),
     /// Other inknown command
     Other(VBVMR_CBCOMMAND, RawCallbackData),

@@ -33,7 +33,7 @@ where
 {
     // This leaks
     let data = Box::into_raw(Box::new(callback));
-    println!("callback {:p}", data);
+    tracing::debug!("callback {:p}", data);
     let res = unsafe {
         remote.raw.VBVMR_AudioCallbackRegister(
             mode.0,
@@ -92,11 +92,18 @@ impl VoicemeeterRemote {
     /// The callback takes two arguments, the command sent from voicemeeter and a currently unused [i32] parameter for additional data.
     ///
     /// The [mode](crate::AudioCallbackMode) determines what buffers are returned.
+    ///
     /// # Examples
     ///
     /// ```rust,no_run
+    #[doc = include_str!("../../../examples/simple.rs")]
+    /// ```
+    ///
+    /// ## Complete example
+    /// ```rust,no_run
     #[doc = include_str!("../../../examples/output.rs")]
     /// ```
+    ///
     #[tracing::instrument(skip(application_name, callback), fields(application_name, mode))]
     pub fn audio_callback_register<'a, 'cb, 'g, F>(
         &'a self,

@@ -1,4 +1,6 @@
-//! The interface for Voicemeeter remote.-
+//! The interface for Voicemeeter remote.
+//!
+//! See the methods on [`VoiceMeeterRemote`](crate::VoiceMeeterRemote) for how to use the interface
 use crate::{types::VoicemeeterApplication, LoadError};
 
 use self::{

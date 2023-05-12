@@ -13,13 +13,15 @@ fn assure_accurate_binding() {
         .raw_line(
             "#![allow(non_upper_case_globals)]
 #![allow(non_camel_case_types)]
-#![allow(unaligned_references)]
 #![allow(unsafe_op_in_unsafe_fn)]
 #![allow(deref_nullptr)]
 #![allow(clippy::missing_safety_doc)]
 #![allow(non_snake_case)]",
         )
-        .default_enum_style(bindgen::EnumVariation::NewType { is_bitfield: false })
+        .default_enum_style(bindgen::EnumVariation::NewType {
+            is_bitfield: false,
+            is_global: false,
+        })
         .bitfield_enum("VBVMR_AUDIOCALLBACK")
         .blocklist_function("VBVMR_Local.*")
         .blocklist_function("VBVMR_GetRequestVB0STREAMPTR")
@@ -28,6 +30,7 @@ fn assure_accurate_binding() {
         .blocklist_function("VBVMR_MB_PushSettings")
         .dynamic_library_name("VoicemeeterRemoteRaw")
         .dynamic_link_require_all(true)
+        .rustfmt_bindings(true)
         .generate()
         .expect("unable to generate bindings");
     let path = dir.join("../src/bindings.rs");
