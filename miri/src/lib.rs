@@ -1,6 +1,6 @@
 #![cfg(nightly)]
 #![allow(clippy::missing_safety_doc, clippy::let_and_return, unused)]
-#![feature(array_methods, array_from_fn)]
+#![feature(array_methods)]
 //! Module for setting up miri interface. This is not intended to be used directly, but you could if wanted/needed.
 use voicemeeter::{
     bindings::VBVMR_CBCOMMAND, interface::callback::data::RawCallbackData, types::Device, *,

@@ -38,8 +38,8 @@ default = ["interface"]
 interface = []
 
 [workspace]
-default-members = ["."]
-members = [".", "codegen", "miri"]
+default-members = [".", "xtask"]
+members = ["codegen", "miri", "xtask"]
 
 [patch.crates-io]
 #fundsp  = { path = "../fundsp" }

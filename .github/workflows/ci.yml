@@ -4,88 +4,92 @@ on:
     types: [opened, reopened, synchronize]
   push:
     branches: [main]
-env:
-  MSRV: 1.59
 jobs:
   ci:
     name: CI
-    needs: [test, fmt, clippy]
+    needs: [test, rustfmt, clippy, docs, release]
     runs-on: windows-latest
+    if: always()
     steps:
+      - run: jq --exit-status 'all(.result == "success")' <<< '${{ toJson(needs) }}'
       - name: Done
         run: exit 0
-
+  release:
+    name: Release
+    runs-on: windows-latest
+    needs: [test, rustfmt, clippy, docs]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 0 # fetch tags for publish
+          # ssh-key: "${{ secrets.COMMIT_KEY }}" # use deploy key to trigger workflow on tag
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo xtask release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
   test:
     name: Tests
     strategy:
       fail-fast: false
       matrix:
         os: [windows-latest]
-        rust: ["1.59", "nightly"]
+        rust: [1.65, nightly]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: recursive
       - name: Install rust
-        uses: actions-rs/toolchain@v1
+        uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ matrix.rust }}
-          components: rustfmt
-          override: true
-      - uses: Swatinem/rust-cache@v1
-        with:
-          key: rust-${{ matrix.rust}}-tests
-          sharedKey: rust-${{ matrix.rust}}
-          cache-on-failure: true
-      - name: Test voicemeeter-sdk
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --all-targets --all
-
-  fmt:
+      - uses: Swatinem/rust-cache@v2
+      - name: Test voicemeeter
+        run: cargo test --all-targets --all-features --workspace
+  rustfmt:
     name: Rustfmt
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: recursive
-      - uses: actions-rs/toolchain@v1
+      - uses: dtolnay/rust-toolchain@master
         with:
-          profile: minimal
           toolchain: nightly
-          override: true
           components: rustfmt
       - name: Run fmt -- --check
-        uses: actions-rs/cargo@v1
-        with:
-          command: fmt
-          args: -- --check
+        run: cargo fmt -- --check
 
   clippy:
     name: Clippy
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: recursive
-      - uses: actions-rs/toolchain@v1
+      - uses: dtolnay/rust-toolchain@master
         with:
-          profile: minimal
-          toolchain: 1.59
-          override: true
+          toolchain: nightly
           components: clippy
-      - uses: Swatinem/rust-cache@v1
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo clippy --no-default-features -p voicemeeter
+      - run: cargo clippy --no-default-features --features "interface" -p voicemeeter
+      - run: cargo clippy --all-targets --all-features --workspace
+  docs:
+    name: Docs
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
         with:
-          sharedKey: rust-${{ env.MSRV }}
-      - name: Run clippy --no-default-features -- -D warnings
-        uses: actions-rs/clippy-check@v1
+          submodules: recursive
+      - uses: dtolnay/rust-toolchain@master
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          args: --no-default-features -- -D warnings
-      - name: Run clippy --all-targets --all-features -- -D warnings
-        uses: actions-rs/clippy-check@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          args: --all-targets --all-features -- -D warnings
+          toolchain: nightly
+      - uses: Swatinem/rust-cache@v2
+      # We do the following to make sure docs.rs can document properly without anything broken, and that docs are working.
+      - name: Run doc tests
+        run: cargo test --doc --all-features
+      - name: Compile docs
+        run: cargo doc --all-features --no-deps -Zrustdoc-map

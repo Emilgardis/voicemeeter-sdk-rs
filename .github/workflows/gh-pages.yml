@@ -10,22 +10,17 @@ jobs:
   deploy:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: recursive
-      - uses: actions-rs/toolchain@v1
+      - uses: dtolnay/rust-toolchain@master
         with:
-          profile: minimal
           toolchain: nightly
-          override: true
       - uses: Swatinem/rust-cache@v1
         with:
           sharedKey: rust-nightly
       - name: build docs
-        uses: actions-rs/cargo@v1
-        with:
-          command: doc
-          args: --no-deps --all-features -Zrustdoc-map
+        run: cargo doc --all-features --no-deps -Zrustdoc-map
       - name: move index.html
         run: cp ./doc/index.html ./target/doc/index.html
       - name: Deploy

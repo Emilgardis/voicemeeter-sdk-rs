@@ -1,0 +1,4 @@
+[alias]
+miri-run = "miri run -- --profile dev-miri"
+miri-test = "miri test -- --profile dev-miri"
+xtask = "cargo run -p xtask --"
