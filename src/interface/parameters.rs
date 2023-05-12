@@ -133,7 +133,7 @@ impl<'a, A, B, const WRITE: bool, const READ: bool> TupleParameter<'a, A, B, WRI
         Self {
             name,
             remote,
-            _pd: <_>::default(),
+            _pd: Default::default(),
         }
     }
 }

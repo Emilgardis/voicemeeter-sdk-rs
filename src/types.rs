@@ -18,7 +18,7 @@ impl From<usize> for ZIndex {
 
 impl From<i32> for ZIndex {
     fn from(i: i32) -> Self {
-        ZIndex(i as i32)
+        ZIndex(i)
     }
 }
 
@@ -47,7 +47,7 @@ impl From<usize> for LogicalButton {
 
 impl From<i32> for LogicalButton {
     fn from(i: i32) -> Self {
-        LogicalButton(ZIndex(i as i32))
+        LogicalButton(ZIndex(i))
     }
 }
 

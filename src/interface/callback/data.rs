@@ -108,7 +108,7 @@ trait BufferDataExt<'a> {
         assert_eq!(N, idx.size);
         let data = self.data().1;
         // Each channel inside idx.start..(idx..start+idx.size) will be a *mut f32 that points to an array of `nbs` f32s.
-        let mut array = [(); N].map(|_| <_>::default());
+        let mut array = [(); N].map(|_| Default::default());
         for i in 0..N {
             let ptr = data[idx.start + i];
             array[i] = unsafe { std::slice::from_raw_parts_mut(ptr, self.samples_per_frame()) };
@@ -131,7 +131,7 @@ trait BufferDataExt<'a> {
         assert_eq!(N, idx.size, "on device: {device:?}");
         let data = self.data().0;
         // Each channel inside idx.start..(idx..start+idx.size) will be a *mut f32 that points to an array of `nbs` f32s.
-        let mut array = [(); N].map(|_| <_>::default());
+        let mut array = [(); N].map(|_| Default::default());
         for i in 0..N {
             let ptr = data[idx.start + i];
             array[i] = unsafe { std::slice::from_raw_parts(ptr, self.samples_per_frame()) };

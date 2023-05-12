@@ -36,7 +36,7 @@ impl<'a, 'b: 'a, const N: usize> Buffer<'a, 'b> for [&'b [f32]; N] {
 
 impl<'a, 'b: 'a> Buffer<'a, 'b> for &'a [&'b [f32]] {
     fn as_slice(&'a self) -> &'a [&'b [f32]] {
-        *self
+        self
     }
 }
 
@@ -52,7 +52,7 @@ impl<'a, 'b: 'a, const N: usize> BufferMut<'a, 'b> for [&'b mut [f32]; N] {
 
 impl<'a, 'b: 'a> BufferMut<'a, 'b> for &'a mut [&'b mut [f32]] {
     fn as_mut_slice(&mut self) -> &mut [&'b mut [f32]] {
-        *self
+        self
     }
     fn len(&'a self) -> usize {
         self.as_ref().len()
@@ -60,18 +60,16 @@ impl<'a, 'b: 'a> BufferMut<'a, 'b> for &'a mut [&'b mut [f32]] {
 }
 
 /// A devices buffer.
+#[derive(Default)]
 pub enum DeviceBuffer<T> {
     /// Device does not exist
+    #[default]
     None,
     /// Device buffer
     Buffer(T),
 }
 
-impl<T> Default for DeviceBuffer<T> {
-    fn default() -> Self {
-        DeviceBuffer::None
-    }
-}
+
 
 impl<T> DeviceBuffer<T> {
     /// Converts from `&DeviceBuffer<T>` to `Option<&T>`.
@@ -300,7 +298,7 @@ pub mod main {
                     virtual_input: buffer.device_read(&Device::VirtualInput),
                     virtual_input_aux: buffer.device_read(&Device::VirtualInputAux),
                     virtual_input8: buffer.device_read(&Device::VirtualInput8),
-                    _pd: <_>::default(),
+                    _pd: Default::default(),
                 }
             }
         }
@@ -377,7 +375,7 @@ pub mod main {
                     virtual_output_b1: buffer.device_write(&Device::VirtualOutputB1),
                     virtual_output_b2: buffer.device_write(&Device::VirtualOutputB2),
                     virtual_output_b3: buffer.device_write(&Device::VirtualOutputB3),
-                    _pd: <_>::default(),
+                    _pd: Default::default(),
                 }
             }
         }
@@ -473,7 +471,7 @@ pub mod output {
                     virtual_output_b1: buffer.device_read(&Device::VirtualOutputB1),
                     virtual_output_b2: buffer.device_read(&Device::VirtualOutputB2),
                     virtual_output_b3: buffer.device_read(&Device::VirtualOutputB3),
-                    _pd: <_>::default(),
+                    _pd: Default::default(),
                 }
             }
         }
@@ -543,7 +541,7 @@ pub mod output {
                     virtual_output_b1: buffer.device_write(&Device::VirtualOutputB1),
                     virtual_output_b2: buffer.device_write(&Device::VirtualOutputB2),
                     virtual_output_b3: buffer.device_write(&Device::VirtualOutputB3),
-                    _pd: <_>::default(),
+                    _pd: Default::default(),
                 }
             }
         }
@@ -638,7 +636,7 @@ pub mod input {
                     virtual_input: buffer.device_read(&Device::VirtualInput),
                     virtual_input_aux: buffer.device_read(&Device::VirtualInputAux),
                     virtual_input8: buffer.device_read(&Device::VirtualInput8),
-                    _pd: <_>::default(),
+                    _pd: Default::default(),
                 }
             }
         }
@@ -709,7 +707,7 @@ pub mod input {
                     virtual_input: buffer.device_write(&Device::VirtualInput),
                     virtual_input_aux: buffer.device_write(&Device::VirtualInputAux),
                     virtual_input8: buffer.device_write(&Device::VirtualInput8),
-                    _pd: <_>::default(),
+                    _pd: Default::default(),
                 }
             }
         }

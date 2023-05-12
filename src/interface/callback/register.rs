@@ -115,7 +115,7 @@ impl VoicemeeterRemote {
         F: FnMut(CallbackCommand<'cb>, i32) -> c_long + 'g,
     {
         let application_name = application_name.as_ref();
-        tracing::Span::current().record("application_name", &application_name);
+        tracing::Span::current().record("application_name", application_name);
         //let ctx_span = tracing::trace_span!("voicemeeter_callback");
         //ctx_span.record("application_name", &application_name).record("mode", &mode.0).follows_from(tracing::Span::current());
         assert!(application_name.len() <= 64);
