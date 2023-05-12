@@ -69,8 +69,6 @@ pub enum DeviceBuffer<T> {
     Buffer(T),
 }
 
-
-
 impl<T> DeviceBuffer<T> {
     /// Converts from `&DeviceBuffer<T>` to `Option<&T>`.
     pub fn as_opt_ref(&self) -> Option<&T> {
