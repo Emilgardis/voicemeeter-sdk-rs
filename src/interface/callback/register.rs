@@ -98,7 +98,7 @@ impl VoicemeeterRemote {
     /// ```rust,no_run
     #[doc = include_str!("../../../examples/simple.rs")]
     /// ```
-    ///
+    /// 
     /// ## Complete example
     /// ```rust,no_run
     #[doc = include_str!("../../../examples/output.rs")]
