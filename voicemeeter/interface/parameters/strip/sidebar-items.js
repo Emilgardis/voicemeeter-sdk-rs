@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Strip","Parameters for a bus."],["StripDevice","Bus device parameters"]]});
+window.SIDEBAR_ITEMS = {"struct":["Strip","StripDevice"]};

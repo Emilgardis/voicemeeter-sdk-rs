@@ -1,3 +1,3 @@
-(function() {var implementors = {};
-implementors["voicemeeter"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/str/traits/trait.FromStr.html\" title=\"trait core::str::traits::FromStr\">FromStr</a> for <a class=\"struct\" href=\"voicemeeter/types/struct.ParameterName.html\" title=\"struct voicemeeter::types::ParameterName\">ParameterName</a>","synthetic":false,"types":["voicemeeter::types::ParameterName"]}];
-if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
+(function() {var implementors = {
+"voicemeeter":[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/str/traits/trait.FromStr.html\" title=\"trait core::str::traits::FromStr\">FromStr</a> for <a class=\"struct\" href=\"voicemeeter/types/struct.ParameterName.html\" title=\"struct voicemeeter::types::ParameterName\">ParameterName</a>"]]
+};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

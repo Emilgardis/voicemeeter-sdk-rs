@@ -1,1 +1,1 @@
-window.ALL_CRATES = ["voicemeeter"];
+window.ALL_CRATES = ["voicemeeter","xtask"];

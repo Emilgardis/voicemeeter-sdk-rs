@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["ReadDevices","Read interface for main mode"],["WriteDevices","Write interface for main mode"]]});
+window.SIDEBAR_ITEMS = {"struct":["ReadDevices","WriteDevices"]};

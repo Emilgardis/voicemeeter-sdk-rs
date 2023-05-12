@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["GetLevelError","Errors that can happen when querying levels from Voicemeeter."],["GetMidiMessageError","Errors that can happen when querying midi messages from Voicemeeter."]]});
+window.SIDEBAR_ITEMS = {"enum":["GetLevelError","GetMidiMessageError"]};

@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["VoicemeeterOption","Option parameters for voicemeeter"]]});
+window.SIDEBAR_ITEMS = {"struct":["VoicemeeterOption"]};

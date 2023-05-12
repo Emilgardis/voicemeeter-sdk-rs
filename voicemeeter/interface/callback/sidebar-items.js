@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["commands","Callback command types."],["data","Underlying data types for callbacks"],["register","Functions for callbacks in Voicemeeter."],["start_stop","Start stop functions for voicemeeter audio callback"]]});
+window.SIDEBAR_ITEMS = {"mod":["commands","data","register","start_stop"]};

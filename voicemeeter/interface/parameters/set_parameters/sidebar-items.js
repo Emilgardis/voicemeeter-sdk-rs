@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["SetParameterError","Errors that can happen when setting a parameter."],["SetParametersError","Errors that can happen when setting parameters."]]});
+window.SIDEBAR_ITEMS = {"enum":["SetParameterError","SetParametersError"]};

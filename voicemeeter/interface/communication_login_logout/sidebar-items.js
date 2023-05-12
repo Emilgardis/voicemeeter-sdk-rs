@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["LoginError","Errors that can happen when loging in."],["LogoutError","Errors that can happen when loging out."],["RunVoicemeeterError","Errors that can happen when opening voicemeeter."],["VoicemeeterStatus","The status of the Voicemeeter instance."]]});
+window.SIDEBAR_ITEMS = {"enum":["LoginError","LogoutError","RunVoicemeeterError","VoicemeeterStatus"]};
