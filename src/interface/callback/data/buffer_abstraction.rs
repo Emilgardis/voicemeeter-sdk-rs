@@ -389,14 +389,15 @@ pub mod main {
             devices: impl IntoIterator<Item = &'i Device>,
         ) {
             for device in devices {
-                // TODO: when stable use let_else.
-                let write = self.device_mut(device);
-                let read = read.device(device);
-                if let (DeviceBuffer::Buffer(read), DeviceBuffer::Buffer(write)) = (read, write) {
-                    assert_eq!(read.len(), write.len());
-                    for (read, write) in read.iter().zip(write.iter_mut()) {
-                        write.copy_from_slice(read)
-                    }
+                let DeviceBuffer::Buffer(write) = self.device_mut(device) else {
+                    continue;
+                };
+                let DeviceBuffer::Buffer(read) = read.device(device) else {
+                    continue;
+                };
+                assert_eq!(read.len(), write.len());
+                for (read, write) in read.iter().zip(write.iter_mut()) {
+                    write.copy_from_slice(read)
                 }
             }
         }
@@ -554,14 +555,15 @@ pub mod output {
             devices: impl IntoIterator<Item = &'i Device>,
         ) {
             for device in devices {
-                // TODO: when stable use let_else.
-                let write = self.device_mut(device);
-                let read = read.device(device);
-                if let (DeviceBuffer::Buffer(read), DeviceBuffer::Buffer(write)) = (read, write) {
-                    assert_eq!(read.len(), write.len());
-                    for (read, write) in read.iter().zip(write.iter_mut()) {
-                        write.copy_from_slice(read)
-                    }
+                let DeviceBuffer::Buffer(write) = self.device_mut(device) else {
+                    continue;
+                };
+                let DeviceBuffer::Buffer(read) = read.device(device) else {
+                    continue;
+                };
+                assert_eq!(read.len(), write.len());
+                for (read, write) in read.iter().zip(write.iter_mut()) {
+                    write.copy_from_slice(read)
                 }
             }
         }
@@ -719,14 +721,15 @@ pub mod input {
             devices: impl IntoIterator<Item = &'i Device>,
         ) {
             for device in devices {
-                // TODO: when stable use let_else.
-                let write = self.device_mut(device);
-                let read = read.device(device);
-                if let (DeviceBuffer::Buffer(read), DeviceBuffer::Buffer(write)) = (read, write) {
-                    assert_eq!(read.len(), write.len());
-                    for (read, write) in read.iter().zip(write.iter_mut()) {
-                        write.copy_from_slice(read)
-                    }
+                let DeviceBuffer::Buffer(write) = self.device_mut(device) else {
+                    continue;
+                };
+                let DeviceBuffer::Buffer(read) = read.device(device) else {
+                    continue;
+                };
+                assert_eq!(read.len(), write.len());
+                for (read, write) in read.iter().zip(write.iter_mut()) {
+                    write.copy_from_slice(read)
                 }
             }
         }
