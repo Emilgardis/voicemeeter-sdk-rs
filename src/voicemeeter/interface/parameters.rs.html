@@ -325,11 +325,11 @@
 
 <span class="kw">mod </span><a href="../interface\parameters/errors.rs.html#1-44">errors</a>;
 
-<span class="kw">pub mod </span><a href="../interface\parameters/bus.rs.html#1-389">bus</a>;
+<span class="kw">pub mod </span><a href="../interface\parameters/bus.rs.html#1-392">bus</a>;
 <span class="kw">pub mod </span><a href="../interface\parameters/get_parameters.rs.html#1-134">get_parameters</a>;
 <span class="kw">pub mod </span><a href="../interface\parameters/option.rs.html#1-74">option</a>;
 <span class="kw">pub mod </span><a href="../interface\parameters/set_parameters.rs.html#1-107">set_parameters</a>;
-<span class="kw">pub mod </span><a href="../interface\parameters/strip.rs.html#1-416">strip</a>;
+<span class="kw">pub mod </span><a href="../interface\parameters/strip.rs.html#1-419">strip</a>;
 
 <span class="kw">pub use </span><a href="#21">bus</a>::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><a href="#19">errors</a>::<span class="kw-2">*</span>;
@@ -591,7 +591,7 @@
     ///
     /// On each Voicemeeter application, there are different amounts of busses
     ///
-    /// Application | Busses |
+    /// Application | Busses | Physical | Virtual
     /// :--- | :--- | :--- | :---
     /// Voicemeeter | total: `2` | total: `2` _(starting on bus #0)_ | total: `0`
     /// Voicemeeter Banana | total: `5` | total: `3` _(starting on bus #0)_ | total: `2` _(starting on bus #3)_
