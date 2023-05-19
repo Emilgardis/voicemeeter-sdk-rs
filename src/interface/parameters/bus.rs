@@ -5,6 +5,9 @@ use super::*;
 ///
 /// A bus is a output.
 ///
+/// Returned by [`VoicemeeterRemote::parameters().bus(i)`](VoicemeeterRemote::parameters)
+///
+///
 /// # Example
 ///
 /// ```rust,no_run

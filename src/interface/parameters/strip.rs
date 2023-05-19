@@ -5,6 +5,9 @@ use super::*;
 ///
 /// A strip is a physical or virtual input.
 ///
+/// Returned by [`VoicemeeterRemote::parameters().strip(i)`](VoicemeeterRemote::parameters)
+///
+///
 /// # Example
 ///
 /// ```rust,no_run
