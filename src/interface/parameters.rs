@@ -284,7 +284,7 @@ impl<'a> Parameters<'a> {
     ///
     /// On each Voicemeeter application, there are different amounts of busses
     ///
-    /// Application | Busses |
+    /// Application | Busses | Physical | Virtual
     /// :--- | :--- | :--- | :---
     /// Voicemeeter | total: `2` | total: `2` _(starting on bus #0)_ | total: `0`
     /// Voicemeeter Banana | total: `5` | total: `3` _(starting on bus #0)_ | total: `2` _(starting on bus #3)_
