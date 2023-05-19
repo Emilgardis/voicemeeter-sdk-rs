@@ -1,4 +1,10 @@
 //! Functions and data types for setting parameter values.
+//!
+//! # Functions
+//!
+//! * [`set_parameter_float`](VoicemeeterRemote::set_parameter_float)
+//! * [`set_parameter_string`](VoicemeeterRemote::set_parameter_string)
+//! * [`set_parameters`](VoicemeeterRemote::set_parameters)
 use std::ffi::CString;
 
 use crate::types::ParameterNameRef;
@@ -6,7 +12,7 @@ use crate::types::ParameterNameRef;
 use crate::VoicemeeterRemote;
 
 impl VoicemeeterRemote {
-    /// Set the float value of a parameter. See also [`VoicemeeterRemote::parameters()`]
+    /// Set the float value of a parameter. See also [`VoicemeeterRemote::parameters()`] to do this with functions.
     #[tracing::instrument(skip(self))]
     pub fn set_parameter_float(
         &self,
@@ -30,7 +36,7 @@ impl VoicemeeterRemote {
         }
     }
 
-    /// Set the string value of a parameter. See also [`VoicemeeterRemote::parameters()`]
+    /// Set the string value of a parameter. See also [`VoicemeeterRemote::parameters()`] to do this with functions.
     #[tracing::instrument(skip(self))]
     pub fn set_parameter_string(
         &self,

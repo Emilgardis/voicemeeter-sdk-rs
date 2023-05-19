@@ -1,7 +1,7 @@
 //! Communication with and to Voicemeeter
 //!
 //! # Functions
-//!
+//! * `login` is implicitly called when creating a new [`VoicemeeterRemote`] instance.
 //! * [`logout`](VoicemeeterRemote::logout)
 //! * [`run_voicemeeter`](VoicemeeterRemote::run_voicemeeter)
 use crate::types::VoicemeeterApplication;
