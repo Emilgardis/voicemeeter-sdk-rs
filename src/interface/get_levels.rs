@@ -1,4 +1,10 @@
 //! Level and midi related functions
+//!
+//! # Functions
+//!
+//! * [`get_level`](VoicemeeterRemote::get_level)
+//! * [`get_midi_message`](VoicemeeterRemote::get_midi_message)
+//! * [`get_midi_message_buff`](VoicemeeterRemote::get_midi_message_buff)
 use std::ptr;
 
 pub use crate::types::{Device, LevelType};

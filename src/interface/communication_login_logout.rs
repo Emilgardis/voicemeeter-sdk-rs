@@ -1,4 +1,9 @@
 //! Communication with and to Voicemeeter
+//!
+//! # Functions
+//!
+//! * [`logout`](VoicemeeterRemote::logout)
+//! * [`run_voicemeeter`](VoicemeeterRemote::run_voicemeeter)
 use crate::types::VoicemeeterApplication;
 
 use super::VoicemeeterRemote;
@@ -14,6 +19,10 @@ impl VoicemeeterRemote {
         }
     }
     /// Logout from the voicemeeter instance.
+    ///
+    /// # Notes
+    ///
+    /// [`VoicemeeterRemote::new`] will automatically login.
     pub fn logout(mut self) -> Result<(), LogoutError> {
         self._logout()?;
         Ok(())

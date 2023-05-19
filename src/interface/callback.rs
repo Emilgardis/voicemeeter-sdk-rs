@@ -1,4 +1,6 @@
 //! Callback function
+//!
+//! See [`VoicemeeterRemote::audio_callback_register`](crate::VoicemeeterRemote::audio_callback_register) for how to register and use callbacks.
 pub mod commands;
 pub mod data;
 pub mod register;

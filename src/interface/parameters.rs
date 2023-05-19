@@ -2,6 +2,11 @@
 //!
 //! Note that if your application exits quickly after setting a parameter, voicemeeter may not update.
 //! If you do this, you should maybe insert a small sleep before dropping the remote.'
+//!
+//! # Functions
+//!
+//! * [`parameters`](VoicemeeterRemote::parameters)
+
 // FIXME: file above as an issue upstream, is this an issue?
 use std::borrow::Cow;
 use std::fmt::Debug;
