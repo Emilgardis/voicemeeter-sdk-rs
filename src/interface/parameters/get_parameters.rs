@@ -1,4 +1,11 @@
 //! Parameter related functions and types
+//!
+//! # Functions
+//!
+//! * [`parameters`](VoicemeeterRemote::parameters)
+//! * [`is_parameters_dirty`](VoicemeeterRemote::is_parameters_dirty)
+//! * [`get_parameter_float`](VoicemeeterRemote::get_parameter_float)
+//! * [`get_parameter_string`](VoicemeeterRemote::get_parameter_string)
 use std::{
     ffi::{CStr, CString, NulError},
     os::raw::c_char,
@@ -30,7 +37,7 @@ impl VoicemeeterRemote {
         }
     }
 
-    /// Get the float value of a parameter. See also [`VoicemeeterRemote::parameters()`]
+    /// Get the float value of a parameter. See also [`VoicemeeterRemote::parameters()`] to do this with functions.
     #[tracing::instrument(skip(self))]
     pub fn get_parameter_float(&self, param: &ParameterNameRef) -> Result<f32, GetParameterError> {
         let mut f = 0.0f32;
@@ -55,7 +62,7 @@ impl VoicemeeterRemote {
         }
     }
 
-    /// Get the string value of a parameter. See also [`VoicemeeterRemote::parameters()`]
+    /// Get the string value of a parameter. See also [`VoicemeeterRemote::parameters()`] to do this with functions.
     #[tracing::instrument(skip(self))]
     pub fn get_parameter_string(
         &self,

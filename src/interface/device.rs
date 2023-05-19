@@ -1,4 +1,11 @@
 //! Device related interfaces.
+//!
+//! # Functions
+//!
+//! * [`get_total_input_device`](VoicemeeterRemote::get_total_input_device)
+//! * [`get_total_output_device`](VoicemeeterRemote::get_total_output_device)
+//! * [`get_input_device`](VoicemeeterRemote::get_input_device)
+//! * [`get_output_device`](VoicemeeterRemote::get_output_device)
 use std::{ffi::CStr, os::raw::c_char, ptr};
 
 use crate::{

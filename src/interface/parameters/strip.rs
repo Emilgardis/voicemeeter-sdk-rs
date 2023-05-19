@@ -1,7 +1,32 @@
 //! Strip parameters
 use super::*;
 
-/// Parameters for a bus.
+/// Parameters for a strip.
+///
+/// A strip is a physical or virtual input.
+///
+/// # Example
+///
+/// ```rust,no_run
+/// use voicemeeter::VoicemeeterRemote;
+///
+/// // Get the client.
+/// let remote = VoicemeeterRemote::new()?;
+///
+/// // Get the label of strip 1 (index 0)
+/// println!("{}", remote.parameters().strip(0)?.label().get()?);
+/// // Set strip 3 (index 2) to output to A1
+/// remote.parameters().strip(2)?.a1().set(true)?;
+///
+/// // Ensure the change is registered.
+/// remote.is_parameters_dirty()?;
+///
+/// // We need to sleep here because otherwise the change won't be registered,
+/// // in a long running program this is not needed.
+/// std::thread::sleep(std::time::Duration::from_millis(50));
+///
+/// # Ok::<(), Box<dyn std::error::Error>>(())
+/// ```
 pub struct Strip<'a> {
     remote: &'a VoicemeeterRemote,
     strip_index: ZIndex,
@@ -230,39 +255,39 @@ impl<'a> Strip<'a> {
         StringParameter::new(self.param("Label"), self.remote)
     }
 
-    /// Out BUS Assignation
+    /// Out BUS Assignation for A1
     pub fn a1(&self) -> BoolParameter {
         BoolParameter::new(self.param("A1"), self.remote)
     }
-
-    /// Out BUS Assignation
+    /// Out BUS Assignation for A2
     pub fn a2(&self) -> BoolParameter {
         BoolParameter::new(self.param("A2"), self.remote)
     }
-    /// Out BUS Assignation
+    /// Out BUS Assignation for A3
     pub fn a3(&self) -> BoolParameter {
         BoolParameter::new(self.param("A3"), self.remote)
     }
-    /// Out BUS Assignation
+    /// Out BUS Assignation for A4
     pub fn a4(&self) -> BoolParameter {
         BoolParameter::new(self.param("A4"), self.remote)
     }
-    /// Out BUS Assignation
+    /// Out BUS Assignation for A5
     pub fn a5(&self) -> BoolParameter {
         BoolParameter::new(self.param("A5"), self.remote)
     }
-    /// Out BUS Assignation
+    /// Out BUS Assignation for B1
     pub fn b1(&self) -> BoolParameter {
         BoolParameter::new(self.param("B1"), self.remote)
     }
-    /// Out BUS Assignation
+    /// Out BUS Assignation for B2
     pub fn b2(&self) -> BoolParameter {
         BoolParameter::new(self.param("B2"), self.remote)
     }
-    /// Out BUS Assignation
+    /// Out BUS Assignation for B3
     pub fn b3(&self) -> BoolParameter {
         BoolParameter::new(self.param("B3"), self.remote)
     }
+
     /// Fade to
     pub fn fade_to(&self) -> TupleParameter<'_, i32, usize> {
         TupleParameter::new(self.param("FadeTo"), self.remote)

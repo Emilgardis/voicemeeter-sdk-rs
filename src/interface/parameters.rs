@@ -2,6 +2,11 @@
 //!
 //! Note that if your application exits quickly after setting a parameter, voicemeeter may not update.
 //! If you do this, you should maybe insert a small sleep before dropping the remote.'
+//!
+//! # Functions
+//!
+//! * [`parameters`](VoicemeeterRemote::parameters)
+
 // FIXME: file above as an issue upstream, is this an issue?
 use std::borrow::Cow;
 use std::fmt::Debug;
@@ -28,7 +33,7 @@ use self::get_parameters::GetParameterError;
 use self::set_parameters::SetParameterError;
 
 impl VoicemeeterRemote {
-    /// Get access to parameters of the application.
+    /// Get access to [parameters](Parameters) of the application.
     ///
     /// # Examples
     ///
@@ -36,10 +41,15 @@ impl VoicemeeterRemote {
     /// use voicemeeter::VoicemeeterRemote;
     ///
     /// # let remote: VoicemeeterRemote = todo!();
+    /// println!("Strip 0: {}", remote.parameters().strip(0)?.label().get()?);
+    ///
     /// println!(
-    ///     "Strip 0: {}",
-    ///     remote.parameters().strip(0)?.device()?.name().get()?
+    ///     "Bus 0 (A1) Device: {}",
+    ///     remote.parameters().bus(0)?.device().name().get()?
     /// );
+    ///
+    /// // Enable A1 on strip 0
+    /// remote.parameters().strip(0)?.a1().set(true)?;
     ///
     /// # Ok::<(), Box<dyn std::error::Error>>(())
     /// ```
@@ -241,9 +251,10 @@ pub struct Parameters<'a> {
 
 // TODO: Add `recorder`, `patch` and `vban`
 impl<'a> Parameters<'a> {
-    /// Parameters of a strip.
+    /// Parameters of a [strip](Strip).
     ///
     /// A strip is a input that can be physical or virtual
+    ///
     ///
     /// # Availability
     ///
@@ -265,9 +276,19 @@ impl<'a> Parameters<'a> {
         })
     }
 
-    /// Parameters of a bus.
+    /// Parameters of a [bus](Bus).
     ///
-    /// A bus is a output.
+    /// A bus is a output. In the interface, these are called `A1`, `A2`, `A3`, `B1`, etc.
+    ///
+    /// # Availability
+    ///
+    /// On each Voicemeeter application, there are different amounts of busses
+    ///
+    /// Application | Busses |
+    /// :--- | :--- | :--- | :---
+    /// Voicemeeter | total: `2` | total: `2` _(starting on bus #0)_ | total: `0`
+    /// Voicemeeter Banana | total: `5` | total: `3` _(starting on bus #0)_ | total: `2` _(starting on bus #3)_
+    /// Voicemeeter Potato | total: `8` | total: `5` _(starting on bus #0)_ | total: `3` _(starting on bus #5)_
     pub fn bus(&self, index: impl Into<ZIndex>) -> Result<Bus<'a>, OutOfRangeError> {
         let index = index.into();
         Ok(match (self.remote.program, index.0) {

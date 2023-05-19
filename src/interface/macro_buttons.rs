@@ -1,4 +1,12 @@
 //! Functions and data types for macro buttons.
+//!
+//! # Functions
+//!
+//! * [`is_macrobutton_dirty`](VoicemeeterRemote::is_macrobutton_dirty)
+//! * [`get_macrobutton_state`](VoicemeeterRemote::get_macrobutton_state)
+//! * [`set_macrobutton_state`](VoicemeeterRemote::set_macrobutton_state)
+//! * [`get_macrobutton_trigger_state`](VoicemeeterRemote::get_macrobutton_trigger_state)
+//! * [`set_macrobutton_trigger_state`](VoicemeeterRemote::set_macrobutton_trigger_state)
 use crate::{bindings::VBVMR_MACROBUTTON_MODE, types::LogicalButton};
 
 use super::VoicemeeterRemote;

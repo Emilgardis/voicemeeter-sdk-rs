@@ -2,6 +2,32 @@
 use super::*;
 
 /// Parameters for a bus.
+///
+/// A bus is a output.
+///
+/// # Example
+///
+/// ```rust,no_run
+/// use voicemeeter::VoicemeeterRemote;
+///
+/// // Get the client.
+/// let remote = VoicemeeterRemote::new()?;
+///
+/// // Get the label of bus A1 (index 0)
+/// println!("{}", remote.parameters().bus(0)?.label().get()?);
+///
+/// // Mute bus A4 (index 5)
+/// remote.parameters().bus(2)?.mute().set(true)?;
+///
+/// // Ensure the change is registered.
+/// remote.is_parameters_dirty()?;
+///
+/// // We need to sleep here because otherwise changes won't be registered,
+/// // in a long running program this is not needed.
+/// std::thread::sleep(std::time::Duration::from_millis(50));
+///
+/// # Ok::<(), Box<dyn std::error::Error>>(())
+/// ```
 pub struct Bus<'a> {
     remote: &'a VoicemeeterRemote,
     strip_index: ZIndex,

@@ -1,4 +1,9 @@
 //! General information about the running Voicemeeter instance.
+//!
+//! # Functions
+//!
+//! * [`get_voicemeeter_type`](VoicemeeterRemote::get_voicemeeter_type)
+//! * [`get_voicemeeter_version`](VoicemeeterRemote::get_voicemeeter_version)
 use crate::types::VoicemeeterApplication;
 
 use super::VoicemeeterRemote;
