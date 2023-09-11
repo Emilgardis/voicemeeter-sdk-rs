@@ -38,7 +38,7 @@ default = ["interface"]
 interface = []
 
 [workspace]
-default-members = [".", "xtask"]
+default-members = ["."]
 members = ["codegen", "miri", "xtask"]
 
 [patch.crates-io]
