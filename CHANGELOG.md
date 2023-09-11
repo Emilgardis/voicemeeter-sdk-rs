@@ -4,7 +4,11 @@
 
 ## [Unreleased] - ReleaseDate
 
-[Commits](https://github.com/Emilgardis/voicemeeter-sdk-rs/compare/v0.1.1...Unreleased)
+[Commits](https://github.com/Emilgardis/voicemeeter-sdk-rs/compare/v0.2.0...Unreleased)
+
+## [v0.2.0] - 2023-09-11
+
+[Commits](https://github.com/Emilgardis/voicemeeter-sdk-rs/compare/v0.1.1...v0.2.0)
 
 ### Breaking changes
 
