@@ -85,16 +85,16 @@ impl<'a> Strip<'a> {
     }
 
     /// Gain slider
-    pub fn gain(&self) -> IntParameter {
-        IntParameter::new(self.param("Gain"), self.remote, -60..=12)
+    pub fn gain(&self) -> FloatParameter {
+        FloatParameter::new(self.param("Gain"), self.remote, -60.0..=12.0)
     }
 
     // TODO: zindex for bus
     /// Gain slider for a bus
-    pub fn gain_layer(&self, layer: impl Into<ZIndex>) -> IntParameter {
+    pub fn gain_layer(&self, layer: impl Into<ZIndex>) -> FloatParameter {
         let layer = layer.into();
         let name = self.param(format!("GainLayer[{layer}]"));
-        IntParameter::new(name, self.remote, -60..=12)
+        FloatParameter::new(name, self.remote, -60.0..=12.0)
     }
 
     // TODO: zindex for bus
@@ -203,7 +203,7 @@ impl<'a> Strip<'a> {
     }
 
     /// EQGain1 of virtual strip
-    pub fn eq_gain1(&self) -> Result<IntParameter, InvalidTypeError> {
+    pub fn eq_gain1(&self) -> Result<FloatParameter, InvalidTypeError> {
         if self.is_physical() {
             Err(InvalidTypeError::ExpectedPhysical {
                 name: STRIP,
@@ -211,16 +211,16 @@ impl<'a> Strip<'a> {
                 parameter: "EQGain1".to_string(),
             })
         } else {
-            Ok(IntParameter::new(
+            Ok(FloatParameter::new(
                 self.param("EQGain1"),
                 self.remote,
-                -12..=12,
+                -12.0..=12.0,
             ))
         }
     }
 
     /// EQGain2 of virtual strip
-    pub fn eq_gain2(&self) -> Result<IntParameter, InvalidTypeError> {
+    pub fn eq_gain2(&self) -> Result<FloatParameter, InvalidTypeError> {
         if self.is_physical() {
             Err(InvalidTypeError::ExpectedPhysical {
                 name: STRIP,
@@ -228,16 +228,16 @@ impl<'a> Strip<'a> {
                 parameter: "EQGain2".to_string(),
             })
         } else {
-            Ok(IntParameter::new(
+            Ok(FloatParameter::new(
                 self.param("EQGain2"),
                 self.remote,
-                -12..=12,
+                -12.0..=12.0,
             ))
         }
     }
 
     /// EQGain3 of virtual strip
-    pub fn eq_gain3(&self) -> Result<IntParameter, InvalidTypeError> {
+    pub fn eq_gain3(&self) -> Result<FloatParameter, InvalidTypeError> {
         if self.is_physical() {
             Err(InvalidTypeError::ExpectedPhysical {
                 name: STRIP,
@@ -245,10 +245,10 @@ impl<'a> Strip<'a> {
                 parameter: "EQGain3".to_string(),
             })
         } else {
-            Ok(IntParameter::new(
+            Ok(FloatParameter::new(
                 self.param("EQGain3"),
                 self.remote,
-                -12..=12,
+                -12.0..=12.0,
             ))
         }
     }
