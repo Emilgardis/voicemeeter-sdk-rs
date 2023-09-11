@@ -305,6 +305,8 @@
 <a href="#305" id="305">305</a>
 <a href="#306" id="306">306</a>
 <a href="#307" id="307">307</a>
+<a href="#308" id="308">308</a>
+<a href="#309" id="309">309</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Functions for setting and getting parameter values.
 //!
 //! Note that if your application exits quickly after setting a parameter, voicemeeter may not update.
@@ -323,18 +325,20 @@
 <span class="kw">use </span><span class="kw">crate</span>::types::{<a href="../types.rs.html#331-356">BusMode</a>, <a href="../types.rs.html#61">ParameterNameRef</a>, <a href="../types.rs.html#67-78">VoicemeeterApplication</a>, <a href="../types.rs.html#6">ZIndex</a>};
 <span class="kw">use </span><a href="../interface.rs.html#21-25"><span class="kw">crate</span>::VoicemeeterRemote</a>;
 
-<span class="kw">mod </span><a href="../interface\parameters/errors.rs.html#1-44">errors</a>;
+<span class="kw">mod </span><a href="../interface\parameters/errors.rs.html#1-56">errors</a>;
 
-<span class="kw">pub mod </span><a href="../interface\parameters/bus.rs.html#1-393">bus</a>;
+<span class="kw">pub mod </span><a href="../interface\parameters/bus.rs.html#1-329">bus</a>;
+<span class="kw">pub mod </span><a href="../interface\parameters/eq.rs.html#1-81">eq</a>;
 <span class="kw">pub mod </span><a href="../interface\parameters/get_parameters.rs.html#1-134">get_parameters</a>;
 <span class="kw">pub mod </span><a href="../interface\parameters/option.rs.html#1-74">option</a>;
 <span class="kw">pub mod </span><a href="../interface\parameters/set_parameters.rs.html#1-107">set_parameters</a>;
-<span class="kw">pub mod </span><a href="../interface\parameters/strip.rs.html#1-419">strip</a>;
+<span class="kw">pub mod </span><a href="../interface\parameters/strip.rs.html#1-435">strip</a>;
 
 <span class="kw">pub use </span><a href="#21">bus</a>::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><a href="#22">eq</a>::<span class="kw-2">*</span>;
 <span class="kw">pub use </span><a href="#19">errors</a>::<span class="kw-2">*</span>;
-<span class="kw">pub use </span><a href="#23">option</a>::<span class="kw-2">*</span>;
-<span class="kw">pub use </span><a href="#25">strip</a>::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><a href="#24">option</a>::<span class="kw-2">*</span>;
+<span class="kw">pub use </span><a href="#26">strip</a>::<span class="kw-2">*</span>;
 
 <span class="kw">use </span><a href="../interface\parameters/get_parameters.rs.html#101-120"><span class="self">self</span>::get_parameters::GetParameterError</a>;
 <span class="kw">use </span><a href="../interface\parameters/set_parameters.rs.html#93-107"><span class="self">self</span>::set_parameters::SetParameterError</a>;
@@ -360,8 +364,8 @@
     ///
     /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
     /// ```
-    </span><span class="kw">pub fn </span>parameters(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="#248-250">Parameters</a> {
-        <a href="#248-250">Parameters</a> { remote: <span class="self"><a href="#56">self</a> </span>}
+    </span><span class="kw">pub fn </span>parameters(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="#250-252">Parameters</a> {
+        <a href="#250-252">Parameters</a> { remote: <span class="self"><a href="#58">self</a> </span>}
     }
 }
 
@@ -374,37 +378,37 @@
     _range: <span class="prelude-ty">Option</span>&lt;(Bound&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>&gt;, Bound&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>&gt;)&gt;,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw">const </span>WRITE: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <span class="kw">const </span>READ: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt; FloatParameter&lt;<span class="lifetime">&#39;a</span>, <a href="#70">WRITE</a>, <a href="#70">READ</a>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw">const </span>WRITE: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <span class="kw">const </span>READ: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt; FloatParameter&lt;<span class="lifetime">&#39;a</span>, <a href="#72">WRITE</a>, <a href="#72">READ</a>&gt; {
     <span class="kw">fn </span>new&lt;R&gt;(name: Cow&lt;<span class="lifetime">&#39;a</span>, <a href="../types.rs.html#61">ParameterNameRef</a>&gt;, remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a>, range: R) -&gt; <span class="self">Self
     </span><span class="kw">where
         </span>R: RangeBounds&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>&gt;,
     {
         <span class="self">Self </span>{
-            <a href="#71">name</a>,
-            <a href="#71">remote</a>,
-            _range: <span class="prelude-val">Some</span>((<a href="#71">range</a>.<a href="https://doc.rust-lang.org/nightly/core/ops/range/trait.RangeBounds.html">start_bound</a>().cloned(), <a href="#71">range</a>.<a href="https://doc.rust-lang.org/nightly/core/ops/range/trait.RangeBounds.html">end_bound</a>().cloned())),
+            <a href="#73">name</a>,
+            <a href="#73">remote</a>,
+            _range: <span class="prelude-val">Some</span>((<a href="#73">range</a>.<a href="https://doc.rust-lang.org/nightly/core/ops/range/trait.RangeBounds.html">start_bound</a>().cloned(), <a href="#73">range</a>.<a href="https://doc.rust-lang.org/nightly/core/ops/range/trait.RangeBounds.html">end_bound</a>().cloned())),
         }
     }
     <span class="kw">fn </span>new_unranged(name: Cow&lt;<span class="lifetime">&#39;a</span>, <a href="../types.rs.html#61">ParameterNameRef</a>&gt;, remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            <a href="#81">name</a>,
-            <a href="#81">remote</a>,
+            <a href="#83">name</a>,
+            <a href="#83">remote</a>,
             _range: <span class="prelude-val">None</span>,
         }
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw">const </span>READ: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt; FloatParameter&lt;<span class="lifetime">&#39;a</span>, <span class="bool-val">true</span>, <a href="#90">READ</a>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw">const </span>READ: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt; FloatParameter&lt;<span class="lifetime">&#39;a</span>, <span class="bool-val">true</span>, <a href="#92">READ</a>&gt; {
     <span class="doccomment">/// Set the value of this parameter
     </span><span class="kw">pub fn </span>set(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="../interface\parameters/set_parameters.rs.html#93-107">SetParameterError</a>&gt; {
-        <a class="self" href="#92">self</a>.remote.<a href="../interface\parameters/set_parameters.rs.html#16">set_parameter_float</a>(<span class="kw-2">&amp;</span><a class="self" href="#92">self</a>.name, <a href="#92">val</a>)
+        <a class="self" href="#94">self</a>.remote.<a href="../interface\parameters/set_parameters.rs.html#16">set_parameter_float</a>(<span class="kw-2">&amp;</span><a class="self" href="#94">self</a>.name, <a href="#94">val</a>)
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw">const </span>WRITE: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt; FloatParameter&lt;<span class="lifetime">&#39;a</span>, <a href="#97">WRITE</a>, <span class="bool-val">true</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw">const </span>WRITE: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt; FloatParameter&lt;<span class="lifetime">&#39;a</span>, <a href="#99">WRITE</a>, <span class="bool-val">true</span>&gt; {
     <span class="doccomment">/// Get the value of this parameter
     </span><span class="kw">pub fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>, <a href="../interface\parameters/get_parameters.rs.html#101-120">GetParameterError</a>&gt; {
-        <a class="self" href="#99">self</a>.remote.<a href="../interface\parameters/get_parameters.rs.html#41">get_parameter_float</a>(<span class="kw-2">&amp;</span><a class="self" href="#99">self</a>.name)
+        <a class="self" href="#101">self</a>.remote.<a href="../interface\parameters/get_parameters.rs.html#41">get_parameter_float</a>(<span class="kw-2">&amp;</span><a class="self" href="#101">self</a>.name)
     }
 }
 
@@ -416,23 +420,23 @@
     remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a>,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw">const </span>WRITE: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <span class="kw">const </span>READ: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt; StringParameter&lt;<span class="lifetime">&#39;a</span>, <a href="#112">WRITE</a>, <a href="#112">READ</a>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw">const </span>WRITE: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <span class="kw">const </span>READ: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt; StringParameter&lt;<span class="lifetime">&#39;a</span>, <a href="#114">WRITE</a>, <a href="#114">READ</a>&gt; {
     <span class="kw">fn </span>new(name: Cow&lt;<span class="lifetime">&#39;a</span>, <a href="../types.rs.html#61">ParameterNameRef</a>&gt;, remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a>) -&gt; <span class="self">Self </span>{
-        <span class="self">Self </span>{ <a href="#113">name</a>, <a href="#113">remote</a> }
+        <span class="self">Self </span>{ <a href="#115">name</a>, <a href="#115">remote</a> }
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw">const </span>READ: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt; StringParameter&lt;<span class="lifetime">&#39;a</span>, <span class="bool-val">true</span>, <a href="#118">READ</a>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw">const </span>READ: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt; StringParameter&lt;<span class="lifetime">&#39;a</span>, <span class="bool-val">true</span>, <a href="#120">READ</a>&gt; {
     <span class="doccomment">/// Set the value of this parameter
     </span><span class="kw">pub fn </span>set(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <span class="kw-2">&amp;</span><a href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="../interface\parameters/set_parameters.rs.html#93-107">SetParameterError</a>&gt; {
-        <a class="self" href="#120">self</a>.remote.<a href="../interface\parameters/set_parameters.rs.html#40">set_parameter_string</a>(<span class="kw-2">&amp;</span><a class="self" href="#120">self</a>.name, <a href="#120">val</a>)
+        <a class="self" href="#122">self</a>.remote.<a href="../interface\parameters/set_parameters.rs.html#40">set_parameter_string</a>(<span class="kw-2">&amp;</span><a class="self" href="#122">self</a>.name, <a href="#122">val</a>)
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw">const </span>WRITE: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt; StringParameter&lt;<span class="lifetime">&#39;a</span>, <a href="#125">WRITE</a>, <span class="bool-val">true</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw">const </span>WRITE: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt; StringParameter&lt;<span class="lifetime">&#39;a</span>, <a href="#127">WRITE</a>, <span class="bool-val">true</span>&gt; {
     <span class="doccomment">/// Get the value of this parameter
     </span><span class="kw">pub fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html">String</a>, <a href="../interface\parameters/get_parameters.rs.html#101-120">GetParameterError</a>&gt; {
-        <a class="self" href="#127">self</a>.remote.<a href="../interface\parameters/get_parameters.rs.html#66">get_parameter_string</a>(<span class="kw-2">&amp;</span><a class="self" href="#127">self</a>.name)
+        <a class="self" href="#129">self</a>.remote.<a href="../interface\parameters/get_parameters.rs.html#66">get_parameter_string</a>(<span class="kw-2">&amp;</span><a class="self" href="#129">self</a>.name)
     }
 }
 
@@ -445,25 +449,25 @@
     _pd: std::marker::PhantomData&lt;(A, B)&gt;,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, A, B, <span class="kw">const </span>WRITE: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <span class="kw">const </span>READ: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt; TupleParameter&lt;<span class="lifetime">&#39;a</span>, A, B, <a href="#141">WRITE</a>, <a href="#141">READ</a>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, A, B, <span class="kw">const </span>WRITE: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <span class="kw">const </span>READ: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt; TupleParameter&lt;<span class="lifetime">&#39;a</span>, A, B, <a href="#143">WRITE</a>, <a href="#143">READ</a>&gt; {
     <span class="kw">fn </span>new(name: Cow&lt;<span class="lifetime">&#39;a</span>, <a href="../types.rs.html#61">ParameterNameRef</a>&gt;, remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            <a href="#142">name</a>,
-            <a href="#142">remote</a>,
+            <a href="#144">name</a>,
+            <a href="#144">remote</a>,
             _pd: <a href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html">Default::default</a>(),
         }
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, A, B, <span class="kw">const </span>READ: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt; TupleParameter&lt;<span class="lifetime">&#39;a</span>, A, B, <span class="bool-val">true</span>, <a href="#151">READ</a>&gt;
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, A, B, <span class="kw">const </span>READ: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt; TupleParameter&lt;<span class="lifetime">&#39;a</span>, A, B, <span class="bool-val">true</span>, <a href="#153">READ</a>&gt;
 <span class="kw">where
     </span>A: <a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html">Debug</a>,
     B: <a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html">Debug</a>,
 {
     <span class="doccomment">/// Set the value of this parameter
     </span><span class="kw">pub fn </span>set(<span class="kw-2">&amp;</span><span class="self">self</span>, val_a: A, val_b: B) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="../interface\parameters/set_parameters.rs.html#93-107">SetParameterError</a>&gt; {
-        <a class="self" href="#157">self</a>.remote
-            .<a href="../interface\parameters/set_parameters.rs.html#40">set_parameter_string</a>(<span class="kw-2">&amp;</span><a class="self" href="#157">self</a>.name, <span class="kw-2">&amp;</span><a class="macro" href="https://doc.rust-lang.org/nightly/alloc/macro.format.html">format!</a>(<span class="string">&quot;({:?}, {:?})&quot;</span>, val_a, val_b))
+        <a class="self" href="#159">self</a>.remote
+            .<a href="../interface\parameters/set_parameters.rs.html#40">set_parameter_string</a>(<span class="kw-2">&amp;</span><a class="self" href="#159">self</a>.name, <span class="kw-2">&amp;</span><a class="macro" href="https://doc.rust-lang.org/nightly/alloc/macro.format.html">format!</a>(<span class="string">&quot;({:?}, {:?})&quot;</span>, val_a, val_b))
     }
 }
 
@@ -475,21 +479,21 @@
     remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a>,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw">const </span>WRITE: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <span class="kw">const </span>READ: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt; BoolParameter&lt;<span class="lifetime">&#39;a</span>, <a href="#171">WRITE</a>, <a href="#171">READ</a>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw">const </span>WRITE: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <span class="kw">const </span>READ: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt; BoolParameter&lt;<span class="lifetime">&#39;a</span>, <a href="#173">WRITE</a>, <a href="#173">READ</a>&gt; {
     <span class="kw">fn </span>new(name: Cow&lt;<span class="lifetime">&#39;a</span>, <a href="../types.rs.html#61">ParameterNameRef</a>&gt;, remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a>) -&gt; <span class="self">Self </span>{
-        <span class="self">Self </span>{ <a href="#172">name</a>, <a href="#172">remote</a> }
+        <span class="self">Self </span>{ <a href="#174">name</a>, <a href="#174">remote</a> }
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw">const </span>READ: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt; BoolParameter&lt;<span class="lifetime">&#39;a</span>, <span class="bool-val">true</span>, <a href="#177">READ</a>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw">const </span>READ: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt; BoolParameter&lt;<span class="lifetime">&#39;a</span>, <span class="bool-val">true</span>, <a href="#179">READ</a>&gt; {
     <span class="doccomment">/// Set the value of this parameter
     </span><span class="kw">pub fn </span>set(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="../interface\parameters/set_parameters.rs.html#93-107">SetParameterError</a>&gt; {
-        <a class="self" href="#179">self</a>.remote
-            .<a href="../interface\parameters/set_parameters.rs.html#16">set_parameter_float</a>(<span class="kw-2">&amp;</span><a class="self" href="#179">self</a>.name, <span class="kw">if </span>val { <span class="number">1.0 </span>} <span class="kw">else </span>{ <span class="number">0.0 </span>})
+        <a class="self" href="#181">self</a>.remote
+            .<a href="../interface\parameters/set_parameters.rs.html#16">set_parameter_float</a>(<span class="kw-2">&amp;</span><a class="self" href="#181">self</a>.name, <span class="kw">if </span>val { <span class="number">1.0 </span>} <span class="kw">else </span>{ <span class="number">0.0 </span>})
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw">const </span>WRITE: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt; BoolParameter&lt;<span class="lifetime">&#39;a</span>, <a href="#185">WRITE</a>, <span class="bool-val">true</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw">const </span>WRITE: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt; BoolParameter&lt;<span class="lifetime">&#39;a</span>, <a href="#187">WRITE</a>, <span class="bool-val">true</span>&gt; {
     <span class="doccomment">/// Get the value of this parameter
     </span><span class="kw">pub fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="../interface\parameters/get_parameters.rs.html#101-120">GetParameterError</a>&gt; {
         <span class="prelude-val">Ok</span>(<span class="self">self</span>.remote.get_parameter_float(<span class="kw-2">&amp;</span><span class="self">self</span>.name)<span class="question-mark">? </span>== <span class="number">1.0</span>)
@@ -505,34 +509,34 @@
     _range: <span class="prelude-ty">Option</span>&lt;(Bound&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>&gt;, Bound&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>&gt;)&gt;,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw">const </span>WRITE: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <span class="kw">const </span>READ: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt; IntParameter&lt;<span class="lifetime">&#39;a</span>, <a href="#201">WRITE</a>, <a href="#201">READ</a>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw">const </span>WRITE: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <span class="kw">const </span>READ: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt; IntParameter&lt;<span class="lifetime">&#39;a</span>, <a href="#203">WRITE</a>, <a href="#203">READ</a>&gt; {
     <span class="kw">fn </span>new&lt;R&gt;(name: Cow&lt;<span class="lifetime">&#39;a</span>, <a href="../types.rs.html#61">ParameterNameRef</a>&gt;, remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a>, range: R) -&gt; <span class="self">Self
     </span><span class="kw">where
         </span>R: RangeBounds&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>&gt;,
     {
         <span class="self">Self </span>{
-            <a href="#202">name</a>,
-            <a href="#202">remote</a>,
-            _range: <span class="prelude-val">Some</span>((<a href="#202">range</a>.<a href="https://doc.rust-lang.org/nightly/core/ops/range/trait.RangeBounds.html">start_bound</a>().cloned(), <a href="#202">range</a>.<a href="https://doc.rust-lang.org/nightly/core/ops/range/trait.RangeBounds.html">end_bound</a>().cloned())),
+            <a href="#204">name</a>,
+            <a href="#204">remote</a>,
+            _range: <span class="prelude-val">Some</span>((<a href="#204">range</a>.<a href="https://doc.rust-lang.org/nightly/core/ops/range/trait.RangeBounds.html">start_bound</a>().cloned(), <a href="#204">range</a>.<a href="https://doc.rust-lang.org/nightly/core/ops/range/trait.RangeBounds.html">end_bound</a>().cloned())),
         }
     }
     <span class="kw">fn </span>new_unranged(name: Cow&lt;<span class="lifetime">&#39;a</span>, <a href="../types.rs.html#61">ParameterNameRef</a>&gt;, remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            <a href="#212">name</a>,
-            <a href="#212">remote</a>,
+            <a href="#214">name</a>,
+            <a href="#214">remote</a>,
             _range: <span class="prelude-val">None</span>,
         }
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw">const </span>READ: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt; IntParameter&lt;<span class="lifetime">&#39;a</span>, <span class="bool-val">true</span>, <a href="#221">READ</a>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw">const </span>READ: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt; IntParameter&lt;<span class="lifetime">&#39;a</span>, <span class="bool-val">true</span>, <a href="#223">READ</a>&gt; {
     <span class="doccomment">/// Set the value of this parameter
     </span><span class="kw">pub fn </span>set(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="../interface\parameters/set_parameters.rs.html#93-107">SetParameterError</a>&gt; {
-        <a class="self" href="#223">self</a>.remote.<a href="../interface\parameters/set_parameters.rs.html#16">set_parameter_float</a>(<span class="kw-2">&amp;</span><a class="self" href="#223">self</a>.name, <a href="#223">val</a> <span class="kw">as </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>)
+        <a class="self" href="#225">self</a>.remote.<a href="../interface\parameters/set_parameters.rs.html#16">set_parameter_float</a>(<span class="kw-2">&amp;</span><a class="self" href="#225">self</a>.name, <a href="#225">val</a> <span class="kw">as </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>)
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw">const </span>WRITE: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt; IntParameter&lt;<span class="lifetime">&#39;a</span>, <a href="#228">WRITE</a>, <span class="bool-val">true</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>, <span class="kw">const </span>WRITE: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt; IntParameter&lt;<span class="lifetime">&#39;a</span>, <a href="#230">WRITE</a>, <span class="bool-val">true</span>&gt; {
     <span class="doccomment">/// Get the value of this parameter
     </span><span class="kw">pub fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>, <a href="../interface\parameters/get_parameters.rs.html#101-120">GetParameterError</a>&gt; {
         <span class="prelude-val">Ok</span>(<span class="self">self</span>.remote.get_parameter_float(<span class="kw-2">&amp;</span><span class="self">self</span>.name)<span class="question-mark">? </span><span class="kw">as </span><a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>)
@@ -573,13 +577,13 @@
     /// Voicemeeter Banana | total: `5` | total: `3` _(starting on strip #0)_ | total: `2` _(starting on strip #3)_
     /// Voicemeeter Potato | total: `8` | total: `5` _(starting on strip #0)_ | total: `3` _(starting on strip #5)_
     </span><span class="kw">pub fn </span>strip(<span class="kw-2">&amp;</span><span class="self">self</span>, index: <span class="kw">impl </span>Into&lt;<a href="../types.rs.html#6">ZIndex</a>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;Strip&lt;<span class="lifetime">&#39;a</span>&gt;, <a href="../interface\parameters/errors.rs.html#10-15">OutOfRangeError</a>&gt; {
-        <span class="kw">let </span>index = <a href="#268">index</a>.<a href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html">into</a>();
-        <span class="prelude-val">Ok</span>(<span class="kw">match </span>(<a class="self" href="#268">self</a>.remote.program, <a href="#269">index</a>.<span class="number">0</span>) {
-            (<a href="../types.rs.html#69">VoicemeeterApplication::Voicemeeter</a>, <span class="number">0</span>..=<span class="number">2</span>) =&gt; Strip::new(<a class="self" href="#268">self</a>.remote, <a href="#269">index</a>),
-            (<a href="../types.rs.html#71">VoicemeeterApplication::VoicemeeterBanana</a>, <span class="number">0</span>..=<span class="number">4</span>) =&gt; Strip::new(<a class="self" href="#268">self</a>.remote, <a href="#269">index</a>),
+        <span class="kw">let </span>index = <a href="#270">index</a>.<a href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html">into</a>();
+        <span class="prelude-val">Ok</span>(<span class="kw">match </span>(<a class="self" href="#270">self</a>.remote.program, <a href="#271">index</a>.<span class="number">0</span>) {
+            (<a href="../types.rs.html#69">VoicemeeterApplication::Voicemeeter</a>, <span class="number">0</span>..=<span class="number">2</span>) =&gt; Strip::new(<a class="self" href="#270">self</a>.remote, <a href="#271">index</a>),
+            (<a href="../types.rs.html#71">VoicemeeterApplication::VoicemeeterBanana</a>, <span class="number">0</span>..=<span class="number">4</span>) =&gt; Strip::new(<a class="self" href="#270">self</a>.remote, <a href="#271">index</a>),
             (<a href="../types.rs.html#73">VoicemeeterApplication::VoicemeeterPotato</a>, <span class="number">0</span>..=<span class="number">7</span>)
-            | (<a href="../types.rs.html#75">VoicemeeterApplication::PotatoX64Bits</a>, <span class="number">0</span>..=<span class="number">7</span>) =&gt; Strip::new(<a class="self" href="#268">self</a>.remote, <a href="#269">index</a>),
-            <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(<a href="../interface\parameters/errors.rs.html#10-15">OutOfRangeError</a> { name: <a href="../interface\parameters/errors.rs.html#3">STRIP</a>, <a href="#269">index</a> }),
+            | (<a href="../types.rs.html#75">VoicemeeterApplication::PotatoX64Bits</a>, <span class="number">0</span>..=<span class="number">7</span>) =&gt; Strip::new(<a class="self" href="#270">self</a>.remote, <a href="#271">index</a>),
+            <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(<a href="../interface\parameters/errors.rs.html#10-15">OutOfRangeError</a> { name: <a href="../interface\parameters/errors.rs.html#3">STRIP</a>, <a href="#271">index</a> }),
         })
     }
 
@@ -597,19 +601,19 @@
     /// Voicemeeter Banana | total: `5` | total: `3` _(starting on bus #0)_ | total: `2` _(starting on bus #3)_
     /// Voicemeeter Potato | total: `8` | total: `5` _(starting on bus #0)_ | total: `3` _(starting on bus #5)_
     </span><span class="kw">pub fn </span>bus(<span class="kw-2">&amp;</span><span class="self">self</span>, index: <span class="kw">impl </span>Into&lt;<a href="../types.rs.html#6">ZIndex</a>&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;Bus&lt;<span class="lifetime">&#39;a</span>&gt;, <a href="../interface\parameters/errors.rs.html#10-15">OutOfRangeError</a>&gt; {
-        <span class="kw">let </span>index = <a href="#292">index</a>.<a href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html">into</a>();
-        <span class="prelude-val">Ok</span>(<span class="kw">match </span>(<a class="self" href="#292">self</a>.remote.program, <a href="#293">index</a>.<span class="number">0</span>) {
-            (<a href="../types.rs.html#69">VoicemeeterApplication::Voicemeeter</a>, <span class="number">0</span>..=<span class="number">1</span>) =&gt; Bus::new(<a class="self" href="#292">self</a>.remote, <a href="#293">index</a>),
-            (<a href="../types.rs.html#71">VoicemeeterApplication::VoicemeeterBanana</a>, <span class="number">0</span>..=<span class="number">4</span>) =&gt; Bus::new(<a class="self" href="#292">self</a>.remote, <a href="#293">index</a>),
+        <span class="kw">let </span>index = <a href="#294">index</a>.<a href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html">into</a>();
+        <span class="prelude-val">Ok</span>(<span class="kw">match </span>(<a class="self" href="#294">self</a>.remote.program, <a href="#295">index</a>.<span class="number">0</span>) {
+            (<a href="../types.rs.html#69">VoicemeeterApplication::Voicemeeter</a>, <span class="number">0</span>..=<span class="number">1</span>) =&gt; Bus::new(<a class="self" href="#294">self</a>.remote, <a href="#295">index</a>),
+            (<a href="../types.rs.html#71">VoicemeeterApplication::VoicemeeterBanana</a>, <span class="number">0</span>..=<span class="number">4</span>) =&gt; Bus::new(<a class="self" href="#294">self</a>.remote, <a href="#295">index</a>),
             (<a href="../types.rs.html#73">VoicemeeterApplication::VoicemeeterPotato</a>, <span class="number">0</span>..=<span class="number">7</span>)
-            | (<a href="../types.rs.html#75">VoicemeeterApplication::PotatoX64Bits</a>, <span class="number">0</span>..=<span class="number">7</span>) =&gt; Bus::new(<a class="self" href="#292">self</a>.remote, <a href="#293">index</a>),
-            <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(<a href="../interface\parameters/errors.rs.html#10-15">OutOfRangeError</a> { name: <a href="../interface\parameters/errors.rs.html#4">BUS</a>, <a href="#293">index</a> }),
+            | (<a href="../types.rs.html#75">VoicemeeterApplication::PotatoX64Bits</a>, <span class="number">0</span>..=<span class="number">7</span>) =&gt; Bus::new(<a class="self" href="#294">self</a>.remote, <a href="#295">index</a>),
+            <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(<a href="../interface\parameters/errors.rs.html#10-15">OutOfRangeError</a> { name: <a href="../interface\parameters/errors.rs.html#4">BUS</a>, <a href="#295">index</a> }),
         })
     }
 
     <span class="doccomment">/// Options for Voicemeeter
     </span><span class="kw">pub fn </span>option(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; VoicemeeterOption&lt;<span class="lifetime">&#39;a</span>&gt; {
-        VoicemeeterOption::new(<a class="self" href="#304">self</a>.remote)
+        VoicemeeterOption::new(<a class="self" href="#306">self</a>.remote)
     }
 }
 </code></pre></div></section></main></body></html>

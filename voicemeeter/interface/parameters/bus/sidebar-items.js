@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["Bus","BusDevice","BusModeParameter","EqChannelParameter"]};
+window.SIDEBAR_ITEMS = {"struct":["Bus","BusDevice","BusModeParameter"]};
