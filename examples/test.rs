@@ -17,7 +17,7 @@ pub fn main() -> Result<(), color_eyre::Report> {
     println!("{}", remote.get_voicemeeter_version()?);
     let mut stdout = std::io::stdout();
     let mut c = 0;
-    let val: u32 = std::env::args().nth(1).unwrap().parse()?;
+    let val: u32 = std::env::args().nth(1).unwrap_or("0".to_owned()).parse()?;
     remote.set_macrobutton_state(1, val == 1, false)?;
     loop {
         match remote.is_macrobutton_dirty() {
@@ -36,12 +36,20 @@ pub fn main() -> Result<(), color_eyre::Report> {
                 )?;
                 writeln!(stdout, "--- {}", c)?;
                 c += 1;
-                std::thread::sleep(std::time::Duration::from_millis(100));
             }
             e => {
-                std::thread::sleep(std::time::Duration::from_millis(100));
                 e?;
             }
         }
+        match remote.is_parameters_dirty() {
+            Ok(true) => {
+                dbg!(remote.parameters().bus(0)?.eq(0).gain(0).get()?);
+                dbg!(remote.parameters().strip(0)?.eq(0)?.gain(0).get()?);
+            }
+            e => {
+                e?;
+            }
+        }
+        std::thread::sleep(std::time::Duration::from_millis(100));
     }
 }

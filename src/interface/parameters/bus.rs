@@ -33,21 +33,18 @@ use super::*;
 /// ```
 pub struct Bus<'a> {
     remote: &'a VoicemeeterRemote,
-    strip_index: ZIndex,
+    bus_index: ZIndex,
 }
 
 impl<'a> Bus<'a> {
     #[doc(hidden)]
-    pub fn new(remote: &'a VoicemeeterRemote, strip_index: ZIndex) -> Self {
-        Bus {
-            remote,
-            strip_index,
-        }
+    pub fn new(remote: &'a VoicemeeterRemote, bus_index: ZIndex) -> Self {
+        Bus { remote, bus_index }
     }
 
     fn param(&self, dot: impl ToString) -> Cow<'static, ParameterNameRef> {
         // TODO: Should this maybe allow custom names?
-        Cow::Owned(format!("{BUS}[{}].{}", self.strip_index, dot.to_string()).into())
+        Cow::Owned(format!("{BUS}[{}].{}", self.bus_index, dot.to_string()).into())
     }
 
     /// Label
@@ -82,12 +79,12 @@ impl<'a> Bus<'a> {
 
     /// Bus mode Normal
     pub fn mode(&self) -> BusModeParameter {
-        BusModeParameter::new(self.remote, self.strip_index)
+        BusModeParameter::new(self.remote, self.bus_index)
     }
 
     /// EQ on channel
     pub fn eq(&self, channel: usize) -> EqChannelParameter {
-        EqChannelParameter::new(self.remote, self.strip_index, channel)
+        EqChannelParameter::new_bus(self.remote, self.bus_index, channel)
     }
     /// Fade to
     pub fn fade_to(&self) -> TupleParameter<'_, i32, usize> {
@@ -123,27 +120,24 @@ impl<'a> Bus<'a> {
     }
     /// Audio Device information
     pub fn device(&self) -> BusDevice {
-        BusDevice::new(self.remote, self.strip_index)
+        BusDevice::new(self.remote, self.bus_index)
     }
 }
 
 /// Parameters for bus mode
 pub struct BusModeParameter<'a> {
     remote: &'a VoicemeeterRemote,
-    strip_index: ZIndex,
+    bus_index: ZIndex,
 }
 
 impl<'a> BusModeParameter<'a> {
-    fn new(remote: &'a VoicemeeterRemote, strip_index: ZIndex) -> Self {
-        Self {
-            remote,
-            strip_index,
-        }
+    fn new(remote: &'a VoicemeeterRemote, bus_index: ZIndex) -> Self {
+        Self { remote, bus_index }
     }
 
     fn param(&self, dot: impl ToString) -> Cow<'static, ParameterNameRef> {
         // TODO: Should this maybe allow custom names?
-        Cow::Owned(format!("{BUS}[{}].mode.{}", self.strip_index, dot.to_string()).into())
+        Cow::Owned(format!("{BUS}[{}].mode.{}", self.bus_index, dot.to_string()).into())
     }
 
     /// Get the current bus mode
@@ -293,78 +287,20 @@ impl<'a> BusModeParameter<'a> {
     }
 }
 
-/// Parameter for EQ on a specific channel
-pub struct EqChannelParameter<'a> {
-    remote: &'a VoicemeeterRemote,
-    strip_index: ZIndex,
-    channel: usize,
-}
-
-impl<'a> EqChannelParameter<'a> {
-    fn new(remote: &'a VoicemeeterRemote, strip_index: ZIndex, channel: usize) -> Self {
-        Self {
-            remote,
-            strip_index,
-            channel,
-        }
-    }
-
-    fn param(&self, cell: usize, dot: impl ToString) -> Cow<'static, ParameterNameRef> {
-        Cow::Owned(
-            format!(
-                "{STRIP}[{}].EQ.channel[{}].cell[{}].{}",
-                self.strip_index,
-                self.channel,
-                cell,
-                dot.to_string()
-            )
-            .into(),
-        )
-    }
-    /// Turn EQ cell on or off
-    pub fn on(&self, cell: usize) -> BoolParameter {
-        BoolParameter::new(self.param(cell, "on"), self.remote)
-    }
-    /// Type of EQ filter.
-    pub fn type_(&self, cell: usize) -> IntParameter {
-        // TODO: Enum Parameter
-        IntParameter::new(self.param(cell, "type"), self.remote, 0..=6)
-    }
-    /// Frequency of the EQ filter.
-    pub fn f(&self, cell: usize) -> FloatParameter {
-        // TODO: Enum Parameter
-        FloatParameter::new(self.param(cell, "f"), self.remote, 20.0..=20_000.0)
-    }
-    /// Gain of the EQ filter.
-    pub fn gain(&self, cell: usize) -> FloatParameter {
-        // TODO: Enum Parameter
-        // NOTE: Docs say -12 to 12, but interface allows -36 to 18
-        FloatParameter::new(self.param(cell, "gain"), self.remote, -36.0..=18.0)
-    }
-    /// Quality of the EQ filter.
-    pub fn q(&self, cell: usize) -> IntParameter {
-        // TODO: Enum Parameter
-        IntParameter::new(self.param(cell, "q"), self.remote, 1..=100)
-    }
-}
-
 /// Bus device parameters
 pub struct BusDevice<'a> {
     remote: &'a VoicemeeterRemote,
-    strip_index: ZIndex,
+    bus_index: ZIndex,
 }
 
 impl<'a> BusDevice<'a> {
     #[doc(hidden)]
-    pub fn new(remote: &'a VoicemeeterRemote, strip_index: ZIndex) -> Self {
-        Self {
-            remote,
-            strip_index,
-        }
+    pub fn new(remote: &'a VoicemeeterRemote, bus_index: ZIndex) -> Self {
+        Self { remote, bus_index }
     }
 
     fn param(&self, dot: impl ToString) -> Cow<'static, ParameterNameRef> {
-        Cow::Owned(format!("{STRIP}[{}].device.{}", self.strip_index, dot.to_string()).into())
+        Cow::Owned(format!("{BUS}[{}].device.{}", self.bus_index, dot.to_string()).into())
     }
     /// Name of the device.
     pub fn name(&self) -> StringParameter<'a, false, true> {
