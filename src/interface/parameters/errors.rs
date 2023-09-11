@@ -42,3 +42,15 @@ pub enum InvalidTypeError {
         parameter: String,
     },
 }
+
+/// Invalid Voicemeeter program
+#[derive(thiserror::Error, Debug, Clone)]
+#[error("{parameter} requires programs {expected:?} to be accessed, program is {found}")]
+pub struct InvalidVoicemeeterVersion {
+    /// Expected programs
+    pub expected: &'static [super::VoicemeeterApplication],
+    /// Found program
+    pub found: super::VoicemeeterApplication,
+    /// Parameter that expected a physical strip/bus
+    pub parameter: String,
+}

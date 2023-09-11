@@ -19,12 +19,14 @@ use crate::VoicemeeterRemote;
 mod errors;
 
 pub mod bus;
+pub mod eq;
 pub mod get_parameters;
 pub mod option;
 pub mod set_parameters;
 pub mod strip;
 
 pub use bus::*;
+pub use eq::*;
 pub use errors::*;
 pub use option::*;
 pub use strip::*;

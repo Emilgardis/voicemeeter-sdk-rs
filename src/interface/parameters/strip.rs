@@ -290,7 +290,23 @@ impl<'a> Strip<'a> {
     pub fn b3(&self) -> BoolParameter {
         BoolParameter::new(self.param("B3"), self.remote)
     }
-
+    /// EQ on channel
+    pub fn eq(&self, channel: usize) -> Result<EqChannelParameter, InvalidVoicemeeterVersion> {
+        const VALID: &[VoicemeeterApplication] = &[
+            VoicemeeterApplication::VoicemeeterPotato,
+            VoicemeeterApplication::PotatoX64Bits,
+        ];
+        let eq = EqChannelParameter::new_strip(self.remote, self.strip_index, channel);
+        if VALID.contains(&self.remote.program) {
+            Ok(eq)
+        } else {
+            Err(InvalidVoicemeeterVersion {
+                expected: VALID,
+                found: self.remote.program,
+                parameter: eq.name().to_string(),
+            })
+        }
+    }
     /// Fade to
     pub fn fade_to(&self) -> TupleParameter<'_, i32, usize> {
         TupleParameter::new(self.param("FadeTo"), self.remote)
