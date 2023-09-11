@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src\bindings.rs`."><title>bindings.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-f3501f0f5ae15dfb.css" id="mainThemeStyle"><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="voicemeeter" data-themes="" data-resource-suffix="" data-rustdoc-version="1.71.0-nightly (d3f416dc0 2023-05-18)" data-search-js="search-4926e5fc22a5646a.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-6f6ffb5395b17c6e.css" data-theme-light-css="light-0f8c037637f9eb3e.css" data-theme-dark-css="dark-1097f8e92a01e3cf.css" data-theme-ayu-css="ayu-614652228113ac93.css" ></div><script src="../../static.files/storage-62ce34ea385b278a.js"></script><script defer src="../../static.files/source-script-11255107d0a65077.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-f0540c1d82cde29b.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-0f8c037637f9eb3e.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-1097f8e92a01e3cf.css"><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../voicemeeter/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src\bindings.rs`."><title>bindings.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-47e7ab555ef2818a.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="voicemeeter" data-themes="" data-resource-suffix="" data-rustdoc-version="1.74.0-nightly (030e4d382 2023-09-10)" data-channel="nightly" data-search-js="search-5d3eaacf19ebf04f.js" data-settings-js="settings-74424d7eec62a23e.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-f194925aa375ae96.css" data-theme-dark-css="dark-1dd4d1ce031e15de.css" data-theme-ayu-css="ayu-49e58d069f567085.css" ><script src="../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-8d035c8cea6edbc4.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../static.files/light-f194925aa375ae96.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../static.files/dark-1dd4d1ce031e15de.css"><link rel="stylesheet" href="../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../voicemeeter/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1528,8 +1528,8 @@
 #![allow(clippy::missing_safety_doc)]
 #![allow(non_snake_case)]
 
-</span><span class="kw">pub const </span>VBVMR_RESULT_OK: <a href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a> = <span class="number">0</span>;
-<span class="kw">pub const </span>expected_size_T_VBAN_VMRT_PACKET: <a href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a> = <span class="number">1384</span>;
+</span><span class="kw">pub const </span><a href="../../voicemeeter/bindings/constant.VBVMR_RESULT_OK.html">VBVMR_RESULT_OK</a>: <a href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a> = <span class="number">0</span>;
+<span class="kw">pub const </span><a href="../../voicemeeter/bindings/constant.expected_size_T_VBAN_VMRT_PACKET.html">expected_size_T_VBAN_VMRT_PACKET</a>: <a href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a> = <span class="number">1384</span>;
 <span class="kw">impl </span><a href="#27">VBVMR_DEVTYPE</a> {
     <span class="kw">pub const </span>MME: <a href="#27">VBVMR_DEVTYPE</a> = <a href="#27">VBVMR_DEVTYPE</a>(<span class="number">1</span>);
 }
@@ -1545,11 +1545,11 @@
 <span class="attr">#[repr(transparent)]
 #[doc = <span class="string">&quot; @name Device Enumeration Functions\n @{&quot;</span>]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-</span><span class="kw">pub struct </span>VBVMR_DEVTYPE(<span class="kw">pub </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_int.html">::std::os::raw::c_int</a>);
+</span><span class="kw">pub struct </span><a href="../../voicemeeter/bindings/struct.VBVMR_DEVTYPE.html">VBVMR_DEVTYPE</a>(<span class="kw">pub </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_int.html">::std::os::raw::c_int</a>);
 <span class="attr">#[doc = <span class="string">&quot; @name VB-Audio Callback Functions\n @{&quot;</span>]
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
-</span><span class="kw">pub struct </span>tagVBVMR_AUDIOINFO {
+</span><span class="kw">pub struct </span><a href="../../voicemeeter/bindings/struct.tagVBVMR_AUDIOINFO.html">tagVBVMR_AUDIOINFO</a> {
     <span class="kw">pub </span>samplerate: <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
     <span class="kw">pub </span>nbSamplePerFrame: <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
 }
@@ -1589,14 +1589,14 @@
     );
 }
 <span class="attr">#[doc = <span class="string">&quot; @name VB-Audio Callback Functions\n @{&quot;</span>]
-</span><span class="kw">pub type </span>VBVMR_T_AUDIOINFO = <a href="#31">tagVBVMR_AUDIOINFO</a>;
+</span><span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.VBVMR_T_AUDIOINFO.html">VBVMR_T_AUDIOINFO</a> = <a href="#31-34">tagVBVMR_AUDIOINFO</a>;
 <span class="attr">#[doc = <span class="string">&quot; @name VB-Audio Callback Functions\n @{&quot;</span>]
-</span><span class="kw">pub type </span>VBVMR_PT_AUDIOINFO = <span class="kw-2">*mut </span><a href="#31">tagVBVMR_AUDIOINFO</a>;
+</span><span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.VBVMR_PT_AUDIOINFO.html">VBVMR_PT_AUDIOINFO</a> = <span class="kw-2">*mut </span><a href="#31-34">tagVBVMR_AUDIOINFO</a>;
 <span class="attr">#[doc = <span class="string">&quot; @name VB-Audio Callback Functions\n @{&quot;</span>]
-</span><span class="kw">pub type </span>VBVMR_LPT_AUDIOINFO = <span class="kw-2">*mut </span><a href="#31">tagVBVMR_AUDIOINFO</a>;
+</span><span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.VBVMR_LPT_AUDIOINFO.html">VBVMR_LPT_AUDIOINFO</a> = <span class="kw-2">*mut </span><a href="#31-34">tagVBVMR_AUDIOINFO</a>;
 <span class="attr">#[repr(C)]
 #[derive(Debug, Copy, Clone)]
-</span><span class="kw">pub struct </span>tagVBVMR_AUDIOBUFFER {
+</span><span class="kw">pub struct </span><a href="../../voicemeeter/bindings/struct.tagVBVMR_AUDIOBUFFER.html">tagVBVMR_AUDIOBUFFER</a> {
     <span class="kw">pub </span>audiobuffer_sr: <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
     <span class="kw">pub </span>audiobuffer_nbs: <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
     <span class="kw">pub </span>audiobuffer_nbi: <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
@@ -1679,11 +1679,11 @@
         )
     );
 }
-<span class="kw">pub type </span>VBVMR_T_AUDIOBUFFER = <a href="#78">tagVBVMR_AUDIOBUFFER</a>;
-<span class="kw">pub type </span>VBVMR_PT_AUDIOBUFFER = <span class="kw-2">*mut </span><a href="#78">tagVBVMR_AUDIOBUFFER</a>;
-<span class="kw">pub type </span>VBVMR_LPT_AUDIOBUFFER = <span class="kw-2">*mut </span><a href="#78">tagVBVMR_AUDIOBUFFER</a>;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.VBVMR_T_AUDIOBUFFER.html">VBVMR_T_AUDIOBUFFER</a> = <a href="#78-85">tagVBVMR_AUDIOBUFFER</a>;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.VBVMR_PT_AUDIOBUFFER.html">VBVMR_PT_AUDIOBUFFER</a> = <span class="kw-2">*mut </span><a href="#78-85">tagVBVMR_AUDIOBUFFER</a>;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.VBVMR_LPT_AUDIOBUFFER.html">VBVMR_LPT_AUDIOBUFFER</a> = <span class="kw-2">*mut </span><a href="#78-85">tagVBVMR_AUDIOBUFFER</a>;
 <span class="attr">#[doc = <span class="string">&quot;@brief VB-AUDIO Callback is called for different task to Initialize, perform and end your process.\nVB-AUDIO Callback is part of single TIME CRITICAL Thread.\nVB-AUDIO Callback is non re-entrant (cannot be called while in process)\nVB-AUDIO Callback is supposed to be REAL TIME when called to process buffer.\n(it means that the process has to be performed as fast as possible, waiting cycles are forbidden.\ndo not use O/S synchronization object, even Critical_Section can generate waiting cycle. Do not use\nsystem functions that can generate waiting cycle like display, disk or communication functions for example).\n\n@param lpUser: User pointer given on callback registration.\n@param ncommand: reason why the callback is called.\n@param lpData: pointer on structure, pending on nCommand.\n@param nnn: additional data, unused\n\n@return :\t 0: always 0 (unused).&quot;</span>]
-</span><span class="kw">pub type </span>T_VBVMR_VBAUDIOCALLBACK = ::std::option::Option&lt;
+</span><span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_VBAUDIOCALLBACK.html">T_VBVMR_VBAUDIOCALLBACK</a> = ::std::option::Option&lt;
     <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
         lpUser: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_void.html">::std::os::raw::c_void</a>,
         nCommand: <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
@@ -1711,7 +1711,7 @@
 }
 <span class="attr">#[repr(transparent)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-</span><span class="kw">pub struct </span>VBVMR_CBCOMMAND(<span class="kw">pub </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_int.html">::std::os::raw::c_int</a>);
+</span><span class="kw">pub struct </span><a href="../../voicemeeter/bindings/struct.VBVMR_CBCOMMAND.html">VBVMR_CBCOMMAND</a>(<span class="kw">pub </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_int.html">::std::os::raw::c_int</a>);
 <span class="kw">impl </span><a href="#231">VBVMR_AUDIOCALLBACK</a> {
     <span class="kw">pub const </span>INPUT: <a href="#231">VBVMR_AUDIOCALLBACK</a> = <a href="#231">VBVMR_AUDIOCALLBACK</a>(<span class="number">1</span>);
 }
@@ -1749,7 +1749,7 @@
 }
 <span class="attr">#[repr(transparent)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-</span><span class="kw">pub struct </span>VBVMR_AUDIOCALLBACK(<span class="kw">pub </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_int.html">::std::os::raw::c_int</a>);
+</span><span class="kw">pub struct </span><a href="../../voicemeeter/bindings/struct.VBVMR_AUDIOCALLBACK.html">VBVMR_AUDIOCALLBACK</a>(<span class="kw">pub </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_int.html">::std::os::raw::c_int</a>);
 <span class="kw">impl </span><a href="#243">VBVMR_MACROBUTTON_MODE</a> {
     <span class="kw">pub const </span>DEFAULT: <a href="#243">VBVMR_MACROBUTTON_MODE</a> = <a href="#243">VBVMR_MACROBUTTON_MODE</a>(<span class="number">0</span>);
 }
@@ -1761,78 +1761,78 @@
 }
 <span class="attr">#[repr(transparent)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-</span><span class="kw">pub struct </span>VBVMR_MACROBUTTON_MODE(<span class="kw">pub </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_int.html">::std::os::raw::c_int</a>);
-<span class="kw">pub type </span>T_VBVMR_Login = ::std::option::Option&lt;<span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>() -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>&gt;;
-<span class="kw">pub type </span>T_VBVMR_Logout = ::std::option::Option&lt;<span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>() -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>&gt;;
-<span class="kw">pub type </span>T_VBVMR_RunVoicemeeter = ::std::option::Option&lt;
+</span><span class="kw">pub struct </span><a href="../../voicemeeter/bindings/struct.VBVMR_MACROBUTTON_MODE.html">VBVMR_MACROBUTTON_MODE</a>(<span class="kw">pub </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_int.html">::std::os::raw::c_int</a>);
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_Login.html">T_VBVMR_Login</a> = ::std::option::Option&lt;<span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>() -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>&gt;;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_Logout.html">T_VBVMR_Logout</a> = ::std::option::Option&lt;<span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>() -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>&gt;;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_RunVoicemeeter.html">T_VBVMR_RunVoicemeeter</a> = ::std::option::Option&lt;
     <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(vType: <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>) -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
 &gt;;
-<span class="kw">pub type </span>T_VBVMR_GetVoicemeeterType = ::std::option::Option&lt;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_GetVoicemeeterType.html">T_VBVMR_GetVoicemeeterType</a> = ::std::option::Option&lt;
     <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(pType: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>) -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
 &gt;;
-<span class="kw">pub type </span>T_VBVMR_GetVoicemeeterVersion = ::std::option::Option&lt;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_GetVoicemeeterVersion.html">T_VBVMR_GetVoicemeeterVersion</a> = ::std::option::Option&lt;
     <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(pVersion: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>) -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
 &gt;;
-<span class="kw">pub type </span>T_VBVMR_IsParametersDirty =
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_IsParametersDirty.html">T_VBVMR_IsParametersDirty</a> =
     ::std::option::Option&lt;<span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>() -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>&gt;;
-<span class="kw">pub type </span>T_VBVMR_GetParameterFloat = ::std::option::Option&lt;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_GetParameterFloat.html">T_VBVMR_GetParameterFloat</a> = ::std::option::Option&lt;
     <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
         szParamName: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_char.html">::std::os::raw::c_char</a>,
         pValue: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>,
     ) -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
 &gt;;
-<span class="kw">pub type </span>T_VBVMR_GetParameterStringA = ::std::option::Option&lt;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_GetParameterStringA.html">T_VBVMR_GetParameterStringA</a> = ::std::option::Option&lt;
     <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
         szParamName: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_char.html">::std::os::raw::c_char</a>,
         szString: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_char.html">::std::os::raw::c_char</a>,
     ) -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
 &gt;;
-<span class="kw">pub type </span>T_VBVMR_GetParameterStringW = ::std::option::Option&lt;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_GetParameterStringW.html">T_VBVMR_GetParameterStringW</a> = ::std::option::Option&lt;
     <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
         szParamName: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_char.html">::std::os::raw::c_char</a>,
         wszString: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_ushort.html">::std::os::raw::c_ushort</a>,
     ) -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
 &gt;;
-<span class="kw">pub type </span>T_VBVMR_GetLevel = ::std::option::Option&lt;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_GetLevel.html">T_VBVMR_GetLevel</a> = ::std::option::Option&lt;
     <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
         nType: <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
         nuChannel: <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
         pValue: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>,
     ) -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
 &gt;;
-<span class="kw">pub type </span>T_VBVMR_GetMidiMessage = ::std::option::Option&lt;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_GetMidiMessage.html">T_VBVMR_GetMidiMessage</a> = ::std::option::Option&lt;
     <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
         pMIDIBuffer: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_uchar.html">::std::os::raw::c_uchar</a>,
         nbByteMax: <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
     ) -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
 &gt;;
-<span class="kw">pub type </span>T_VBVMR_SetParameterFloat = ::std::option::Option&lt;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_SetParameterFloat.html">T_VBVMR_SetParameterFloat</a> = ::std::option::Option&lt;
     <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
         szParamName: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_char.html">::std::os::raw::c_char</a>,
         Value: <a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>,
     ) -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
 &gt;;
-<span class="kw">pub type </span>T_VBVMR_SetParameters = ::std::option::Option&lt;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_SetParameters.html">T_VBVMR_SetParameters</a> = ::std::option::Option&lt;
     <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(szParamScript: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_char.html">::std::os::raw::c_char</a>) -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
 &gt;;
-<span class="kw">pub type </span>T_VBVMR_SetParametersW = ::std::option::Option&lt;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_SetParametersW.html">T_VBVMR_SetParametersW</a> = ::std::option::Option&lt;
     <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(szParamScript: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_ushort.html">::std::os::raw::c_ushort</a>) -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
 &gt;;
-<span class="kw">pub type </span>T_VBVMR_SetParameterStringA = ::std::option::Option&lt;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_SetParameterStringA.html">T_VBVMR_SetParameterStringA</a> = ::std::option::Option&lt;
     <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
         szParamName: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_char.html">::std::os::raw::c_char</a>,
         szString: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_char.html">::std::os::raw::c_char</a>,
     ) -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
 &gt;;
-<span class="kw">pub type </span>T_VBVMR_SetParameterStringW = ::std::option::Option&lt;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_SetParameterStringW.html">T_VBVMR_SetParameterStringW</a> = ::std::option::Option&lt;
     <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
         szParamName: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_char.html">::std::os::raw::c_char</a>,
         wszString: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_ushort.html">::std::os::raw::c_ushort</a>,
     ) -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
 &gt;;
-<span class="kw">pub type </span>T_VBVMR_Output_GetDeviceNumber =
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_Output_GetDeviceNumber.html">T_VBVMR_Output_GetDeviceNumber</a> =
     ::std::option::Option&lt;<span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>() -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>&gt;;
-<span class="kw">pub type </span>T_VBVMR_Output_GetDeviceDescA = ::std::option::Option&lt;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_Output_GetDeviceDescA.html">T_VBVMR_Output_GetDeviceDescA</a> = ::std::option::Option&lt;
     <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
         zindex: <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
         nType: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
@@ -1840,7 +1840,7 @@
         szHardwareId: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_char.html">::std::os::raw::c_char</a>,
     ) -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
 &gt;;
-<span class="kw">pub type </span>T_VBVMR_Output_GetDeviceDescW = ::std::option::Option&lt;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_Output_GetDeviceDescW.html">T_VBVMR_Output_GetDeviceDescW</a> = ::std::option::Option&lt;
     <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
         zindex: <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
         nType: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
@@ -1848,9 +1848,9 @@
         wszHardwareId: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_ushort.html">::std::os::raw::c_ushort</a>,
     ) -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
 &gt;;
-<span class="kw">pub type </span>T_VBVMR_Input_GetDeviceNumber =
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_Input_GetDeviceNumber.html">T_VBVMR_Input_GetDeviceNumber</a> =
     ::std::option::Option&lt;<span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>() -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>&gt;;
-<span class="kw">pub type </span>T_VBVMR_Input_GetDeviceDescA = ::std::option::Option&lt;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_Input_GetDeviceDescA.html">T_VBVMR_Input_GetDeviceDescA</a> = ::std::option::Option&lt;
     <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
         zindex: <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
         nType: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
@@ -1858,7 +1858,7 @@
         szHardwareId: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_char.html">::std::os::raw::c_char</a>,
     ) -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
 &gt;;
-<span class="kw">pub type </span>T_VBVMR_Input_GetDeviceDescW = ::std::option::Option&lt;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_Input_GetDeviceDescW.html">T_VBVMR_Input_GetDeviceDescW</a> = ::std::option::Option&lt;
     <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
         zindex: <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
         nType: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
@@ -1866,30 +1866,30 @@
         wszHardwareId: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_ushort.html">::std::os::raw::c_ushort</a>,
     ) -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
 &gt;;
-<span class="kw">pub type </span>T_VBVMR_AudioCallbackRegister = ::std::option::Option&lt;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_AudioCallbackRegister.html">T_VBVMR_AudioCallbackRegister</a> = ::std::option::Option&lt;
     <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
         mode: <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
-        pCallback: <a href="#165">T_VBVMR_VBAUDIOCALLBACK</a>,
+        pCallback: <a href="#165-172">T_VBVMR_VBAUDIOCALLBACK</a>,
         lpUser: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_void.html">::std::os::raw::c_void</a>,
         szClientName: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_char.html">::std::os::raw::c_char</a>,
     ) -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
 &gt;;
-<span class="kw">pub type </span>T_VBVMR_AudioCallbackStart =
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_AudioCallbackStart.html">T_VBVMR_AudioCallbackStart</a> =
     ::std::option::Option&lt;<span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>() -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>&gt;;
-<span class="kw">pub type </span>T_VBVMR_AudioCallbackStop =
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_AudioCallbackStop.html">T_VBVMR_AudioCallbackStop</a> =
     ::std::option::Option&lt;<span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>() -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>&gt;;
-<span class="kw">pub type </span>T_VBVMR_AudioCallbackUnregister =
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_AudioCallbackUnregister.html">T_VBVMR_AudioCallbackUnregister</a> =
     ::std::option::Option&lt;<span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>() -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>&gt;;
-<span class="kw">pub type </span>T_VBVMR_MacroButton_IsDirty =
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_MacroButton_IsDirty.html">T_VBVMR_MacroButton_IsDirty</a> =
     ::std::option::Option&lt;<span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>() -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>&gt;;
-<span class="kw">pub type </span>T_VBVMR_MacroButton_GetStatus = ::std::option::Option&lt;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_MacroButton_GetStatus.html">T_VBVMR_MacroButton_GetStatus</a> = ::std::option::Option&lt;
     <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
         nuLogicalButton: <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
         pValue: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>,
         bitmode: <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
     ) -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
 &gt;;
-<span class="kw">pub type </span>T_VBVMR_MacroButton_SetStatus = ::std::option::Option&lt;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_MacroButton_SetStatus.html">T_VBVMR_MacroButton_SetStatus</a> = ::std::option::Option&lt;
     <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
         nuLogicalButton: <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
         fValue: <a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>,
@@ -1898,36 +1898,36 @@
 &gt;;
 <span class="attr">#[repr(C)]
 #[derive(Debug, Copy, Clone)]
-</span><span class="kw">pub struct </span>tagVBVMR_INTERFACE {
+</span><span class="kw">pub struct </span><a href="../../voicemeeter/bindings/struct.tagVBVMR_INTERFACE.html">tagVBVMR_INTERFACE</a> {
     <span class="kw">pub </span>VBVMR_Login: <a href="#244">T_VBVMR_Login</a>,
     <span class="kw">pub </span>VBVMR_Logout: <a href="#245">T_VBVMR_Logout</a>,
-    <span class="kw">pub </span>VBVMR_RunVoicemeeter: <a href="#246">T_VBVMR_RunVoicemeeter</a>,
-    <span class="kw">pub </span>VBVMR_GetVoicemeeterType: <a href="#249">T_VBVMR_GetVoicemeeterType</a>,
-    <span class="kw">pub </span>VBVMR_GetVoicemeeterVersion: <a href="#252">T_VBVMR_GetVoicemeeterVersion</a>,
-    <span class="kw">pub </span>VBVMR_IsParametersDirty: <a href="#255">T_VBVMR_IsParametersDirty</a>,
-    <span class="kw">pub </span>VBVMR_GetParameterFloat: <a href="#257">T_VBVMR_GetParameterFloat</a>,
-    <span class="kw">pub </span>VBVMR_GetParameterStringA: <a href="#263">T_VBVMR_GetParameterStringA</a>,
-    <span class="kw">pub </span>VBVMR_GetParameterStringW: <a href="#269">T_VBVMR_GetParameterStringW</a>,
-    <span class="kw">pub </span>VBVMR_GetLevel: <a href="#275">T_VBVMR_GetLevel</a>,
-    <span class="kw">pub </span>VBVMR_GetMidiMessage: <a href="#282">T_VBVMR_GetMidiMessage</a>,
-    <span class="kw">pub </span>VBVMR_SetParameterFloat: <a href="#288">T_VBVMR_SetParameterFloat</a>,
-    <span class="kw">pub </span>VBVMR_SetParameters: <a href="#294">T_VBVMR_SetParameters</a>,
-    <span class="kw">pub </span>VBVMR_SetParametersW: <a href="#297">T_VBVMR_SetParametersW</a>,
-    <span class="kw">pub </span>VBVMR_SetParameterStringA: <a href="#300">T_VBVMR_SetParameterStringA</a>,
-    <span class="kw">pub </span>VBVMR_SetParameterStringW: <a href="#306">T_VBVMR_SetParameterStringW</a>,
-    <span class="kw">pub </span>VBVMR_Output_GetDeviceNumber: <a href="#312">T_VBVMR_Output_GetDeviceNumber</a>,
-    <span class="kw">pub </span>VBVMR_Output_GetDeviceDescA: <a href="#314">T_VBVMR_Output_GetDeviceDescA</a>,
-    <span class="kw">pub </span>VBVMR_Output_GetDeviceDescW: <a href="#322">T_VBVMR_Output_GetDeviceDescW</a>,
-    <span class="kw">pub </span>VBVMR_Input_GetDeviceNumber: <a href="#330">T_VBVMR_Input_GetDeviceNumber</a>,
-    <span class="kw">pub </span>VBVMR_Input_GetDeviceDescA: <a href="#332">T_VBVMR_Input_GetDeviceDescA</a>,
-    <span class="kw">pub </span>VBVMR_Input_GetDeviceDescW: <a href="#340">T_VBVMR_Input_GetDeviceDescW</a>,
-    <span class="kw">pub </span>VBVMR_AudioCallbackRegister: <a href="#348">T_VBVMR_AudioCallbackRegister</a>,
-    <span class="kw">pub </span>VBVMR_AudioCallbackStart: <a href="#356">T_VBVMR_AudioCallbackStart</a>,
-    <span class="kw">pub </span>VBVMR_AudioCallbackStop: <a href="#358">T_VBVMR_AudioCallbackStop</a>,
-    <span class="kw">pub </span>VBVMR_AudioCallbackUnregister: <a href="#360">T_VBVMR_AudioCallbackUnregister</a>,
-    <span class="kw">pub </span>VBVMR_MacroButton_IsDirty: <a href="#362">T_VBVMR_MacroButton_IsDirty</a>,
-    <span class="kw">pub </span>VBVMR_MacroButton_GetStatus: <a href="#364">T_VBVMR_MacroButton_GetStatus</a>,
-    <span class="kw">pub </span>VBVMR_MacroButton_SetStatus: <a href="#371">T_VBVMR_MacroButton_SetStatus</a>,
+    <span class="kw">pub </span>VBVMR_RunVoicemeeter: <a href="#246-248">T_VBVMR_RunVoicemeeter</a>,
+    <span class="kw">pub </span>VBVMR_GetVoicemeeterType: <a href="#249-251">T_VBVMR_GetVoicemeeterType</a>,
+    <span class="kw">pub </span>VBVMR_GetVoicemeeterVersion: <a href="#252-254">T_VBVMR_GetVoicemeeterVersion</a>,
+    <span class="kw">pub </span>VBVMR_IsParametersDirty: <a href="#255-256">T_VBVMR_IsParametersDirty</a>,
+    <span class="kw">pub </span>VBVMR_GetParameterFloat: <a href="#257-262">T_VBVMR_GetParameterFloat</a>,
+    <span class="kw">pub </span>VBVMR_GetParameterStringA: <a href="#263-268">T_VBVMR_GetParameterStringA</a>,
+    <span class="kw">pub </span>VBVMR_GetParameterStringW: <a href="#269-274">T_VBVMR_GetParameterStringW</a>,
+    <span class="kw">pub </span>VBVMR_GetLevel: <a href="#275-281">T_VBVMR_GetLevel</a>,
+    <span class="kw">pub </span>VBVMR_GetMidiMessage: <a href="#282-287">T_VBVMR_GetMidiMessage</a>,
+    <span class="kw">pub </span>VBVMR_SetParameterFloat: <a href="#288-293">T_VBVMR_SetParameterFloat</a>,
+    <span class="kw">pub </span>VBVMR_SetParameters: <a href="#294-296">T_VBVMR_SetParameters</a>,
+    <span class="kw">pub </span>VBVMR_SetParametersW: <a href="#297-299">T_VBVMR_SetParametersW</a>,
+    <span class="kw">pub </span>VBVMR_SetParameterStringA: <a href="#300-305">T_VBVMR_SetParameterStringA</a>,
+    <span class="kw">pub </span>VBVMR_SetParameterStringW: <a href="#306-311">T_VBVMR_SetParameterStringW</a>,
+    <span class="kw">pub </span>VBVMR_Output_GetDeviceNumber: <a href="#312-313">T_VBVMR_Output_GetDeviceNumber</a>,
+    <span class="kw">pub </span>VBVMR_Output_GetDeviceDescA: <a href="#314-321">T_VBVMR_Output_GetDeviceDescA</a>,
+    <span class="kw">pub </span>VBVMR_Output_GetDeviceDescW: <a href="#322-329">T_VBVMR_Output_GetDeviceDescW</a>,
+    <span class="kw">pub </span>VBVMR_Input_GetDeviceNumber: <a href="#330-331">T_VBVMR_Input_GetDeviceNumber</a>,
+    <span class="kw">pub </span>VBVMR_Input_GetDeviceDescA: <a href="#332-339">T_VBVMR_Input_GetDeviceDescA</a>,
+    <span class="kw">pub </span>VBVMR_Input_GetDeviceDescW: <a href="#340-347">T_VBVMR_Input_GetDeviceDescW</a>,
+    <span class="kw">pub </span>VBVMR_AudioCallbackRegister: <a href="#348-355">T_VBVMR_AudioCallbackRegister</a>,
+    <span class="kw">pub </span>VBVMR_AudioCallbackStart: <a href="#356-357">T_VBVMR_AudioCallbackStart</a>,
+    <span class="kw">pub </span>VBVMR_AudioCallbackStop: <a href="#358-359">T_VBVMR_AudioCallbackStop</a>,
+    <span class="kw">pub </span>VBVMR_AudioCallbackUnregister: <a href="#360-361">T_VBVMR_AudioCallbackUnregister</a>,
+    <span class="kw">pub </span>VBVMR_MacroButton_IsDirty: <a href="#362-363">T_VBVMR_MacroButton_IsDirty</a>,
+    <span class="kw">pub </span>VBVMR_MacroButton_GetStatus: <a href="#364-370">T_VBVMR_MacroButton_GetStatus</a>,
+    <span class="kw">pub </span>VBVMR_MacroButton_SetStatus: <a href="#371-377">T_VBVMR_MacroButton_SetStatus</a>,
 }
 <span class="attr">#[test]
 </span><span class="kw">fn </span>bindgen_test_layout_tagVBVMR_INTERFACE() {
@@ -2238,12 +2238,12 @@
         )
     );
 }
-<span class="kw">pub type </span>T_VBVMR_INTERFACE = <a href="#380">tagVBVMR_INTERFACE</a>;
-<span class="kw">pub type </span>PT_VBVMR_INTERFACE = <span class="kw-2">*mut </span><a href="#380">tagVBVMR_INTERFACE</a>;
-<span class="kw">pub type </span>LPT_VBVMR_INTERFACE = <span class="kw-2">*mut </span><a href="#380">tagVBVMR_INTERFACE</a>;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBVMR_INTERFACE.html">T_VBVMR_INTERFACE</a> = <a href="#380-410">tagVBVMR_INTERFACE</a>;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.PT_VBVMR_INTERFACE.html">PT_VBVMR_INTERFACE</a> = <span class="kw-2">*mut </span><a href="#380-410">tagVBVMR_INTERFACE</a>;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.LPT_VBVMR_INTERFACE.html">LPT_VBVMR_INTERFACE</a> = <span class="kw-2">*mut </span><a href="#380-410">tagVBVMR_INTERFACE</a>;
 <span class="attr">#[repr(C, packed)]
 #[derive(Debug, Copy, Clone)]
-</span><span class="kw">pub struct </span>tagVBAN_VMRT_PACKET {
+</span><span class="kw">pub struct </span><a href="../../voicemeeter/bindings/struct.tagVBAN_VMRT_PACKET.html">tagVBAN_VMRT_PACKET</a> {
     <span class="kw">pub </span>voicemeeterType: <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_uchar.html">::std::os::raw::c_uchar</a>,
     <span class="kw">pub </span>reserved: <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_uchar.html">::std::os::raw::c_uchar</a>,
     <span class="kw">pub </span>buffersize: <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_ushort.html">::std::os::raw::c_ushort</a>,
@@ -2502,9 +2502,9 @@
         )
     );
 }
-<span class="kw">pub type </span>T_VBAN_VMRT_PACKET = <a href="#725">tagVBAN_VMRT_PACKET</a>;
-<span class="kw">pub type </span>PT_VBAN_VMRT_PACKET = <span class="kw-2">*mut </span><a href="#725">tagVBAN_VMRT_PACKET</a>;
-<span class="kw">pub type </span>LPT_VBAN_VMRT_PACKET = <span class="kw-2">*mut </span><a href="#725">tagVBAN_VMRT_PACKET</a>;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.T_VBAN_VMRT_PACKET.html">T_VBAN_VMRT_PACKET</a> = <a href="#725-748">tagVBAN_VMRT_PACKET</a>;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.PT_VBAN_VMRT_PACKET.html">PT_VBAN_VMRT_PACKET</a> = <span class="kw-2">*mut </span><a href="#725-748">tagVBAN_VMRT_PACKET</a>;
+<span class="kw">pub type </span><a href="../../voicemeeter/bindings/type.LPT_VBAN_VMRT_PACKET.html">LPT_VBAN_VMRT_PACKET</a> = <span class="kw-2">*mut </span><a href="#725-748">tagVBAN_VMRT_PACKET</a>;
 <span class="kw">impl </span><a href="#1106">VMRTSTATE_MODE</a> {
     <span class="kw">pub const </span>MUTE: <a href="#1106">VMRTSTATE_MODE</a> = <a href="#1106">VMRTSTATE_MODE</a>(<span class="number">1</span>);
 }
@@ -2624,9 +2624,9 @@
 }
 <span class="attr">#[repr(transparent)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-</span><span class="kw">pub struct </span>VMRTSTATE_MODE(<span class="kw">pub </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_int.html">::std::os::raw::c_int</a>);
+</span><span class="kw">pub struct </span><a href="../../voicemeeter/bindings/struct.VMRTSTATE_MODE.html">VMRTSTATE_MODE</a>(<span class="kw">pub </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_int.html">::std::os::raw::c_int</a>);
 <span class="kw">extern crate </span>libloading;
-<span class="kw">pub struct </span>VoicemeeterRemoteRaw {
+<span class="kw">pub struct </span><a href="../../voicemeeter/bindings/struct.VoicemeeterRemoteRaw.html">VoicemeeterRemoteRaw</a> {
     __library: <a href="https://docs.rs/libloading/0.8.0/libloading/safe/struct.Library.html">::libloading::Library</a>,
     <span class="kw">pub </span>VBVMR_Login: <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>() -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
     <span class="kw">pub </span>VBVMR_Logout: <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>() -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
@@ -2703,7 +2703,7 @@
     ) -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
     <span class="kw">pub </span>VBVMR_AudioCallbackRegister: <span class="kw">unsafe extern </span><span class="string">&quot;C&quot; </span><span class="kw">fn</span>(
         mode: <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
-        pCallback: <a href="#165">T_VBVMR_VBAUDIOCALLBACK</a>,
+        pCallback: <a href="#165-172">T_VBVMR_VBAUDIOCALLBACK</a>,
         lpUser: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_void.html">::std::os::raw::c_void</a>,
         szClientName: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_char.html">::std::os::raw::c_char</a>,
     ) -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
@@ -2722,7 +2722,7 @@
         bitmode: <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
     ) -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
 }
-<span class="kw">impl </span><a href="#1108">VoicemeeterRemoteRaw</a> {
+<span class="kw">impl </span><a href="#1108-1203">VoicemeeterRemoteRaw</a> {
     <span class="kw">pub unsafe fn </span>new&lt;P&gt;(path: P) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <a href="https://docs.rs/libloading/0.8.0/libloading/error/enum.Error.html">::libloading::Error</a>&gt;
     <span class="kw">where
         </span>P: AsRef&lt;<a href="https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsStr.html">::std::ffi::OsStr</a>&gt;,
@@ -2808,7 +2808,7 @@
         <span class="kw">let </span>VBVMR_MacroButton_SetStatus = __library
             .get(<span class="string">b&quot;VBVMR_MacroButton_SetStatus\0&quot;</span>)
             .map(|sym| <span class="kw-2">*</span>sym)<span class="question-mark">?</span>;
-        <span class="prelude-val">Ok</span>(<a href="#1108">VoicemeeterRemoteRaw</a> {
+        <span class="prelude-val">Ok</span>(<a href="#1108-1203">VoicemeeterRemoteRaw</a> {
             <a href="#1216">__library</a>,
             <a href="#1217">VBVMR_Login</a>,
             <a href="#1218">VBVMR_Logout</a>,
@@ -3000,7 +3000,7 @@
     </span><span class="kw">pub unsafe fn </span>VBVMR_AudioCallbackRegister(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         mode: <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a>,
-        pCallback: <a href="#165">T_VBVMR_VBAUDIOCALLBACK</a>,
+        pCallback: <a href="#165-172">T_VBVMR_VBAUDIOCALLBACK</a>,
         lpUser: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_void.html">::std::os::raw::c_void</a>,
         szClientName: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_char.html">::std::os::raw::c_char</a>,
     ) -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">::std::os::raw::c_long</a> {
