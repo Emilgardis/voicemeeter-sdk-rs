@@ -1,7 +1,7 @@
 Voicemeeter SDK | VoicemeeterRemote Rust bindings
 ============================================
 
-[![github]](https://github.com/emilgardis/voicemeeter-sdk-rs)&ensp;[![crates-io]](https://crates.io/crates/voicemeeter)&ensp;[![docs-rs-big]](https://docs.rs/voicemeeter/latest/voicemeeter)
+[![github]](https://github.com/emilgardis/voicemeeter-sdk-rs)&ensp;[![crates-io]](https://crates.io/crates/voicemeeter)&ensp;[![docs-rs-big]](https://docs.rs/voicemeeter/0.2.0/voicemeeter/)
 
  [github]: https://img.shields.io/badge/github-emilgardis/voicemeeter-8da0cb?style=for-the-badge&labelColor=555555&logo=github
  [crates-io]: https://img.shields.io/crates/v/voicemeeter.svg?style=for-the-badge&color=fc8d62&logo=rust
@@ -11,7 +11,7 @@ You can see current unpublished docs here: [![local-docs]](https://emilgardis.gi
 
 See [examples](./examples) for examples.
 
-[local-docs]: https://img.shields.io/github/workflow/status/Emilgardis/voicemeeter-sdk-rs/github%20pages/main?label=main%20docs&style=flat-square&event=push
+[local-docs]: https://img.shields.io/github/actions/workflow/status/Emilgardis/voicemeeter-sdk-rs/gh-pages.yml?label=dev%20docs&style=flat-square&event=push
 
 
 <h5> License </h5>
