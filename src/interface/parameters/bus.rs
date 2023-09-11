@@ -76,8 +76,8 @@ impl<'a> Bus<'a> {
     }
 
     /// Gain slider
-    pub fn gain(&self) -> IntParameter {
-        IntParameter::new(self.param("gain"), self.remote, -60..=12)
+    pub fn gain(&self) -> FloatParameter {
+        FloatParameter::new(self.param("gain"), self.remote, -60.0..=12.)
     }
 
     /// Bus mode Normal
@@ -336,9 +336,10 @@ impl<'a> EqChannelParameter<'a> {
         FloatParameter::new(self.param(cell, "f"), self.remote, 20.0..=20_000.0)
     }
     /// Gain of the EQ filter.
-    pub fn gain(&self, cell: usize) -> IntParameter {
+    pub fn gain(&self, cell: usize) -> FloatParameter {
         // TODO: Enum Parameter
-        IntParameter::new(self.param(cell, "gain"), self.remote, -12..=12)
+        // NOTE: Docs say -12 to 12, but interface allows -36 to 18
+        FloatParameter::new(self.param(cell, "gain"), self.remote, -36.0..=18.0)
     }
     /// Quality of the EQ filter.
     pub fn q(&self, cell: usize) -> IntParameter {

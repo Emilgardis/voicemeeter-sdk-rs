@@ -53,7 +53,7 @@ jobs:
           components: rustfmt
       - uses: Swatinem/rust-cache@v2
       - name: Test voicemeeter
-        run: cargo test --all-targets --all-features --workspace
+        run: cargo test --all-features ${{matrix.rust == 'nightly' && '--workspace --all-targets' || ''}}
   rustfmt:
     name: Rustfmt
     runs-on: windows-latest
