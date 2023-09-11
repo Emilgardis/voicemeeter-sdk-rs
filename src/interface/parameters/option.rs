@@ -12,7 +12,8 @@ impl<'a> VoicemeeterOption<'a> {
         VoicemeeterOption { remote }
     }
 
-    fn param(&self, dot: impl Display) -> Cow<'static, ParameterNameRef> {
+    /// Get the identifier for an option: `Option.{dot}`
+    pub fn param(&self, dot: impl Display) -> Cow<'static, ParameterNameRef> {
         // TODO: Should this maybe allow custom names?
         Cow::Owned(format!("{VOICEMEETER_OPTION}.{}", dot).into())
     }

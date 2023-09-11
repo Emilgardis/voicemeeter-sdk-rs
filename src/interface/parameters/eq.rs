@@ -50,7 +50,8 @@ impl<'a> EqChannelParameter<'a> {
         }
         N(&self.mode, &self.index, &self.channel)
     }
-    fn param(&self, cell: usize, dot: impl ToString) -> Cow<'static, ParameterNameRef> {
+    /// Get the identifier for a parameter on this equalizer: `Bus[i].EQ.channel[ch].cell[c].{dot}`
+    pub fn param(&self, cell: usize, dot: impl ToString) -> Cow<'static, ParameterNameRef> {
         Cow::Owned(format!("{}.cell[{}].{}", self.name(), cell, dot.to_string()).into())
     }
     /// Turn EQ cell on or off

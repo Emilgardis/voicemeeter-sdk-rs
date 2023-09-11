@@ -43,7 +43,8 @@ impl<'a> Strip<'a> {
             strip_index,
         }
     }
-    fn param(&self, dot: impl Display) -> Cow<'static, ParameterNameRef> {
+    /// Get the identifier for a parameter on this strip: `Strip[i].{dot}`
+    pub fn param(&self, dot: impl Display) -> Cow<'static, ParameterNameRef> {
         // TODO: Should this maybe allow custom names?
         Cow::Owned(format!("{STRIP}[{}].{}", self.strip_index, dot).into())
     }
@@ -403,7 +404,8 @@ impl<'a> StripDevice<'a> {
         }
     }
 
-    fn param(&self, dot: impl ToString) -> Cow<'static, ParameterNameRef> {
+    /// Get the identifier for a device parameter on this strip: `Strip[i].device.{dot}`
+    pub fn param(&self, dot: impl ToString) -> Cow<'static, ParameterNameRef> {
         Cow::Owned(format!("{STRIP}[{}].device.{}", self.strip_index, dot.to_string()).into())
     }
 

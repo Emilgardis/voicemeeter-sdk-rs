@@ -42,7 +42,8 @@ impl<'a> Bus<'a> {
         Bus { remote, bus_index }
     }
 
-    fn param(&self, dot: impl ToString) -> Cow<'static, ParameterNameRef> {
+    /// Get the identifier for a parameter on this bus: `Bus[i].{dot}`
+    pub fn param(&self, dot: impl ToString) -> Cow<'static, ParameterNameRef> {
         // TODO: Should this maybe allow custom names?
         Cow::Owned(format!("{BUS}[{}].{}", self.bus_index, dot.to_string()).into())
     }
@@ -135,7 +136,8 @@ impl<'a> BusModeParameter<'a> {
         Self { remote, bus_index }
     }
 
-    fn param(&self, dot: impl ToString) -> Cow<'static, ParameterNameRef> {
+    /// Get the identifier for a mode parameter on this bus: `Bus[i].mode.{dot}`
+    pub fn param(&self, dot: impl ToString) -> Cow<'static, ParameterNameRef> {
         // TODO: Should this maybe allow custom names?
         Cow::Owned(format!("{BUS}[{}].mode.{}", self.bus_index, dot.to_string()).into())
     }
@@ -299,7 +301,8 @@ impl<'a> BusDevice<'a> {
         Self { remote, bus_index }
     }
 
-    fn param(&self, dot: impl ToString) -> Cow<'static, ParameterNameRef> {
+    /// Get the identifier for a device parameter on this bus: `Bus[i].device.{dot}`
+    pub fn param(&self, dot: impl ToString) -> Cow<'static, ParameterNameRef> {
         Cow::Owned(format!("{BUS}[{}].device.{}", self.bus_index, dot.to_string()).into())
     }
     /// Name of the device.
