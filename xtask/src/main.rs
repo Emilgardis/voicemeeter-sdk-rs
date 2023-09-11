@@ -56,7 +56,7 @@ fn main() -> color_eyre::Result<()> {
                 }
 
                 let dry_run_arg = if dry_run { Some("--dry-run") } else { None };
-                cmd!(sh, "cargo publish {dry_run_arg...} --features all").run()?;
+                cmd!(sh, "cargo publish {dry_run_arg...} --all-features").run()?;
 
                 if dry_run {
                     eprintln!("{}", cmd!(sh, "git push origin {tag}"));
