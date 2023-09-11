@@ -72,6 +72,7 @@
 <a href="#72" id="72">72</a>
 <a href="#73" id="73">73</a>
 <a href="#74" id="74">74</a>
+<a href="#75" id="75">75</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Option parameters
 </span><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
@@ -86,7 +87,8 @@
         <a href="#5-7">VoicemeeterOption</a> { <a href="#11">remote</a> }
     }
 
-    <span class="kw">fn </span>param(<span class="kw-2">&amp;</span><span class="self">self</span>, dot: <span class="kw">impl </span><a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html">Display</a>) -&gt; Cow&lt;<span class="lifetime">&#39;static</span>, <a href="../types.rs.html#61">ParameterNameRef</a>&gt; {
+    <span class="doccomment">/// Get the identifier for an option: `Option.{dot}`
+    </span><span class="kw">pub fn </span>param(<span class="kw-2">&amp;</span><span class="self">self</span>, dot: <span class="kw">impl </span><a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html">Display</a>) -&gt; Cow&lt;<span class="lifetime">&#39;static</span>, <a href="../types.rs.html#61">ParameterNameRef</a>&gt; {
         <span class="comment">// TODO: Should this maybe allow custom names?
         </span>Cow::Owned(<a class="macro" href="https://doc.rust-lang.org/nightly/alloc/macro.format.html">format!</a>(<span class="string">&quot;{VOICEMEETER_OPTION}.{}&quot;</span>, dot).<a href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html">into</a>())
     }
@@ -103,7 +105,7 @@
     /// `192000.0`
     </span><span class="kw">pub fn </span>sr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#64-70">FloatParameter</a> {
         <span class="comment">// FIXME: Enum parameter
-        </span>FloatParameter::new_unranged(<a class="self" href="#30">self</a>.<a href="#15-18">param</a>(<span class="string">&quot;sr&quot;</span>), <a class="self" href="#30">self</a>.remote)
+        </span>FloatParameter::new_unranged(<a class="self" href="#31">self</a>.<a href="#16-19">param</a>(<span class="string">&quot;sr&quot;</span>), <a class="self" href="#31">self</a>.remote)
     }
     <span class="doccomment">/// Samplerate for ASIO driver on output A1.
     ///  Value | Description
@@ -111,39 +113,39 @@
     ///  `false` | default ASIO samplerate
     ///  `true`  | preferred samplerate
     </span><span class="kw">pub fn </span>asio_sr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#166-171">BoolParameter</a> {
-        BoolParameter::new(<a class="self" href="#39">self</a>.<a href="#15-18">param</a>(<span class="string">&quot;ASIOsr&quot;</span>), <a class="self" href="#39">self</a>.remote)
+        BoolParameter::new(<a class="self" href="#40">self</a>.<a href="#16-19">param</a>(<span class="string">&quot;ASIOsr&quot;</span>), <a class="self" href="#40">self</a>.remote)
     }
     <span class="doccomment">/// BUS output delay
     </span><span class="kw">pub fn </span>delay(<span class="kw-2">&amp;</span><span class="self">self</span>, bus: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a href="../interface/parameters.rs.html#195-201">IntParameter</a> {
-        IntParameter::new(<a class="self" href="#43">self</a>.<a href="#15-18">param</a>(<a class="macro" href="https://doc.rust-lang.org/nightly/alloc/macro.format.html">format!</a>(<span class="string">&quot;delay[{bus}]&quot;</span>)), <a class="self" href="#43">self</a>.remote, <span class="number">0</span>..=<span class="number">500</span>)
+        IntParameter::new(<a class="self" href="#44">self</a>.<a href="#16-19">param</a>(<a class="macro" href="https://doc.rust-lang.org/nightly/alloc/macro.format.html">format!</a>(<span class="string">&quot;delay[{bus}]&quot;</span>)), <a class="self" href="#44">self</a>.remote, <span class="number">0</span>..=<span class="number">500</span>)
     }
     <span class="doccomment">/// MME buffer size
     </span><span class="kw">pub fn </span>buffer_mme(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#195-201">IntParameter</a> {
-        IntParameter::new(<a class="self" href="#47">self</a>.<a href="#15-18">param</a>(<span class="string">&quot;buffer.mme&quot;</span>), <a class="self" href="#47">self</a>.remote, <span class="number">128</span>..=<span class="number">2048</span>)
+        IntParameter::new(<a class="self" href="#48">self</a>.<a href="#16-19">param</a>(<span class="string">&quot;buffer.mme&quot;</span>), <a class="self" href="#48">self</a>.remote, <span class="number">128</span>..=<span class="number">2048</span>)
     }
     <span class="doccomment">/// WDM buffer size
     </span><span class="kw">pub fn </span>buffer_wdm(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#195-201">IntParameter</a> {
-        IntParameter::new(<a class="self" href="#51">self</a>.<a href="#15-18">param</a>(<span class="string">&quot;buffer.wdm&quot;</span>), <a class="self" href="#51">self</a>.remote, <span class="number">128</span>..=<span class="number">2048</span>)
+        IntParameter::new(<a class="self" href="#52">self</a>.<a href="#16-19">param</a>(<span class="string">&quot;buffer.wdm&quot;</span>), <a class="self" href="#52">self</a>.remote, <span class="number">128</span>..=<span class="number">2048</span>)
     }
     <span class="doccomment">/// KS buffer size
     </span><span class="kw">pub fn </span>buffer_ks(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#195-201">IntParameter</a> {
-        IntParameter::new(<a class="self" href="#55">self</a>.<a href="#15-18">param</a>(<span class="string">&quot;buffer.ks&quot;</span>), <a class="self" href="#55">self</a>.remote, <span class="number">128</span>..=<span class="number">2048</span>)
+        IntParameter::new(<a class="self" href="#56">self</a>.<a href="#16-19">param</a>(<span class="string">&quot;buffer.ks&quot;</span>), <a class="self" href="#56">self</a>.remote, <span class="number">128</span>..=<span class="number">2048</span>)
     }
     <span class="doccomment">/// ASIO buffer size
     </span><span class="kw">pub fn </span>buffer_asio(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#195-201">IntParameter</a> {
-        IntParameter::new(<a class="self" href="#59">self</a>.<a href="#15-18">param</a>(<span class="string">&quot;buffer.asio&quot;</span>), <a class="self" href="#59">self</a>.remote, <span class="number">128</span>..=<span class="number">2048</span>)
+        IntParameter::new(<a class="self" href="#60">self</a>.<a href="#16-19">param</a>(<span class="string">&quot;buffer.asio&quot;</span>), <a class="self" href="#60">self</a>.remote, <span class="number">128</span>..=<span class="number">2048</span>)
     }
     <span class="doccomment">/// WDM input exclusive
     </span><span class="kw">pub fn </span>mode_exlusif(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#166-171">BoolParameter</a> {
-        BoolParameter::new(<a class="self" href="#63">self</a>.<a href="#15-18">param</a>(<span class="string">&quot;mode.exclusif&quot;</span>), <a class="self" href="#63">self</a>.remote)
+        BoolParameter::new(<a class="self" href="#64">self</a>.<a href="#16-19">param</a>(<span class="string">&quot;mode.exclusif&quot;</span>), <a class="self" href="#64">self</a>.remote)
     }
     <span class="doccomment">/// WDM swift mode
     </span><span class="kw">pub fn </span>mode_swift(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#166-171">BoolParameter</a> {
-        BoolParameter::new(<a class="self" href="#67">self</a>.<a href="#15-18">param</a>(<span class="string">&quot;mode.swift&quot;</span>), <a class="self" href="#67">self</a>.remote)
+        BoolParameter::new(<a class="self" href="#68">self</a>.<a href="#16-19">param</a>(<span class="string">&quot;mode.swift&quot;</span>), <a class="self" href="#68">self</a>.remote)
     }
     <span class="doccomment">/// Option Monitor on SEL
     </span><span class="kw">pub fn </span>monitor_on_sel(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#166-171">BoolParameter</a> {
-        BoolParameter::new(<a class="self" href="#71">self</a>.<a href="#15-18">param</a>(<span class="string">&quot;MonitorOnSEL&quot;</span>), <a class="self" href="#71">self</a>.remote)
+        BoolParameter::new(<a class="self" href="#72">self</a>.<a href="#16-19">param</a>(<span class="string">&quot;MonitorOnSEL&quot;</span>), <a class="self" href="#72">self</a>.remote)
     }
 }
 </code></pre></div></section></main></body></html>

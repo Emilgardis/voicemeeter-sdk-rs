@@ -79,6 +79,7 @@
 <a href="#79" id="79">79</a>
 <a href="#80" id="80">80</a>
 <a href="#81" id="81">81</a>
+<a href="#82" id="82">82</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Common structs for EQ
 </span><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
@@ -131,33 +132,34 @@
         }
         <a href="#45">N</a>(<span class="kw-2">&amp;</span><a class="self" href="#44">self</a>.mode, <span class="kw-2">&amp;</span><a class="self" href="#44">self</a>.index, <span class="kw-2">&amp;</span><a class="self" href="#44">self</a>.channel)
     }
-    <span class="kw">fn </span>param(<span class="kw-2">&amp;</span><span class="self">self</span>, cell: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, dot: <span class="kw">impl </span><a href="https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html">ToString</a>) -&gt; Cow&lt;<span class="lifetime">&#39;static</span>, <a href="../types.rs.html#61">ParameterNameRef</a>&gt; {
+    <span class="doccomment">/// Get the identifier for a parameter on this equalizer: `Bus[i].EQ.channel[ch].cell[c].{dot}`
+    </span><span class="kw">pub fn </span>param(<span class="kw-2">&amp;</span><span class="self">self</span>, cell: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, dot: <span class="kw">impl </span><a href="https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html">ToString</a>) -&gt; Cow&lt;<span class="lifetime">&#39;static</span>, <a href="../types.rs.html#61">ParameterNameRef</a>&gt; {
         Cow::Owned(<a class="macro" href="https://doc.rust-lang.org/nightly/alloc/macro.format.html">format!</a>(<span class="string">&quot;{}.cell[{}].{}&quot;</span>, <span class="self">self</span>.name(), cell, dot.to_string()).<a href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html">into</a>())
     }
     <span class="doccomment">/// Turn EQ cell on or off
     </span><span class="kw">pub fn </span>on(<span class="kw-2">&amp;</span><span class="self">self</span>, cell: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a href="../interface/parameters.rs.html#166-171">BoolParameter</a> {
-        BoolParameter::new(<a class="self" href="#57">self</a>.<a href="#53-55">param</a>(<a href="#57">cell</a>, <span class="string">&quot;on&quot;</span>), <a class="self" href="#57">self</a>.remote)
+        BoolParameter::new(<a class="self" href="#58">self</a>.<a href="#54-56">param</a>(<a href="#58">cell</a>, <span class="string">&quot;on&quot;</span>), <a class="self" href="#58">self</a>.remote)
     }
     <span class="doccomment">/// Type of EQ filter.
     </span><span class="kw">pub fn </span>type_(<span class="kw-2">&amp;</span><span class="self">self</span>, cell: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a href="../interface/parameters.rs.html#195-201">IntParameter</a> {
         <span class="comment">// TODO: Enum Parameter
-        </span>IntParameter::new(<a class="self" href="#61">self</a>.<a href="#53-55">param</a>(<a href="#61">cell</a>, <span class="string">&quot;type&quot;</span>), <a class="self" href="#61">self</a>.remote, <span class="number">0</span>..=<span class="number">6</span>)
+        </span>IntParameter::new(<a class="self" href="#62">self</a>.<a href="#54-56">param</a>(<a href="#62">cell</a>, <span class="string">&quot;type&quot;</span>), <a class="self" href="#62">self</a>.remote, <span class="number">0</span>..=<span class="number">6</span>)
     }
     <span class="doccomment">/// Frequency of the EQ filter.
     </span><span class="kw">pub fn </span>f(<span class="kw-2">&amp;</span><span class="self">self</span>, cell: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a href="../interface/parameters.rs.html#64-70">FloatParameter</a> {
         <span class="comment">// TODO: Enum Parameter
-        </span>FloatParameter::new(<a class="self" href="#66">self</a>.<a href="#53-55">param</a>(<a href="#66">cell</a>, <span class="string">&quot;f&quot;</span>), <a class="self" href="#66">self</a>.remote, <span class="number">20.0</span>..=<span class="number">20_000.0</span>)
+        </span>FloatParameter::new(<a class="self" href="#67">self</a>.<a href="#54-56">param</a>(<a href="#67">cell</a>, <span class="string">&quot;f&quot;</span>), <a class="self" href="#67">self</a>.remote, <span class="number">20.0</span>..=<span class="number">20_000.0</span>)
     }
     <span class="doccomment">/// Gain of the EQ filter.
     </span><span class="kw">pub fn </span>gain(<span class="kw-2">&amp;</span><span class="self">self</span>, cell: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a href="../interface/parameters.rs.html#64-70">FloatParameter</a> {
         <span class="comment">// TODO: Enum Parameter
         // NOTE: Docs say -12 to 12, but interface allows -36 to 18
-        </span>FloatParameter::new(<a class="self" href="#71">self</a>.<a href="#53-55">param</a>(<a href="#71">cell</a>, <span class="string">&quot;gain&quot;</span>), <a class="self" href="#71">self</a>.remote, -<span class="number">36.0</span>..=<span class="number">18.0</span>)
+        </span>FloatParameter::new(<a class="self" href="#72">self</a>.<a href="#54-56">param</a>(<a href="#72">cell</a>, <span class="string">&quot;gain&quot;</span>), <a class="self" href="#72">self</a>.remote, -<span class="number">36.0</span>..=<span class="number">18.0</span>)
     }
     <span class="doccomment">/// Quality of the EQ filter.
     </span><span class="kw">pub fn </span>q(<span class="kw-2">&amp;</span><span class="self">self</span>, cell: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <a href="../interface/parameters.rs.html#195-201">IntParameter</a> {
         <span class="comment">// TODO: Enum Parameter
-        </span>IntParameter::new(<a class="self" href="#77">self</a>.<a href="#53-55">param</a>(<a href="#77">cell</a>, <span class="string">&quot;q&quot;</span>), <a class="self" href="#77">self</a>.remote, <span class="number">1</span>..=<span class="number">100</span>)
+        </span>IntParameter::new(<a class="self" href="#78">self</a>.<a href="#54-56">param</a>(<a href="#78">cell</a>, <span class="string">&quot;q&quot;</span>), <a class="self" href="#78">self</a>.remote, <span class="number">1</span>..=<span class="number">100</span>)
     }
 }
 </code></pre></div></section></main></body></html>

@@ -433,6 +433,8 @@
 <a href="#433" id="433">433</a>
 <a href="#434" id="434">434</a>
 <a href="#435" id="435">435</a>
+<a href="#436" id="436">436</a>
+<a href="#437" id="437">437</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Strip parameters
 </span><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
@@ -478,7 +480,8 @@
             <a href="#40">strip_index</a>,
         }
     }
-    <span class="kw">fn </span>param(<span class="kw-2">&amp;</span><span class="self">self</span>, dot: <span class="kw">impl </span><a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html">Display</a>) -&gt; Cow&lt;<span class="lifetime">&#39;static</span>, <a href="../types.rs.html#61">ParameterNameRef</a>&gt; {
+    <span class="doccomment">/// Get the identifier for a parameter on this strip: `Strip[i].{dot}`
+    </span><span class="kw">pub fn </span>param(<span class="kw-2">&amp;</span><span class="self">self</span>, dot: <span class="kw">impl </span><a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html">Display</a>) -&gt; Cow&lt;<span class="lifetime">&#39;static</span>, <a href="../types.rs.html#61">ParameterNameRef</a>&gt; {
         <span class="comment">// TODO: Should this maybe allow custom names?
         </span>Cow::Owned(<a class="macro" href="https://doc.rust-lang.org/nightly/alloc/macro.format.html">format!</a>(<span class="string">&quot;{STRIP}[{}].{}&quot;</span>, <span class="self">self</span>.strip_index, dot).<a href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html">into</a>())
     }
@@ -495,53 +498,53 @@
 
     <span class="doccomment">/// Strip is virtual
     </span><span class="kw">pub fn </span>is_virtual(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> {
-        !(<a class="self" href="#62">self</a>.<a href="#52-59">is_physical</a>() || <a class="macro" href="https://doc.rust-lang.org/nightly/core/macro.matches.html">matches!</a>(<span class="self">self</span>.remote.program, VoicemeeterApplication::Other))
+        !(<a class="self" href="#63">self</a>.<a href="#53-60">is_physical</a>() || <a class="macro" href="https://doc.rust-lang.org/nightly/core/macro.matches.html">matches!</a>(<span class="self">self</span>.remote.program, VoicemeeterApplication::Other))
     }
 
     <span class="doccomment">/// Mono Button
     </span><span class="kw">pub fn </span>mono(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#166-171">BoolParameter</a> {
-        BoolParameter::new(<a class="self" href="#67">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;Mono&quot;</span>), <a class="self" href="#67">self</a>.remote)
+        BoolParameter::new(<a class="self" href="#68">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;Mono&quot;</span>), <a class="self" href="#68">self</a>.remote)
     }
 
     <span class="doccomment">/// Mute Button
     </span><span class="kw">pub fn </span>mute(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#166-171">BoolParameter</a> {
-        BoolParameter::new(<a class="self" href="#72">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;Mute&quot;</span>), <a class="self" href="#72">self</a>.remote)
+        BoolParameter::new(<a class="self" href="#73">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;Mute&quot;</span>), <a class="self" href="#73">self</a>.remote)
     }
 
     <span class="doccomment">/// Solo Button
     </span><span class="kw">pub fn </span>solo(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#166-171">BoolParameter</a> {
-        BoolParameter::new(<a class="self" href="#77">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;Solo&quot;</span>), <a class="self" href="#77">self</a>.remote)
+        BoolParameter::new(<a class="self" href="#78">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;Solo&quot;</span>), <a class="self" href="#78">self</a>.remote)
     }
 
     <span class="comment">// FIXME: Only available in virtual input and input8
     </span><span class="doccomment">/// Mute Center Button
     </span><span class="kw">pub fn </span>mute_center(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#166-171">BoolParameter</a> {
-        BoolParameter::new(<a class="self" href="#83">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;MC&quot;</span>), <a class="self" href="#83">self</a>.remote)
+        BoolParameter::new(<a class="self" href="#84">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;MC&quot;</span>), <a class="self" href="#84">self</a>.remote)
     }
 
     <span class="doccomment">/// Gain slider
     </span><span class="kw">pub fn </span>gain(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#64-70">FloatParameter</a> {
-        FloatParameter::new(<a class="self" href="#88">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;Gain&quot;</span>), <a class="self" href="#88">self</a>.remote, -<span class="number">60.0</span>..=<span class="number">12.0</span>)
+        FloatParameter::new(<a class="self" href="#89">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;Gain&quot;</span>), <a class="self" href="#89">self</a>.remote, -<span class="number">60.0</span>..=<span class="number">12.0</span>)
     }
 
     <span class="comment">// TODO: zindex for bus
     </span><span class="doccomment">/// Gain slider for a bus
     </span><span class="kw">pub fn </span>gain_layer(<span class="kw-2">&amp;</span><span class="self">self</span>, layer: <span class="kw">impl </span>Into&lt;<a href="../types.rs.html#6">ZIndex</a>&gt;) -&gt; <a href="../interface/parameters.rs.html#64-70">FloatParameter</a> {
-        <span class="kw">let </span>layer = <a href="#94">layer</a>.<a href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html">into</a>();
-        <span class="kw">let </span>name = <a class="self" href="#94">self</a>.<a href="#46-49">param</a>(<a class="macro" href="https://doc.rust-lang.org/nightly/alloc/macro.format.html">format!</a>(<span class="string">&quot;GainLayer[{layer}]&quot;</span>));
-        FloatParameter::new(<a href="#96">name</a>, <a class="self" href="#94">self</a>.remote, -<span class="number">60.0</span>..=<span class="number">12.0</span>)
+        <span class="kw">let </span>layer = <a href="#95">layer</a>.<a href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html">into</a>();
+        <span class="kw">let </span>name = <a class="self" href="#95">self</a>.<a href="#47-50">param</a>(<a class="macro" href="https://doc.rust-lang.org/nightly/alloc/macro.format.html">format!</a>(<span class="string">&quot;GainLayer[{layer}]&quot;</span>));
+        FloatParameter::new(<a href="#97">name</a>, <a class="self" href="#95">self</a>.remote, -<span class="number">60.0</span>..=<span class="number">12.0</span>)
     }
 
     <span class="comment">// TODO: zindex for bus
     </span><span class="doccomment">/// Pan in x direction
     </span><span class="kw">pub fn </span>pan_x(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#64-70">FloatParameter</a> {
-        FloatParameter::new(<a class="self" href="#102">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;Pan_x&quot;</span>), <a class="self" href="#102">self</a>.remote, -<span class="number">0.5</span>..=<span class="number">0.5</span>)
+        FloatParameter::new(<a class="self" href="#103">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;Pan_x&quot;</span>), <a class="self" href="#103">self</a>.remote, -<span class="number">0.5</span>..=<span class="number">0.5</span>)
     }
 
     <span class="doccomment">/// Pan in y direction
     </span><span class="kw">pub fn </span>pan_y(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#64-70">FloatParameter</a> {
         <span class="comment">// FIXME: docs says for range: 0 to 1.0 (-0.5 to 0.5 for 5.1 pan pot)
-        </span>FloatParameter::new_unranged(<a class="self" href="#107">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;Pan_y&quot;</span>), <a class="self" href="#107">self</a>.remote)
+        </span>FloatParameter::new_unranged(<a class="self" href="#108">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;Pan_y&quot;</span>), <a class="self" href="#108">self</a>.remote)
     }
 
     <span class="doccomment">/// Color of physical strip in x direction
@@ -549,13 +552,13 @@
         <span class="kw">if </span><span class="self">self</span>.is_virtual() {
             <span class="prelude-val">Err</span>(<a href="errors.rs.html#24-31">InvalidTypeError::ExpectedPhysical</a> {
                 name: <a href="errors.rs.html#3">STRIP</a>,
-                strip_index: <a class="self" href="#113">self</a>.strip_index,
+                strip_index: <a class="self" href="#114">self</a>.strip_index,
                 parameter: <span class="string">&quot;Color_x&quot;</span>.<a href="https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html">to_string</a>(),
             })
         } <span class="kw">else </span>{
             <span class="prelude-val">Ok</span>(FloatParameter::new(
-                <a class="self" href="#113">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;Color_x&quot;</span>),
-                <a class="self" href="#113">self</a>.remote,
+                <a class="self" href="#114">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;Color_x&quot;</span>),
+                <a class="self" href="#114">self</a>.remote,
                 -<span class="number">0.5</span>..=<span class="number">0.5</span>,
             ))
         }
@@ -566,13 +569,13 @@
         <span class="kw">if </span><span class="self">self</span>.is_virtual() {
             <span class="prelude-val">Err</span>(<a href="errors.rs.html#24-31">InvalidTypeError::ExpectedPhysical</a> {
                 name: <a href="errors.rs.html#3">STRIP</a>,
-                strip_index: <a class="self" href="#130">self</a>.strip_index,
+                strip_index: <a class="self" href="#131">self</a>.strip_index,
                 parameter: <span class="string">&quot;Color_y&quot;</span>.<a href="https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html">to_string</a>(),
             })
         } <span class="kw">else </span>{
             <span class="prelude-val">Ok</span>(FloatParameter::new(
-                <a class="self" href="#130">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;Color_y&quot;</span>),
-                <a class="self" href="#130">self</a>.remote,
+                <a class="self" href="#131">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;Color_y&quot;</span>),
+                <a class="self" href="#131">self</a>.remote,
                 <span class="number">0.0</span>..=<span class="number">1.0</span>,
             ))
         }
@@ -583,13 +586,13 @@
         <span class="kw">if </span><span class="self">self</span>.is_virtual() {
             <span class="prelude-val">Err</span>(<a href="errors.rs.html#24-31">InvalidTypeError::ExpectedPhysical</a> {
                 name: <a href="errors.rs.html#3">STRIP</a>,
-                strip_index: <a class="self" href="#147">self</a>.strip_index,
+                strip_index: <a class="self" href="#148">self</a>.strip_index,
                 parameter: <span class="string">&quot;fx_x&quot;</span>.<a href="https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html">to_string</a>(),
             })
         } <span class="kw">else </span>{
             <span class="prelude-val">Ok</span>(FloatParameter::new(
-                <a class="self" href="#147">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;fx_x&quot;</span>),
-                <a class="self" href="#147">self</a>.remote,
+                <a class="self" href="#148">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;fx_x&quot;</span>),
+                <a class="self" href="#148">self</a>.remote,
                 -<span class="number">0.5</span>..=<span class="number">0.5</span>,
             ))
         }
@@ -600,13 +603,13 @@
         <span class="kw">if </span><span class="self">self</span>.is_virtual() {
             <span class="prelude-val">Err</span>(<a href="errors.rs.html#24-31">InvalidTypeError::ExpectedPhysical</a> {
                 name: <a href="errors.rs.html#3">STRIP</a>,
-                strip_index: <a class="self" href="#164">self</a>.strip_index,
+                strip_index: <a class="self" href="#165">self</a>.strip_index,
                 parameter: <span class="string">&quot;fx_y&quot;</span>.<a href="https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html">to_string</a>(),
             })
         } <span class="kw">else </span>{
             <span class="prelude-val">Ok</span>(FloatParameter::new(
-                <a class="self" href="#164">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;fx_y&quot;</span>),
-                <a class="self" href="#164">self</a>.remote,
+                <a class="self" href="#165">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;fx_y&quot;</span>),
+                <a class="self" href="#165">self</a>.remote,
                 <span class="number">0.0</span>..=<span class="number">1.0</span>,
             ))
         }
@@ -614,27 +617,27 @@
 
     <span class="doccomment">/// Audability
     </span><span class="kw">pub fn </span>audability(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#64-70">FloatParameter</a> {
-        FloatParameter::new(<a class="self" href="#181">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;Audability&quot;</span>), <a class="self" href="#181">self</a>.remote, <span class="number">0.0</span>..=<span class="number">10.0</span>)
+        FloatParameter::new(<a class="self" href="#182">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;Audability&quot;</span>), <a class="self" href="#182">self</a>.remote, <span class="number">0.0</span>..=<span class="number">10.0</span>)
     }
     <span class="comment">// FIXME: Only available in virtual input aux
     </span><span class="doccomment">/// Compression
     </span><span class="kw">pub fn </span>comp(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#64-70">FloatParameter</a> {
-        FloatParameter::new(<a class="self" href="#186">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;Comp&quot;</span>), <a class="self" href="#186">self</a>.remote, <span class="number">0.0</span>..=<span class="number">10.0</span>)
+        FloatParameter::new(<a class="self" href="#187">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;Comp&quot;</span>), <a class="self" href="#187">self</a>.remote, <span class="number">0.0</span>..=<span class="number">10.0</span>)
     }
 
     <span class="doccomment">/// Gate
     </span><span class="kw">pub fn </span>gate(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#64-70">FloatParameter</a> {
-        FloatParameter::new(<a class="self" href="#191">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;Gate&quot;</span>), <a class="self" href="#191">self</a>.remote, <span class="number">0.0</span>..=<span class="number">10.0</span>)
+        FloatParameter::new(<a class="self" href="#192">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;Gate&quot;</span>), <a class="self" href="#192">self</a>.remote, <span class="number">0.0</span>..=<span class="number">10.0</span>)
     }
 
     <span class="doccomment">/// Karaoke
     </span><span class="kw">pub fn </span>karaoke(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#195-201">IntParameter</a> {
-        IntParameter::new(<a class="self" href="#196">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;Karaoke&quot;</span>), <a class="self" href="#196">self</a>.remote, <span class="number">0</span>..=<span class="number">4</span>)
+        IntParameter::new(<a class="self" href="#197">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;Karaoke&quot;</span>), <a class="self" href="#197">self</a>.remote, <span class="number">0</span>..=<span class="number">4</span>)
     }
 
     <span class="doccomment">/// Limit
     </span><span class="kw">pub fn </span>limit(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#195-201">IntParameter</a> {
-        IntParameter::new(<a class="self" href="#201">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;Limit&quot;</span>), <a class="self" href="#201">self</a>.remote, -<span class="number">40</span>..=<span class="number">12</span>)
+        IntParameter::new(<a class="self" href="#202">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;Limit&quot;</span>), <a class="self" href="#202">self</a>.remote, -<span class="number">40</span>..=<span class="number">12</span>)
     }
 
     <span class="doccomment">/// EQGain1 of virtual strip
@@ -642,13 +645,13 @@
         <span class="kw">if </span><span class="self">self</span>.is_physical() {
             <span class="prelude-val">Err</span>(<a href="errors.rs.html#24-31">InvalidTypeError::ExpectedPhysical</a> {
                 name: <a href="errors.rs.html#3">STRIP</a>,
-                strip_index: <a class="self" href="#206">self</a>.strip_index,
+                strip_index: <a class="self" href="#207">self</a>.strip_index,
                 parameter: <span class="string">&quot;EQGain1&quot;</span>.<a href="https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html">to_string</a>(),
             })
         } <span class="kw">else </span>{
             <span class="prelude-val">Ok</span>(FloatParameter::new(
-                <a class="self" href="#206">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;EQGain1&quot;</span>),
-                <a class="self" href="#206">self</a>.remote,
+                <a class="self" href="#207">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;EQGain1&quot;</span>),
+                <a class="self" href="#207">self</a>.remote,
                 -<span class="number">12.0</span>..=<span class="number">12.0</span>,
             ))
         }
@@ -659,13 +662,13 @@
         <span class="kw">if </span><span class="self">self</span>.is_physical() {
             <span class="prelude-val">Err</span>(<a href="errors.rs.html#24-31">InvalidTypeError::ExpectedPhysical</a> {
                 name: <a href="errors.rs.html#3">STRIP</a>,
-                strip_index: <a class="self" href="#223">self</a>.strip_index,
+                strip_index: <a class="self" href="#224">self</a>.strip_index,
                 parameter: <span class="string">&quot;EQGain2&quot;</span>.<a href="https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html">to_string</a>(),
             })
         } <span class="kw">else </span>{
             <span class="prelude-val">Ok</span>(FloatParameter::new(
-                <a class="self" href="#223">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;EQGain2&quot;</span>),
-                <a class="self" href="#223">self</a>.remote,
+                <a class="self" href="#224">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;EQGain2&quot;</span>),
+                <a class="self" href="#224">self</a>.remote,
                 -<span class="number">12.0</span>..=<span class="number">12.0</span>,
             ))
         }
@@ -676,13 +679,13 @@
         <span class="kw">if </span><span class="self">self</span>.is_physical() {
             <span class="prelude-val">Err</span>(<a href="errors.rs.html#24-31">InvalidTypeError::ExpectedPhysical</a> {
                 name: <a href="errors.rs.html#3">STRIP</a>,
-                strip_index: <a class="self" href="#240">self</a>.strip_index,
+                strip_index: <a class="self" href="#241">self</a>.strip_index,
                 parameter: <span class="string">&quot;EQGain3&quot;</span>.<a href="https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html">to_string</a>(),
             })
         } <span class="kw">else </span>{
             <span class="prelude-val">Ok</span>(FloatParameter::new(
-                <a class="self" href="#240">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;EQGain3&quot;</span>),
-                <a class="self" href="#240">self</a>.remote,
+                <a class="self" href="#241">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;EQGain3&quot;</span>),
+                <a class="self" href="#241">self</a>.remote,
                 -<span class="number">12.0</span>..=<span class="number">12.0</span>,
             ))
         }
@@ -690,40 +693,40 @@
 
     <span class="doccomment">/// Label
     </span><span class="kw">pub fn </span>label(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#107-112">StringParameter</a> {
-        StringParameter::new(<a class="self" href="#257">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;Label&quot;</span>), <a class="self" href="#257">self</a>.remote)
+        StringParameter::new(<a class="self" href="#258">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;Label&quot;</span>), <a class="self" href="#258">self</a>.remote)
     }
 
     <span class="doccomment">/// Out BUS Assignation for A1
     </span><span class="kw">pub fn </span>a1(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#166-171">BoolParameter</a> {
-        BoolParameter::new(<a class="self" href="#262">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;A1&quot;</span>), <a class="self" href="#262">self</a>.remote)
+        BoolParameter::new(<a class="self" href="#263">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;A1&quot;</span>), <a class="self" href="#263">self</a>.remote)
     }
     <span class="doccomment">/// Out BUS Assignation for A2
     </span><span class="kw">pub fn </span>a2(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#166-171">BoolParameter</a> {
-        BoolParameter::new(<a class="self" href="#266">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;A2&quot;</span>), <a class="self" href="#266">self</a>.remote)
+        BoolParameter::new(<a class="self" href="#267">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;A2&quot;</span>), <a class="self" href="#267">self</a>.remote)
     }
     <span class="doccomment">/// Out BUS Assignation for A3
     </span><span class="kw">pub fn </span>a3(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#166-171">BoolParameter</a> {
-        BoolParameter::new(<a class="self" href="#270">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;A3&quot;</span>), <a class="self" href="#270">self</a>.remote)
+        BoolParameter::new(<a class="self" href="#271">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;A3&quot;</span>), <a class="self" href="#271">self</a>.remote)
     }
     <span class="doccomment">/// Out BUS Assignation for A4
     </span><span class="kw">pub fn </span>a4(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#166-171">BoolParameter</a> {
-        BoolParameter::new(<a class="self" href="#274">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;A4&quot;</span>), <a class="self" href="#274">self</a>.remote)
+        BoolParameter::new(<a class="self" href="#275">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;A4&quot;</span>), <a class="self" href="#275">self</a>.remote)
     }
     <span class="doccomment">/// Out BUS Assignation for A5
     </span><span class="kw">pub fn </span>a5(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#166-171">BoolParameter</a> {
-        BoolParameter::new(<a class="self" href="#278">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;A5&quot;</span>), <a class="self" href="#278">self</a>.remote)
+        BoolParameter::new(<a class="self" href="#279">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;A5&quot;</span>), <a class="self" href="#279">self</a>.remote)
     }
     <span class="doccomment">/// Out BUS Assignation for B1
     </span><span class="kw">pub fn </span>b1(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#166-171">BoolParameter</a> {
-        BoolParameter::new(<a class="self" href="#282">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;B1&quot;</span>), <a class="self" href="#282">self</a>.remote)
+        BoolParameter::new(<a class="self" href="#283">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;B1&quot;</span>), <a class="self" href="#283">self</a>.remote)
     }
     <span class="doccomment">/// Out BUS Assignation for B2
     </span><span class="kw">pub fn </span>b2(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#166-171">BoolParameter</a> {
-        BoolParameter::new(<a class="self" href="#286">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;B2&quot;</span>), <a class="self" href="#286">self</a>.remote)
+        BoolParameter::new(<a class="self" href="#287">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;B2&quot;</span>), <a class="self" href="#287">self</a>.remote)
     }
     <span class="doccomment">/// Out BUS Assignation for B3
     </span><span class="kw">pub fn </span>b3(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#166-171">BoolParameter</a> {
-        BoolParameter::new(<a class="self" href="#290">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;B3&quot;</span>), <a class="self" href="#290">self</a>.remote)
+        BoolParameter::new(<a class="self" href="#291">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;B3&quot;</span>), <a class="self" href="#291">self</a>.remote)
     }
     <span class="doccomment">/// EQ on channel
     </span><span class="kw">pub fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, channel: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="eq.rs.html#19-24">EqChannelParameter</a>, <a href="errors.rs.html#49-56">InvalidVoicemeeterVersion</a>&gt; {
@@ -731,63 +734,63 @@
             <a href="../types.rs.html#73">VoicemeeterApplication::VoicemeeterPotato</a>,
             <a href="../types.rs.html#75">VoicemeeterApplication::PotatoX64Bits</a>,
         ];
-        <span class="kw">let </span>eq = EqChannelParameter::new_strip(<a class="self" href="#294">self</a>.remote, <a class="self" href="#294">self</a>.strip_index, <a href="#294">channel</a>);
+        <span class="kw">let </span>eq = EqChannelParameter::new_strip(<a class="self" href="#295">self</a>.remote, <a class="self" href="#295">self</a>.strip_index, <a href="#295">channel</a>);
         <span class="kw">if </span>VALID.contains(<span class="kw-2">&amp;</span><span class="self">self</span>.remote.program) {
-            <span class="prelude-val">Ok</span>(<a href="#299">eq</a>)
+            <span class="prelude-val">Ok</span>(<a href="#300">eq</a>)
         } <span class="kw">else </span>{
             <span class="prelude-val">Err</span>(<a href="errors.rs.html#49-56">InvalidVoicemeeterVersion</a> {
-                expected: <a href="#295-298">VALID</a>,
-                found: <a class="self" href="#294">self</a>.remote.program,
-                parameter: <a href="#299">eq</a>.<a href="eq.rs.html#44-52">name</a>().<a href="https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html">to_string</a>(),
+                expected: <a href="#296-299">VALID</a>,
+                found: <a class="self" href="#295">self</a>.remote.program,
+                parameter: <a href="#300">eq</a>.<a href="eq.rs.html#44-52">name</a>().<a href="https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html">to_string</a>(),
             })
         }
     }
     <span class="doccomment">/// Fade to
     </span><span class="kw">pub fn </span>fade_to(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; TupleParameter&lt;<span class="lifetime">&#39;_</span>, <a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>, <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>&gt; {
-        TupleParameter::new(<a class="self" href="#311">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;FadeTo&quot;</span>), <a class="self" href="#311">self</a>.remote)
+        TupleParameter::new(<a class="self" href="#312">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;FadeTo&quot;</span>), <a class="self" href="#312">self</a>.remote)
     }
     <span class="doccomment">/// Fade by
     </span><span class="kw">pub fn </span>fade_by(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; TupleParameter&lt;<span class="lifetime">&#39;_</span>, <a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>, <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>&gt; {
-        TupleParameter::new(<a class="self" href="#315">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;FadeBy&quot;</span>), <a class="self" href="#315">self</a>.remote)
+        TupleParameter::new(<a class="self" href="#316">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;FadeBy&quot;</span>), <a class="self" href="#316">self</a>.remote)
     }
     <span class="doccomment">/// Send Level To Reverb
     </span><span class="kw">pub fn </span>reverb(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#64-70">FloatParameter</a> {
-        FloatParameter::new(<a class="self" href="#319">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;Reverb&quot;</span>), <a class="self" href="#319">self</a>.remote, <span class="number">0.0</span>..=<span class="number">10.0</span>)
+        FloatParameter::new(<a class="self" href="#320">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;Reverb&quot;</span>), <a class="self" href="#320">self</a>.remote, <span class="number">0.0</span>..=<span class="number">10.0</span>)
     }
     <span class="doccomment">/// Send Level To Delay
     </span><span class="kw">pub fn </span>delay(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#64-70">FloatParameter</a> {
-        FloatParameter::new(<a class="self" href="#323">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;Delay&quot;</span>), <a class="self" href="#323">self</a>.remote, <span class="number">0.0</span>..=<span class="number">10.0</span>)
+        FloatParameter::new(<a class="self" href="#324">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;Delay&quot;</span>), <a class="self" href="#324">self</a>.remote, <span class="number">0.0</span>..=<span class="number">10.0</span>)
     }
     <span class="doccomment">/// Send Level To External Fx1
     </span><span class="kw">pub fn </span>fx1(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#64-70">FloatParameter</a> {
-        FloatParameter::new(<a class="self" href="#327">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;Fx1&quot;</span>), <a class="self" href="#327">self</a>.remote, <span class="number">0.0</span>..=<span class="number">10.0</span>)
+        FloatParameter::new(<a class="self" href="#328">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;Fx1&quot;</span>), <a class="self" href="#328">self</a>.remote, <span class="number">0.0</span>..=<span class="number">10.0</span>)
     }
     <span class="doccomment">/// Send Level To External Fx2
     </span><span class="kw">pub fn </span>fx2(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#64-70">FloatParameter</a> {
-        FloatParameter::new(<a class="self" href="#331">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;Fx2&quot;</span>), <a class="self" href="#331">self</a>.remote, <span class="number">0.0</span>..=<span class="number">10.0</span>)
+        FloatParameter::new(<a class="self" href="#332">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;Fx2&quot;</span>), <a class="self" href="#332">self</a>.remote, <span class="number">0.0</span>..=<span class="number">10.0</span>)
     }
     <span class="doccomment">/// Post Reverb button
     </span><span class="kw">pub fn </span>post_reverb(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#166-171">BoolParameter</a> {
-        BoolParameter::new(<a class="self" href="#335">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;PostReverb&quot;</span>), <a class="self" href="#335">self</a>.remote)
+        BoolParameter::new(<a class="self" href="#336">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;PostReverb&quot;</span>), <a class="self" href="#336">self</a>.remote)
     }
     <span class="doccomment">/// Post Delay button
     </span><span class="kw">pub fn </span>post_delay(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#166-171">BoolParameter</a> {
-        BoolParameter::new(<a class="self" href="#339">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;PostDelay&quot;</span>), <a class="self" href="#339">self</a>.remote)
+        BoolParameter::new(<a class="self" href="#340">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;PostDelay&quot;</span>), <a class="self" href="#340">self</a>.remote)
     }
     <span class="doccomment">/// Post Fx1 button
     </span><span class="kw">pub fn </span>post_fx1(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#166-171">BoolParameter</a> {
-        BoolParameter::new(<a class="self" href="#343">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;PostFx1&quot;</span>), <a class="self" href="#343">self</a>.remote)
+        BoolParameter::new(<a class="self" href="#344">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;PostFx1&quot;</span>), <a class="self" href="#344">self</a>.remote)
     }
     <span class="doccomment">/// Post Fx2 button
     </span><span class="kw">pub fn </span>post_fx2(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="../interface/parameters.rs.html#166-171">BoolParameter</a> {
-        BoolParameter::new(<a class="self" href="#347">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;PostFx2&quot;</span>), <a class="self" href="#347">self</a>.remote)
+        BoolParameter::new(<a class="self" href="#348">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;PostFx2&quot;</span>), <a class="self" href="#348">self</a>.remote)
     }
 
     <span class="doccomment">/// Application gain
     </span><span class="kw">pub fn </span>app_gain_indexed(<span class="kw-2">&amp;</span><span class="self">self</span>, application_index: <a href="../types.rs.html#6">ZIndex</a>) -&gt; FloatParameter&lt;<span class="lifetime">&#39;_</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>&gt; {
         FloatParameter::new(
-            <a class="self" href="#352">self</a>.<a href="#46-49">param</a>(<a class="macro" href="https://doc.rust-lang.org/nightly/alloc/macro.format.html">format!</a>(<span class="string">&quot;App[{application_index}].Gain&quot;</span>)),
-            <a class="self" href="#352">self</a>.remote,
+            <a class="self" href="#353">self</a>.<a href="#47-50">param</a>(<a class="macro" href="https://doc.rust-lang.org/nightly/alloc/macro.format.html">format!</a>(<span class="string">&quot;App[{application_index}].Gain&quot;</span>)),
+            <a class="self" href="#353">self</a>.remote,
             <span class="number">0.0</span>..=<span class="number">1.0</span>,
         )
     }
@@ -795,19 +798,19 @@
     <span class="doccomment">/// Application Mute
     </span><span class="kw">pub fn </span>app_mute_indexed(<span class="kw-2">&amp;</span><span class="self">self</span>, application_index: <a href="../types.rs.html#6">ZIndex</a>) -&gt; BoolParameter&lt;<span class="lifetime">&#39;_</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>&gt; {
         BoolParameter::new(
-            <a class="self" href="#361">self</a>.<a href="#46-49">param</a>(<a class="macro" href="https://doc.rust-lang.org/nightly/alloc/macro.format.html">format!</a>(<span class="string">&quot;App[{application_index}].Mute&quot;</span>)),
-            <a class="self" href="#361">self</a>.remote,
+            <a class="self" href="#362">self</a>.<a href="#47-50">param</a>(<a class="macro" href="https://doc.rust-lang.org/nightly/alloc/macro.format.html">format!</a>(<span class="string">&quot;App[{application_index}].Mute&quot;</span>)),
+            <a class="self" href="#362">self</a>.remote,
         )
     }
 
     <span class="doccomment">/// Application gain
     </span><span class="kw">pub fn </span>app_gain(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; TupleParameter&lt;<span class="lifetime">&#39;_</span>, <a href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html">String</a>, <a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>, <span class="bool-val">true</span>, <span class="bool-val">false</span>&gt; {
-        TupleParameter::new(<a class="self" href="#369">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;AppGain&quot;</span>), <a class="self" href="#369">self</a>.remote)
+        TupleParameter::new(<a class="self" href="#370">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;AppGain&quot;</span>), <a class="self" href="#370">self</a>.remote)
     }
 
     <span class="doccomment">/// Application Mute
     </span><span class="kw">pub fn </span>app_mute(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; TupleParameter&lt;<span class="lifetime">&#39;_</span>, <a href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html">String</a>, <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <span class="bool-val">true</span>, <span class="bool-val">false</span>&gt; {
-        TupleParameter::new(<a class="self" href="#374">self</a>.<a href="#46-49">param</a>(<span class="string">&quot;AppMute&quot;</span>), <a class="self" href="#374">self</a>.remote)
+        TupleParameter::new(<a class="self" href="#375">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;AppMute&quot;</span>), <a class="self" href="#375">self</a>.remote)
     }
 
     <span class="doccomment">/// Audio Device information
@@ -815,11 +818,11 @@
         <span class="kw">if </span><span class="self">self</span>.is_virtual() {
             <span class="prelude-val">Err</span>(<a href="errors.rs.html#24-31">InvalidTypeError::ExpectedPhysical</a> {
                 name: <a href="errors.rs.html#3">STRIP</a>,
-                strip_index: <a class="self" href="#379">self</a>.strip_index,
+                strip_index: <a class="self" href="#380">self</a>.strip_index,
                 parameter: <span class="string">&quot;device&quot;</span>.<a href="https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html">to_string</a>(),
             })
         } <span class="kw">else </span>{
-            <span class="prelude-val">Ok</span>(StripDevice::new(<a class="self" href="#379">self</a>.remote, <a class="self" href="#379">self</a>.strip_index))
+            <span class="prelude-val">Ok</span>(StripDevice::new(<a class="self" href="#380">self</a>.remote, <a class="self" href="#380">self</a>.strip_index))
         }
     }
 }
@@ -833,39 +836,40 @@
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; StripDevice&lt;<span class="lifetime">&#39;a</span>&gt; {
     <span class="kw">fn </span>new(remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a>, strip_index: <a href="../types.rs.html#6">ZIndex</a>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            <a href="#399">remote</a>,
-            <a href="#399">strip_index</a>,
+            <a href="#400">remote</a>,
+            <a href="#400">strip_index</a>,
         }
     }
 
-    <span class="kw">fn </span>param(<span class="kw-2">&amp;</span><span class="self">self</span>, dot: <span class="kw">impl </span><a href="https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html">ToString</a>) -&gt; Cow&lt;<span class="lifetime">&#39;static</span>, <a href="../types.rs.html#61">ParameterNameRef</a>&gt; {
+    <span class="doccomment">/// Get the identifier for a device parameter on this strip: `Strip[i].device.{dot}`
+    </span><span class="kw">pub fn </span>param(<span class="kw-2">&amp;</span><span class="self">self</span>, dot: <span class="kw">impl </span><a href="https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html">ToString</a>) -&gt; Cow&lt;<span class="lifetime">&#39;static</span>, <a href="../types.rs.html#61">ParameterNameRef</a>&gt; {
         Cow::Owned(<a class="macro" href="https://doc.rust-lang.org/nightly/alloc/macro.format.html">format!</a>(<span class="string">&quot;{STRIP}[{}].device.{}&quot;</span>, <span class="self">self</span>.strip_index, dot.to_string()).<a href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html">into</a>())
     }
 
     <span class="doccomment">/// Name of the device.
     </span><span class="kw">pub fn </span>name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; StringParameter&lt;<span class="lifetime">&#39;a</span>, <span class="bool-val">false</span>, <span class="bool-val">true</span>&gt; {
-        StringParameter::new(<a class="self" href="#411">self</a>.<a href="#406-408">param</a>(<span class="string">&quot;name&quot;</span>), <a class="self" href="#411">self</a>.remote)
+        StringParameter::new(<a class="self" href="#413">self</a>.<a href="#408-410">param</a>(<span class="string">&quot;name&quot;</span>), <a class="self" href="#413">self</a>.remote)
     }
 
     <span class="doccomment">/// Samplerate of the device.
     </span><span class="kw">pub fn </span>sr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; IntParameter&lt;<span class="lifetime">&#39;a</span>, <span class="bool-val">false</span>, <span class="bool-val">true</span>&gt; {
-        IntParameter::new_unranged(<a class="self" href="#416">self</a>.<a href="#406-408">param</a>(<span class="string">&quot;sr&quot;</span>), <a class="self" href="#416">self</a>.remote)
+        IntParameter::new_unranged(<a class="self" href="#418">self</a>.<a href="#408-410">param</a>(<span class="string">&quot;sr&quot;</span>), <a class="self" href="#418">self</a>.remote)
     }
     <span class="doccomment">/// WDM device
     </span><span class="kw">pub fn </span>wdm(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; StringParameter&lt;<span class="lifetime">&#39;a</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>&gt; {
-        StringParameter::new(<a class="self" href="#420">self</a>.<a href="#406-408">param</a>(<span class="string">&quot;wdm&quot;</span>), <a class="self" href="#420">self</a>.remote)
+        StringParameter::new(<a class="self" href="#422">self</a>.<a href="#408-410">param</a>(<span class="string">&quot;wdm&quot;</span>), <a class="self" href="#422">self</a>.remote)
     }
     <span class="doccomment">/// KS device
     </span><span class="kw">pub fn </span>ks(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; StringParameter&lt;<span class="lifetime">&#39;a</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>&gt; {
-        StringParameter::new(<a class="self" href="#424">self</a>.<a href="#406-408">param</a>(<span class="string">&quot;ks&quot;</span>), <a class="self" href="#424">self</a>.remote)
+        StringParameter::new(<a class="self" href="#426">self</a>.<a href="#408-410">param</a>(<span class="string">&quot;ks&quot;</span>), <a class="self" href="#426">self</a>.remote)
     }
     <span class="doccomment">/// MME device
     </span><span class="kw">pub fn </span>mme(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; StringParameter&lt;<span class="lifetime">&#39;a</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>&gt; {
-        StringParameter::new(<a class="self" href="#428">self</a>.<a href="#406-408">param</a>(<span class="string">&quot;mme&quot;</span>), <a class="self" href="#428">self</a>.remote)
+        StringParameter::new(<a class="self" href="#430">self</a>.<a href="#408-410">param</a>(<span class="string">&quot;mme&quot;</span>), <a class="self" href="#430">self</a>.remote)
     }
     <span class="doccomment">/// ASIO device
     </span><span class="kw">pub fn </span>asio(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; StringParameter&lt;<span class="lifetime">&#39;a</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>&gt; {
-        StringParameter::new(<a class="self" href="#432">self</a>.<a href="#406-408">param</a>(<span class="string">&quot;asio&quot;</span>), <a class="self" href="#432">self</a>.remote)
+        StringParameter::new(<a class="self" href="#434">self</a>.<a href="#408-410">param</a>(<span class="string">&quot;asio&quot;</span>), <a class="self" href="#434">self</a>.remote)
     }
 }
 </code></pre></div></section></main></body></html>
