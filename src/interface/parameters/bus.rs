@@ -88,11 +88,11 @@ impl<'a> Bus<'a> {
         EqChannelParameter::new_bus(self.remote, self.bus_index, channel)
     }
     /// Fade to
-    pub fn fade_to(&self) -> TupleParameter<'_, i32, usize> {
+    pub fn fade_to(&self) -> TupleParameter<'_, f32, usize> {
         TupleParameter::new(self.param("FadeTo"), self.remote)
     }
     /// Fade by
-    pub fn fade_by(&self) -> TupleParameter<'_, i32, usize> {
+    pub fn fade_by(&self) -> TupleParameter<'_, f32, usize> {
         TupleParameter::new(self.param("FadeBy"), self.remote)
     }
     /// BUS SEL Button
