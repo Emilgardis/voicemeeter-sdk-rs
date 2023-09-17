@@ -40,7 +40,10 @@ interface = []
 
 [workspace]
 default-members = ["."]
-members = ["codegen", "miri", "xtask"]
+members = ["codegen", "miri", "xtask", "examples/sync-a1"]
+
+[workspace.dependencies]
+voicemeeter = { path = "." }
 
 [patch.crates-io]
 #fundsp  = { path = "../fundsp" }

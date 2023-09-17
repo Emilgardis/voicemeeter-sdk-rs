@@ -6,6 +6,10 @@
 
 [Commits](https://github.com/Emilgardis/voicemeeter-sdk-rs/compare/v0.2.0...Unreleased)
 
+### Breaking changes
+
+* Made `FadeBy` and `FadeTo` into floats instead of integers #25
+
 ## [v0.2.0] - 2023-09-11
 
 [Commits](https://github.com/Emilgardis/voicemeeter-sdk-rs/compare/v0.1.1...v0.2.0)
