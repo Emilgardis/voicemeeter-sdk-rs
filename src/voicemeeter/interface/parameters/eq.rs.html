@@ -99,14 +99,14 @@
 
 <span class="doccomment">/// Parameter for EQ on a specific channel and input/output (bus/strip)
 </span><span class="kw">pub struct </span><a href="../../..\../voicemeeter/interface/parameters/eq/struct.EqChannelParameter.html">EqChannelParameter</a>&lt;<span class="lifetime">&#39;a</span>&gt; {
-    remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a>,
+    remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-26">VoicemeeterRemote</a>,
     mode: <a href="#4-7">Mode</a>,
     index: <a href="../types.rs.html#6">ZIndex</a>,
     channel: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; EqChannelParameter&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_bus(remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a>, index: <a href="../types.rs.html#6">ZIndex</a>, channel: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <span class="self">Self </span>{
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_bus(remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-26">VoicemeeterRemote</a>, index: <a href="../types.rs.html#6">ZIndex</a>, channel: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             <a href="#27">remote</a>,
             mode: <a href="#6">Mode::Bus</a>,
@@ -115,7 +115,7 @@
         }
     }
 
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_strip(remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a>, index: <a href="../types.rs.html#6">ZIndex</a>, channel: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <span class="self">Self </span>{
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new_strip(remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-26">VoicemeeterRemote</a>, index: <a href="../types.rs.html#6">ZIndex</a>, channel: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             <a href="#36">remote</a>,
             mode: <a href="#5">Mode::Strip</a>,

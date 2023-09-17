@@ -373,6 +373,9 @@
 <a href="#373" id="373">373</a>
 <a href="#374" id="374">374</a>
 <a href="#375" id="375">375</a>
+<a href="#376" id="376">376</a>
+<a href="#377" id="377">377</a>
+<a href="#378" id="378">378</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Basic types used in voicemeeter
 
 /// A Zero Indexed Index
@@ -450,51 +453,54 @@
     </span>PotatoX64Bits = <span class="number">6</span>,
     <span class="doccomment">/// Unknown voicemeeter type
     </span>Other,
+    <span class="doccomment">/// No voicmeeter running
+    </span><span class="prelude-val">None </span>= <span class="number">255</span>,
 }
 
-<span class="kw">impl </span><a href="#67-78">VoicemeeterApplication</a> {
+<span class="kw">impl </span><a href="#67-80">VoicemeeterApplication</a> {
     <span class="doccomment">/// Return all possible devices for this application
-    </span><span class="kw">pub const fn </span>devices(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[<a href="#162-195">Device</a>] {
-        <span class="kw">use </span><a href="#162-195"><span class="self">self</span>::Device</a>::<span class="kw-2">*</span>;
-        <span class="kw">match </span><span class="self"><a href="#82">self</a> </span>{
+    </span><span class="kw">pub const fn </span>devices(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[<a href="#165-198">Device</a>] {
+        <span class="kw">use </span><a href="#165-198"><span class="self">self</span>::Device</a>::<span class="kw-2">*</span>;
+        <span class="kw">match </span><span class="self"><a href="#84">self</a> </span>{
             <a href="#69">VoicemeeterApplication::Voicemeeter</a> =&gt; {
-                <span class="kw-2">&amp;</span>[<a href="#164">Strip1</a>, <a href="#166">Strip2</a>, <a href="#190">VirtualInput</a>, <a href="#174">OutputA1</a>, <a href="#184">VirtualOutputB1</a>]
+                <span class="kw-2">&amp;</span>[<a href="#167">Strip1</a>, <a href="#169">Strip2</a>, <a href="#193">VirtualInput</a>, <a href="#177">OutputA1</a>, <a href="#187">VirtualOutputB1</a>]
             }
             <a href="#71">VoicemeeterApplication::VoicemeeterBanana</a> =&gt; <span class="kw-2">&amp;</span>[
-                <a href="#164">Strip1</a>,
-                <a href="#166">Strip2</a>,
-                <a href="#168">Strip3</a>,
-                <a href="#190">VirtualInput</a>,
-                <a href="#192">VirtualInputAux</a>,
-                <a href="#174">OutputA1</a>,
-                <a href="#176">OutputA2</a>,
-                <a href="#178">OutputA3</a>,
-                <a href="#184">VirtualOutputB1</a>,
-                <a href="#186">VirtualOutputB2</a>,
+                <a href="#167">Strip1</a>,
+                <a href="#169">Strip2</a>,
+                <a href="#171">Strip3</a>,
+                <a href="#193">VirtualInput</a>,
+                <a href="#195">VirtualInputAux</a>,
+                <a href="#177">OutputA1</a>,
+                <a href="#179">OutputA2</a>,
+                <a href="#181">OutputA3</a>,
+                <a href="#187">VirtualOutputB1</a>,
+                <a href="#189">VirtualOutputB2</a>,
             ],
             <a href="#73">VoicemeeterApplication::VoicemeeterPotato</a> | <a href="#75">VoicemeeterApplication::PotatoX64Bits</a> =&gt; {
                 Device::all()
             }
-            <a href="#77">VoicemeeterApplication::Other</a> =&gt; <span class="kw-2">&amp;</span>[],
+            <a href="#77">VoicemeeterApplication::Other</a> | <a href="#79">VoicemeeterApplication::None</a> =&gt; <span class="kw-2">&amp;</span>[],
         }
     }
 }
 
-<span class="kw">impl </span><a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html">std::fmt::Display</a> <span class="kw">for </span><a href="#67-78">VoicemeeterApplication</a> {
+<span class="kw">impl </span><a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html">std::fmt::Display</a> <span class="kw">for </span><a href="#67-80">VoicemeeterApplication</a> {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <a href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html">std::fmt::Result</a> {
-        <span class="kw">match </span><span class="self"><a href="#109">self</a> </span>{
-            <a href="#69">VoicemeeterApplication::Voicemeeter</a> =&gt; <a href="#109">f</a>.write_str(<span class="string">&quot;Voicemeeter&quot;</span>),
-            <a href="#71">VoicemeeterApplication::VoicemeeterBanana</a> =&gt; <a href="#109">f</a>.write_str(<span class="string">&quot;VoicemeeterBanana&quot;</span>),
-            <a href="#73">VoicemeeterApplication::VoicemeeterPotato</a> =&gt; <a href="#109">f</a>.write_str(<span class="string">&quot;VoicemeeterPotato&quot;</span>),
-            <a href="#75">VoicemeeterApplication::PotatoX64Bits</a> =&gt; <a href="#109">f</a>.write_str(<span class="string">&quot;VoicemeeterPotatoX64Bits&quot;</span>),
-            <a href="#77">VoicemeeterApplication::Other</a> =&gt; <a href="#109">f</a>.write_str(<span class="string">&quot;VoicemeeterUnknown&quot;</span>),
+        <span class="kw">match </span><span class="self"><a href="#111">self</a> </span>{
+            <a href="#69">VoicemeeterApplication::Voicemeeter</a> =&gt; <a href="#111">f</a>.write_str(<span class="string">&quot;Voicemeeter&quot;</span>),
+            <a href="#71">VoicemeeterApplication::VoicemeeterBanana</a> =&gt; <a href="#111">f</a>.write_str(<span class="string">&quot;VoicemeeterBanana&quot;</span>),
+            <a href="#73">VoicemeeterApplication::VoicemeeterPotato</a> =&gt; <a href="#111">f</a>.write_str(<span class="string">&quot;VoicemeeterPotato&quot;</span>),
+            <a href="#75">VoicemeeterApplication::PotatoX64Bits</a> =&gt; <a href="#111">f</a>.write_str(<span class="string">&quot;VoicemeeterPotatoX64Bits&quot;</span>),
+            <a href="#77">VoicemeeterApplication::Other</a> =&gt; <a href="#111">f</a>.write_str(<span class="string">&quot;VoicemeeterUnknown&quot;</span>),
+            <a href="#79">VoicemeeterApplication::None</a> =&gt; <a href="#111">f</a>.write_str(<span class="string">&quot;None&quot;</span>),
         }
     }
 }
 
-<span class="kw">impl </span>From&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>&gt; <span class="kw">for </span><a href="#67-78">VoicemeeterApplication</a> {
+<span class="kw">impl </span>From&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>&gt; <span class="kw">for </span><a href="#67-80">VoicemeeterApplication</a> {
     <span class="kw">fn </span>from(ty: <a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>) -&gt; <span class="self">Self </span>{
-        <span class="kw">match </span><a href="#121">ty</a> {
+        <span class="kw">match </span><a href="#124">ty</a> {
             <span class="number">1 </span>=&gt; <a href="#69">VoicemeeterApplication::Voicemeeter</a>,
             <span class="number">2 </span>=&gt; <a href="#71">VoicemeeterApplication::VoicemeeterBanana</a>,
             <span class="number">3 </span>=&gt; <a href="#73">VoicemeeterApplication::VoicemeeterPotato</a>,
@@ -520,14 +526,14 @@
     </span>Other,
 }
 
-<span class="kw">impl </span>From&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>&gt; <span class="kw">for </span><a href="#135-146">LevelType</a> {
+<span class="kw">impl </span>From&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>&gt; <span class="kw">for </span><a href="#138-149">LevelType</a> {
     <span class="kw">fn </span>from(ty: <a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>) -&gt; <span class="self">Self </span>{
-        <span class="kw">match </span><a href="#149">ty</a> {
-            <span class="number">0 </span>=&gt; <a href="#137">LevelType::PreFaderInputLevels</a>,
-            <span class="number">1 </span>=&gt; <a href="#139">LevelType::PostFaderInputLevels</a>,
-            <span class="number">2 </span>=&gt; <a href="#141">LevelType::PostMuteInputLevels</a>,
-            <span class="number">3 </span>=&gt; <a href="#143">LevelType::OutputLevels</a>,
-            <span class="kw">_ </span>=&gt; <a href="#145">LevelType::Other</a>,
+        <span class="kw">match </span><a href="#152">ty</a> {
+            <span class="number">0 </span>=&gt; <a href="#140">LevelType::PreFaderInputLevels</a>,
+            <span class="number">1 </span>=&gt; <a href="#142">LevelType::PostFaderInputLevels</a>,
+            <span class="number">2 </span>=&gt; <a href="#144">LevelType::PostMuteInputLevels</a>,
+            <span class="number">3 </span>=&gt; <a href="#146">LevelType::OutputLevels</a>,
+            <span class="kw">_ </span>=&gt; <a href="#148">LevelType::Other</a>,
         }
     }
 }
@@ -578,125 +584,125 @@
     </span><span class="kw">pub </span>size: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
 }
 
-<span class="kw">impl </span><a href="#199-204">ChannelIndex</a> {
+<span class="kw">impl </span><a href="#202-207">ChannelIndex</a> {
     <span class="doccomment">/// Create a new index.
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const fn </span>new(start: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, size: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <span class="self">Self </span>{
-        <span class="self">Self </span>{ <a href="#208">start</a>, <a href="#208">size</a> }
+        <span class="self">Self </span>{ <a href="#211">start</a>, <a href="#211">size</a> }
     }
 
     <span class="doccomment">/// Get the channel index for
     </span><span class="kw">pub fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>, channel: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <span class="prelude-ty">Option</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>&gt; {
-        (<a class="self" href="#213">self</a>.start..(<a class="self" href="#213">self</a>.start + <a class="self" href="#213">self</a>.size)).<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">nth</a>(<a href="#213">channel</a>)
+        (<a class="self" href="#216">self</a>.start..(<a class="self" href="#216">self</a>.start + <a class="self" href="#216">self</a>.size)).<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">nth</a>(<a href="#216">channel</a>)
     }
 }
-<span class="kw">const fn </span>ci(start: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, size: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <span class="prelude-ty">Option</span>&lt;<a href="#199-204">ChannelIndex</a>&gt; {
-    <span class="prelude-val">Some</span>(ChannelIndex::new(<a href="#217">start</a>, <a href="#217">size</a>))
+<span class="kw">const fn </span>ci(start: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, size: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <span class="prelude-ty">Option</span>&lt;<a href="#202-207">ChannelIndex</a>&gt; {
+    <span class="prelude-val">Some</span>(ChannelIndex::new(<a href="#220">start</a>, <a href="#220">size</a>))
 }
-<span class="kw">impl </span><a href="#162-195">Device</a> {
+<span class="kw">impl </span><a href="#165-198">Device</a> {
     <span class="doccomment">/// Get the [`ChannelIndex`] for this channel in the buffers when in [main mode](crate::interface::callback::CallbackCommand::BufferMain), if available in the current program.
     </span><span class="kw">pub const fn </span>main(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        program: <span class="kw-2">&amp;</span><a href="#67-78">VoicemeeterApplication</a>,
-    ) -&gt; (<span class="prelude-ty">Option</span>&lt;<a href="#199-204">ChannelIndex</a>&gt;, <span class="prelude-ty">Option</span>&lt;<a href="#199-204">ChannelIndex</a>&gt;) {
-        <span class="kw">match </span><a href="#224">program</a> {
-            <a href="#69">VoicemeeterApplication::Voicemeeter</a> =&gt; <span class="kw">match </span><span class="self"><a href="#223">self</a> </span>{
-                <a href="#164">Device::Strip1</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">0</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
-                <a href="#166">Device::Strip2</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">2</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
-                <a href="#174">Device::OutputA1</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">12</span>, <span class="number">8</span>), <a href="#217-219">ci</a>(<span class="number">0</span>, <span class="number">8</span>)),
+        program: <span class="kw-2">&amp;</span><a href="#67-80">VoicemeeterApplication</a>,
+    ) -&gt; (<span class="prelude-ty">Option</span>&lt;<a href="#202-207">ChannelIndex</a>&gt;, <span class="prelude-ty">Option</span>&lt;<a href="#202-207">ChannelIndex</a>&gt;) {
+        <span class="kw">match </span><a href="#227">program</a> {
+            <a href="#69">VoicemeeterApplication::Voicemeeter</a> =&gt; <span class="kw">match </span><span class="self"><a href="#226">self</a> </span>{
+                <a href="#167">Device::Strip1</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">0</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
+                <a href="#169">Device::Strip2</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">2</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
+                <a href="#177">Device::OutputA1</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">12</span>, <span class="number">8</span>), <a href="#220-222">ci</a>(<span class="number">0</span>, <span class="number">8</span>)),
                 <span class="comment">//Device::OutputA2 =&gt; (ci(12, 8), ci(0, 8)),
-                </span><a href="#184">Device::VirtualOutputB1</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">20</span>, <span class="number">8</span>), <a href="#217-219">ci</a>(<span class="number">8</span>, <span class="number">8</span>)),
-                <a href="#190">Device::VirtualInput</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">4</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
+                </span><a href="#187">Device::VirtualOutputB1</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">20</span>, <span class="number">8</span>), <a href="#220-222">ci</a>(<span class="number">8</span>, <span class="number">8</span>)),
+                <a href="#193">Device::VirtualInput</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">4</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
                 <span class="kw">_ </span>=&gt; (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>),
             },
-            <a href="#71">VoicemeeterApplication::VoicemeeterBanana</a> =&gt; <span class="kw">match </span><span class="self"><a href="#223">self</a> </span>{
-                <a href="#164">Device::Strip1</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">0</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
-                <a href="#166">Device::Strip2</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">2</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
-                <a href="#168">Device::Strip3</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">4</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
-                <a href="#174">Device::OutputA1</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">22</span>, <span class="number">8</span>), <a href="#217-219">ci</a>(<span class="number">0</span>, <span class="number">8</span>)),
-                <a href="#176">Device::OutputA2</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">30</span>, <span class="number">8</span>), <a href="#217-219">ci</a>(<span class="number">8</span>, <span class="number">8</span>)),
-                <a href="#178">Device::OutputA3</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">38</span>, <span class="number">8</span>), <a href="#217-219">ci</a>(<span class="number">16</span>, <span class="number">8</span>)),
-                <a href="#184">Device::VirtualOutputB1</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">46</span>, <span class="number">8</span>), <a href="#217-219">ci</a>(<span class="number">24</span>, <span class="number">8</span>)),
-                <a href="#186">Device::VirtualOutputB2</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">54</span>, <span class="number">8</span>), <a href="#217-219">ci</a>(<span class="number">32</span>, <span class="number">8</span>)),
-                <a href="#190">Device::VirtualInput</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">6</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
-                <a href="#192">Device::VirtualInputAux</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">14</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
+            <a href="#71">VoicemeeterApplication::VoicemeeterBanana</a> =&gt; <span class="kw">match </span><span class="self"><a href="#226">self</a> </span>{
+                <a href="#167">Device::Strip1</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">0</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
+                <a href="#169">Device::Strip2</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">2</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
+                <a href="#171">Device::Strip3</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">4</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
+                <a href="#177">Device::OutputA1</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">22</span>, <span class="number">8</span>), <a href="#220-222">ci</a>(<span class="number">0</span>, <span class="number">8</span>)),
+                <a href="#179">Device::OutputA2</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">30</span>, <span class="number">8</span>), <a href="#220-222">ci</a>(<span class="number">8</span>, <span class="number">8</span>)),
+                <a href="#181">Device::OutputA3</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">38</span>, <span class="number">8</span>), <a href="#220-222">ci</a>(<span class="number">16</span>, <span class="number">8</span>)),
+                <a href="#187">Device::VirtualOutputB1</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">46</span>, <span class="number">8</span>), <a href="#220-222">ci</a>(<span class="number">24</span>, <span class="number">8</span>)),
+                <a href="#189">Device::VirtualOutputB2</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">54</span>, <span class="number">8</span>), <a href="#220-222">ci</a>(<span class="number">32</span>, <span class="number">8</span>)),
+                <a href="#193">Device::VirtualInput</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">6</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
+                <a href="#195">Device::VirtualInputAux</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">14</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
                 <span class="kw">_ </span>=&gt; (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>),
             },
             <a href="#73">VoicemeeterApplication::VoicemeeterPotato</a> | <a href="#75">VoicemeeterApplication::PotatoX64Bits</a> =&gt; {
-                <span class="kw">match </span><span class="self"><a href="#223">self</a> </span>{
-                    <a href="#164">Device::Strip1</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">0</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
-                    <a href="#166">Device::Strip2</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">2</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
-                    <a href="#168">Device::Strip3</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">4</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
-                    <a href="#170">Device::Strip4</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">6</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
-                    <a href="#172">Device::Strip5</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">8</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
-                    <a href="#174">Device::OutputA1</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">34</span>, <span class="number">8</span>), <a href="#217-219">ci</a>(<span class="number">0</span>, <span class="number">8</span>)),
-                    <a href="#176">Device::OutputA2</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">42</span>, <span class="number">8</span>), <a href="#217-219">ci</a>(<span class="number">8</span>, <span class="number">8</span>)),
-                    <a href="#178">Device::OutputA3</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">50</span>, <span class="number">8</span>), <a href="#217-219">ci</a>(<span class="number">16</span>, <span class="number">8</span>)),
-                    <a href="#180">Device::OutputA4</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">58</span>, <span class="number">8</span>), <a href="#217-219">ci</a>(<span class="number">24</span>, <span class="number">8</span>)),
-                    <a href="#182">Device::OutputA5</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">66</span>, <span class="number">8</span>), <a href="#217-219">ci</a>(<span class="number">32</span>, <span class="number">8</span>)),
-                    <a href="#184">Device::VirtualOutputB1</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">74</span>, <span class="number">8</span>), <a href="#217-219">ci</a>(<span class="number">40</span>, <span class="number">8</span>)),
-                    <a href="#186">Device::VirtualOutputB2</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">82</span>, <span class="number">8</span>), <a href="#217-219">ci</a>(<span class="number">48</span>, <span class="number">8</span>)),
-                    <a href="#188">Device::VirtualOutputB3</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">82</span>, <span class="number">8</span>), <a href="#217-219">ci</a>(<span class="number">56</span>, <span class="number">8</span>)),
-                    <a href="#190">Device::VirtualInput</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">10</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
-                    <a href="#192">Device::VirtualInputAux</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">18</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
-                    <a href="#194">Device::VirtualInput8</a> =&gt; (<a href="#217-219">ci</a>(<span class="number">26</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
+                <span class="kw">match </span><span class="self"><a href="#226">self</a> </span>{
+                    <a href="#167">Device::Strip1</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">0</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
+                    <a href="#169">Device::Strip2</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">2</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
+                    <a href="#171">Device::Strip3</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">4</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
+                    <a href="#173">Device::Strip4</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">6</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
+                    <a href="#175">Device::Strip5</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">8</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
+                    <a href="#177">Device::OutputA1</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">34</span>, <span class="number">8</span>), <a href="#220-222">ci</a>(<span class="number">0</span>, <span class="number">8</span>)),
+                    <a href="#179">Device::OutputA2</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">42</span>, <span class="number">8</span>), <a href="#220-222">ci</a>(<span class="number">8</span>, <span class="number">8</span>)),
+                    <a href="#181">Device::OutputA3</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">50</span>, <span class="number">8</span>), <a href="#220-222">ci</a>(<span class="number">16</span>, <span class="number">8</span>)),
+                    <a href="#183">Device::OutputA4</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">58</span>, <span class="number">8</span>), <a href="#220-222">ci</a>(<span class="number">24</span>, <span class="number">8</span>)),
+                    <a href="#185">Device::OutputA5</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">66</span>, <span class="number">8</span>), <a href="#220-222">ci</a>(<span class="number">32</span>, <span class="number">8</span>)),
+                    <a href="#187">Device::VirtualOutputB1</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">74</span>, <span class="number">8</span>), <a href="#220-222">ci</a>(<span class="number">40</span>, <span class="number">8</span>)),
+                    <a href="#189">Device::VirtualOutputB2</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">82</span>, <span class="number">8</span>), <a href="#220-222">ci</a>(<span class="number">48</span>, <span class="number">8</span>)),
+                    <a href="#191">Device::VirtualOutputB3</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">82</span>, <span class="number">8</span>), <a href="#220-222">ci</a>(<span class="number">56</span>, <span class="number">8</span>)),
+                    <a href="#193">Device::VirtualInput</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">10</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
+                    <a href="#195">Device::VirtualInputAux</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">18</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
+                    <a href="#197">Device::VirtualInput8</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">26</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
                 }
             }
             <span class="kw">_ </span>=&gt; (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>),
         }
     }
     <span class="doccomment">/// Get the [`ChannelIndex`] for this channel in the buffers when in [input mode](crate::interface::callback::CallbackCommand::BufferIn), if available in the current program.
-    </span><span class="kw">pub const fn </span>input(<span class="kw-2">&amp;</span><span class="self">self</span>, program: <span class="kw-2">&amp;</span><a href="#67-78">VoicemeeterApplication</a>) -&gt; <span class="prelude-ty">Option</span>&lt;<a href="#199-204">ChannelIndex</a>&gt; {
-        <span class="kw">match </span><span class="self"><a href="#273">self</a> </span>{
-            <a href="#174">Device::OutputA1</a>
-            | <a href="#176">Device::OutputA2</a>
-            | <a href="#178">Device::OutputA3</a>
-            | <a href="#180">Device::OutputA4</a>
-            | <a href="#182">Device::OutputA5</a>
-            | <a href="#184">Device::VirtualOutputB1</a>
-            | <a href="#186">Device::VirtualOutputB2</a>
-            | <a href="#188">Device::VirtualOutputB3</a> =&gt; <span class="prelude-val">None</span>,
-            <span class="kw">_ </span>=&gt; <a class="self" href="#273">self</a>.<a href="#222-271">main</a>(<a href="#273">program</a>).<span class="number">0</span>,
+    </span><span class="kw">pub const fn </span>input(<span class="kw-2">&amp;</span><span class="self">self</span>, program: <span class="kw-2">&amp;</span><a href="#67-80">VoicemeeterApplication</a>) -&gt; <span class="prelude-ty">Option</span>&lt;<a href="#202-207">ChannelIndex</a>&gt; {
+        <span class="kw">match </span><span class="self"><a href="#276">self</a> </span>{
+            <a href="#177">Device::OutputA1</a>
+            | <a href="#179">Device::OutputA2</a>
+            | <a href="#181">Device::OutputA3</a>
+            | <a href="#183">Device::OutputA4</a>
+            | <a href="#185">Device::OutputA5</a>
+            | <a href="#187">Device::VirtualOutputB1</a>
+            | <a href="#189">Device::VirtualOutputB2</a>
+            | <a href="#191">Device::VirtualOutputB3</a> =&gt; <span class="prelude-val">None</span>,
+            <span class="kw">_ </span>=&gt; <a class="self" href="#276">self</a>.<a href="#225-274">main</a>(<a href="#276">program</a>).<span class="number">0</span>,
         }
     }
     <span class="doccomment">/// Get the [`ChannelIndex`] for this channel in the buffers when in [output mode](crate::interface::callback::CallbackCommand::BufferOut), if available in the current program.
-    </span><span class="kw">pub const fn </span>output(<span class="kw-2">&amp;</span><span class="self">self</span>, program: <span class="kw-2">&amp;</span><a href="#67-78">VoicemeeterApplication</a>) -&gt; <span class="prelude-ty">Option</span>&lt;<a href="#199-204">ChannelIndex</a>&gt; {
-        <a class="self" href="#287">self</a>.<a href="#222-271">main</a>(<a href="#287">program</a>).<span class="number">1
+    </span><span class="kw">pub const fn </span>output(<span class="kw-2">&amp;</span><span class="self">self</span>, program: <span class="kw-2">&amp;</span><a href="#67-80">VoicemeeterApplication</a>) -&gt; <span class="prelude-ty">Option</span>&lt;<a href="#202-207">ChannelIndex</a>&gt; {
+        <a class="self" href="#290">self</a>.<a href="#225-274">main</a>(<a href="#290">program</a>).<span class="number">1
     </span>}
     <span class="doccomment">/// Get all channels available.
     </span><span class="kw">pub const fn </span>all() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[<span class="self">Self</span>] {
         <span class="kw-2">&amp;</span>[
-            <a href="#164">Device::Strip1</a>,
-            <a href="#166">Device::Strip2</a>,
-            <a href="#168">Device::Strip3</a>,
-            <a href="#170">Device::Strip4</a>,
-            <a href="#172">Device::Strip5</a>,
-            <a href="#174">Device::OutputA1</a>,
-            <a href="#176">Device::OutputA2</a>,
-            <a href="#178">Device::OutputA3</a>,
-            <a href="#180">Device::OutputA4</a>,
-            <a href="#182">Device::OutputA5</a>,
-            <a href="#184">Device::VirtualOutputB1</a>,
-            <a href="#186">Device::VirtualOutputB2</a>,
-            <a href="#188">Device::VirtualOutputB3</a>,
-            <a href="#190">Device::VirtualInput</a>,
-            <a href="#192">Device::VirtualInputAux</a>,
-            <a href="#194">Device::VirtualInput8</a>,
+            <a href="#167">Device::Strip1</a>,
+            <a href="#169">Device::Strip2</a>,
+            <a href="#171">Device::Strip3</a>,
+            <a href="#173">Device::Strip4</a>,
+            <a href="#175">Device::Strip5</a>,
+            <a href="#177">Device::OutputA1</a>,
+            <a href="#179">Device::OutputA2</a>,
+            <a href="#181">Device::OutputA3</a>,
+            <a href="#183">Device::OutputA4</a>,
+            <a href="#185">Device::OutputA5</a>,
+            <a href="#187">Device::VirtualOutputB1</a>,
+            <a href="#189">Device::VirtualOutputB2</a>,
+            <a href="#191">Device::VirtualOutputB3</a>,
+            <a href="#193">Device::VirtualInput</a>,
+            <a href="#195">Device::VirtualInputAux</a>,
+            <a href="#197">Device::VirtualInput8</a>,
         ]
     }
 
     <span class="doccomment">/// Gives the devices number for the current application for getting level.
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>as_level_device_num(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        program: <span class="kw-2">&amp;</span><a href="#67-78">VoicemeeterApplication</a>,
-        level_type: <a href="#135-146">LevelType</a>,
+        program: <span class="kw-2">&amp;</span><a href="#67-80">VoicemeeterApplication</a>,
+        level_type: <a href="#138-149">LevelType</a>,
         channel: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
     ) -&gt; <span class="prelude-ty">Option</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>&gt; {
-        <span class="kw">match </span><a href="#316">level_type</a> {
-            <a href="#137">LevelType::PreFaderInputLevels</a>
-            | <a href="#139">LevelType::PostFaderInputLevels</a>
-            | <a href="#141">LevelType::PostMuteInputLevels</a> =&gt; <span class="self">self</span>.input(program)<span class="question-mark">?</span>.<a href="#213-215">get</a>(<a href="#317">channel</a>),
-            <a href="#143">LevelType::OutputLevels</a> =&gt; <span class="self">self</span>.output(program)<span class="question-mark">?</span>.<a href="#213-215">get</a>(<a href="#317">channel</a>),
-            <a href="#145">LevelType::Other</a> =&gt; <span class="prelude-val">None</span>,
+        <span class="kw">match </span><a href="#319">level_type</a> {
+            <a href="#140">LevelType::PreFaderInputLevels</a>
+            | <a href="#142">LevelType::PostFaderInputLevels</a>
+            | <a href="#144">LevelType::PostMuteInputLevels</a> =&gt; <span class="self">self</span>.input(program)<span class="question-mark">?</span>.<a href="#216-218">get</a>(<a href="#320">channel</a>),
+            <a href="#146">LevelType::OutputLevels</a> =&gt; <span class="self">self</span>.output(program)<span class="question-mark">?</span>.<a href="#216-218">get</a>(<a href="#320">channel</a>),
+            <a href="#148">LevelType::Other</a> =&gt; <span class="prelude-val">None</span>,
         }
     }
 }
@@ -730,21 +736,21 @@
     </span>RearOnly,
 }
 
-<span class="kw">impl </span><a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html">std::fmt::Display</a> <span class="kw">for </span><a href="#331-356">BusMode</a> {
+<span class="kw">impl </span><a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html">std::fmt::Display</a> <span class="kw">for </span><a href="#334-359">BusMode</a> {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <a href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html">std::fmt::Result</a> {
-        <span class="kw">match </span><span class="self"><a href="#359">self</a> </span>{
-            <a href="#333">BusMode::Normal</a> =&gt; <a href="#359">f</a>.write_str(<span class="string">&quot;normal&quot;</span>),
-            <a href="#335">BusMode::Amix</a> =&gt; <a href="#359">f</a>.write_str(<span class="string">&quot;Amix&quot;</span>),
-            <a href="#337">BusMode::Bmix</a> =&gt; <a href="#359">f</a>.write_str(<span class="string">&quot;Bmix&quot;</span>),
-            <a href="#339">BusMode::Repeat</a> =&gt; <a href="#359">f</a>.write_str(<span class="string">&quot;Repeat&quot;</span>),
-            <a href="#341">BusMode::Composite</a> =&gt; <a href="#359">f</a>.write_str(<span class="string">&quot;Composite&quot;</span>),
-            <a href="#343">BusMode::TvMix</a> =&gt; <a href="#359">f</a>.write_str(<span class="string">&quot;TVMix&quot;</span>),
-            <a href="#345">BusMode::UpMix21</a> =&gt; <a href="#359">f</a>.write_str(<span class="string">&quot;UpMix21&quot;</span>),
-            <a href="#347">BusMode::UpMix41</a> =&gt; <a href="#359">f</a>.write_str(<span class="string">&quot;UpMix41&quot;</span>),
-            <a href="#349">BusMode::UpMix61</a> =&gt; <a href="#359">f</a>.write_str(<span class="string">&quot;UpMix61&quot;</span>),
-            <a href="#351">BusMode::CenterOnly</a> =&gt; <a href="#359">f</a>.write_str(<span class="string">&quot;CenterOnly&quot;</span>),
-            <a href="#353">BusMode::LfeOnly</a> =&gt; <a href="#359">f</a>.write_str(<span class="string">&quot;LFEOnly&quot;</span>),
-            <a href="#355">BusMode::RearOnly</a> =&gt; <a href="#359">f</a>.write_str(<span class="string">&quot;RearOnly&quot;</span>),
+        <span class="kw">match </span><span class="self"><a href="#362">self</a> </span>{
+            <a href="#336">BusMode::Normal</a> =&gt; <a href="#362">f</a>.write_str(<span class="string">&quot;normal&quot;</span>),
+            <a href="#338">BusMode::Amix</a> =&gt; <a href="#362">f</a>.write_str(<span class="string">&quot;Amix&quot;</span>),
+            <a href="#340">BusMode::Bmix</a> =&gt; <a href="#362">f</a>.write_str(<span class="string">&quot;Bmix&quot;</span>),
+            <a href="#342">BusMode::Repeat</a> =&gt; <a href="#362">f</a>.write_str(<span class="string">&quot;Repeat&quot;</span>),
+            <a href="#344">BusMode::Composite</a> =&gt; <a href="#362">f</a>.write_str(<span class="string">&quot;Composite&quot;</span>),
+            <a href="#346">BusMode::TvMix</a> =&gt; <a href="#362">f</a>.write_str(<span class="string">&quot;TVMix&quot;</span>),
+            <a href="#348">BusMode::UpMix21</a> =&gt; <a href="#362">f</a>.write_str(<span class="string">&quot;UpMix21&quot;</span>),
+            <a href="#350">BusMode::UpMix41</a> =&gt; <a href="#362">f</a>.write_str(<span class="string">&quot;UpMix41&quot;</span>),
+            <a href="#352">BusMode::UpMix61</a> =&gt; <a href="#362">f</a>.write_str(<span class="string">&quot;UpMix61&quot;</span>),
+            <a href="#354">BusMode::CenterOnly</a> =&gt; <a href="#362">f</a>.write_str(<span class="string">&quot;CenterOnly&quot;</span>),
+            <a href="#356">BusMode::LfeOnly</a> =&gt; <a href="#362">f</a>.write_str(<span class="string">&quot;LFEOnly&quot;</span>),
+            <a href="#358">BusMode::RearOnly</a> =&gt; <a href="#362">f</a>.write_str(<span class="string">&quot;RearOnly&quot;</span>),
         }
     }
 }

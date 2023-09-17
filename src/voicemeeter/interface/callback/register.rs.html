@@ -197,6 +197,8 @@
 <a href="#197" id="197">197</a>
 <a href="#198" id="198">198</a>
 <a href="#199" id="199">199</a>
+<a href="#200" id="200">200</a>
+<a href="#201" id="201">201</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Functions for callbacks in Voicemeeter.
 </span><span class="kw">use </span>std::{
     ffi::{<a href="https://doc.rust-lang.org/nightly/alloc/ffi/c_str/struct.CString.html">CString</a>, <a href="https://doc.rust-lang.org/nightly/alloc/ffi/c_str/struct.NulError.html">NulError</a>},
@@ -206,7 +208,7 @@
 
 <span class="kw">use crate</span>::{
     <a href="../bindings.rs.html#193">bindings::VBVMR_CBCOMMAND</a>, <a href="data.rs.html#52">interface::callback::data::RawCallbackData</a>, <a href="commands.rs.html#190-219">CallbackCommand</a>,
-    <a href="../interface.rs.html#21-25">VoicemeeterRemote</a>,
+    <a href="../interface.rs.html#21-26">VoicemeeterRemote</a>,
 };
 
 <span class="comment">/***************************************************************************** */
@@ -222,11 +224,11 @@
 
 // Thanks to sgrif, http://blog.sagetheprogrammer.com/neat-rust-tricks-passing-rust-closures-to-c
 </span><span class="kw">fn </span>register_audio_callback&lt;<span class="lifetime">&#39;cb</span>, F&gt;(
-    remote: <span class="kw-2">&amp;</span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a>,
+    remote: <span class="kw-2">&amp;</span><a href="../interface.rs.html#21-26">VoicemeeterRemote</a>,
     mode: <span class="kw-2">&amp;</span><a href="../bindings.rs.html#231"><span class="kw">crate</span>::AudioCallbackMode</a>,
     application: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_char.html">std::os::raw::c_char</a>,
     callback: F,
-) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">*mut </span>F, <a href="#171-185">AudioCallbackRegisterError</a>&gt;
+) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">*mut </span>F, <a href="#172-186">AudioCallbackRegisterError</a>&gt;
 <span class="kw">where
     </span>F: FnMut(CallbackCommand&lt;<span class="lifetime">&#39;cb</span>&gt;, <a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>) -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">c_long</a>,
 {
@@ -244,11 +246,11 @@
     <a class="macro" href="https://docs.rs/tracing/0.1.37/tracing/macro.debug.html">tracing::debug!</a>(<span class="string">&quot;registered application&quot;</span>);
     <span class="kw">match </span><a href="#37">res</a> {
         <span class="number">0 </span>=&gt; <span class="prelude-val">Ok</span>(<a href="#35">data</a>),
-        -<span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#175">AudioCallbackRegisterError::NoServer</a>),
-        <span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#178">AudioCallbackRegisterError::AlreadyRegistered</a>(<span class="kw">unsafe </span>{
+        -<span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#176">AudioCallbackRegisterError::NoServer</a>),
+        <span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#179">AudioCallbackRegisterError::AlreadyRegistered</a>(<span class="kw">unsafe </span>{
             CString::from_raw(<a href="#28">application</a>)
         })),
-        s =&gt; <span class="prelude-val">Err</span>(<a href="#184">AudioCallbackRegisterError::Unexpected</a>(<a href="#52">s</a>)),
+        s =&gt; <span class="prelude-val">Err</span>(<a href="#185">AudioCallbackRegisterError::Unexpected</a>(<a href="#52">s</a>)),
     }
 }
 
@@ -283,7 +285,7 @@
     lt: std::marker::PhantomData&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>()&gt;,
 }
 
-<span class="kw">impl </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a> {
+<span class="kw">impl </span><a href="../interface.rs.html#21-26">VoicemeeterRemote</a> {
     <span class="doccomment">/// Register a callback for audio.
     ///
     /// The callback is a function that will be called when the audio stream is started, changed or stopped and when data is sent to it.
@@ -309,7 +311,7 @@
         mode: <a href="../bindings.rs.html#231"><span class="kw">crate</span>::AudioCallbackMode</a>,
         application_name: <span class="kw">impl </span>AsRef&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>&gt;,
         callback: F,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;CallbackGuard&lt;<span class="lifetime">&#39;g</span>, F&gt;, <a href="#171-185">AudioCallbackRegisterError</a>&gt;
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;CallbackGuard&lt;<span class="lifetime">&#39;g</span>, F&gt;, <a href="#172-186">AudioCallbackRegisterError</a>&gt;
     <span class="kw">where
         </span>F: FnMut(CallbackCommand&lt;<span class="lifetime">&#39;cb</span>&gt;, <a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>) -&gt; <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_long.html">c_long</a> + <span class="lifetime">&#39;g</span>,
     {
@@ -340,34 +342,35 @@
     </span><span class="kw">pub fn </span>audio_callback_unregister&lt;F&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         guard: CallbackGuard&lt;<span class="lifetime">&#39;_</span>, F&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="#189-199">AudioCallbackUnregisterError</a>&gt; {
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="#191-201">AudioCallbackUnregisterError</a>&gt; {
         <span class="kw">let </span>res = <span class="kw">unsafe </span>{ <a class="self" href="#142">self</a>.raw.<a href="../bindings.rs.html#1496-1498">VBVMR_AudioCallbackUnregister</a>() };
         <span class="kw">match </span><a href="#145">res</a> {
             <span class="number">0 </span>=&gt; {
                 <span class="kw">unsafe </span>{ Box::from_raw(<a href="#143">guard</a>.guard) };
                 <span class="prelude-val">Ok</span>(())
             }
-            -<span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#192">AudioCallbackUnregisterError::NoServer</a>),
-            <span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#195">AudioCallbackUnregisterError::AlreadyUnregistered</a>),
-            s =&gt; <span class="prelude-val">Err</span>(<a href="#198">AudioCallbackUnregisterError::Unexpected</a>(<a href="#153">s</a>)),
+            -<span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#194">AudioCallbackUnregisterError::NoServer</a>),
+            <span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#197">AudioCallbackUnregisterError::AlreadyUnregistered</a>),
+            s =&gt; <span class="prelude-val">Err</span>(<a href="#200">AudioCallbackUnregisterError::Unexpected</a>(<a href="#153">s</a>)),
         }
     }
 
     <span class="doccomment">/// Unregister a callback without dropping the callback, thus leaking data. This implicitly calls [`VoicemeeterRemote::audio_callback_stop`].
-    </span><span class="kw">pub fn </span>audio_callback_unregister_leak&lt;F&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="#189-199">AudioCallbackUnregisterError</a>&gt; {
+    </span><span class="kw">pub fn </span>audio_callback_unregister_leak&lt;F&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="#191-201">AudioCallbackUnregisterError</a>&gt; {
         <span class="kw">let </span>res = <span class="kw">unsafe </span>{ <a class="self" href="#158">self</a>.raw.<a href="../bindings.rs.html#1496-1498">VBVMR_AudioCallbackUnregister</a>() };
         <span class="kw">match </span><a href="#159">res</a> {
             <span class="number">0 </span>=&gt; <span class="prelude-val">Ok</span>(()),
-            -<span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#192">AudioCallbackUnregisterError::NoServer</a>),
-            <span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#195">AudioCallbackUnregisterError::AlreadyUnregistered</a>),
-            s =&gt; <span class="prelude-val">Err</span>(<a href="#198">AudioCallbackUnregisterError::Unexpected</a>(<a href="#164">s</a>)),
+            -<span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#194">AudioCallbackUnregisterError::NoServer</a>),
+            <span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#197">AudioCallbackUnregisterError::AlreadyUnregistered</a>),
+            s =&gt; <span class="prelude-val">Err</span>(<a href="#200">AudioCallbackUnregisterError::Unexpected</a>(<a href="#164">s</a>)),
         }
     }
 }
 
 <span class="doccomment">/// Errors that can occur while registering an audio callback.
 </span><span class="attr">#[derive(Debug, Clone, thiserror::Error)]
-</span><span class="kw">pub enum </span><a href="#171-185">AudioCallbackRegisterError</a> {
+#[non_exhaustive]
+</span><span class="kw">pub enum </span><a href="#172-186">AudioCallbackRegisterError</a> {
     <span class="comment">// TODO: is this correct?
     </span><span class="doccomment">/// No server.
     </span><span class="attr">#[error(<span class="string">&quot;no server&quot;</span>)]
@@ -385,7 +388,8 @@
 
 <span class="doccomment">/// Errors that can occur while unregistering the audio callback.
 </span><span class="attr">#[derive(Debug, Clone, thiserror::Error)]
-</span><span class="kw">pub enum </span><a href="#189-199">AudioCallbackUnregisterError</a> {
+#[non_exhaustive]
+</span><span class="kw">pub enum </span><a href="#191-201">AudioCallbackUnregisterError</a> {
     <span class="doccomment">/// No server.
     </span><span class="attr">#[error(<span class="string">&quot;no server&quot;</span>)]
     </span>NoServer,

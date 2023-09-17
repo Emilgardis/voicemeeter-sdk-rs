@@ -749,7 +749,7 @@
 
 </span><span class="kw">use </span><span class="self">self</span>::sealed::{<a href="#9-17">Buffer</a>, <a href="#18-24">BufferMut</a>};
 <span class="kw">use </span><a href="../interface\callback/data.rs.html#88-141"><span class="kw">super</span>::BufferDataExt</a>;
-<span class="kw">use </span><a href="../types.rs.html#162-195"><span class="kw">super</span>::Device</a>;
+<span class="kw">use </span><a href="../types.rs.html#165-198"><span class="kw">super</span>::Device</a>;
 <span class="kw">use super</span>::{<a href="../interface\callback/data.rs.html#282-286">Input</a>, <a href="../interface\callback/data.rs.html#151-155">Main</a>, <a href="../interface\callback/data.rs.html#217-221">Output</a>};
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod </span>sealed {
@@ -1027,45 +1027,45 @@
         </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>new(buffer: <span class="kw-2">&amp;</span><span class="lifetime">&#39;_ </span><span class="kw-2">mut </span><a href="../interface\callback/data.rs.html#151-155">Main</a>) -&gt; <span class="self">Self </span>{
             <span class="kw">unsafe </span>{
                 <span class="self">Self </span>{
-                    strip1: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#164">Device::Strip1</a>),
-                    strip2: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#166">Device::Strip2</a>),
-                    strip3: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#168">Device::Strip3</a>),
-                    strip4: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#170">Device::Strip4</a>),
-                    strip5: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#172">Device::Strip5</a>),
-                    output_a1: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#174">Device::OutputA1</a>),
-                    output_a2: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#176">Device::OutputA2</a>),
-                    output_a3: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#178">Device::OutputA3</a>),
-                    output_a4: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#180">Device::OutputA4</a>),
-                    output_a5: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#182">Device::OutputA5</a>),
-                    virtual_output_b1: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#184">Device::VirtualOutputB1</a>),
-                    virtual_output_b2: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#186">Device::VirtualOutputB2</a>),
-                    virtual_output_b3: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#188">Device::VirtualOutputB3</a>),
-                    virtual_input: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#190">Device::VirtualInput</a>),
-                    virtual_input_aux: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#192">Device::VirtualInputAux</a>),
-                    virtual_input8: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#194">Device::VirtualInput8</a>),
+                    strip1: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#167">Device::Strip1</a>),
+                    strip2: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#169">Device::Strip2</a>),
+                    strip3: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#171">Device::Strip3</a>),
+                    strip4: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#173">Device::Strip4</a>),
+                    strip5: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#175">Device::Strip5</a>),
+                    output_a1: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#177">Device::OutputA1</a>),
+                    output_a2: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#179">Device::OutputA2</a>),
+                    output_a3: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#181">Device::OutputA3</a>),
+                    output_a4: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#183">Device::OutputA4</a>),
+                    output_a5: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#185">Device::OutputA5</a>),
+                    virtual_output_b1: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#187">Device::VirtualOutputB1</a>),
+                    virtual_output_b2: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#189">Device::VirtualOutputB2</a>),
+                    virtual_output_b3: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#191">Device::VirtualOutputB3</a>),
+                    virtual_input: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#193">Device::VirtualInput</a>),
+                    virtual_input_aux: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#195">Device::VirtualInputAux</a>),
+                    virtual_input8: <a href="#280">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#197">Device::VirtualInput8</a>),
                     _pd: <a href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html">Default::default</a>(),
                 }
             }
         }
         <span class="doccomment">/// Grab the device buffer for a specific device
-        </span><span class="kw">pub fn </span>device(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, device: <span class="kw-2">&amp;</span><a href="../types.rs.html#162-195">Device</a>) -&gt; DeviceBuffer&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>[<a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]]&gt; {
+        </span><span class="kw">pub fn </span>device(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, device: <span class="kw-2">&amp;</span><a href="../types.rs.html#165-198">Device</a>) -&gt; DeviceBuffer&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>[<a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]]&gt; {
             <span class="kw">match </span><a href="#304">device</a> {
-                <a href="../types.rs.html#164">Device::Strip1</a> =&gt; <a class="self" href="#304">self</a>.strip1.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#166">Device::Strip2</a> =&gt; <a class="self" href="#304">self</a>.strip2.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#168">Device::Strip3</a> =&gt; <a class="self" href="#304">self</a>.strip3.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#170">Device::Strip4</a> =&gt; <a class="self" href="#304">self</a>.strip4.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#172">Device::Strip5</a> =&gt; <a class="self" href="#304">self</a>.strip5.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#174">Device::OutputA1</a> =&gt; <a class="self" href="#304">self</a>.output_a1.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#176">Device::OutputA2</a> =&gt; <a class="self" href="#304">self</a>.output_a2.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#178">Device::OutputA3</a> =&gt; <a class="self" href="#304">self</a>.output_a3.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#180">Device::OutputA4</a> =&gt; <a class="self" href="#304">self</a>.output_a4.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#182">Device::OutputA5</a> =&gt; <a class="self" href="#304">self</a>.output_a5.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#184">Device::VirtualOutputB1</a> =&gt; <a class="self" href="#304">self</a>.virtual_output_b1.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#186">Device::VirtualOutputB2</a> =&gt; <a class="self" href="#304">self</a>.virtual_output_b2.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#188">Device::VirtualOutputB3</a> =&gt; <a class="self" href="#304">self</a>.virtual_output_b3.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#190">Device::VirtualInput</a> =&gt; <a class="self" href="#304">self</a>.virtual_input.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#192">Device::VirtualInputAux</a> =&gt; <a class="self" href="#304">self</a>.virtual_input_aux.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#194">Device::VirtualInput8</a> =&gt; <a class="self" href="#304">self</a>.virtual_input8.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#167">Device::Strip1</a> =&gt; <a class="self" href="#304">self</a>.strip1.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#169">Device::Strip2</a> =&gt; <a class="self" href="#304">self</a>.strip2.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#171">Device::Strip3</a> =&gt; <a class="self" href="#304">self</a>.strip3.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#173">Device::Strip4</a> =&gt; <a class="self" href="#304">self</a>.strip4.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#175">Device::Strip5</a> =&gt; <a class="self" href="#304">self</a>.strip5.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#177">Device::OutputA1</a> =&gt; <a class="self" href="#304">self</a>.output_a1.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#179">Device::OutputA2</a> =&gt; <a class="self" href="#304">self</a>.output_a2.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#181">Device::OutputA3</a> =&gt; <a class="self" href="#304">self</a>.output_a3.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#183">Device::OutputA4</a> =&gt; <a class="self" href="#304">self</a>.output_a4.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#185">Device::OutputA5</a> =&gt; <a class="self" href="#304">self</a>.output_a5.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#187">Device::VirtualOutputB1</a> =&gt; <a class="self" href="#304">self</a>.virtual_output_b1.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#189">Device::VirtualOutputB2</a> =&gt; <a class="self" href="#304">self</a>.virtual_output_b2.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#191">Device::VirtualOutputB3</a> =&gt; <a class="self" href="#304">self</a>.virtual_output_b3.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#193">Device::VirtualInput</a> =&gt; <a class="self" href="#304">self</a>.virtual_input.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#195">Device::VirtualInputAux</a> =&gt; <a class="self" href="#304">self</a>.virtual_input_aux.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#197">Device::VirtualInput8</a> =&gt; <a class="self" href="#304">self</a>.virtual_input8.<a href="#197-202">as_slice</a>(),
             }
         }
     }
@@ -1112,14 +1112,14 @@
         </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>new(buffer: <span class="kw-2">&amp;</span><span class="lifetime">&#39;_ </span><span class="kw-2">mut </span><a href="../interface\callback/data.rs.html#151-155">Main</a>) -&gt; <span class="self">Self </span>{
             <span class="kw">unsafe </span>{
                 <span class="self">Self </span>{
-                    output_a1: <a href="#365">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#174">Device::OutputA1</a>),
-                    output_a2: <a href="#365">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#176">Device::OutputA2</a>),
-                    output_a3: <a href="#365">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#178">Device::OutputA3</a>),
-                    output_a4: <a href="#365">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#180">Device::OutputA4</a>),
-                    output_a5: <a href="#365">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#182">Device::OutputA5</a>),
-                    virtual_output_b1: <a href="#365">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#184">Device::VirtualOutputB1</a>),
-                    virtual_output_b2: <a href="#365">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#186">Device::VirtualOutputB2</a>),
-                    virtual_output_b3: <a href="#365">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#188">Device::VirtualOutputB3</a>),
+                    output_a1: <a href="#365">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#177">Device::OutputA1</a>),
+                    output_a2: <a href="#365">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#179">Device::OutputA2</a>),
+                    output_a3: <a href="#365">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#181">Device::OutputA3</a>),
+                    output_a4: <a href="#365">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#183">Device::OutputA4</a>),
+                    output_a5: <a href="#365">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#185">Device::OutputA5</a>),
+                    virtual_output_b1: <a href="#365">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#187">Device::VirtualOutputB1</a>),
+                    virtual_output_b2: <a href="#365">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#189">Device::VirtualOutputB2</a>),
+                    virtual_output_b3: <a href="#365">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#191">Device::VirtualOutputB3</a>),
                     _pd: <a href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html">Default::default</a>(),
                 }
             }
@@ -1129,7 +1129,7 @@
         </span><span class="kw">pub fn </span>copy_device_from&lt;<span class="lifetime">&#39;i</span>&gt;(
             <span class="kw-2">&amp;mut </span><span class="self">self</span>,
             read: <span class="kw-2">&amp;</span>ReadDevices&lt;<span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;_</span>&gt;,
-            devices: <span class="kw">impl </span>IntoIterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;i </span><a href="../types.rs.html#162-195">Device</a>&gt;,
+            devices: <span class="kw">impl </span>IntoIterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;i </span><a href="../types.rs.html#165-198">Device</a>&gt;,
         ) {
             <span class="kw">for </span>device <span class="kw">in </span>devices {
                 <span class="kw">let </span>DeviceBuffer::Buffer(write) = <span class="self">self</span>.device_mut(device) <span class="kw">else </span>{
@@ -1146,16 +1146,16 @@
         }
 
         <span class="doccomment">/// Grab the device buffer for a specific device
-        </span><span class="kw">pub fn </span>device_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>, device: <span class="kw-2">&amp;</span><a href="../types.rs.html#162-195">Device</a>) -&gt; DeviceBuffer&lt;<span class="kw-2">&amp;mut </span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span><span class="kw-2">mut </span>[<a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]]&gt; {
+        </span><span class="kw">pub fn </span>device_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>, device: <span class="kw-2">&amp;</span><a href="../types.rs.html#165-198">Device</a>) -&gt; DeviceBuffer&lt;<span class="kw-2">&amp;mut </span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span><span class="kw-2">mut </span>[<a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]]&gt; {
             <span class="kw">match </span><a href="#402">device</a> {
-                <a href="../types.rs.html#174">Device::OutputA1</a> =&gt; <a class="self" href="#402">self</a>.output_a1.<a href="#134-139">as_mut_slice</a>(),
-                <a href="../types.rs.html#176">Device::OutputA2</a> =&gt; <a class="self" href="#402">self</a>.output_a2.<a href="#134-139">as_mut_slice</a>(),
-                <a href="../types.rs.html#178">Device::OutputA3</a> =&gt; <a class="self" href="#402">self</a>.output_a3.<a href="#134-139">as_mut_slice</a>(),
-                <a href="../types.rs.html#180">Device::OutputA4</a> =&gt; <a class="self" href="#402">self</a>.output_a4.<a href="#134-139">as_mut_slice</a>(),
-                <a href="../types.rs.html#182">Device::OutputA5</a> =&gt; <a class="self" href="#402">self</a>.output_a5.<a href="#134-139">as_mut_slice</a>(),
-                <a href="../types.rs.html#184">Device::VirtualOutputB1</a> =&gt; <a class="self" href="#402">self</a>.virtual_output_b1.<a href="#134-139">as_mut_slice</a>(),
-                <a href="../types.rs.html#186">Device::VirtualOutputB2</a> =&gt; <a class="self" href="#402">self</a>.virtual_output_b2.<a href="#134-139">as_mut_slice</a>(),
-                <a href="../types.rs.html#188">Device::VirtualOutputB3</a> =&gt; <a class="self" href="#402">self</a>.virtual_output_b3.<a href="#134-139">as_mut_slice</a>(),
+                <a href="../types.rs.html#177">Device::OutputA1</a> =&gt; <a class="self" href="#402">self</a>.output_a1.<a href="#134-139">as_mut_slice</a>(),
+                <a href="../types.rs.html#179">Device::OutputA2</a> =&gt; <a class="self" href="#402">self</a>.output_a2.<a href="#134-139">as_mut_slice</a>(),
+                <a href="../types.rs.html#181">Device::OutputA3</a> =&gt; <a class="self" href="#402">self</a>.output_a3.<a href="#134-139">as_mut_slice</a>(),
+                <a href="../types.rs.html#183">Device::OutputA4</a> =&gt; <a class="self" href="#402">self</a>.output_a4.<a href="#134-139">as_mut_slice</a>(),
+                <a href="../types.rs.html#185">Device::OutputA5</a> =&gt; <a class="self" href="#402">self</a>.output_a5.<a href="#134-139">as_mut_slice</a>(),
+                <a href="../types.rs.html#187">Device::VirtualOutputB1</a> =&gt; <a class="self" href="#402">self</a>.virtual_output_b1.<a href="#134-139">as_mut_slice</a>(),
+                <a href="../types.rs.html#189">Device::VirtualOutputB2</a> =&gt; <a class="self" href="#402">self</a>.virtual_output_b2.<a href="#134-139">as_mut_slice</a>(),
+                <a href="../types.rs.html#191">Device::VirtualOutputB3</a> =&gt; <a class="self" href="#402">self</a>.virtual_output_b3.<a href="#134-139">as_mut_slice</a>(),
                 <span class="kw">_ </span>=&gt; <a href="#67">DeviceBuffer::None</a>,
             }
         }
@@ -1208,29 +1208,29 @@
         </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>new(buffer: <span class="kw-2">&amp;</span><span class="lifetime">&#39;_ </span><span class="kw-2">mut </span><a href="../interface\callback/data.rs.html#217-221">Output</a>) -&gt; <span class="self">Self </span>{
             <span class="kw">unsafe </span>{
                 <span class="self">Self </span>{
-                    output_a1: <a href="#461">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#174">Device::OutputA1</a>),
-                    output_a2: <a href="#461">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#176">Device::OutputA2</a>),
-                    output_a3: <a href="#461">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#178">Device::OutputA3</a>),
-                    output_a4: <a href="#461">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#180">Device::OutputA4</a>),
-                    output_a5: <a href="#461">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#182">Device::OutputA5</a>),
-                    virtual_output_b1: <a href="#461">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#184">Device::VirtualOutputB1</a>),
-                    virtual_output_b2: <a href="#461">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#186">Device::VirtualOutputB2</a>),
-                    virtual_output_b3: <a href="#461">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#188">Device::VirtualOutputB3</a>),
+                    output_a1: <a href="#461">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#177">Device::OutputA1</a>),
+                    output_a2: <a href="#461">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#179">Device::OutputA2</a>),
+                    output_a3: <a href="#461">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#181">Device::OutputA3</a>),
+                    output_a4: <a href="#461">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#183">Device::OutputA4</a>),
+                    output_a5: <a href="#461">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#185">Device::OutputA5</a>),
+                    virtual_output_b1: <a href="#461">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#187">Device::VirtualOutputB1</a>),
+                    virtual_output_b2: <a href="#461">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#189">Device::VirtualOutputB2</a>),
+                    virtual_output_b3: <a href="#461">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#191">Device::VirtualOutputB3</a>),
                     _pd: <a href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html">Default::default</a>(),
                 }
             }
         }
         <span class="doccomment">/// Grab the device buffer for a specific device
-        </span><span class="kw">pub fn </span>device(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, device: <span class="kw-2">&amp;</span><a href="../types.rs.html#162-195">Device</a>) -&gt; DeviceBuffer&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>[<a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]]&gt; {
+        </span><span class="kw">pub fn </span>device(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, device: <span class="kw-2">&amp;</span><a href="../types.rs.html#165-198">Device</a>) -&gt; DeviceBuffer&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>[<a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]]&gt; {
             <span class="kw">match </span><a href="#477">device</a> {
-                <a href="../types.rs.html#174">Device::OutputA1</a> =&gt; <a class="self" href="#477">self</a>.output_a1.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#176">Device::OutputA2</a> =&gt; <a class="self" href="#477">self</a>.output_a2.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#178">Device::OutputA3</a> =&gt; <a class="self" href="#477">self</a>.output_a3.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#180">Device::OutputA4</a> =&gt; <a class="self" href="#477">self</a>.output_a4.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#182">Device::OutputA5</a> =&gt; <a class="self" href="#477">self</a>.output_a5.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#184">Device::VirtualOutputB1</a> =&gt; <a class="self" href="#477">self</a>.virtual_output_b1.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#186">Device::VirtualOutputB2</a> =&gt; <a class="self" href="#477">self</a>.virtual_output_b2.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#188">Device::VirtualOutputB3</a> =&gt; <a class="self" href="#477">self</a>.virtual_output_b3.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#177">Device::OutputA1</a> =&gt; <a class="self" href="#477">self</a>.output_a1.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#179">Device::OutputA2</a> =&gt; <a class="self" href="#477">self</a>.output_a2.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#181">Device::OutputA3</a> =&gt; <a class="self" href="#477">self</a>.output_a3.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#183">Device::OutputA4</a> =&gt; <a class="self" href="#477">self</a>.output_a4.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#185">Device::OutputA5</a> =&gt; <a class="self" href="#477">self</a>.output_a5.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#187">Device::VirtualOutputB1</a> =&gt; <a class="self" href="#477">self</a>.virtual_output_b1.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#189">Device::VirtualOutputB2</a> =&gt; <a class="self" href="#477">self</a>.virtual_output_b2.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#191">Device::VirtualOutputB3</a> =&gt; <a class="self" href="#477">self</a>.virtual_output_b3.<a href="#197-202">as_slice</a>(),
                 <span class="kw">_ </span>=&gt; <a href="#67">DeviceBuffer::None</a>,
             }
         }
@@ -1278,14 +1278,14 @@
         </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>new(buffer: <span class="kw-2">&amp;</span><span class="lifetime">&#39;_ </span><span class="kw-2">mut </span><a href="../interface\callback/data.rs.html#217-221">Output</a>) -&gt; <span class="self">Self </span>{
             <span class="kw">unsafe </span>{
                 <span class="self">Self </span>{
-                    output_a1: <a href="#531">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#174">Device::OutputA1</a>),
-                    output_a2: <a href="#531">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#176">Device::OutputA2</a>),
-                    output_a3: <a href="#531">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#178">Device::OutputA3</a>),
-                    output_a4: <a href="#531">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#180">Device::OutputA4</a>),
-                    output_a5: <a href="#531">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#182">Device::OutputA5</a>),
-                    virtual_output_b1: <a href="#531">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#184">Device::VirtualOutputB1</a>),
-                    virtual_output_b2: <a href="#531">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#186">Device::VirtualOutputB2</a>),
-                    virtual_output_b3: <a href="#531">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#188">Device::VirtualOutputB3</a>),
+                    output_a1: <a href="#531">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#177">Device::OutputA1</a>),
+                    output_a2: <a href="#531">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#179">Device::OutputA2</a>),
+                    output_a3: <a href="#531">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#181">Device::OutputA3</a>),
+                    output_a4: <a href="#531">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#183">Device::OutputA4</a>),
+                    output_a5: <a href="#531">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#185">Device::OutputA5</a>),
+                    virtual_output_b1: <a href="#531">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#187">Device::VirtualOutputB1</a>),
+                    virtual_output_b2: <a href="#531">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#189">Device::VirtualOutputB2</a>),
+                    virtual_output_b3: <a href="#531">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#191">Device::VirtualOutputB3</a>),
                     _pd: <a href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html">Default::default</a>(),
                 }
             }
@@ -1295,7 +1295,7 @@
         </span><span class="kw">pub fn </span>copy_device_from&lt;<span class="lifetime">&#39;i</span>&gt;(
             <span class="kw-2">&amp;mut </span><span class="self">self</span>,
             read: <span class="kw-2">&amp;</span>ReadDevices&lt;<span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;_</span>&gt;,
-            devices: <span class="kw">impl </span>IntoIterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;i </span><a href="../types.rs.html#162-195">Device</a>&gt;,
+            devices: <span class="kw">impl </span>IntoIterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;i </span><a href="../types.rs.html#165-198">Device</a>&gt;,
         ) {
             <span class="kw">for </span>device <span class="kw">in </span>devices {
                 <span class="kw">let </span>DeviceBuffer::Buffer(write) = <span class="self">self</span>.device_mut(device) <span class="kw">else </span>{
@@ -1311,16 +1311,16 @@
             }
         }
         <span class="doccomment">/// Grab the device buffer for a specific device
-        </span><span class="kw">pub fn </span>device_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>, device: <span class="kw-2">&amp;</span><a href="../types.rs.html#162-195">Device</a>) -&gt; DeviceBuffer&lt;<span class="kw-2">&amp;mut </span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span><span class="kw-2">mut </span>[<a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]]&gt; {
+        </span><span class="kw">pub fn </span>device_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>, device: <span class="kw-2">&amp;</span><a href="../types.rs.html#165-198">Device</a>) -&gt; DeviceBuffer&lt;<span class="kw-2">&amp;mut </span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span><span class="kw-2">mut </span>[<a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]]&gt; {
             <span class="kw">match </span><a href="#567">device</a> {
-                <a href="../types.rs.html#174">Device::OutputA1</a> =&gt; <a class="self" href="#567">self</a>.output_a1.<a href="#134-139">as_mut_slice</a>(),
-                <a href="../types.rs.html#176">Device::OutputA2</a> =&gt; <a class="self" href="#567">self</a>.output_a2.<a href="#134-139">as_mut_slice</a>(),
-                <a href="../types.rs.html#178">Device::OutputA3</a> =&gt; <a class="self" href="#567">self</a>.output_a3.<a href="#134-139">as_mut_slice</a>(),
-                <a href="../types.rs.html#180">Device::OutputA4</a> =&gt; <a class="self" href="#567">self</a>.output_a4.<a href="#134-139">as_mut_slice</a>(),
-                <a href="../types.rs.html#182">Device::OutputA5</a> =&gt; <a class="self" href="#567">self</a>.output_a5.<a href="#134-139">as_mut_slice</a>(),
-                <a href="../types.rs.html#184">Device::VirtualOutputB1</a> =&gt; <a class="self" href="#567">self</a>.virtual_output_b1.<a href="#134-139">as_mut_slice</a>(),
-                <a href="../types.rs.html#186">Device::VirtualOutputB2</a> =&gt; <a class="self" href="#567">self</a>.virtual_output_b2.<a href="#134-139">as_mut_slice</a>(),
-                <a href="../types.rs.html#188">Device::VirtualOutputB3</a> =&gt; <a class="self" href="#567">self</a>.virtual_output_b3.<a href="#134-139">as_mut_slice</a>(),
+                <a href="../types.rs.html#177">Device::OutputA1</a> =&gt; <a class="self" href="#567">self</a>.output_a1.<a href="#134-139">as_mut_slice</a>(),
+                <a href="../types.rs.html#179">Device::OutputA2</a> =&gt; <a class="self" href="#567">self</a>.output_a2.<a href="#134-139">as_mut_slice</a>(),
+                <a href="../types.rs.html#181">Device::OutputA3</a> =&gt; <a class="self" href="#567">self</a>.output_a3.<a href="#134-139">as_mut_slice</a>(),
+                <a href="../types.rs.html#183">Device::OutputA4</a> =&gt; <a class="self" href="#567">self</a>.output_a4.<a href="#134-139">as_mut_slice</a>(),
+                <a href="../types.rs.html#185">Device::OutputA5</a> =&gt; <a class="self" href="#567">self</a>.output_a5.<a href="#134-139">as_mut_slice</a>(),
+                <a href="../types.rs.html#187">Device::VirtualOutputB1</a> =&gt; <a class="self" href="#567">self</a>.virtual_output_b1.<a href="#134-139">as_mut_slice</a>(),
+                <a href="../types.rs.html#189">Device::VirtualOutputB2</a> =&gt; <a class="self" href="#567">self</a>.virtual_output_b2.<a href="#134-139">as_mut_slice</a>(),
+                <a href="../types.rs.html#191">Device::VirtualOutputB3</a> =&gt; <a class="self" href="#567">self</a>.virtual_output_b3.<a href="#134-139">as_mut_slice</a>(),
                 <span class="kw">_ </span>=&gt; <a href="#67">DeviceBuffer::None</a>,
             }
         }
@@ -1373,30 +1373,30 @@
         </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>new(buffer: <span class="kw-2">&amp;</span><span class="lifetime">&#39;_ </span><span class="kw-2">mut </span><a href="../interface\callback/data.rs.html#282-286">Input</a>) -&gt; <span class="self">Self </span>{
             <span class="kw">unsafe </span>{
                 <span class="self">Self </span>{
-                    strip1: <a href="#626">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#164">Device::Strip1</a>),
-                    strip2: <a href="#626">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#166">Device::Strip2</a>),
-                    strip3: <a href="#626">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#168">Device::Strip3</a>),
-                    strip4: <a href="#626">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#170">Device::Strip4</a>),
-                    strip5: <a href="#626">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#172">Device::Strip5</a>),
-                    virtual_input: <a href="#626">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#190">Device::VirtualInput</a>),
-                    virtual_input_aux: <a href="#626">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#192">Device::VirtualInputAux</a>),
-                    virtual_input8: <a href="#626">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#194">Device::VirtualInput8</a>),
+                    strip1: <a href="#626">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#167">Device::Strip1</a>),
+                    strip2: <a href="#626">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#169">Device::Strip2</a>),
+                    strip3: <a href="#626">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#171">Device::Strip3</a>),
+                    strip4: <a href="#626">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#173">Device::Strip4</a>),
+                    strip5: <a href="#626">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#175">Device::Strip5</a>),
+                    virtual_input: <a href="#626">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#193">Device::VirtualInput</a>),
+                    virtual_input_aux: <a href="#626">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#195">Device::VirtualInputAux</a>),
+                    virtual_input8: <a href="#626">buffer</a>.<a href="../interface\callback/data.rs.html#122-140">device_read</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#197">Device::VirtualInput8</a>),
                     _pd: <a href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html">Default::default</a>(),
                 }
             }
         }
 
         <span class="doccomment">/// Grab the device buffer for a specific device
-        </span><span class="kw">pub fn </span>device(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, device: <span class="kw-2">&amp;</span><a href="../types.rs.html#162-195">Device</a>) -&gt; DeviceBuffer&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>[<a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]]&gt; {
+        </span><span class="kw">pub fn </span>device(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, device: <span class="kw-2">&amp;</span><a href="../types.rs.html#165-198">Device</a>) -&gt; DeviceBuffer&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>[<a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]]&gt; {
             <span class="kw">match </span><a href="#643">device</a> {
-                <a href="../types.rs.html#164">Device::Strip1</a> =&gt; <a class="self" href="#643">self</a>.strip1.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#166">Device::Strip2</a> =&gt; <a class="self" href="#643">self</a>.strip2.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#168">Device::Strip3</a> =&gt; <a class="self" href="#643">self</a>.strip3.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#170">Device::Strip4</a> =&gt; <a class="self" href="#643">self</a>.strip4.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#172">Device::Strip5</a> =&gt; <a class="self" href="#643">self</a>.strip5.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#190">Device::VirtualInput</a> =&gt; <a class="self" href="#643">self</a>.virtual_input.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#192">Device::VirtualInputAux</a> =&gt; <a class="self" href="#643">self</a>.virtual_input_aux.<a href="#197-202">as_slice</a>(),
-                <a href="../types.rs.html#194">Device::VirtualInput8</a> =&gt; <a class="self" href="#643">self</a>.virtual_input8.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#167">Device::Strip1</a> =&gt; <a class="self" href="#643">self</a>.strip1.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#169">Device::Strip2</a> =&gt; <a class="self" href="#643">self</a>.strip2.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#171">Device::Strip3</a> =&gt; <a class="self" href="#643">self</a>.strip3.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#173">Device::Strip4</a> =&gt; <a class="self" href="#643">self</a>.strip4.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#175">Device::Strip5</a> =&gt; <a class="self" href="#643">self</a>.strip5.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#193">Device::VirtualInput</a> =&gt; <a class="self" href="#643">self</a>.virtual_input.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#195">Device::VirtualInputAux</a> =&gt; <a class="self" href="#643">self</a>.virtual_input_aux.<a href="#197-202">as_slice</a>(),
+                <a href="../types.rs.html#197">Device::VirtualInput8</a> =&gt; <a class="self" href="#643">self</a>.virtual_input8.<a href="#197-202">as_slice</a>(),
                 <span class="kw">_ </span>=&gt; <a href="#67">DeviceBuffer::None</a>,
             }
         }
@@ -1444,14 +1444,14 @@
         </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe fn </span>new(buffer: <span class="kw-2">&amp;</span><span class="lifetime">&#39;_ </span><span class="kw-2">mut </span><a href="../interface\callback/data.rs.html#282-286">Input</a>) -&gt; <span class="self">Self </span>{
             <span class="kw">unsafe </span>{
                 <span class="self">Self </span>{
-                    strip1: <a href="#697">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#164">Device::Strip1</a>),
-                    strip2: <a href="#697">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#166">Device::Strip2</a>),
-                    strip3: <a href="#697">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#168">Device::Strip3</a>),
-                    strip4: <a href="#697">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#170">Device::Strip4</a>),
-                    strip5: <a href="#697">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#172">Device::Strip5</a>),
-                    virtual_input: <a href="#697">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#190">Device::VirtualInput</a>),
-                    virtual_input_aux: <a href="#697">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#192">Device::VirtualInputAux</a>),
-                    virtual_input8: <a href="#697">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#194">Device::VirtualInput8</a>),
+                    strip1: <a href="#697">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#167">Device::Strip1</a>),
+                    strip2: <a href="#697">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#169">Device::Strip2</a>),
+                    strip3: <a href="#697">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#171">Device::Strip3</a>),
+                    strip4: <a href="#697">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#173">Device::Strip4</a>),
+                    strip5: <a href="#697">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#175">Device::Strip5</a>),
+                    virtual_input: <a href="#697">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#193">Device::VirtualInput</a>),
+                    virtual_input_aux: <a href="#697">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#195">Device::VirtualInputAux</a>),
+                    virtual_input8: <a href="#697">buffer</a>.<a href="../interface\callback/data.rs.html#99-117">device_write</a>(<span class="kw-2">&amp;</span><a href="../types.rs.html#197">Device::VirtualInput8</a>),
                     _pd: <a href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html">Default::default</a>(),
                 }
             }
@@ -1461,7 +1461,7 @@
         </span><span class="kw">pub fn </span>copy_device_from&lt;<span class="lifetime">&#39;i</span>&gt;(
             <span class="kw-2">&amp;mut </span><span class="self">self</span>,
             read: <span class="kw-2">&amp;</span>ReadDevices&lt;<span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;_</span>&gt;,
-            devices: <span class="kw">impl </span>IntoIterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;i </span><a href="../types.rs.html#162-195">Device</a>&gt;,
+            devices: <span class="kw">impl </span>IntoIterator&lt;Item = <span class="kw-2">&amp;</span><span class="lifetime">&#39;i </span><a href="../types.rs.html#165-198">Device</a>&gt;,
         ) {
             <span class="kw">for </span>device <span class="kw">in </span>devices {
                 <span class="kw">let </span>DeviceBuffer::Buffer(write) = <span class="self">self</span>.device_mut(device) <span class="kw">else </span>{
@@ -1477,16 +1477,16 @@
             }
         }
         <span class="doccomment">/// Grab the device buffer for a specific device
-        </span><span class="kw">pub fn </span>device_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>, device: <span class="kw-2">&amp;</span><a href="../types.rs.html#162-195">Device</a>) -&gt; DeviceBuffer&lt;<span class="kw-2">&amp;mut </span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span><span class="kw-2">mut </span>[<a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]]&gt; {
+        </span><span class="kw">pub fn </span>device_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>, device: <span class="kw-2">&amp;</span><a href="../types.rs.html#165-198">Device</a>) -&gt; DeviceBuffer&lt;<span class="kw-2">&amp;mut </span>[<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span><span class="kw-2">mut </span>[<a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]]&gt; {
             <span class="kw">match </span><a href="#733">device</a> {
-                <a href="../types.rs.html#164">Device::Strip1</a> =&gt; <a class="self" href="#733">self</a>.strip1.<a href="#134-139">as_mut_slice</a>(),
-                <a href="../types.rs.html#166">Device::Strip2</a> =&gt; <a class="self" href="#733">self</a>.strip2.<a href="#134-139">as_mut_slice</a>(),
-                <a href="../types.rs.html#168">Device::Strip3</a> =&gt; <a class="self" href="#733">self</a>.strip3.<a href="#134-139">as_mut_slice</a>(),
-                <a href="../types.rs.html#170">Device::Strip4</a> =&gt; <a class="self" href="#733">self</a>.strip4.<a href="#134-139">as_mut_slice</a>(),
-                <a href="../types.rs.html#172">Device::Strip5</a> =&gt; <a class="self" href="#733">self</a>.strip5.<a href="#134-139">as_mut_slice</a>(),
-                <a href="../types.rs.html#190">Device::VirtualInput</a> =&gt; <a class="self" href="#733">self</a>.virtual_input.<a href="#134-139">as_mut_slice</a>(),
-                <a href="../types.rs.html#192">Device::VirtualInputAux</a> =&gt; <a class="self" href="#733">self</a>.virtual_input_aux.<a href="#134-139">as_mut_slice</a>(),
-                <a href="../types.rs.html#194">Device::VirtualInput8</a> =&gt; <a class="self" href="#733">self</a>.virtual_input8.<a href="#134-139">as_mut_slice</a>(),
+                <a href="../types.rs.html#167">Device::Strip1</a> =&gt; <a class="self" href="#733">self</a>.strip1.<a href="#134-139">as_mut_slice</a>(),
+                <a href="../types.rs.html#169">Device::Strip2</a> =&gt; <a class="self" href="#733">self</a>.strip2.<a href="#134-139">as_mut_slice</a>(),
+                <a href="../types.rs.html#171">Device::Strip3</a> =&gt; <a class="self" href="#733">self</a>.strip3.<a href="#134-139">as_mut_slice</a>(),
+                <a href="../types.rs.html#173">Device::Strip4</a> =&gt; <a class="self" href="#733">self</a>.strip4.<a href="#134-139">as_mut_slice</a>(),
+                <a href="../types.rs.html#175">Device::Strip5</a> =&gt; <a class="self" href="#733">self</a>.strip5.<a href="#134-139">as_mut_slice</a>(),
+                <a href="../types.rs.html#193">Device::VirtualInput</a> =&gt; <a class="self" href="#733">self</a>.virtual_input.<a href="#134-139">as_mut_slice</a>(),
+                <a href="../types.rs.html#195">Device::VirtualInputAux</a> =&gt; <a class="self" href="#733">self</a>.virtual_input_aux.<a href="#134-139">as_mut_slice</a>(),
+                <a href="../types.rs.html#197">Device::VirtualInput8</a> =&gt; <a class="self" href="#733">self</a>.virtual_input8.<a href="#134-139">as_mut_slice</a>(),
                 <span class="kw">_ </span>=&gt; <a href="#67">DeviceBuffer::None</a>,
             }
         }

@@ -468,13 +468,13 @@
 /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
 /// ```
 </span><span class="kw">pub struct </span><a href="../../..\../voicemeeter/interface/parameters/strip/struct.Strip.html">Strip</a>&lt;<span class="lifetime">&#39;a</span>&gt; {
-    remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a>,
+    remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-26">VoicemeeterRemote</a>,
     strip_index: <a href="../types.rs.html#6">ZIndex</a>,
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Strip&lt;<span class="lifetime">&#39;a</span>&gt; {
     <span class="attr">#[doc(hidden)]
-    </span><span class="kw">pub fn </span>new(remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a>, strip_index: <a href="../types.rs.html#6">ZIndex</a>) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub fn </span>new(remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-26">VoicemeeterRemote</a>, strip_index: <a href="../types.rs.html#6">ZIndex</a>) -&gt; <span class="self">Self </span>{
         <a href="#33-36">Strip</a> {
             <a href="#40">remote</a>,
             <a href="#40">strip_index</a>,
@@ -548,9 +548,9 @@
     }
 
     <span class="doccomment">/// Color of physical strip in x direction
-    </span><span class="kw">pub fn </span>color_x(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="../interface/parameters.rs.html#64-70">FloatParameter</a>, <a href="errors.rs.html#19-44">InvalidTypeError</a>&gt; {
+    </span><span class="kw">pub fn </span>color_x(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="../interface/parameters.rs.html#64-70">FloatParameter</a>, <a href="errors.rs.html#20-45">InvalidTypeError</a>&gt; {
         <span class="kw">if </span><span class="self">self</span>.is_virtual() {
-            <span class="prelude-val">Err</span>(<a href="errors.rs.html#24-31">InvalidTypeError::ExpectedPhysical</a> {
+            <span class="prelude-val">Err</span>(<a href="errors.rs.html#25-32">InvalidTypeError::ExpectedPhysical</a> {
                 name: <a href="errors.rs.html#3">STRIP</a>,
                 strip_index: <a class="self" href="#114">self</a>.strip_index,
                 parameter: <span class="string">&quot;Color_x&quot;</span>.<a href="https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html">to_string</a>(),
@@ -565,9 +565,9 @@
     }
 
     <span class="doccomment">/// Color of physical strip in y direction
-    </span><span class="kw">pub fn </span>color_y(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="../interface/parameters.rs.html#64-70">FloatParameter</a>, <a href="errors.rs.html#19-44">InvalidTypeError</a>&gt; {
+    </span><span class="kw">pub fn </span>color_y(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="../interface/parameters.rs.html#64-70">FloatParameter</a>, <a href="errors.rs.html#20-45">InvalidTypeError</a>&gt; {
         <span class="kw">if </span><span class="self">self</span>.is_virtual() {
-            <span class="prelude-val">Err</span>(<a href="errors.rs.html#24-31">InvalidTypeError::ExpectedPhysical</a> {
+            <span class="prelude-val">Err</span>(<a href="errors.rs.html#25-32">InvalidTypeError::ExpectedPhysical</a> {
                 name: <a href="errors.rs.html#3">STRIP</a>,
                 strip_index: <a class="self" href="#131">self</a>.strip_index,
                 parameter: <span class="string">&quot;Color_y&quot;</span>.<a href="https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html">to_string</a>(),
@@ -582,9 +582,9 @@
     }
 
     <span class="doccomment">/// FX of physical strip in x direction
-    </span><span class="kw">pub fn </span>fx_x(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="../interface/parameters.rs.html#64-70">FloatParameter</a>, <a href="errors.rs.html#19-44">InvalidTypeError</a>&gt; {
+    </span><span class="kw">pub fn </span>fx_x(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="../interface/parameters.rs.html#64-70">FloatParameter</a>, <a href="errors.rs.html#20-45">InvalidTypeError</a>&gt; {
         <span class="kw">if </span><span class="self">self</span>.is_virtual() {
-            <span class="prelude-val">Err</span>(<a href="errors.rs.html#24-31">InvalidTypeError::ExpectedPhysical</a> {
+            <span class="prelude-val">Err</span>(<a href="errors.rs.html#25-32">InvalidTypeError::ExpectedPhysical</a> {
                 name: <a href="errors.rs.html#3">STRIP</a>,
                 strip_index: <a class="self" href="#148">self</a>.strip_index,
                 parameter: <span class="string">&quot;fx_x&quot;</span>.<a href="https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html">to_string</a>(),
@@ -599,9 +599,9 @@
     }
 
     <span class="doccomment">/// FX of physical strip in y direction
-    </span><span class="kw">pub fn </span>fx_y(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="../interface/parameters.rs.html#64-70">FloatParameter</a>, <a href="errors.rs.html#19-44">InvalidTypeError</a>&gt; {
+    </span><span class="kw">pub fn </span>fx_y(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="../interface/parameters.rs.html#64-70">FloatParameter</a>, <a href="errors.rs.html#20-45">InvalidTypeError</a>&gt; {
         <span class="kw">if </span><span class="self">self</span>.is_virtual() {
-            <span class="prelude-val">Err</span>(<a href="errors.rs.html#24-31">InvalidTypeError::ExpectedPhysical</a> {
+            <span class="prelude-val">Err</span>(<a href="errors.rs.html#25-32">InvalidTypeError::ExpectedPhysical</a> {
                 name: <a href="errors.rs.html#3">STRIP</a>,
                 strip_index: <a class="self" href="#165">self</a>.strip_index,
                 parameter: <span class="string">&quot;fx_y&quot;</span>.<a href="https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html">to_string</a>(),
@@ -641,9 +641,9 @@
     }
 
     <span class="doccomment">/// EQGain1 of virtual strip
-    </span><span class="kw">pub fn </span>eq_gain1(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="../interface/parameters.rs.html#64-70">FloatParameter</a>, <a href="errors.rs.html#19-44">InvalidTypeError</a>&gt; {
+    </span><span class="kw">pub fn </span>eq_gain1(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="../interface/parameters.rs.html#64-70">FloatParameter</a>, <a href="errors.rs.html#20-45">InvalidTypeError</a>&gt; {
         <span class="kw">if </span><span class="self">self</span>.is_physical() {
-            <span class="prelude-val">Err</span>(<a href="errors.rs.html#24-31">InvalidTypeError::ExpectedPhysical</a> {
+            <span class="prelude-val">Err</span>(<a href="errors.rs.html#25-32">InvalidTypeError::ExpectedPhysical</a> {
                 name: <a href="errors.rs.html#3">STRIP</a>,
                 strip_index: <a class="self" href="#207">self</a>.strip_index,
                 parameter: <span class="string">&quot;EQGain1&quot;</span>.<a href="https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html">to_string</a>(),
@@ -658,9 +658,9 @@
     }
 
     <span class="doccomment">/// EQGain2 of virtual strip
-    </span><span class="kw">pub fn </span>eq_gain2(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="../interface/parameters.rs.html#64-70">FloatParameter</a>, <a href="errors.rs.html#19-44">InvalidTypeError</a>&gt; {
+    </span><span class="kw">pub fn </span>eq_gain2(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="../interface/parameters.rs.html#64-70">FloatParameter</a>, <a href="errors.rs.html#20-45">InvalidTypeError</a>&gt; {
         <span class="kw">if </span><span class="self">self</span>.is_physical() {
-            <span class="prelude-val">Err</span>(<a href="errors.rs.html#24-31">InvalidTypeError::ExpectedPhysical</a> {
+            <span class="prelude-val">Err</span>(<a href="errors.rs.html#25-32">InvalidTypeError::ExpectedPhysical</a> {
                 name: <a href="errors.rs.html#3">STRIP</a>,
                 strip_index: <a class="self" href="#224">self</a>.strip_index,
                 parameter: <span class="string">&quot;EQGain2&quot;</span>.<a href="https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html">to_string</a>(),
@@ -675,9 +675,9 @@
     }
 
     <span class="doccomment">/// EQGain3 of virtual strip
-    </span><span class="kw">pub fn </span>eq_gain3(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="../interface/parameters.rs.html#64-70">FloatParameter</a>, <a href="errors.rs.html#19-44">InvalidTypeError</a>&gt; {
+    </span><span class="kw">pub fn </span>eq_gain3(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="../interface/parameters.rs.html#64-70">FloatParameter</a>, <a href="errors.rs.html#20-45">InvalidTypeError</a>&gt; {
         <span class="kw">if </span><span class="self">self</span>.is_physical() {
-            <span class="prelude-val">Err</span>(<a href="errors.rs.html#24-31">InvalidTypeError::ExpectedPhysical</a> {
+            <span class="prelude-val">Err</span>(<a href="errors.rs.html#25-32">InvalidTypeError::ExpectedPhysical</a> {
                 name: <a href="errors.rs.html#3">STRIP</a>,
                 strip_index: <a class="self" href="#241">self</a>.strip_index,
                 parameter: <span class="string">&quot;EQGain3&quot;</span>.<a href="https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html">to_string</a>(),
@@ -729,8 +729,8 @@
         BoolParameter::new(<a class="self" href="#291">self</a>.<a href="#47-50">param</a>(<span class="string">&quot;B3&quot;</span>), <a class="self" href="#291">self</a>.remote)
     }
     <span class="doccomment">/// EQ on channel
-    </span><span class="kw">pub fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, channel: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="eq.rs.html#19-24">EqChannelParameter</a>, <a href="errors.rs.html#49-56">InvalidVoicemeeterVersion</a>&gt; {
-        <span class="kw">const </span>VALID: <span class="kw-2">&amp;</span>[<a href="../types.rs.html#67-78">VoicemeeterApplication</a>] = <span class="kw-2">&amp;</span>[
+    </span><span class="kw">pub fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, channel: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="eq.rs.html#19-24">EqChannelParameter</a>, <a href="errors.rs.html#50-57">InvalidVoicemeeterVersion</a>&gt; {
+        <span class="kw">const </span>VALID: <span class="kw-2">&amp;</span>[<a href="../types.rs.html#67-80">VoicemeeterApplication</a>] = <span class="kw-2">&amp;</span>[
             <a href="../types.rs.html#73">VoicemeeterApplication::VoicemeeterPotato</a>,
             <a href="../types.rs.html#75">VoicemeeterApplication::PotatoX64Bits</a>,
         ];
@@ -738,7 +738,7 @@
         <span class="kw">if </span>VALID.contains(<span class="kw-2">&amp;</span><span class="self">self</span>.remote.program) {
             <span class="prelude-val">Ok</span>(<a href="#300">eq</a>)
         } <span class="kw">else </span>{
-            <span class="prelude-val">Err</span>(<a href="errors.rs.html#49-56">InvalidVoicemeeterVersion</a> {
+            <span class="prelude-val">Err</span>(<a href="errors.rs.html#50-57">InvalidVoicemeeterVersion</a> {
                 expected: <a href="#296-299">VALID</a>,
                 found: <a class="self" href="#295">self</a>.remote.program,
                 parameter: <a href="#300">eq</a>.<a href="eq.rs.html#44-52">name</a>().<a href="https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html">to_string</a>(),
@@ -814,9 +814,9 @@
     }
 
     <span class="doccomment">/// Audio Device information
-    </span><span class="kw">pub fn </span>device(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;StripDevice&lt;<span class="lifetime">&#39;a</span>&gt;, <a href="errors.rs.html#19-44">InvalidTypeError</a>&gt; {
+    </span><span class="kw">pub fn </span>device(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;StripDevice&lt;<span class="lifetime">&#39;a</span>&gt;, <a href="errors.rs.html#20-45">InvalidTypeError</a>&gt; {
         <span class="kw">if </span><span class="self">self</span>.is_virtual() {
-            <span class="prelude-val">Err</span>(<a href="errors.rs.html#24-31">InvalidTypeError::ExpectedPhysical</a> {
+            <span class="prelude-val">Err</span>(<a href="errors.rs.html#25-32">InvalidTypeError::ExpectedPhysical</a> {
                 name: <a href="errors.rs.html#3">STRIP</a>,
                 strip_index: <a class="self" href="#380">self</a>.strip_index,
                 parameter: <span class="string">&quot;device&quot;</span>.<a href="https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html">to_string</a>(),
@@ -829,12 +829,12 @@
 
 <span class="doccomment">/// Bus device parameters
 </span><span class="kw">pub struct </span><a href="../../..\../voicemeeter/interface/parameters/strip/struct.StripDevice.html">StripDevice</a>&lt;<span class="lifetime">&#39;a</span>&gt; {
-    remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a>,
+    remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-26">VoicemeeterRemote</a>,
     strip_index: <a href="../types.rs.html#6">ZIndex</a>,
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; StripDevice&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">fn </span>new(remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a>, strip_index: <a href="../types.rs.html#6">ZIndex</a>) -&gt; <span class="self">Self </span>{
+    <span class="kw">fn </span>new(remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-26">VoicemeeterRemote</a>, strip_index: <a href="../types.rs.html#6">ZIndex</a>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             <a href="#400">remote</a>,
             <a href="#400">strip_index</a>,

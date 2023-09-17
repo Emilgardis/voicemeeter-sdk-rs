@@ -197,6 +197,9 @@
 <a href="#197" id="197">197</a>
 <a href="#198" id="198">198</a>
 <a href="#199" id="199">199</a>
+<a href="#200" id="200">200</a>
+<a href="#201" id="201">201</a>
+<a href="#202" id="202">202</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Functions and data types for macro buttons.
 //!
 //! # Functions
@@ -208,7 +211,7 @@
 //! * [`set_macrobutton_trigger_state`](VoicemeeterRemote::set_macrobutton_trigger_state)
 </span><span class="kw">use crate</span>::{<a href="../bindings.rs.html#243">bindings::VBVMR_MACROBUTTON_MODE</a>, <a href="../types.rs.html#34">types::LogicalButton</a>};
 
-<span class="kw">use </span><a href="../interface.rs.html#21-25"><span class="kw">super</span>::VoicemeeterRemote</a>;
+<span class="kw">use </span><a href="../interface.rs.html#21-26"><span class="kw">super</span>::VoicemeeterRemote</a>;
 
 <span class="doccomment">/// Status of a macro button.
 </span><span class="attr">#[repr(transparent)]
@@ -232,7 +235,7 @@
     }
 }
 
-<span class="kw">impl </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a> {
+<span class="kw">impl </span><a href="../interface.rs.html#21-26">VoicemeeterRemote</a> {
     <span class="comment">// FIXME: Only call from one thread, limit it
     </span><span class="doccomment">/// Check if macro buttons have changed
     ///
@@ -241,14 +244,14 @@
     /// # Security
     ///
     /// This method must only be called from one thread.
-    </span><span class="kw">pub fn </span>is_macrobutton_dirty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="#146-157">IsMacroButtonDirtyError</a>&gt; {
+    </span><span class="kw">pub fn </span>is_macrobutton_dirty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="#147-158">IsMacroButtonDirtyError</a>&gt; {
         <span class="kw">let </span>res = <span class="kw">unsafe </span>{ <a class="self" href="#45">self</a>.raw.<a href="../bindings.rs.html#1500-1502">VBVMR_MacroButton_IsDirty</a>() };
         <span class="kw">match </span><a href="#46">res</a> {
             <span class="number">0 </span>=&gt; <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>),
             s <span class="kw">if </span><a href="#49">s</a> &gt; <span class="number">0 </span>=&gt; <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>),
-            -<span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#150">IsMacroButtonDirtyError::CannotGetClient</a>),
-            -<span class="number">2 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#153">IsMacroButtonDirtyError::NoServer</a>),
-            s =&gt; <span class="prelude-val">Err</span>(<a href="#156">IsMacroButtonDirtyError::Other</a>(<a href="#52">s</a>)),
+            -<span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#151">IsMacroButtonDirtyError::CannotGetClient</a>),
+            -<span class="number">2 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#154">IsMacroButtonDirtyError::NoServer</a>),
+            s =&gt; <span class="prelude-val">Err</span>(<a href="#157">IsMacroButtonDirtyError::Other</a>(<a href="#52">s</a>)),
         }
     }
 
@@ -256,17 +259,17 @@
     </span><span class="kw">pub fn </span>get_macrobutton_state(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         button: <span class="kw">impl </span>Into&lt;<a href="../types.rs.html#34">LogicalButton</a>&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="#16">MacroButtonStatus</a>, <a href="#161-178">GetMacroButtonStatusError</a>&gt; {
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="#16">MacroButtonStatus</a>, <a href="#163-180">GetMacroButtonStatusError</a>&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>f = <span class="number">0.0f32</span>;
         <span class="kw">let </span>button = <a href="#59">button</a>.<a href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html">into</a>();
         <span class="kw">let </span>res = <span class="kw">unsafe </span>{ <a class="self" href="#58">self</a>.raw.<a href="../bindings.rs.html#1504-1511">VBVMR_MacroButton_GetStatus</a>(<a href="#62">button</a>.<span class="number">0.0</span>, <span class="kw-2">&amp;mut </span><a href="#61">f</a>, <span class="number">0</span>) };
         <span class="kw">match </span><a href="#63">res</a> {
             <span class="number">0 </span>=&gt; <span class="prelude-val">Ok</span>(<a href="#16">MacroButtonStatus</a>(<a href="#61">f</a> == <span class="number">1.</span>)),
-            -<span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#165">GetMacroButtonStatusError::CannotGetClient</a>),
-            -<span class="number">2 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#168">GetMacroButtonStatusError::NoServer</a>),
-            -<span class="number">3 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#171">GetMacroButtonStatusError::UnknownParameter</a>(<a href="#62">button</a>)), <span class="comment">/* FIXME: Lossless always (assuming vmr doesn&#39;t modify :) ), unsafe? */
-            </span>-<span class="number">5 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#174">GetMacroButtonStatusError::StructureMismatch</a>(<a href="#62">button</a>, <span class="number">1</span>)),
-            s =&gt; <span class="prelude-val">Err</span>(<a href="#177">GetMacroButtonStatusError::Other</a>(<a href="#70">s</a>)),
+            -<span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#167">GetMacroButtonStatusError::CannotGetClient</a>),
+            -<span class="number">2 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#170">GetMacroButtonStatusError::NoServer</a>),
+            -<span class="number">3 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#173">GetMacroButtonStatusError::UnknownParameter</a>(<a href="#62">button</a>)), <span class="comment">/* FIXME: Lossless always (assuming vmr doesn&#39;t modify :) ), unsafe? */
+            </span>-<span class="number">5 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#176">GetMacroButtonStatusError::StructureMismatch</a>(<a href="#62">button</a>, <span class="number">1</span>)),
+            s =&gt; <span class="prelude-val">Err</span>(<a href="#179">GetMacroButtonStatusError::Other</a>(<a href="#70">s</a>)),
         }
     }
 
@@ -278,7 +281,7 @@
         button: <span class="kw">impl </span>Into&lt;<a href="../types.rs.html#34">LogicalButton</a>&gt;,
         state: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>,
         displayed_state_only: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="#182-199">SetMacroButtonStatusError</a>&gt; {
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="#185-202">SetMacroButtonStatusError</a>&gt; {
         <span class="kw">let </span>_f = <span class="number">0.0f32</span>;
         <span class="kw">let </span>button = <a href="#79">button</a>.<a href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html">into</a>();
         <span class="kw">let </span>bitmode = <span class="kw">if </span>displayed_state_only {
@@ -292,11 +295,11 @@
         };
         <span class="kw">match </span><a href="#90">res</a> {
             <span class="number">0 </span>=&gt; <span class="prelude-val">Ok</span>(()),
-            -<span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#186">SetMacroButtonStatusError::CannotGetClient</a>),
-            -<span class="number">2 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#189">SetMacroButtonStatusError::NoServer</a>),
-            -<span class="number">3 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#192">SetMacroButtonStatusError::UnknownParameter</a>(<a href="#84">button</a>)), <span class="comment">/* FIXME: Lossless always (assuming vmr doesn&#39;t modify :) ), unsafe? */
-            </span>-<span class="number">5 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#195">SetMacroButtonStatusError::StructureMismatch</a>(<a href="#84">button</a>, <span class="number">1</span>)),
-            s =&gt; <span class="prelude-val">Err</span>(<a href="#198">SetMacroButtonStatusError::Other</a>(<a href="#100">s</a>)),
+            -<span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#189">SetMacroButtonStatusError::CannotGetClient</a>),
+            -<span class="number">2 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#192">SetMacroButtonStatusError::NoServer</a>),
+            -<span class="number">3 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#195">SetMacroButtonStatusError::UnknownParameter</a>(<a href="#84">button</a>)), <span class="comment">/* FIXME: Lossless always (assuming vmr doesn&#39;t modify :) ), unsafe? */
+            </span>-<span class="number">5 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#198">SetMacroButtonStatusError::StructureMismatch</a>(<a href="#84">button</a>, <span class="number">1</span>)),
+            s =&gt; <span class="prelude-val">Err</span>(<a href="#201">SetMacroButtonStatusError::Other</a>(<a href="#100">s</a>)),
         }
     }
 
@@ -304,17 +307,17 @@
     </span><span class="kw">pub fn </span>get_macrobutton_trigger_state(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         button: <span class="kw">impl </span>Into&lt;<a href="../types.rs.html#34">LogicalButton</a>&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="#16">MacroButtonStatus</a>, <a href="#161-178">GetMacroButtonStatusError</a>&gt; {
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="#16">MacroButtonStatus</a>, <a href="#163-180">GetMacroButtonStatusError</a>&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>f = <span class="number">0.0f32</span>;
         <span class="kw">let </span>button = <a href="#107">button</a>.<a href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html">into</a>();
         <span class="kw">let </span>res = <span class="kw">unsafe </span>{ <a class="self" href="#106">self</a>.raw.<a href="../bindings.rs.html#1504-1511">VBVMR_MacroButton_GetStatus</a>(<a href="#110">button</a>.<span class="number">0.0</span>, <span class="kw-2">&amp;mut </span><a href="#109">f</a>, <span class="number">3</span>) };
         <span class="kw">match </span><a href="#111">res</a> {
             <span class="number">0 </span>=&gt; <span class="prelude-val">Ok</span>(<a href="#16">MacroButtonStatus</a>(<a href="#109">f</a> == <span class="number">1.</span>)),
-            -<span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#165">GetMacroButtonStatusError::CannotGetClient</a>),
-            -<span class="number">2 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#168">GetMacroButtonStatusError::NoServer</a>),
-            -<span class="number">3 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#171">GetMacroButtonStatusError::UnknownParameter</a>(<a href="#110">button</a>)), <span class="comment">/* FIXME: Lossless always (assuming vmr doesn&#39;t modify :) ), unsafe? */
-            </span>-<span class="number">5 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#174">GetMacroButtonStatusError::StructureMismatch</a>(<a href="#110">button</a>, <span class="number">3</span>)),
-            s =&gt; <span class="prelude-val">Err</span>(<a href="#177">GetMacroButtonStatusError::Other</a>(<a href="#118">s</a>)),
+            -<span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#167">GetMacroButtonStatusError::CannotGetClient</a>),
+            -<span class="number">2 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#170">GetMacroButtonStatusError::NoServer</a>),
+            -<span class="number">3 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#173">GetMacroButtonStatusError::UnknownParameter</a>(<a href="#110">button</a>)), <span class="comment">/* FIXME: Lossless always (assuming vmr doesn&#39;t modify :) ), unsafe? */
+            </span>-<span class="number">5 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#176">GetMacroButtonStatusError::StructureMismatch</a>(<a href="#110">button</a>, <span class="number">3</span>)),
+            s =&gt; <span class="prelude-val">Err</span>(<a href="#179">GetMacroButtonStatusError::Other</a>(<a href="#118">s</a>)),
         }
     }
 
@@ -323,7 +326,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         button: <span class="kw">impl </span>Into&lt;<a href="../types.rs.html#34">LogicalButton</a>&gt;,
         state: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="#182-199">SetMacroButtonStatusError</a>&gt; {
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="#185-202">SetMacroButtonStatusError</a>&gt; {
         <span class="kw">let </span>button = <a href="#125">button</a>.<a href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html">into</a>();
         <span class="kw">let </span>res = <span class="kw">unsafe </span>{
             <a class="self" href="#124">self</a>.raw
@@ -331,18 +334,19 @@
         };
         <span class="kw">match </span><a href="#129">res</a> {
             <span class="number">0 </span>=&gt; <span class="prelude-val">Ok</span>(()),
-            -<span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#186">SetMacroButtonStatusError::CannotGetClient</a>),
-            -<span class="number">2 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#189">SetMacroButtonStatusError::NoServer</a>),
-            -<span class="number">3 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#192">SetMacroButtonStatusError::UnknownParameter</a>(<a href="#128">button</a>)), <span class="comment">/* FIXME: Lossless always (assuming vmr doesn&#39;t modify :) ), unsafe? */
-            </span>-<span class="number">5 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#195">SetMacroButtonStatusError::StructureMismatch</a>(<a href="#128">button</a>, <span class="number">3</span>)),
-            s =&gt; <span class="prelude-val">Err</span>(<a href="#198">SetMacroButtonStatusError::Other</a>(<a href="#139">s</a>)),
+            -<span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#189">SetMacroButtonStatusError::CannotGetClient</a>),
+            -<span class="number">2 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#192">SetMacroButtonStatusError::NoServer</a>),
+            -<span class="number">3 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#195">SetMacroButtonStatusError::UnknownParameter</a>(<a href="#128">button</a>)), <span class="comment">/* FIXME: Lossless always (assuming vmr doesn&#39;t modify :) ), unsafe? */
+            </span>-<span class="number">5 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#198">SetMacroButtonStatusError::StructureMismatch</a>(<a href="#128">button</a>, <span class="number">3</span>)),
+            s =&gt; <span class="prelude-val">Err</span>(<a href="#201">SetMacroButtonStatusError::Other</a>(<a href="#139">s</a>)),
         }
     }
 }
 
 <span class="doccomment">/// Errors that can happen when querying macro button &quot;dirty&quot; flag.
 </span><span class="attr">#[derive(Debug, thiserror::Error, Clone)]
-</span><span class="kw">pub enum </span><a href="#146-157">IsMacroButtonDirtyError</a> {
+#[non_exhaustive]
+</span><span class="kw">pub enum </span><a href="#147-158">IsMacroButtonDirtyError</a> {
     <span class="comment">// TODO: is this correct? docs say &quot;error (unexpected)&quot;&quot;
     </span><span class="doccomment">/// Cannot get client.
     </span><span class="attr">#[error(<span class="string">&quot;cannot get client (unexpected)&quot;</span>)]
@@ -357,7 +361,8 @@
 
 <span class="doccomment">/// Errors that can happen when getting macrobutton status.
 </span><span class="attr">#[derive(Debug, thiserror::Error, Clone)]
-</span><span class="kw">pub enum </span><a href="#161-178">GetMacroButtonStatusError</a> {
+#[non_exhaustive]
+</span><span class="kw">pub enum </span><a href="#163-180">GetMacroButtonStatusError</a> {
     <span class="comment">// TODO: is this correct? docs say &quot;error&quot;
     </span><span class="doccomment">/// Cannot get client.
     </span><span class="attr">#[error(<span class="string">&quot;cannot get client (unexpected)&quot;</span>)]
@@ -378,7 +383,8 @@
 
 <span class="doccomment">/// Errors that can happen when setting macrobutton status.
 </span><span class="attr">#[derive(Debug, thiserror::Error, Clone)]
-</span><span class="kw">pub enum </span><a href="#182-199">SetMacroButtonStatusError</a> {
+#[non_exhaustive]
+</span><span class="kw">pub enum </span><a href="#185-202">SetMacroButtonStatusError</a> {
     <span class="comment">// TODO: is this correct? docs say &quot;error&quot;
     </span><span class="doccomment">/// Cannot get client.
     </span><span class="attr">#[error(<span class="string">&quot;cannot get client (unexpected)&quot;</span>)]

@@ -132,6 +132,8 @@
 <a href="#132" id="132">132</a>
 <a href="#133" id="133">133</a>
 <a href="#134" id="134">134</a>
+<a href="#135" id="135">135</a>
+<a href="#136" id="136">136</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Parameter related functions and types
 //!
 //! # Functions
@@ -148,9 +150,9 @@
 
 <span class="kw">use </span><a href="../types.rs.html#61"><span class="kw">crate</span>::types::ParameterNameRef</a>;
 
-<span class="kw">use </span><a href="../interface.rs.html#21-25"><span class="kw">crate</span>::VoicemeeterRemote</a>;
+<span class="kw">use </span><a href="../interface.rs.html#21-26"><span class="kw">crate</span>::VoicemeeterRemote</a>;
 
-<span class="kw">impl </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a> {
+<span class="kw">impl </span><a href="../interface.rs.html#21-26">VoicemeeterRemote</a> {
     <span class="comment">// TODO: Only call from one thread, limit it
     </span><span class="doccomment">/// Check if parameters have changed
     ///
@@ -160,20 +162,20 @@
     /// # Security
     ///
     /// This method must only be called from one thread.
-    </span><span class="kw">pub fn </span>is_parameters_dirty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="#124-134">IsParametersDirtyError</a>&gt; {
+    </span><span class="kw">pub fn </span>is_parameters_dirty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="#126-136">IsParametersDirtyError</a>&gt; {
         <span class="kw">let </span>res = <span class="kw">unsafe </span>{ <a class="self" href="#29">self</a>.raw.<a href="../bindings.rs.html#1353-1355">VBVMR_IsParametersDirty</a>() };
         <span class="kw">match </span><a href="#30">res</a> {
             <span class="number">0 </span>=&gt; <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>),
             <span class="number">1 </span>=&gt; <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>),
-            -<span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#127">IsParametersDirtyError::CannotGetClient</a>),
-            -<span class="number">2 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#130">IsParametersDirtyError::NoServer</a>),
-            s =&gt; <span class="prelude-val">Err</span>(<a href="#133">IsParametersDirtyError::Other</a>(<a href="#36">s</a>)),
+            -<span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#129">IsParametersDirtyError::CannotGetClient</a>),
+            -<span class="number">2 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#132">IsParametersDirtyError::NoServer</a>),
+            s =&gt; <span class="prelude-val">Err</span>(<a href="#135">IsParametersDirtyError::Other</a>(<a href="#36">s</a>)),
         }
     }
 
     <span class="doccomment">/// Get the float value of a parameter. See also [`VoicemeeterRemote::parameters()`] to do this with functions.
     </span><span class="attr">#[tracing::instrument(skip(<span class="self">self</span>))]
-    </span><span class="kw">pub fn </span>get_parameter_float(<span class="kw-2">&amp;</span><span class="self">self</span>, param: <span class="kw-2">&amp;</span><a href="../types.rs.html#61">ParameterNameRef</a>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>, <a href="#101-120">GetParameterError</a>&gt; {
+    </span><span class="kw">pub fn </span>get_parameter_float(<span class="kw-2">&amp;</span><span class="self">self</span>, param: <span class="kw-2">&amp;</span><a href="../types.rs.html#61">ParameterNameRef</a>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>, <a href="#102-121">GetParameterError</a>&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>f = <span class="number">0.0f32</span>;
         <span class="kw">let </span>param = CString::new(param.as_ref())<span class="question-mark">?</span>;
         <span class="macro">tracing::debug!</span>(<span class="string">&quot;getting float parameter&quot;</span>);
@@ -201,7 +203,7 @@
     </span><span class="kw">pub fn </span>get_parameter_string(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         param: <span class="kw-2">&amp;</span><a href="../types.rs.html#61">ParameterNameRef</a>,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html">String</a>, <a href="#101-120">GetParameterError</a>&gt; {
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html">String</a>, <a href="#102-121">GetParameterError</a>&gt; {
         <span class="kw">let </span>param = CString::new(param.as_ref()).unwrap();
         <span class="kw">let </span><span class="kw-2">mut </span>output = [<span class="number">0 </span><span class="kw">as </span>c_char; <span class="number">512</span>];
         <span class="macro">tracing::debug!</span>(<span class="string">&quot;getting string parameter&quot;</span>);
@@ -232,7 +234,8 @@
 
 <span class="doccomment">/// Errors that can happen when getting a parameter.
 </span><span class="attr">#[derive(Debug, thiserror::Error, Clone)]
-</span><span class="kw">pub enum </span><a href="#101-120">GetParameterError</a> {
+#[non_exhaustive]
+</span><span class="kw">pub enum </span><a href="#102-121">GetParameterError</a> {
     <span class="doccomment">/// Could not make a c-compatible string. This is a bug.
     </span><span class="attr">#[error(<span class="string">&quot;could not make into a c-string&quot;</span>)]
     </span>NulError(<span class="attr">#[from] </span><a href="https://doc.rust-lang.org/nightly/alloc/ffi/c_str/struct.NulError.html">NulError</a>),
@@ -255,7 +258,8 @@
 
 <span class="doccomment">/// Errors that can happen when querying parameter &quot;dirty&quot; flag.
 </span><span class="attr">#[derive(Debug, thiserror::Error, Clone)]
-</span><span class="kw">pub enum </span><a href="#124-134">IsParametersDirtyError</a> {
+#[non_exhaustive]
+</span><span class="kw">pub enum </span><a href="#126-136">IsParametersDirtyError</a> {
     <span class="doccomment">/// Unexpected error
     </span><span class="attr">#[error(<span class="string">&quot;error (unexpected)&quot;</span>)]
     </span>CannotGetClient,

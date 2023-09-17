@@ -66,34 +66,35 @@
 <a href="#66" id="66">66</a>
 <a href="#67" id="67">67</a>
 <a href="#68" id="68">68</a>
+<a href="#69" id="69">69</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! General information about the running Voicemeeter instance.
 //!
 //! # Functions
 //!
 //! * [`get_voicemeeter_type`](VoicemeeterRemote::get_voicemeeter_type)
 //! * [`get_voicemeeter_version`](VoicemeeterRemote::get_voicemeeter_version)
-</span><span class="kw">use </span><a href="../types.rs.html#67-78"><span class="kw">crate</span>::types::VoicemeeterApplication</a>;
+</span><span class="kw">use </span><a href="../types.rs.html#67-80"><span class="kw">crate</span>::types::VoicemeeterApplication</a>;
 
-<span class="kw">use </span><a href="../interface.rs.html#21-25"><span class="kw">super</span>::VoicemeeterRemote</a>;
+<span class="kw">use </span><a href="../interface.rs.html#21-26"><span class="kw">super</span>::VoicemeeterRemote</a>;
 
-<span class="kw">impl </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a> {
+<span class="kw">impl </span><a href="../interface.rs.html#21-26">VoicemeeterRemote</a> {
     <span class="doccomment">/// Get the application type of the running Voicemeeter instance.
     </span><span class="kw">pub fn </span>get_voicemeeter_type(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="../types.rs.html#67-78">VoicemeeterApplication</a>, <a href="#55-68">GetVoicemeeterInformationError</a>&gt; {
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="../types.rs.html#67-80">VoicemeeterApplication</a>, <a href="#56-69">GetVoicemeeterInformationError</a>&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>t = <span class="number">0i32</span>;
         <span class="kw">let </span>res = <span class="kw">unsafe </span>{ <a class="self" href="#14">self</a>.raw.<a href="../bindings.rs.html#1339-1344">VBVMR_GetVoicemeeterType</a>(<span class="kw-2">&amp;mut </span><a href="#16">t</a>) };
         <span class="kw">match </span><a href="#17">res</a> {
             <span class="number">0 </span>=&gt; <span class="prelude-val">Ok</span>(VoicemeeterApplication::from(<a href="#16">t</a>)),
-            -<span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#58">GetVoicemeeterInformationError::CannotGetClient</a>),
-            -<span class="number">2 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#61">GetVoicemeeterInformationError::NoServer</a>),
-            s =&gt; <span class="prelude-val">Err</span>(<a href="#64">GetVoicemeeterInformationError::Other</a>(<a href="#22">s</a>)),
+            -<span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#59">GetVoicemeeterInformationError::CannotGetClient</a>),
+            -<span class="number">2 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#62">GetVoicemeeterInformationError::NoServer</a>),
+            s =&gt; <span class="prelude-val">Err</span>(<a href="#65">GetVoicemeeterInformationError::Other</a>(<a href="#22">s</a>)),
         }
     }
     <span class="doccomment">/// Get the version of the running Voicemeeter instance.
     </span><span class="kw">pub fn </span>get_voicemeeter_version(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="#45">VoicemeeterVersion</a>, <a href="#55-68">GetVoicemeeterInformationError</a>&gt; {
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="#45">VoicemeeterVersion</a>, <a href="#56-69">GetVoicemeeterInformationError</a>&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>t = <span class="number">0i32</span>;
         <span class="kw">let </span>res = <span class="kw">unsafe </span>{ <a class="self" href="#27">self</a>.raw.<a href="../bindings.rs.html#1346-1351">VBVMR_GetVoicemeeterVersion</a>(<span class="kw-2">&amp;mut </span><a href="#29">t</a>) };
         <span class="kw">match </span><a href="#30">res</a> {
@@ -101,9 +102,9 @@
                 <span class="kw">let </span>a: [<a href="https://doc.rust-lang.org/nightly/std/primitive.u8.html">u8</a>; <span class="number">4</span>] = <a href="#29">t</a>.to_be_bytes();
                 <span class="prelude-val">Ok</span>(<a href="#45">VoicemeeterVersion</a>(<a href="#33">a</a>[<span class="number">0</span>], <a href="#33">a</a>[<span class="number">1</span>], <a href="#33">a</a>[<span class="number">2</span>], <a href="#33">a</a>[<span class="number">3</span>]))
             }
-            -<span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#58">GetVoicemeeterInformationError::CannotGetClient</a>),
-            -<span class="number">2 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#61">GetVoicemeeterInformationError::NoServer</a>),
-            s =&gt; <span class="prelude-val">Err</span>(<a href="#64">GetVoicemeeterInformationError::Other</a>(<a href="#38">s</a>)),
+            -<span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#59">GetVoicemeeterInformationError::CannotGetClient</a>),
+            -<span class="number">2 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#62">GetVoicemeeterInformationError::NoServer</a>),
+            s =&gt; <span class="prelude-val">Err</span>(<a href="#65">GetVoicemeeterInformationError::Other</a>(<a href="#38">s</a>)),
         }
     }
 }
@@ -120,7 +121,8 @@
 
 <span class="doccomment">/// Errors that can happen when querying information from Voicemeeter.
 </span><span class="attr">#[derive(Debug, thiserror::Error, Clone)]
-</span><span class="kw">pub enum </span><a href="#55-68">GetVoicemeeterInformationError</a> {
+#[non_exhaustive]
+</span><span class="kw">pub enum </span><a href="#56-69">GetVoicemeeterInformationError</a> {
     <span class="doccomment">/// Cannot get client.
     </span><span class="attr">#[error(<span class="string">&quot;cannot get client (unexpected)&quot;</span>)]
     </span>CannotGetClient,

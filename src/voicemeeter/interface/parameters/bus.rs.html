@@ -364,13 +364,13 @@
 /// # Ok::&lt;(), Box&lt;dyn std::error::Error&gt;&gt;(())
 /// ```
 </span><span class="kw">pub struct </span><a href="../../..\../voicemeeter/interface/parameters/bus/struct.Bus.html">Bus</a>&lt;<span class="lifetime">&#39;a</span>&gt; {
-    remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a>,
+    remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-26">VoicemeeterRemote</a>,
     bus_index: <a href="../types.rs.html#6">ZIndex</a>,
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Bus&lt;<span class="lifetime">&#39;a</span>&gt; {
     <span class="attr">#[doc(hidden)]
-    </span><span class="kw">pub fn </span>new(remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a>, bus_index: <a href="../types.rs.html#6">ZIndex</a>) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub fn </span>new(remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-26">VoicemeeterRemote</a>, bus_index: <a href="../types.rs.html#6">ZIndex</a>) -&gt; <span class="self">Self </span>{
         <a href="#34-37">Bus</a> { <a href="#41">remote</a>, <a href="#41">bus_index</a> }
     }
 
@@ -459,12 +459,12 @@
 
 <span class="doccomment">/// Parameters for bus mode
 </span><span class="kw">pub struct </span><a href="../../..\../voicemeeter/interface/parameters/bus/struct.BusModeParameter.html">BusModeParameter</a>&lt;<span class="lifetime">&#39;a</span>&gt; {
-    remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a>,
+    remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-26">VoicemeeterRemote</a>,
     bus_index: <a href="../types.rs.html#6">ZIndex</a>,
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; BusModeParameter&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">fn </span>new(remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a>, bus_index: <a href="../types.rs.html#6">ZIndex</a>) -&gt; <span class="self">Self </span>{
+    <span class="kw">fn </span>new(remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-26">VoicemeeterRemote</a>, bus_index: <a href="../types.rs.html#6">ZIndex</a>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{ <a href="#135">remote</a>, <a href="#135">bus_index</a> }
     }
 
@@ -475,161 +475,161 @@
     }
 
     <span class="doccomment">/// Get the current bus mode
-    </span><span class="kw">pub fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;<a href="../types.rs.html#331-356">BusMode</a>&gt;, <a href="get_parameters.rs.html#101-120">GetParameterError</a>&gt; {
+    </span><span class="kw">pub fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;<a href="../types.rs.html#334-359">BusMode</a>&gt;, <a href="get_parameters.rs.html#102-121">GetParameterError</a>&gt; {
         <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="kw">if </span><span class="self">self</span>.is_normal()<span class="question-mark">? </span>{
-            <a href="../types.rs.html#333">BusMode::Normal</a>
+            <a href="../types.rs.html#336">BusMode::Normal</a>
         } <span class="kw">else if </span><span class="self">self</span>.is_amix()<span class="question-mark">? </span>{
-            <a href="../types.rs.html#335">BusMode::Amix</a>
+            <a href="../types.rs.html#338">BusMode::Amix</a>
         } <span class="kw">else if </span><span class="self">self</span>.is_bmix()<span class="question-mark">? </span>{
-            <a href="../types.rs.html#337">BusMode::Bmix</a>
+            <a href="../types.rs.html#340">BusMode::Bmix</a>
         } <span class="kw">else if </span><span class="self">self</span>.is_repeat()<span class="question-mark">? </span>{
-            <a href="../types.rs.html#339">BusMode::Repeat</a>
+            <a href="../types.rs.html#342">BusMode::Repeat</a>
         } <span class="kw">else if </span><span class="self">self</span>.is_composite()<span class="question-mark">? </span>{
-            <a href="../types.rs.html#341">BusMode::Composite</a>
+            <a href="../types.rs.html#344">BusMode::Composite</a>
         } <span class="kw">else if </span><span class="self">self</span>.is_tv_mix()<span class="question-mark">? </span>{
-            <a href="../types.rs.html#343">BusMode::TvMix</a>
+            <a href="../types.rs.html#346">BusMode::TvMix</a>
         } <span class="kw">else if </span><span class="self">self</span>.is_up_mix21()<span class="question-mark">? </span>{
-            <a href="../types.rs.html#345">BusMode::UpMix21</a>
+            <a href="../types.rs.html#348">BusMode::UpMix21</a>
         } <span class="kw">else if </span><span class="self">self</span>.is_up_mix41()<span class="question-mark">? </span>{
-            <a href="../types.rs.html#347">BusMode::UpMix41</a>
+            <a href="../types.rs.html#350">BusMode::UpMix41</a>
         } <span class="kw">else if </span><span class="self">self</span>.is_up_mix61()<span class="question-mark">? </span>{
-            <a href="../types.rs.html#349">BusMode::UpMix61</a>
+            <a href="../types.rs.html#352">BusMode::UpMix61</a>
         } <span class="kw">else if </span><span class="self">self</span>.is_center_only()<span class="question-mark">? </span>{
-            <a href="../types.rs.html#351">BusMode::CenterOnly</a>
+            <a href="../types.rs.html#354">BusMode::CenterOnly</a>
         } <span class="kw">else if </span><span class="self">self</span>.is_lfe_only()<span class="question-mark">? </span>{
-            <a href="../types.rs.html#353">BusMode::LfeOnly</a>
+            <a href="../types.rs.html#356">BusMode::LfeOnly</a>
         } <span class="kw">else if </span><span class="self">self</span>.is_rear_only()<span class="question-mark">? </span>{
-            <a href="../types.rs.html#355">BusMode::RearOnly</a>
+            <a href="../types.rs.html#358">BusMode::RearOnly</a>
         } <span class="kw">else </span>{
             <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
         }))
     }
     <span class="doccomment">/// Set the bus mode
-    </span><span class="kw">pub fn </span>set(<span class="kw-2">&amp;</span><span class="self">self</span>, mode: <a href="../types.rs.html#331-356">BusMode</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="set_parameters.rs.html#93-107">SetParameterError</a>&gt; {
+    </span><span class="kw">pub fn </span>set(<span class="kw-2">&amp;</span><span class="self">self</span>, mode: <a href="../types.rs.html#334-359">BusMode</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="set_parameters.rs.html#95-109">SetParameterError</a>&gt; {
         <span class="kw">match </span><a href="#176">mode</a> {
-            <a href="../types.rs.html#333">BusMode::Normal</a> =&gt; <a class="self" href="#176">self</a>.<a href="#243-245">set_normal</a>(<span class="bool-val">true</span>),
-            <a href="../types.rs.html#335">BusMode::Amix</a> =&gt; <a class="self" href="#176">self</a>.<a href="#247-249">set_amix</a>(<span class="bool-val">true</span>),
-            <a href="../types.rs.html#337">BusMode::Bmix</a> =&gt; <a class="self" href="#176">self</a>.<a href="#251-253">set_bmix</a>(<span class="bool-val">true</span>),
-            <a href="../types.rs.html#339">BusMode::Repeat</a> =&gt; <a class="self" href="#176">self</a>.<a href="#255-257">set_repeat</a>(<span class="bool-val">true</span>),
-            <a href="../types.rs.html#341">BusMode::Composite</a> =&gt; <a class="self" href="#176">self</a>.<a href="#259-261">set_composite</a>(<span class="bool-val">true</span>),
-            <a href="../types.rs.html#343">BusMode::TvMix</a> =&gt; <a class="self" href="#176">self</a>.<a href="#263-265">set_tv_mix</a>(<span class="bool-val">true</span>),
-            <a href="../types.rs.html#345">BusMode::UpMix21</a> =&gt; <a class="self" href="#176">self</a>.<a href="#267-269">set_up_mix21</a>(<span class="bool-val">true</span>),
-            <a href="../types.rs.html#347">BusMode::UpMix41</a> =&gt; <a class="self" href="#176">self</a>.<a href="#271-273">set_up_mix41</a>(<span class="bool-val">true</span>),
-            <a href="../types.rs.html#349">BusMode::UpMix61</a> =&gt; <a class="self" href="#176">self</a>.<a href="#275-277">set_up_mix61</a>(<span class="bool-val">true</span>),
-            <a href="../types.rs.html#351">BusMode::CenterOnly</a> =&gt; <a class="self" href="#176">self</a>.<a href="#279-281">set_center_only</a>(<span class="bool-val">true</span>),
-            <a href="../types.rs.html#353">BusMode::LfeOnly</a> =&gt; <a class="self" href="#176">self</a>.<a href="#283-285">set_lfe_only</a>(<span class="bool-val">true</span>),
-            <a href="../types.rs.html#355">BusMode::RearOnly</a> =&gt; <a class="self" href="#176">self</a>.<a href="#287-289">set_rear_only</a>(<span class="bool-val">true</span>),
+            <a href="../types.rs.html#336">BusMode::Normal</a> =&gt; <a class="self" href="#176">self</a>.<a href="#243-245">set_normal</a>(<span class="bool-val">true</span>),
+            <a href="../types.rs.html#338">BusMode::Amix</a> =&gt; <a class="self" href="#176">self</a>.<a href="#247-249">set_amix</a>(<span class="bool-val">true</span>),
+            <a href="../types.rs.html#340">BusMode::Bmix</a> =&gt; <a class="self" href="#176">self</a>.<a href="#251-253">set_bmix</a>(<span class="bool-val">true</span>),
+            <a href="../types.rs.html#342">BusMode::Repeat</a> =&gt; <a class="self" href="#176">self</a>.<a href="#255-257">set_repeat</a>(<span class="bool-val">true</span>),
+            <a href="../types.rs.html#344">BusMode::Composite</a> =&gt; <a class="self" href="#176">self</a>.<a href="#259-261">set_composite</a>(<span class="bool-val">true</span>),
+            <a href="../types.rs.html#346">BusMode::TvMix</a> =&gt; <a class="self" href="#176">self</a>.<a href="#263-265">set_tv_mix</a>(<span class="bool-val">true</span>),
+            <a href="../types.rs.html#348">BusMode::UpMix21</a> =&gt; <a class="self" href="#176">self</a>.<a href="#267-269">set_up_mix21</a>(<span class="bool-val">true</span>),
+            <a href="../types.rs.html#350">BusMode::UpMix41</a> =&gt; <a class="self" href="#176">self</a>.<a href="#271-273">set_up_mix41</a>(<span class="bool-val">true</span>),
+            <a href="../types.rs.html#352">BusMode::UpMix61</a> =&gt; <a class="self" href="#176">self</a>.<a href="#275-277">set_up_mix61</a>(<span class="bool-val">true</span>),
+            <a href="../types.rs.html#354">BusMode::CenterOnly</a> =&gt; <a class="self" href="#176">self</a>.<a href="#279-281">set_center_only</a>(<span class="bool-val">true</span>),
+            <a href="../types.rs.html#356">BusMode::LfeOnly</a> =&gt; <a class="self" href="#176">self</a>.<a href="#283-285">set_lfe_only</a>(<span class="bool-val">true</span>),
+            <a href="../types.rs.html#358">BusMode::RearOnly</a> =&gt; <a class="self" href="#176">self</a>.<a href="#287-289">set_rear_only</a>(<span class="bool-val">true</span>),
         }
     }
 
     <span class="doccomment">/// Returns `true` if the bus mode is [`Normal`](BusMode::Normal)
-    </span><span class="kw">pub fn </span>is_normal(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="get_parameters.rs.html#101-120">GetParameterError</a>&gt; {
+    </span><span class="kw">pub fn </span>is_normal(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="get_parameters.rs.html#102-121">GetParameterError</a>&gt; {
         BoolParameter::&lt;<span class="lifetime">&#39;_</span>, <span class="bool-val">false</span>, <span class="bool-val">true</span>&gt;::new(<a class="self" href="#194">self</a>.<a href="#140-143">param</a>(<span class="string">&quot;normal&quot;</span>), <a class="self" href="#194">self</a>.remote).<a href="../interface/parameters.rs.html#189-191">get</a>()
     }
     <span class="doccomment">/// Returns `true` if the bus mode is [`Amix`](BusMode::Amix)
-    </span><span class="kw">pub fn </span>is_amix(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="get_parameters.rs.html#101-120">GetParameterError</a>&gt; {
+    </span><span class="kw">pub fn </span>is_amix(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="get_parameters.rs.html#102-121">GetParameterError</a>&gt; {
         BoolParameter::&lt;<span class="lifetime">&#39;_</span>, <span class="bool-val">false</span>, <span class="bool-val">true</span>&gt;::new(<a class="self" href="#198">self</a>.<a href="#140-143">param</a>(<span class="string">&quot;Amix&quot;</span>), <a class="self" href="#198">self</a>.remote).<a href="../interface/parameters.rs.html#189-191">get</a>()
     }
     <span class="doccomment">/// Returns `true` if the bus mode is [`Bmix`](BusMode::Bmix)
-    </span><span class="kw">pub fn </span>is_bmix(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="get_parameters.rs.html#101-120">GetParameterError</a>&gt; {
+    </span><span class="kw">pub fn </span>is_bmix(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="get_parameters.rs.html#102-121">GetParameterError</a>&gt; {
         BoolParameter::&lt;<span class="lifetime">&#39;_</span>, <span class="bool-val">false</span>, <span class="bool-val">true</span>&gt;::new(<a class="self" href="#202">self</a>.<a href="#140-143">param</a>(<span class="string">&quot;Bmix&quot;</span>), <a class="self" href="#202">self</a>.remote).<a href="../interface/parameters.rs.html#189-191">get</a>()
     }
     <span class="doccomment">/// Returns `true` if the bus mode is [`Repeat`](BusMode::Repeat)
-    </span><span class="kw">pub fn </span>is_repeat(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="get_parameters.rs.html#101-120">GetParameterError</a>&gt; {
+    </span><span class="kw">pub fn </span>is_repeat(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="get_parameters.rs.html#102-121">GetParameterError</a>&gt; {
         BoolParameter::&lt;<span class="lifetime">&#39;_</span>, <span class="bool-val">false</span>, <span class="bool-val">true</span>&gt;::new(<a class="self" href="#206">self</a>.<a href="#140-143">param</a>(<span class="string">&quot;Repeat&quot;</span>), <a class="self" href="#206">self</a>.remote).<a href="../interface/parameters.rs.html#189-191">get</a>()
     }
     <span class="doccomment">/// Returns `true` if the bus mode is [`Composite`](BusMode::Composite)
-    </span><span class="kw">pub fn </span>is_composite(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="get_parameters.rs.html#101-120">GetParameterError</a>&gt; {
+    </span><span class="kw">pub fn </span>is_composite(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="get_parameters.rs.html#102-121">GetParameterError</a>&gt; {
         BoolParameter::&lt;<span class="lifetime">&#39;_</span>, <span class="bool-val">false</span>, <span class="bool-val">true</span>&gt;::new(<a class="self" href="#210">self</a>.<a href="#140-143">param</a>(<span class="string">&quot;Composite&quot;</span>), <a class="self" href="#210">self</a>.remote).<a href="../interface/parameters.rs.html#189-191">get</a>()
     }
     <span class="doccomment">/// Returns `true` if the bus mode is [`TvMix`](BusMode::TvMix)
-    </span><span class="kw">pub fn </span>is_tv_mix(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="get_parameters.rs.html#101-120">GetParameterError</a>&gt; {
+    </span><span class="kw">pub fn </span>is_tv_mix(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="get_parameters.rs.html#102-121">GetParameterError</a>&gt; {
         BoolParameter::&lt;<span class="lifetime">&#39;_</span>, <span class="bool-val">false</span>, <span class="bool-val">true</span>&gt;::new(<a class="self" href="#214">self</a>.<a href="#140-143">param</a>(<span class="string">&quot;TVMix&quot;</span>), <a class="self" href="#214">self</a>.remote).<a href="../interface/parameters.rs.html#189-191">get</a>()
     }
     <span class="doccomment">/// Returns `true` if the bus mode is [`UpMix21`](BusMode::UpMix21)
-    </span><span class="kw">pub fn </span>is_up_mix21(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="get_parameters.rs.html#101-120">GetParameterError</a>&gt; {
+    </span><span class="kw">pub fn </span>is_up_mix21(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="get_parameters.rs.html#102-121">GetParameterError</a>&gt; {
         BoolParameter::&lt;<span class="lifetime">&#39;_</span>, <span class="bool-val">false</span>, <span class="bool-val">true</span>&gt;::new(<a class="self" href="#218">self</a>.<a href="#140-143">param</a>(<span class="string">&quot;UpMix21&quot;</span>), <a class="self" href="#218">self</a>.remote).<a href="../interface/parameters.rs.html#189-191">get</a>()
     }
     <span class="doccomment">/// Returns `true` if the bus mode is [`UpMix41`](BusMode::UpMix41)
-    </span><span class="kw">pub fn </span>is_up_mix41(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="get_parameters.rs.html#101-120">GetParameterError</a>&gt; {
+    </span><span class="kw">pub fn </span>is_up_mix41(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="get_parameters.rs.html#102-121">GetParameterError</a>&gt; {
         BoolParameter::&lt;<span class="lifetime">&#39;_</span>, <span class="bool-val">false</span>, <span class="bool-val">true</span>&gt;::new(<a class="self" href="#222">self</a>.<a href="#140-143">param</a>(<span class="string">&quot;UpMix41&quot;</span>), <a class="self" href="#222">self</a>.remote).<a href="../interface/parameters.rs.html#189-191">get</a>()
     }
     <span class="doccomment">/// Returns `true` if the bus mode is [`UpMix61`](BusMode::UpMix61)
-    </span><span class="kw">pub fn </span>is_up_mix61(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="get_parameters.rs.html#101-120">GetParameterError</a>&gt; {
+    </span><span class="kw">pub fn </span>is_up_mix61(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="get_parameters.rs.html#102-121">GetParameterError</a>&gt; {
         BoolParameter::&lt;<span class="lifetime">&#39;_</span>, <span class="bool-val">false</span>, <span class="bool-val">true</span>&gt;::new(<a class="self" href="#226">self</a>.<a href="#140-143">param</a>(<span class="string">&quot;UpMix61&quot;</span>), <a class="self" href="#226">self</a>.remote).<a href="../interface/parameters.rs.html#189-191">get</a>()
     }
     <span class="doccomment">/// Returns `true` if the bus mode is [`CenterOnly`](BusMode::CenterOnly)
-    </span><span class="kw">pub fn </span>is_center_only(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="get_parameters.rs.html#101-120">GetParameterError</a>&gt; {
+    </span><span class="kw">pub fn </span>is_center_only(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="get_parameters.rs.html#102-121">GetParameterError</a>&gt; {
         BoolParameter::&lt;<span class="lifetime">&#39;_</span>, <span class="bool-val">false</span>, <span class="bool-val">true</span>&gt;::new(<a class="self" href="#230">self</a>.<a href="#140-143">param</a>(<span class="string">&quot;CenterOnly&quot;</span>), <a class="self" href="#230">self</a>.remote).<a href="../interface/parameters.rs.html#189-191">get</a>()
     }
     <span class="doccomment">/// Returns `true` if the bus mode is [`LfeOnly`](BusMode::LfeOnly)
-    </span><span class="kw">pub fn </span>is_lfe_only(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="get_parameters.rs.html#101-120">GetParameterError</a>&gt; {
+    </span><span class="kw">pub fn </span>is_lfe_only(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="get_parameters.rs.html#102-121">GetParameterError</a>&gt; {
         BoolParameter::&lt;<span class="lifetime">&#39;_</span>, <span class="bool-val">false</span>, <span class="bool-val">true</span>&gt;::new(<a class="self" href="#234">self</a>.<a href="#140-143">param</a>(<span class="string">&quot;LFEOnly&quot;</span>), <a class="self" href="#234">self</a>.remote).<a href="../interface/parameters.rs.html#189-191">get</a>()
     }
     <span class="doccomment">/// Returns `true` if the bus mode is [`RearOnly`](BusMode::RearOnly)
-    </span><span class="kw">pub fn </span>is_rear_only(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="get_parameters.rs.html#101-120">GetParameterError</a>&gt; {
+    </span><span class="kw">pub fn </span>is_rear_only(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="get_parameters.rs.html#102-121">GetParameterError</a>&gt; {
         BoolParameter::&lt;<span class="lifetime">&#39;_</span>, <span class="bool-val">false</span>, <span class="bool-val">true</span>&gt;::new(<a class="self" href="#238">self</a>.<a href="#140-143">param</a>(<span class="string">&quot;RearOnly&quot;</span>), <a class="self" href="#238">self</a>.remote).<a href="../interface/parameters.rs.html#189-191">get</a>()
     }
 
     <span class="doccomment">/// Set the bus mode for [`Normal`](BusMode::Normal)
-    </span><span class="kw">pub fn </span>set_normal(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="set_parameters.rs.html#93-107">SetParameterError</a>&gt; {
+    </span><span class="kw">pub fn </span>set_normal(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="set_parameters.rs.html#95-109">SetParameterError</a>&gt; {
         BoolParameter::&lt;<span class="lifetime">&#39;_</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>&gt;::new(<a class="self" href="#243">self</a>.<a href="#140-143">param</a>(<span class="string">&quot;normal&quot;</span>), <a class="self" href="#243">self</a>.remote).<a href="../interface/parameters.rs.html#181-184">set</a>(<a href="#243">val</a>)
     }
     <span class="doccomment">/// Set the bus mode for [`Amix`](BusMode::Amix)
-    </span><span class="kw">pub fn </span>set_amix(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="set_parameters.rs.html#93-107">SetParameterError</a>&gt; {
+    </span><span class="kw">pub fn </span>set_amix(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="set_parameters.rs.html#95-109">SetParameterError</a>&gt; {
         BoolParameter::&lt;<span class="lifetime">&#39;_</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>&gt;::new(<a class="self" href="#247">self</a>.<a href="#140-143">param</a>(<span class="string">&quot;Amix&quot;</span>), <a class="self" href="#247">self</a>.remote).<a href="../interface/parameters.rs.html#181-184">set</a>(<a href="#247">val</a>)
     }
     <span class="doccomment">/// Set the bus mode for [`Bmix`](BusMode::Bmix)
-    </span><span class="kw">pub fn </span>set_bmix(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="set_parameters.rs.html#93-107">SetParameterError</a>&gt; {
+    </span><span class="kw">pub fn </span>set_bmix(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="set_parameters.rs.html#95-109">SetParameterError</a>&gt; {
         BoolParameter::&lt;<span class="lifetime">&#39;_</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>&gt;::new(<a class="self" href="#251">self</a>.<a href="#140-143">param</a>(<span class="string">&quot;Bmix&quot;</span>), <a class="self" href="#251">self</a>.remote).<a href="../interface/parameters.rs.html#181-184">set</a>(<a href="#251">val</a>)
     }
     <span class="doccomment">/// Set the bus mode for [`Repeat`](BusMode::Repeat)
-    </span><span class="kw">pub fn </span>set_repeat(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="set_parameters.rs.html#93-107">SetParameterError</a>&gt; {
+    </span><span class="kw">pub fn </span>set_repeat(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="set_parameters.rs.html#95-109">SetParameterError</a>&gt; {
         BoolParameter::&lt;<span class="lifetime">&#39;_</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>&gt;::new(<a class="self" href="#255">self</a>.<a href="#140-143">param</a>(<span class="string">&quot;Repeat&quot;</span>), <a class="self" href="#255">self</a>.remote).<a href="../interface/parameters.rs.html#181-184">set</a>(<a href="#255">val</a>)
     }
     <span class="doccomment">/// Set the bus mode for [`Composite`](BusMode::Composite)
-    </span><span class="kw">pub fn </span>set_composite(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="set_parameters.rs.html#93-107">SetParameterError</a>&gt; {
+    </span><span class="kw">pub fn </span>set_composite(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="set_parameters.rs.html#95-109">SetParameterError</a>&gt; {
         BoolParameter::&lt;<span class="lifetime">&#39;_</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>&gt;::new(<a class="self" href="#259">self</a>.<a href="#140-143">param</a>(<span class="string">&quot;Composite&quot;</span>), <a class="self" href="#259">self</a>.remote).<a href="../interface/parameters.rs.html#181-184">set</a>(<a href="#259">val</a>)
     }
     <span class="doccomment">/// Set the bus mode for [`TvMix`](BusMode::TvMix)
-    </span><span class="kw">pub fn </span>set_tv_mix(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="set_parameters.rs.html#93-107">SetParameterError</a>&gt; {
+    </span><span class="kw">pub fn </span>set_tv_mix(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="set_parameters.rs.html#95-109">SetParameterError</a>&gt; {
         BoolParameter::&lt;<span class="lifetime">&#39;_</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>&gt;::new(<a class="self" href="#263">self</a>.<a href="#140-143">param</a>(<span class="string">&quot;TVMix&quot;</span>), <a class="self" href="#263">self</a>.remote).<a href="../interface/parameters.rs.html#181-184">set</a>(<a href="#263">val</a>)
     }
     <span class="doccomment">/// Set the bus mode for [`UpMix21`](BusMode::UpMix21)
-    </span><span class="kw">pub fn </span>set_up_mix21(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="set_parameters.rs.html#93-107">SetParameterError</a>&gt; {
+    </span><span class="kw">pub fn </span>set_up_mix21(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="set_parameters.rs.html#95-109">SetParameterError</a>&gt; {
         BoolParameter::&lt;<span class="lifetime">&#39;_</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>&gt;::new(<a class="self" href="#267">self</a>.<a href="#140-143">param</a>(<span class="string">&quot;UpMix21&quot;</span>), <a class="self" href="#267">self</a>.remote).<a href="../interface/parameters.rs.html#181-184">set</a>(<a href="#267">val</a>)
     }
     <span class="doccomment">/// Set the bus mode for [`UpMix41`](BusMode::UpMix41)
-    </span><span class="kw">pub fn </span>set_up_mix41(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="set_parameters.rs.html#93-107">SetParameterError</a>&gt; {
+    </span><span class="kw">pub fn </span>set_up_mix41(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="set_parameters.rs.html#95-109">SetParameterError</a>&gt; {
         BoolParameter::&lt;<span class="lifetime">&#39;_</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>&gt;::new(<a class="self" href="#271">self</a>.<a href="#140-143">param</a>(<span class="string">&quot;UpMix41&quot;</span>), <a class="self" href="#271">self</a>.remote).<a href="../interface/parameters.rs.html#181-184">set</a>(<a href="#271">val</a>)
     }
     <span class="doccomment">/// Set the bus mode for [`UpMix61`](BusMode::UpMix61)
-    </span><span class="kw">pub fn </span>set_up_mix61(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="set_parameters.rs.html#93-107">SetParameterError</a>&gt; {
+    </span><span class="kw">pub fn </span>set_up_mix61(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="set_parameters.rs.html#95-109">SetParameterError</a>&gt; {
         BoolParameter::&lt;<span class="lifetime">&#39;_</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>&gt;::new(<a class="self" href="#275">self</a>.<a href="#140-143">param</a>(<span class="string">&quot;UpMix61&quot;</span>), <a class="self" href="#275">self</a>.remote).<a href="../interface/parameters.rs.html#181-184">set</a>(<a href="#275">val</a>)
     }
     <span class="doccomment">/// Set the bus mode for [`CenterOnly`](BusMode::CenterOnly)
-    </span><span class="kw">pub fn </span>set_center_only(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="set_parameters.rs.html#93-107">SetParameterError</a>&gt; {
+    </span><span class="kw">pub fn </span>set_center_only(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="set_parameters.rs.html#95-109">SetParameterError</a>&gt; {
         BoolParameter::&lt;<span class="lifetime">&#39;_</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>&gt;::new(<a class="self" href="#279">self</a>.<a href="#140-143">param</a>(<span class="string">&quot;CenterOnly&quot;</span>), <a class="self" href="#279">self</a>.remote).<a href="../interface/parameters.rs.html#181-184">set</a>(<a href="#279">val</a>)
     }
     <span class="doccomment">/// Set the bus mode for [`LfeOnly`](BusMode::LfeOnly)
-    </span><span class="kw">pub fn </span>set_lfe_only(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="set_parameters.rs.html#93-107">SetParameterError</a>&gt; {
+    </span><span class="kw">pub fn </span>set_lfe_only(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="set_parameters.rs.html#95-109">SetParameterError</a>&gt; {
         BoolParameter::&lt;<span class="lifetime">&#39;_</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>&gt;::new(<a class="self" href="#283">self</a>.<a href="#140-143">param</a>(<span class="string">&quot;LFEOnly&quot;</span>), <a class="self" href="#283">self</a>.remote).<a href="../interface/parameters.rs.html#181-184">set</a>(<a href="#283">val</a>)
     }
     <span class="doccomment">/// Set the bus mode for [`RearOnly`](BusMode::RearOnly)
-    </span><span class="kw">pub fn </span>set_rear_only(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="set_parameters.rs.html#93-107">SetParameterError</a>&gt; {
+    </span><span class="kw">pub fn </span>set_rear_only(<span class="kw-2">&amp;</span><span class="self">self</span>, val: <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="set_parameters.rs.html#95-109">SetParameterError</a>&gt; {
         BoolParameter::&lt;<span class="lifetime">&#39;_</span>, <span class="bool-val">true</span>, <span class="bool-val">false</span>&gt;::new(<a class="self" href="#287">self</a>.<a href="#140-143">param</a>(<span class="string">&quot;RearOnly&quot;</span>), <a class="self" href="#287">self</a>.remote).<a href="../interface/parameters.rs.html#181-184">set</a>(<a href="#287">val</a>)
     }
 }
 
 <span class="doccomment">/// Bus device parameters
 </span><span class="kw">pub struct </span><a href="../../..\../voicemeeter/interface/parameters/bus/struct.BusDevice.html">BusDevice</a>&lt;<span class="lifetime">&#39;a</span>&gt; {
-    remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a>,
+    remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-26">VoicemeeterRemote</a>,
     bus_index: <a href="../types.rs.html#6">ZIndex</a>,
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; BusDevice&lt;<span class="lifetime">&#39;a</span>&gt; {
     <span class="attr">#[doc(hidden)]
-    </span><span class="kw">pub fn </span>new(remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a>, bus_index: <a href="../types.rs.html#6">ZIndex</a>) -&gt; <span class="self">Self </span>{
+    </span><span class="kw">pub fn </span>new(remote: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="../interface.rs.html#21-26">VoicemeeterRemote</a>, bus_index: <a href="../types.rs.html#6">ZIndex</a>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{ <a href="#300">remote</a>, <a href="#300">bus_index</a> }
     }
 

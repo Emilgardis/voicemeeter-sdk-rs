@@ -54,36 +54,39 @@
 <a href="#54" id="54">54</a>
 <a href="#55" id="55">55</a>
 <a href="#56" id="56">56</a>
+<a href="#57" id="57">57</a>
+<a href="#58" id="58">58</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Start stop functions for voicemeeter audio callback
-</span><span class="kw">use </span><a href="../interface.rs.html#21-25"><span class="kw">crate</span>::VoicemeeterRemote</a>;
+</span><span class="kw">use </span><a href="../interface.rs.html#21-26"><span class="kw">crate</span>::VoicemeeterRemote</a>;
 
-<span class="kw">impl </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a> {
+<span class="kw">impl </span><a href="../interface.rs.html#21-26">VoicemeeterRemote</a> {
     <span class="doccomment">/// Audio callback start.
-    </span><span class="kw">pub fn </span>audio_callback_start(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="#30-41">AudioCallbackStartError</a>&gt; {
+    </span><span class="kw">pub fn </span>audio_callback_start(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="#31-42">AudioCallbackStartError</a>&gt; {
         <span class="kw">let </span>res = <span class="kw">unsafe </span>{ <a class="self" href="#6">self</a>.raw.<a href="../bindings.rs.html#1489-1491">VBVMR_AudioCallbackStart</a>() };
         <span class="kw">match </span><a href="#7">res</a> {
             <span class="number">0 </span>=&gt; <span class="prelude-val">Ok</span>(()),
-            -<span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#34">AudioCallbackStartError::NoServer</a>),
-            <span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#37">AudioCallbackStartError::NoCallbackRegistered</a>),
-            s =&gt; <span class="prelude-val">Err</span>(<a href="#40">AudioCallbackStartError::Unexpected</a>(<a href="#12">s</a>)),
+            -<span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#35">AudioCallbackStartError::NoServer</a>),
+            <span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#38">AudioCallbackStartError::NoCallbackRegistered</a>),
+            s =&gt; <span class="prelude-val">Err</span>(<a href="#41">AudioCallbackStartError::Unexpected</a>(<a href="#12">s</a>)),
         }
     }
 
     <span class="doccomment">/// Audio callback stop.
-    </span><span class="kw">pub fn </span>audio_callback_stop(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="#45-56">AudioCallbackStopError</a>&gt; {
+    </span><span class="kw">pub fn </span>audio_callback_stop(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="#47-58">AudioCallbackStopError</a>&gt; {
         <span class="kw">let </span>res = <span class="kw">unsafe </span>{ <a class="self" href="#17">self</a>.raw.<a href="../bindings.rs.html#1492-1494">VBVMR_AudioCallbackStop</a>() };
         <span class="kw">match </span><a href="#18">res</a> {
             <span class="number">0 </span>=&gt; <span class="prelude-val">Ok</span>(()),
-            -<span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#49">AudioCallbackStopError::NoServer</a>),
-            <span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#52">AudioCallbackStopError::NoCallbackRegistered</a>),
-            s =&gt; <span class="prelude-val">Err</span>(<a href="#55">AudioCallbackStopError::Unexpected</a>(<a href="#23">s</a>)),
+            -<span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#51">AudioCallbackStopError::NoServer</a>),
+            <span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#54">AudioCallbackStopError::NoCallbackRegistered</a>),
+            s =&gt; <span class="prelude-val">Err</span>(<a href="#57">AudioCallbackStopError::Unexpected</a>(<a href="#23">s</a>)),
         }
     }
 }
 
 <span class="doccomment">/// Errors that can occur while registering the audio callback.
 </span><span class="attr">#[derive(Debug, Clone, thiserror::Error)]
-</span><span class="kw">pub enum </span><a href="#30-41">AudioCallbackStartError</a> {
+#[non_exhaustive]
+</span><span class="kw">pub enum </span><a href="#31-42">AudioCallbackStartError</a> {
     <span class="comment">// TODO: is this correct?
     </span><span class="doccomment">/// No server.
     </span><span class="attr">#[error(<span class="string">&quot;no server&quot;</span>)]
@@ -98,7 +101,8 @@
 
 <span class="doccomment">/// Errors that can occur while unregistering the audio callback.
 </span><span class="attr">#[derive(Debug, Clone, thiserror::Error)]
-</span><span class="kw">pub enum </span><a href="#45-56">AudioCallbackStopError</a> {
+#[non_exhaustive]
+</span><span class="kw">pub enum </span><a href="#47-58">AudioCallbackStopError</a> {
     <span class="comment">// TODO: is this correct?
     </span><span class="doccomment">/// No server.
     </span><span class="attr">#[error(<span class="string">&quot;no server&quot;</span>)]

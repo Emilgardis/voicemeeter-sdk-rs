@@ -105,6 +105,8 @@
 <a href="#105" id="105">105</a>
 <a href="#106" id="106">106</a>
 <a href="#107" id="107">107</a>
+<a href="#108" id="108">108</a>
+<a href="#109" id="109">109</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Functions and data types for setting parameter values.
 //!
 //! # Functions
@@ -116,16 +118,16 @@
 
 <span class="kw">use </span><a href="../types.rs.html#61"><span class="kw">crate</span>::types::ParameterNameRef</a>;
 
-<span class="kw">use </span><a href="../interface.rs.html#21-25"><span class="kw">crate</span>::VoicemeeterRemote</a>;
+<span class="kw">use </span><a href="../interface.rs.html#21-26"><span class="kw">crate</span>::VoicemeeterRemote</a>;
 
-<span class="kw">impl </span><a href="../interface.rs.html#21-25">VoicemeeterRemote</a> {
+<span class="kw">impl </span><a href="../interface.rs.html#21-26">VoicemeeterRemote</a> {
     <span class="doccomment">/// Set the float value of a parameter. See also [`VoicemeeterRemote::parameters()`] to do this with functions.
     </span><span class="attr">#[tracing::instrument(skip(<span class="self">self</span>))]
     </span><span class="kw">pub fn </span>set_parameter_float(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         param: <span class="kw-2">&amp;</span><a href="../types.rs.html#61">ParameterNameRef</a>,
         value: <a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="#93-107">SetParameterError</a>&gt; {
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="#95-109">SetParameterError</a>&gt; {
         <span class="kw">let </span>param = CString::new(param.as_ref()).unwrap();
         <span class="macro">tracing::debug!</span>(<span class="string">&quot;setting float parameter&quot;</span>);
         <span class="kw">let </span>res = <span class="kw">unsafe </span>{
@@ -149,7 +151,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         param: <span class="kw-2">&amp;</span><a href="../types.rs.html#61">ParameterNameRef</a>,
         value: <span class="kw-2">&amp;</span><a href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="#93-107">SetParameterError</a>&gt; {
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="#95-109">SetParameterError</a>&gt; {
         <span class="kw">let </span>param = CString::new(param.as_ref()).unwrap();
         <span class="kw">let </span>value = CString::new(value).unwrap();
         <span class="macro">tracing::debug!</span>(<span class="string">&quot;setting string parameter&quot;</span>);
@@ -170,34 +172,36 @@
 
     <span class="comment">// TODO: Example script.
     </span><span class="doccomment">/// Set parameters using a script. Similar to macro button scripts.
-    </span><span class="kw">pub fn </span>set_parameters(<span class="kw-2">&amp;</span><span class="self">self</span>, script: <span class="kw-2">&amp;</span><a href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="#82-89">SetParametersError</a>&gt; {
+    </span><span class="kw">pub fn </span>set_parameters(<span class="kw-2">&amp;</span><span class="self">self</span>, script: <span class="kw-2">&amp;</span><a href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="#83-90">SetParametersError</a>&gt; {
         <span class="kw">let </span>script = CString::new(<a href="#66">script</a>).unwrap();
         <span class="kw">let </span>res = <span class="kw">unsafe </span>{ <a class="self" href="#66">self</a>.raw.<a href="../bindings.rs.html#1420-1425">VBVMR_SetParameters</a>(<a href="#67">script</a>.as_ptr() <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>) };
 
         <span class="kw">match </span><a href="#68">res</a> {
-            l <span class="kw">if </span><a href="#71">l</a> &gt; <span class="number">0 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#85">SetParametersError::ScriptError</a>(<a href="#71">l</a> <span class="kw">as </span><a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>)),
+            l <span class="kw">if </span><a href="#71">l</a> &gt; <span class="number">0 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#86">SetParametersError::ScriptError</a>(<a href="#71">l</a> <span class="kw">as </span><a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>)),
             <span class="number">0 </span>=&gt; <span class="prelude-val">Ok</span>(()),
-            -<span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#97">SetParameterError::CannotGetClient</a>.<a href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html">into</a>()),
-            -<span class="number">2 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#100">SetParameterError::NoServer</a>.<a href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html">into</a>()),
-            s =&gt; <span class="prelude-val">Err</span>(<a href="#106">SetParameterError::Other</a>(<a href="#75">s</a>).<a href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html">into</a>()),
+            -<span class="number">1 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#99">SetParameterError::CannotGetClient</a>.<a href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html">into</a>()),
+            -<span class="number">2 </span>=&gt; <span class="prelude-val">Err</span>(<a href="#102">SetParameterError::NoServer</a>.<a href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html">into</a>()),
+            s =&gt; <span class="prelude-val">Err</span>(<a href="#108">SetParameterError::Other</a>(<a href="#75">s</a>).<a href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html">into</a>()),
         }
     }
 }
 
 <span class="doccomment">/// Errors that can happen when setting parameters.
 </span><span class="attr">#[derive(Debug, thiserror::Error, Clone)]
-</span><span class="kw">pub enum </span><a href="#82-89">SetParametersError</a> {
+#[non_exhaustive]
+</span><span class="kw">pub enum </span><a href="#83-90">SetParametersError</a> {
     <span class="doccomment">/// Script error
     </span><span class="attr">#[error(<span class="string">&quot;script error on line: {0}&quot;</span>)]
     </span>ScriptError(<a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>),
     <span class="doccomment">/// An error occured when setting parameters.
     </span><span class="attr">#[error(transparent)]
-    </span>SetParameterError(<span class="attr">#[from] </span><a href="#93-107">SetParameterError</a>),
+    </span>SetParameterError(<span class="attr">#[from] </span><a href="#95-109">SetParameterError</a>),
 }
 
 <span class="doccomment">/// Errors that can happen when setting a parameter.
 </span><span class="attr">#[derive(Debug, thiserror::Error, Clone)]
-</span><span class="kw">pub enum </span><a href="#93-107">SetParameterError</a> {
+#[non_exhaustive]
+</span><span class="kw">pub enum </span><a href="#95-109">SetParameterError</a> {
     <span class="comment">// TODO: is this correct? docs say &quot;error (unexpected)&quot;&quot;
     </span><span class="doccomment">/// Cannot get client.
     </span><span class="attr">#[error(<span class="string">&quot;cannot get client (unexpected)&quot;</span>)]
