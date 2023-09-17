@@ -9,6 +9,11 @@
 ### Breaking changes
 
 * Made `FadeBy` and `FadeTo` into floats instead of integers #25
+* Made all errors non-exhaustive #27
+
+### Changes
+
+* Fixed login and logout. #26
 
 ## [v0.2.0] - 2023-09-11
 
