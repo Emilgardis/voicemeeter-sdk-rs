@@ -16,6 +16,7 @@ pub struct OutOfRangeError {
 
 /// Invalid strip/bus type for a specific parameter
 #[derive(thiserror::Error, Debug, Clone)]
+#[non_exhaustive]
 pub enum InvalidTypeError {
     /// Expected Physical
     #[error(

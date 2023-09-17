@@ -98,6 +98,7 @@ impl VoicemeeterRemote {
 
 /// Errors that can happen when getting a parameter.
 #[derive(Debug, thiserror::Error, Clone)]
+#[non_exhaustive]
 pub enum GetParameterError {
     /// Could not make a c-compatible string. This is a bug.
     #[error("could not make into a c-string")]
@@ -121,6 +122,7 @@ pub enum GetParameterError {
 
 /// Errors that can happen when querying parameter "dirty" flag.
 #[derive(Debug, thiserror::Error, Clone)]
+#[non_exhaustive]
 pub enum IsParametersDirtyError {
     /// Unexpected error
     #[error("error (unexpected)")]

@@ -67,6 +67,7 @@ impl VoicemeeterRemote {
 
 /// Errors that can happen when querying levels from Voicemeeter.
 #[derive(Debug, thiserror::Error, Clone)]
+#[non_exhaustive]
 pub enum GetLevelError {
     /// Cannot get client.
     #[error("cannot get client (unexpected)")]
@@ -87,6 +88,7 @@ pub enum GetLevelError {
 
 /// Errors that can happen when querying midi messages from Voicemeeter.
 #[derive(Debug, thiserror::Error, Clone)]
+#[non_exhaustive]
 pub enum GetMidiMessageError {
     /// Cannot get client.
     #[error("cannot get client (unexpected)")]

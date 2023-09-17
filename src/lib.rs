@@ -77,6 +77,7 @@ fn load_voicemeeter_from_path(path: &OsStr) -> Result<&'static VoicemeeterRemote
 
 /// Load error while loading the Voicemeeter remote DLL
 #[derive(Debug, thiserror::Error)]
+#[non_exhaustive]
 pub enum LoadError {
     /// Remote is already loaded. Not a hard error.
     #[error("library is already loaded")]
@@ -130,6 +131,7 @@ fn registry_check() -> Result<(), RemoteFileError> {
 
 /// Error while trying to get Voicemeeter location
 #[derive(Debug, thiserror::Error)]
+#[non_exhaustive]
 pub enum RemoteFileError {
     /// Voicemeeter dll not found at path
     #[error("could not find voicemeeter folder: {}", 0)]
@@ -141,6 +143,7 @@ pub enum RemoteFileError {
 
 /// Registry errors
 #[derive(Debug, thiserror::Error)]
+#[non_exhaustive]
 pub enum RegistryError {
     /// Could not find the uninstall folder in HKLM for 32-bit apps
     #[error("could not find uninstall folder in hklm")]

@@ -27,6 +27,7 @@ impl VoicemeeterRemote {
 
 /// Errors that can occur while registering the audio callback.
 #[derive(Debug, Clone, thiserror::Error)]
+#[non_exhaustive]
 pub enum AudioCallbackStartError {
     // TODO: is this correct?
     /// No server.
@@ -42,6 +43,7 @@ pub enum AudioCallbackStartError {
 
 /// Errors that can occur while unregistering the audio callback.
 #[derive(Debug, Clone, thiserror::Error)]
+#[non_exhaustive]
 pub enum AudioCallbackStopError {
     // TODO: is this correct?
     /// No server.

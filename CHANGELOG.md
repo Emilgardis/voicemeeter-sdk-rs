@@ -9,6 +9,20 @@
 ### Breaking changes
 
 * Made `FadeBy` and `FadeTo` into floats instead of integers #25
+* Made all errors non-exhaustive #27
+* Added VoicmeeterProgram::None for when there is no application running
+
+### Fixes
+
+* Fixed initianting remote with application turned off.
+
+### Changes
+
+* Fixed login and logout. #26
+
+### Added
+
+* Added `VoicemeeterRemote::update_program`
 
 ## [v0.2.0] - 2023-09-11
 
