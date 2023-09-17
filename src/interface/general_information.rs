@@ -52,6 +52,7 @@ impl std::fmt::Display for VoicemeeterVersion {
 
 /// Errors that can happen when querying information from Voicemeeter.
 #[derive(Debug, thiserror::Error, Clone)]
+#[non_exhaustive]
 pub enum GetVoicemeeterInformationError {
     /// Cannot get client.
     #[error("cannot get client (unexpected)")]

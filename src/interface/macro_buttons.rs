@@ -143,6 +143,7 @@ impl VoicemeeterRemote {
 
 /// Errors that can happen when querying macro button "dirty" flag.
 #[derive(Debug, thiserror::Error, Clone)]
+#[non_exhaustive]
 pub enum IsMacroButtonDirtyError {
     // TODO: is this correct? docs say "error (unexpected)""
     /// Cannot get client.
@@ -158,6 +159,7 @@ pub enum IsMacroButtonDirtyError {
 
 /// Errors that can happen when getting macrobutton status.
 #[derive(Debug, thiserror::Error, Clone)]
+#[non_exhaustive]
 pub enum GetMacroButtonStatusError {
     // TODO: is this correct? docs say "error"
     /// Cannot get client.
@@ -179,6 +181,7 @@ pub enum GetMacroButtonStatusError {
 
 /// Errors that can happen when setting macrobutton status.
 #[derive(Debug, thiserror::Error, Clone)]
+#[non_exhaustive]
 pub enum SetMacroButtonStatusError {
     // TODO: is this correct? docs say "error"
     /// Cannot get client.

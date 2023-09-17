@@ -85,6 +85,7 @@ impl Drop for VoicemeeterRemote {
 
 /// Errors that can occur when initializing the Voicemeeter remote DLL.
 #[derive(Debug, thiserror::Error)]
+#[non_exhaustive]
 pub enum InitializationError {
     /// Error while loading the DLL.
     #[error("could not load the client")]

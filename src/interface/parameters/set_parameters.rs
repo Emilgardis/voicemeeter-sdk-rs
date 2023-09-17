@@ -79,6 +79,7 @@ impl VoicemeeterRemote {
 
 /// Errors that can happen when setting parameters.
 #[derive(Debug, thiserror::Error, Clone)]
+#[non_exhaustive]
 pub enum SetParametersError {
     /// Script error
     #[error("script error on line: {0}")]
@@ -90,6 +91,7 @@ pub enum SetParametersError {
 
 /// Errors that can happen when setting a parameter.
 #[derive(Debug, thiserror::Error, Clone)]
+#[non_exhaustive]
 pub enum SetParameterError {
     // TODO: is this correct? docs say "error (unexpected)""
     /// Cannot get client.

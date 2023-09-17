@@ -101,6 +101,7 @@ pub enum VoicemeeterStatus {
 
 /// Errors that can happen when logging in.
 #[derive(Debug, thiserror::Error, Clone)]
+#[non_exhaustive]
 pub enum LoginError {
     /// Application has already logged in
     #[error("application has already logged in")]
@@ -115,6 +116,7 @@ pub enum LoginError {
 
 /// Errors that can happen when loging out.
 #[derive(Debug, thiserror::Error, Clone)]
+#[non_exhaustive]
 pub enum LogoutError {
     /// Couldn't logout due to other [VoicemeeterRemote]s existing in this program
     #[error("couldn't logout due to other `VoicemeeterRemote`s existing in this program")]
@@ -125,6 +127,7 @@ pub enum LogoutError {
 }
 /// Errors that can happen when [opening](VoicemeeterRemote::run_voicemeeter) voicemeeter.
 #[derive(Debug, thiserror::Error, Clone)]
+#[non_exhaustive]
 pub enum RunVoicemeeterError {
     /// Voicemeeter is not installed.
     #[error("voicemeeter is not installed")]
