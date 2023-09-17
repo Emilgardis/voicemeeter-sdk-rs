@@ -1,6 +1,7 @@
 //! Communication with and to Voicemeeter
 //!
 //! # Functions
+//! * [`initial_status`](VoicemeeterRemote::initial_status)
 //! * `login` is implicitly called when creating your first [`VoicemeeterRemote`] instance.
 //! * [`logout`](VoicemeeterRemote::logout)
 //! * [`run_voicemeeter`](VoicemeeterRemote::run_voicemeeter)
@@ -11,6 +12,10 @@ use super::VoicemeeterRemote;
 static HAS_LOGGED_IN: std::sync::OnceLock<VoicemeeterStatus> = std::sync::OnceLock::new();
 
 impl VoicemeeterRemote {
+    /// Get the status of the running Voicemeeter instance when we first logged in
+    pub fn initial_status() -> VoicemeeterStatus {
+        HAS_LOGGED_IN.get().unwrap().clone()
+    }
     pub(crate) fn login(&mut self) -> Result<VoicemeeterStatus, LoginError> {
         if let Some(res) = HAS_LOGGED_IN.get() {
             return Err(LoginError::AlreadyLoggedIn(res.clone()));

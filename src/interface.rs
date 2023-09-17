@@ -31,7 +31,10 @@ pub(crate) static LOGOUT_HANDLE: std::sync::OnceLock<
 
 impl std::fmt::Debug for VoicemeeterRemote {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "[{}]", self.program)
+        match self.program {
+            VoicemeeterApplication::None => write!(f, "[no voicemeeter program running]"),
+            p => write!(f, "[{}]", p),
+        }
     }
 }
 
@@ -59,7 +62,7 @@ impl VoicemeeterRemote {
                 e?;
             }
         };
-        s.program = s.get_voicemeeter_type()?;
+        s.update_program()?;
         Ok(s)
     }
 
@@ -73,6 +76,18 @@ impl VoicemeeterRemote {
                 .unwrap()
                 .clone(),
         }
+    }
+
+    /// Update the current program type.
+    pub fn update_program(&mut self) -> Result<(), GetVoicemeeterInformationError> {
+        match self.get_voicemeeter_type() {
+            Ok(t) => self.program = t,
+            Err(GetVoicemeeterInformationError::NoServer) => {
+                self.program = VoicemeeterApplication::None
+            }
+            Err(e) => return Err(e),
+        }
+        Ok(())
     }
 }
 

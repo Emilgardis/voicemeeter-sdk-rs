@@ -75,6 +75,8 @@ pub enum VoicemeeterApplication {
     PotatoX64Bits = 6,
     /// Unknown voicemeeter type
     Other,
+    /// No voicmeeter running
+    None = 255,
 }
 
 impl VoicemeeterApplication {
@@ -100,7 +102,7 @@ impl VoicemeeterApplication {
             VoicemeeterApplication::VoicemeeterPotato | VoicemeeterApplication::PotatoX64Bits => {
                 Device::all()
             }
-            VoicemeeterApplication::Other => &[],
+            VoicemeeterApplication::Other | VoicemeeterApplication::None => &[],
         }
     }
 }
@@ -113,6 +115,7 @@ impl std::fmt::Display for VoicemeeterApplication {
             VoicemeeterApplication::VoicemeeterPotato => f.write_str("VoicemeeterPotato"),
             VoicemeeterApplication::PotatoX64Bits => f.write_str("VoicemeeterPotatoX64Bits"),
             VoicemeeterApplication::Other => f.write_str("VoicemeeterUnknown"),
+            VoicemeeterApplication::None => f.write_str("None"),
         }
     }
 }
