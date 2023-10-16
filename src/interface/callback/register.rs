@@ -22,6 +22,7 @@ use crate::{
 /***************************************************************************** */
 
 // Thanks to sgrif, http://blog.sagetheprogrammer.com/neat-rust-tricks-passing-rust-closures-to-c
+#[tracing::instrument(skip_all)]
 fn register_audio_callback<'cb, F>(
     remote: &VoicemeeterRemote,
     mode: &crate::AudioCallbackMode,
@@ -33,7 +34,6 @@ where
 {
     // This leaks
     let data = Box::into_raw(Box::new(callback));
-    tracing::debug!("callback {:p}", data);
     let res = unsafe {
         remote.raw.VBVMR_AudioCallbackRegister(
             mode.0,
@@ -98,7 +98,7 @@ impl VoicemeeterRemote {
     /// ```rust,no_run
     #[doc = include_str!("../../../examples/simple.rs")]
     /// ```
-    /// 
+    ///
     /// ## Complete example
     /// ```rust,no_run
     #[doc = include_str!("../../../examples/output.rs")]
@@ -118,18 +118,17 @@ impl VoicemeeterRemote {
         tracing::Span::current().record("application_name", application_name);
         //let ctx_span = tracing::trace_span!("voicemeeter_callback");
         //ctx_span.record("application_name", &application_name).record("mode", &mode.0).follows_from(tracing::Span::current());
-        assert!(application_name.len() <= 64);
-        let mut application = [0u8; 64];
+        assert!(application_name.len() < 64);
+        let mut application = Box::leak(Box::new([0u8; 64]));
         application[0..application_name.len()].copy_from_slice(application_name.as_bytes());
-        let ptr = ptr::addr_of!(self.program);
-        tracing::info!("a: {ptr:p}");
-
         let g = register_audio_callback(
             self,
             &mode,
-            ptr::addr_of_mut!(application) as *mut _,
+            application.as_mut_ptr() as *mut _,
             callback,
         )?;
+
+        tracing::debug!("callback registered");
 
         Ok(CallbackGuard {
             guard: g,
@@ -145,7 +144,7 @@ impl VoicemeeterRemote {
         let res = unsafe { self.raw.VBVMR_AudioCallbackUnregister() };
         match res {
             0 => {
-                unsafe { Box::from_raw(guard.guard) };
+                std::mem::drop(unsafe { Box::from_raw(guard.guard) });
                 Ok(())
             }
             -1 => Err(AudioCallbackUnregisterError::NoServer),

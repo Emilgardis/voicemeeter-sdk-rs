@@ -36,7 +36,8 @@ impl VoicemeeterRemote {
     pub fn new() -> Result<Self, InitializationError> {
         let raw = crate::get_voicemeeter_raw()?;
         let mut s = VoicemeeterRemote::from_raw(raw);
-        s.login()?;
+        let status = s.login()?;
+        let _ = s.is_parameters_dirty();
         s.program = s.get_voicemeeter_type()?;
         Ok(s)
     }
