@@ -98,7 +98,7 @@ impl VoicemeeterRemote {
     /// ```rust,no_run
     #[doc = include_str!("../../../examples/simple.rs")]
     /// ```
-    /// 
+    ///
     /// ## Complete example
     /// ```rust,no_run
     #[doc = include_str!("../../../examples/output.rs")]
@@ -118,8 +118,8 @@ impl VoicemeeterRemote {
         tracing::Span::current().record("application_name", application_name);
         //let ctx_span = tracing::trace_span!("voicemeeter_callback");
         //ctx_span.record("application_name", &application_name).record("mode", &mode.0).follows_from(tracing::Span::current());
-        assert!(application_name.len() <= 64);
-        let mut application = [0u8; 64];
+        assert!(application_name.len() < 64);
+        let mut application = [b'\0'; 64];
         application[0..application_name.len()].copy_from_slice(application_name.as_bytes());
         let ptr = ptr::addr_of!(self.program);
         tracing::info!("a: {ptr:p}");
