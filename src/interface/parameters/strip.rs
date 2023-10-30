@@ -291,6 +291,14 @@ impl<'a> Strip<'a> {
     pub fn b3(&self) -> BoolParameter {
         BoolParameter::new(self.param("B3"), self.remote)
     }
+    /// EQ Button
+    pub fn eq_on(&self) -> BoolParameter {
+        BoolParameter::new(self.param("EQ.on"), self.remote)
+    }
+    /// EQ Memory Slot
+    pub fn eq_ab(&self) -> BoolParameter {
+        BoolParameter::new(self.param("EQ.AB"), self.remote)
+    }
     /// EQ on channel
     pub fn eq(&self, channel: usize) -> Result<EqChannelParameter, InvalidVoicemeeterVersion> {
         const VALID: &[VoicemeeterApplication] = &[

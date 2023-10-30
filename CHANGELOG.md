@@ -15,6 +15,7 @@
 ### Fixes
 
 * Fixed initianting remote with application turned off.
+* Fix wrong `EQ.AB` on bus and implement `EQ.on` and `EQ.AB` for strips
 
 ### Changes
 
