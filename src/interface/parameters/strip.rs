@@ -184,13 +184,108 @@ impl<'a> Strip<'a> {
     }
     // FIXME: Only available in virtual input aux
     /// Compression
+    ///
+    /// See also [Strip::comp_detailed] for detailed compressor settings
     pub fn comp(&self) -> FloatParameter {
         FloatParameter::new(self.param("Comp"), self.remote, 0.0..=10.0)
     }
 
+    /// Compressor detailed parameters/settings
+    ///
+    /// Only works on Voicemeeter Potato
+    pub fn comp_detailed(&self) -> Result<StripCompressor, ParameterError> {
+        const VALID: &[VoicemeeterApplication] = &[
+            VoicemeeterApplication::VoicemeeterPotato,
+            VoicemeeterApplication::PotatoX64Bits,
+        ];
+        if VALID.contains(&self.remote.program) {
+            if self.is_physical() {
+                Ok(StripCompressor::new(self.remote, self.strip_index))
+            } else {
+                Err(InvalidTypeError::ExpectedPhysical {
+                    name: STRIP,
+                    strip_index: self.strip_index,
+                    parameter: "Comp".to_string(),
+                }
+                .into())
+            }
+        } else {
+            Err(InvalidVoicemeeterVersion {
+                expected: VALID,
+                found: self.remote.program,
+                parameter: self.param("Comp").to_string(),
+            }
+            .into())
+        }
+    }
+
     /// Gate
+    ///
+    /// See also [Strip::gate_detailed] for detailed gate settings
     pub fn gate(&self) -> FloatParameter {
         FloatParameter::new(self.param("Gate"), self.remote, 0.0..=10.0)
+    }
+
+    /// Gate detailed parameters/settings
+    ///
+    /// Only works on Voicemeeter Potato
+    pub fn gate_detailed(&self) -> Result<StripGate, ParameterError> {
+        const VALID: &[VoicemeeterApplication] = &[
+            VoicemeeterApplication::VoicemeeterPotato,
+            VoicemeeterApplication::PotatoX64Bits,
+        ];
+
+        if VALID.contains(&self.remote.program) {
+            if self.is_physical() {
+                Ok(StripGate::new(self.remote, self.strip_index))
+            } else {
+                Err(InvalidTypeError::ExpectedPhysical {
+                    name: STRIP,
+                    strip_index: self.strip_index,
+                    parameter: "Gate".to_string(),
+                }
+                .into())
+            }
+        } else {
+            Err(InvalidVoicemeeterVersion {
+                expected: VALID,
+                found: self.remote.program,
+                parameter: self.param("Gate").to_string(),
+            }
+            .into())
+        }
+    }
+
+    /// Denoiser Knob
+    pub fn denoiser(&self) -> Result<FloatParameter, ParameterError> {
+        const VALID: &[VoicemeeterApplication] = &[
+            VoicemeeterApplication::VoicemeeterPotato,
+            VoicemeeterApplication::PotatoX64Bits,
+        ];
+
+        if VALID.contains(&self.remote.program) {
+            if self.is_physical() {
+                Ok(FloatParameter::new(
+                    self.param("Denoiser"),
+                    self.remote,
+                    0.0..10.0,
+                ))
+            } else {
+                Err(InvalidTypeError::ExpectedPhysical {
+                    name: STRIP,
+                    strip_index: self.strip_index,
+                    parameter: "Gate".to_string(),
+                }
+                .into())
+            }
+        } else {
+            Err(InvalidVoicemeeterVersion {
+                expected: VALID,
+                found: self.remote.program,
+                parameter: self.param("Gate").to_string(),
+            }
+            .into())
+        }
     }
 
     /// Karaoke
@@ -300,20 +395,30 @@ impl<'a> Strip<'a> {
         BoolParameter::new(self.param("EQ.AB"), self.remote)
     }
     /// EQ on channel
-    pub fn eq(&self, channel: usize) -> Result<EqChannelParameter, InvalidVoicemeeterVersion> {
+    pub fn eq(&self, channel: usize) -> Result<EqChannelParameter, ParameterError> {
         const VALID: &[VoicemeeterApplication] = &[
             VoicemeeterApplication::VoicemeeterPotato,
             VoicemeeterApplication::PotatoX64Bits,
         ];
         let eq = EqChannelParameter::new_strip(self.remote, self.strip_index, channel);
         if VALID.contains(&self.remote.program) {
-            Ok(eq)
+            if self.is_physical() {
+                Ok(eq)
+            } else {
+                Err(InvalidTypeError::ExpectedPhysical {
+                    name: STRIP,
+                    strip_index: self.strip_index,
+                    parameter: eq.name().to_string(),
+                }
+                .into())
+            }
         } else {
             Err(InvalidVoicemeeterVersion {
                 expected: VALID,
                 found: self.remote.program,
                 parameter: eq.name().to_string(),
-            })
+            }
+            .into())
         }
     }
     /// Fade to
@@ -441,5 +546,147 @@ impl<'a> StripDevice<'a> {
     /// ASIO device
     pub fn asio(&self) -> StringParameter<'a, true, false> {
         StringParameter::new(self.param("asio"), self.remote)
+    }
+}
+
+/// Compressor detailed parameters/settings
+///
+/// Only works on Voicemeeter Potato
+pub struct StripCompressor<'a> {
+    remote: &'a VoicemeeterRemote,
+    strip_index: ZIndex,
+}
+
+impl<'a> StripCompressor<'a> {
+    fn new(remote: &'a VoicemeeterRemote, strip_index: ZIndex) -> Self {
+        Self {
+            remote,
+            strip_index,
+        }
+    }
+
+    /// Get the identifier for a compressor parameter on this strip: `Strip[i].compressor.{dot}`
+    pub fn param(&self, dot: impl ToString) -> Cow<'static, ParameterNameRef> {
+        Cow::Owned(format!("{STRIP}[{}].comp.{}", self.strip_index, dot.to_string()).into())
+    }
+
+    /// Input Gain
+    ///
+    /// To control the gain before compression.
+    pub fn gain_in(&self) -> FloatParameter<'a, true, true> {
+        FloatParameter::new(self.param("GainIn"), self.remote, -24.0..24.0)
+    }
+    /// Ratio
+    ///
+    /// Gives the compression rate.
+    pub fn ratio(&self) -> FloatParameter<'a, true, true> {
+        FloatParameter::new(self.param("Ratio"), self.remote, 1.0..8.0)
+    }
+    /// Threshold
+    ///
+    /// Define a level to start the compression when
+    /// the input signal goes over this threshold.
+    pub fn threshold(&self) -> FloatParameter<'a, true, true> {
+        FloatParameter::new(self.param("Threshold"), self.remote, -40.0..-3.0)
+    }
+    /// Attack Time (ms)
+    ///
+    /// to control the compression behavior on
+    /// sound attack (when the input signal starts to go over the threshold)
+    pub fn attack(&self) -> FloatParameter<'a, true, true> {
+        FloatParameter::new(self.param("Attack"), self.remote, 0.0..200.0)
+    }
+    /// Release Time (ms)
+    ///  to control the compression behavior when
+    /// the signal goes down
+    pub fn release(&self) -> FloatParameter<'a, true, true> {
+        FloatParameter::new(self.param("Release"), self.remote, 0.0..5000.0)
+    }
+    /// Knee.
+    ///
+    /// To control the compression transition softness on
+    /// threshold point
+    pub fn knee(&self) -> FloatParameter<'a, true, true> {
+        FloatParameter::new(self.param("Knee"), self.remote, 0.0..1.0)
+    }
+    /// Output Gain
+    ///
+    /// To control the gain after compression
+    pub fn gain_out(&self) -> FloatParameter<'a, true, true> {
+        FloatParameter::new(self.param("GainOut"), self.remote, -24.0..24.0)
+    }
+    /// Auto Make Up Option
+    ///
+    /// apply an output gain automatically
+    /// computed to compensate the compression
+    pub fn make_up(&self) -> BoolParameter<'a, true, true> {
+        BoolParameter::new(self.param("MakeUp"), self.remote)
+    }
+}
+
+/// Gate detailed parameters/settings
+///
+/// Only works on Voicemeeter Potato
+pub struct StripGate<'a> {
+    remote: &'a VoicemeeterRemote,
+    strip_index: ZIndex,
+}
+
+impl<'a> StripGate<'a> {
+    fn new(remote: &'a VoicemeeterRemote, strip_index: ZIndex) -> Self {
+        Self {
+            remote,
+            strip_index,
+        }
+    }
+
+    /// Get the identifier for a gate parameter on this strip: `Strip[i].gate.{dot}`
+    pub fn param(&self, dot: impl ToString) -> Cow<'static, ParameterNameRef> {
+        Cow::Owned(format!("{STRIP}[{}].Gate.{}", self.strip_index, dot.to_string()).into())
+    }
+
+    /// Threshold
+    ///
+    /// If input gain is below this level the gate is
+    /// closing, above this level the gate is opening.
+    pub fn threshold(&self) -> FloatParameter<'a, true, true> {
+        FloatParameter::new(self.param("Threshold"), self.remote, -60.0..-10.0)
+    }
+    /// Damping Max
+    ///
+    /// Allows limiting the gain reduction when
+    /// the gate is closing. Per default OFF = -inf, the gate
+    /// completely remove the signal when closing.
+    pub fn damping(&self) -> FloatParameter<'a, true, true> {
+        FloatParameter::new(self.param("Damping"), self.remote, -60.0..-10.0)
+    }
+    /// Band Pass Sidechain (hz)
+    ///
+    /// This parameters allows to define a Band Pass frequency (1,5 octave)
+    /// in the sidechain (input signal
+    /// controlling the gate). Then the gate will react on specific
+    /// frequency range only.
+    pub fn bp_sidechain(&self) -> FloatParameter<'a, true, true> {
+        FloatParameter::new(self.param("BPSidechain"), self.remote, 100.0..=4000.0)
+    }
+    /// Attack Time (ms)
+    ///
+    /// Define how long it takes to open the gate (gain increasing time).
+    pub fn attack(&self) -> FloatParameter<'a, true, true> {
+        FloatParameter::new(self.param("Attack"), self.remote, 0.0..=1000.0)
+    }
+    /// Hold Time (ms)
+    ///
+    /// Define the minimal time the gate stays
+    /// opened anyway (whatever the input gain).
+    pub fn hold(&self) -> FloatParameter<'a, true, true> {
+        FloatParameter::new(self.param("Hold"), self.remote, 0.0..=5000.0)
+    }
+    /// Release Time (ms)
+    ///
+    /// Define how long it takes to close the gate
+    /// (gain decreasing time).
+    pub fn release(&self) -> FloatParameter<'a, true, true> {
+        FloatParameter::new(self.param("Release"), self.remote, 0.0..=5000.0)
     }
 }

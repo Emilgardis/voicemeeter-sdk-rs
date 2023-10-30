@@ -10,7 +10,8 @@
 
 * Made `FadeBy` and `FadeTo` into floats instead of integers #25
 * Made all errors non-exhaustive #27
-* Added VoicmeeterProgram::None for when there is no application running
+* Added VoicemeeterProgram::None for when there is no application running.
+* Made `Strip::eq` return new error `ParameterError`.
 
 ### Fixes
 
@@ -24,6 +25,7 @@
 ### Added
 
 * Added `VoicemeeterRemote::update_program`
+* Added `Strip::gate_detailed`, `Strip::comp_detailed` and  `Strip::denoiser`
 
 ## [v0.2.0] - 2023-09-11
 

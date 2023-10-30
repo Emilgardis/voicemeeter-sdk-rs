@@ -55,3 +55,14 @@ pub struct InvalidVoicemeeterVersion {
     /// Parameter that expected a physical strip/bus
     pub parameter: String,
 }
+
+/// Invalid Parameter
+#[derive(thiserror::Error, Debug, Clone)]
+pub enum ParameterError {
+    /// Version is not compatible with parameter
+    #[error(transparent)]
+    Version(#[from] InvalidVoicemeeterVersion),
+    /// Strip/bus is not compatible with parameter
+    #[error(transparent)]
+    Type(#[from] InvalidTypeError),
+}
