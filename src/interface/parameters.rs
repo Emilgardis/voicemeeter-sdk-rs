@@ -61,6 +61,7 @@ impl VoicemeeterRemote {
 }
 
 /// A float parameter
+#[must_use = "set or get the value of the parameter"]
 pub struct FloatParameter<'a, const WRITE: bool = true, const READ: bool = true> {
     /// The name of the parameter, fully qualified
     pub name: Cow<'a, ParameterNameRef>,
@@ -104,6 +105,7 @@ impl<'a, const WRITE: bool> FloatParameter<'a, WRITE, true> {
 }
 
 /// A string parameter
+#[must_use = "set or get the value of the parameter"]
 pub struct StringParameter<'a, const WRITE: bool = true, const READ: bool = true> {
     /// The name of the parameter, fully qualified
     pub name: Cow<'a, ParameterNameRef>,
@@ -132,6 +134,7 @@ impl<'a, const WRITE: bool> StringParameter<'a, WRITE, true> {
 }
 
 /// A tuple parameter
+#[must_use = "set or get the value of the parameter"]
 pub struct TupleParameter<'a, A, B, const WRITE: bool = true, const READ: bool = true> {
     /// The name of the parameter, fully qualified
     pub name: Cow<'a, ParameterNameRef>,
@@ -163,6 +166,7 @@ where
 }
 
 /// A boolean parameter
+#[must_use = "set or get the value of the parameter"]
 pub struct BoolParameter<'a, const WRITE: bool = true, const READ: bool = true> {
     /// The name of the parameter, fully qualified
     pub name: Cow<'a, ParameterNameRef>,
@@ -192,6 +196,7 @@ impl<'a, const WRITE: bool> BoolParameter<'a, WRITE, true> {
 }
 
 /// A integer parameter
+#[must_use = "set or get the value of the parameter"]
 pub struct IntParameter<'a, const WRITE: bool = true, const READ: bool = true> {
     /// The name of the parameter, fully qualified
     pub name: Cow<'a, ParameterNameRef>,
