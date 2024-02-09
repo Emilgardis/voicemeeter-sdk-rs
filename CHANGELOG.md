@@ -12,11 +12,13 @@
 * Made all errors non-exhaustive #27
 * Added VoicemeeterProgram::None for when there is no application running.
 * Made `Strip::eq` return new error `ParameterError`.
+* `OutputDevice` and `InputDevice` use an enum `DeviceType` for device type.
 
 ### Fixes
 
 * Fixed initianting remote with application turned off.
 * Fix wrong `EQ.AB` on bus and implement `EQ.on` and `EQ.AB` for strips
+* Fixed `get_output_device` and `get_input_device` so that correct values are returned.
 
 ### Changes
 

@@ -161,9 +161,9 @@ pub enum RegistryError {
 
 /// Get a pointer to a `T` if option is [`Some`](Option::Some) or a null ptr if it's [`None`](Option::None)
 #[cfg(feature = "interface")]
-pub(crate) fn opt_or_null<T>(option: Option<&mut T>) -> *mut &mut T {
-    if let Some(mut p) = option {
-        std::ptr::addr_of_mut!(p)
+pub(crate) fn opt_or_null<T>(mut option: Option<&mut T>) -> *mut T {
+    if let Some(p) = option.take() {
+        std::ptr::addr_of_mut!(*p)
     } else {
         std::ptr::null_mut()
     }
