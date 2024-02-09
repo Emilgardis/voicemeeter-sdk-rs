@@ -145,17 +145,24 @@ pub struct InputDevice {
     pub hardware_id: String,
 }
 
+/// Represents the type of an audio device.
 #[repr(i32)]
 #[derive(Debug)]
 pub enum DeviceType {
+    /// MME (Multimedia Extension) audio driver.
     Mme = VBVMR_DEVTYPE::MME.0,
+    /// WDM (Windows Driver Model) audio driver.
     Wdm = VBVMR_DEVTYPE::WDM.0,
+    /// KS (Kernel Streaming) audio driver.
     Ks = VBVMR_DEVTYPE::KS.0,
+    /// ASIO (Audio Stream Input/Output) audio driver.
     Asio = VBVMR_DEVTYPE::ASIO.0,
+    /// Other audio device types not explicitly defined.
     Other(VBVMR_DEVTYPE),
 }
 
 impl From<i32> for DeviceType {
+    /// Converts an integer value to a DeviceType.
     fn from(value: i32) -> Self {
         match VBVMR_DEVTYPE(value) {
             VBVMR_DEVTYPE::MME => DeviceType::Mme,
