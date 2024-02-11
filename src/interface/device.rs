@@ -34,7 +34,7 @@ impl VoicemeeterRemote {
             Ok(res)
         }
     }
-    /// Get the desctiption of a specific Audio Input Device.
+    /// Get the description of a specific Audio Input Device.
     pub fn get_input_device(
         &self,
         index: impl Into<ZIndex>,
@@ -84,7 +84,7 @@ impl VoicemeeterRemote {
         }
     }
 
-    /// Get the desctiption of a specific Audio Output Device.
+    /// Get the description of a specific Audio Output Device.
     pub fn get_output_device(
         &self,
         index: impl Into<ZIndex>,
