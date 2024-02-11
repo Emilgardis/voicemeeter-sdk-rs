@@ -1,4 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src\interface\parameters\get_parameters.rs`."><title>get_parameters.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../..\../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../..\../static.files/rustdoc-085727c29c2fa99e.css"><meta name="rustdoc-vars" data-root-path="../../..\../" data-static-root-path="../../..\../static.files/" data-current-crate="voicemeeter" data-themes="" data-resource-suffix="" data-rustdoc-version="1.74.0-nightly (7d9bce327 2023-09-16)" data-channel="nightly" data-search-js="search-5d3eaacf19ebf04f.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../..\../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../..\../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../..\../src-files.js"></script><script defer src="../../..\../static.files/main-f6ec288034ea164c.js"></script><noscript><link rel="stylesheet" href="../../..\../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../..\../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../..\../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../..\../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../..\../voicemeeter/index.html"><img class="rust-logo" src="../../..\../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../..\../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../..\../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../..\../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src\interface\parameters\get_parameters.rs`."><title>get_parameters.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../..\../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../..\../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../../..\../" data-static-root-path="../../..\../static.files/" data-current-crate="voicemeeter" data-themes="" data-resource-suffix="" data-rustdoc-version="1.78.0-nightly (6cc484351 2024-02-10)" data-channel="nightly" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../..\../static.files/storage-4c98445ec4002617.js"></script><script defer src="../../..\../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../..\../src-files.js"></script><script defer src="../../..\../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../../..\../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../..\../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../..\../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../..\../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
+            <h2>Files</h2></div></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../..\../voicemeeter/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../..\../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../..\../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../..\../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -163,7 +165,7 @@
     ///
     /// This method must only be called from one thread.
     </span><span class="kw">pub fn </span>is_parameters_dirty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>, <a href="#126-136">IsParametersDirtyError</a>&gt; {
-        <span class="kw">let </span>res = <span class="kw">unsafe </span>{ <a class="self" href="#29">self</a>.raw.<a href="../bindings.rs.html#1353-1355">VBVMR_IsParametersDirty</a>() };
+        <span class="kw">let </span>res = <span class="kw">unsafe </span>{ <a class="self" href="#29">self</a>.raw.<a href="../bindings.rs.html#1354-1356">VBVMR_IsParametersDirty</a>() };
         <span class="kw">match </span><a href="#30">res</a> {
             <span class="number">0 </span>=&gt; <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>),
             <span class="number">1 </span>=&gt; <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>),
@@ -178,7 +180,7 @@
     </span><span class="kw">pub fn </span>get_parameter_float(<span class="kw-2">&amp;</span><span class="self">self</span>, param: <span class="kw-2">&amp;</span><a href="../types.rs.html#61">ParameterNameRef</a>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>, <a href="#102-121">GetParameterError</a>&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>f = <span class="number">0.0f32</span>;
         <span class="kw">let </span>param = CString::new(param.as_ref())<span class="question-mark">?</span>;
-        <span class="macro">tracing::debug!</span>(<span class="string">&quot;getting float parameter&quot;</span>);
+        <span class="macro">tracing::debug!</span>(<span class="string">"getting float parameter"</span>);
         <span class="kw">let </span>res = <span class="kw">unsafe </span>{
             <span class="self">self</span>.raw
                 .VBVMR_GetParameterFloat(param.as_ptr() <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>, <span class="kw-2">&amp;mut </span>f)
@@ -189,10 +191,10 @@
             -<span class="number">2 </span>=&gt; <span class="prelude-val">Err</span>(GetParameterError::NoServer),
             -<span class="number">3 </span>=&gt; <span class="prelude-val">Err</span>(GetParameterError::UnknownParameter(
                 param.to_string_lossy().into_owned(),
-            )), <span class="comment">// NOTE: Lossless always (assuming vmr doesn&#39;t modify :) ), unsafe?
+            )), <span class="comment">// NOTE: Lossless always (assuming vmr doesn't modify :) ), unsafe?
             </span>-<span class="number">5 </span>=&gt; <span class="prelude-val">Err</span>(GetParameterError::StructureMismatch(
                 param.to_string_lossy().into_owned(),
-                <span class="string">&quot;float&quot;</span>,
+                <span class="string">"float"</span>,
             )),
             s =&gt; <span class="prelude-val">Err</span>(GetParameterError::Other(s)),
         }
@@ -206,7 +208,7 @@
     ) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html">String</a>, <a href="#102-121">GetParameterError</a>&gt; {
         <span class="kw">let </span>param = CString::new(param.as_ref()).unwrap();
         <span class="kw">let </span><span class="kw-2">mut </span>output = [<span class="number">0 </span><span class="kw">as </span>c_char; <span class="number">512</span>];
-        <span class="macro">tracing::debug!</span>(<span class="string">&quot;getting string parameter&quot;</span>);
+        <span class="macro">tracing::debug!</span>(<span class="string">"getting string parameter"</span>);
         <span class="kw">let </span>res = <span class="kw">unsafe </span>{
             <span class="self">self</span>.raw
                 .VBVMR_GetParameterStringA(param.as_ptr() <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>, <span class="macro">ptr::addr_of_mut!</span>(output[<span class="number">0</span>]))
@@ -222,10 +224,10 @@
             -<span class="number">2 </span>=&gt; <span class="prelude-val">Err</span>(GetParameterError::NoServer),
             -<span class="number">3 </span>=&gt; <span class="prelude-val">Err</span>(GetParameterError::UnknownParameter(
                 param.to_string_lossy().into_owned(),
-            )), <span class="comment">// NOTE: Lossless always (assuming vmr doesn&#39;t modify :) ), unsafe?
+            )), <span class="comment">// NOTE: Lossless always (assuming vmr doesn't modify :) ), unsafe?
             </span>-<span class="number">5 </span>=&gt; <span class="prelude-val">Err</span>(GetParameterError::StructureMismatch(
                 param.to_string_lossy().into_owned(),
-                <span class="string">&quot;float&quot;</span>,
+                <span class="string">"float"</span>,
             )),
             s =&gt; <span class="prelude-val">Err</span>(GetParameterError::Other(s)),
         }
@@ -237,37 +239,37 @@
 #[non_exhaustive]
 </span><span class="kw">pub enum </span><a href="#102-121">GetParameterError</a> {
     <span class="doccomment">/// Could not make a c-compatible string. This is a bug.
-    </span><span class="attr">#[error(<span class="string">&quot;could not make into a c-string&quot;</span>)]
+    </span><span class="attr">#[error(<span class="string">"could not make into a c-string"</span>)]
     </span>NulError(<span class="attr">#[from] </span><a href="https://doc.rust-lang.org/nightly/alloc/ffi/c_str/struct.NulError.html">NulError</a>),
     <span class="doccomment">/// Unexpected error
-    </span><span class="attr">#[error(<span class="string">&quot;error (unexpected)&quot;</span>)]
+    </span><span class="attr">#[error(<span class="string">"error (unexpected)"</span>)]
     </span>CannotGetClient,
     <span class="doccomment">/// No server.
-    </span><span class="attr">#[error(<span class="string">&quot;no server&quot;</span>)]
+    </span><span class="attr">#[error(<span class="string">"no server"</span>)]
     </span>NoServer,
     <span class="doccomment">/// Unknown parameter.
-    </span><span class="attr">#[error(<span class="string">&quot;unknown parameter: {0}&quot;</span>)]
+    </span><span class="attr">#[error(<span class="string">"unknown parameter: {0}"</span>)]
     </span>UnknownParameter(<a href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html">String</a>),
     <span class="doccomment">/// Structure mismatch.
-    </span><span class="attr">#[error(<span class="string">&quot;tried to parse parameter {0:?} as a {1} but it is not&quot;</span>)]
-    </span>StructureMismatch(<a href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html">String</a>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span><a href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>),
+    </span><span class="attr">#[error(<span class="string">"tried to parse parameter {0:?} as a {1} but it is not"</span>)]
+    </span>StructureMismatch(<a href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html">String</a>, <span class="kw-2">&amp;</span><span class="lifetime">'static </span><a href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>),
     <span class="doccomment">/// An unknown error code occured.
-    </span><span class="attr">#[error(<span class="string">&quot;unexpected error occurred: error code {0}&quot;</span>)]
+    </span><span class="attr">#[error(<span class="string">"unexpected error occurred: error code {0}"</span>)]
     </span>Other(<a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>),
 }
 
-<span class="doccomment">/// Errors that can happen when querying parameter &quot;dirty&quot; flag.
+<span class="doccomment">/// Errors that can happen when querying parameter "dirty" flag.
 </span><span class="attr">#[derive(Debug, thiserror::Error, Clone)]
 #[non_exhaustive]
 </span><span class="kw">pub enum </span><a href="#126-136">IsParametersDirtyError</a> {
     <span class="doccomment">/// Unexpected error
-    </span><span class="attr">#[error(<span class="string">&quot;error (unexpected)&quot;</span>)]
+    </span><span class="attr">#[error(<span class="string">"error (unexpected)"</span>)]
     </span>CannotGetClient,
     <span class="doccomment">/// No server.
-    </span><span class="attr">#[error(<span class="string">&quot;no server&quot;</span>)]
+    </span><span class="attr">#[error(<span class="string">"no server"</span>)]
     </span>NoServer,
     <span class="doccomment">/// An unknown error code occured.
-    </span><span class="attr">#[error(<span class="string">&quot;unexpected error occurred: error code {0}&quot;</span>)]
+    </span><span class="attr">#[error(<span class="string">"unexpected error occurred: error code {0}"</span>)]
     </span>Other(<a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>),
 }
 </code></pre></div></section></main></body></html>

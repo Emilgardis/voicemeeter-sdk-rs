@@ -1,4 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src\interface.rs`."><title>interface.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-085727c29c2fa99e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="voicemeeter" data-themes="" data-resource-suffix="" data-rustdoc-version="1.74.0-nightly (7d9bce327 2023-09-16)" data-channel="nightly" data-search-js="search-5d3eaacf19ebf04f.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f6ec288034ea164c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../voicemeeter/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src\interface.rs`."><title>interface.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="voicemeeter" data-themes="" data-resource-suffix="" data-rustdoc-version="1.78.0-nightly (6cc484351 2024-02-10)" data-channel="nightly" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-4c98445ec4002617.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
+            <h2>Files</h2></div></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../voicemeeter/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -118,7 +120,7 @@
 </pre></div><pre class="rust"><code><span class="doccomment">//! The interface for Voicemeeter remote.
 //!
 //! See the methods on [`VoicemeeterRemote`] for how to use the interface
-</span><span class="kw">use crate</span>::{<a href="types.rs.html#67-80">types::VoicemeeterApplication</a>, <a href="lib.rs.html#81-91">LoadError</a>};
+</span><span class="kw">use crate</span>::{<a href="types.rs.html#67-80">types::VoicemeeterApplication</a>, <a href="lib.rs.html#84-94">LoadError</a>};
 
 <span class="kw">use </span><span class="self">self</span>::{
     <a href="interface/communication_login_logout.rs.html#110-120">communication_login_logout::LoginError</a>, <a href="interface/general_information.rs.html#56-69">general_information::GetVoicemeeterInformationError</a>,
@@ -126,17 +128,17 @@
 
 <span class="kw">pub mod </span><a href="interface/callback.rs.html#1-12">callback</a>;
 <span class="kw">pub mod </span><a href="interface/communication_login_logout.rs.html#1-162">communication_login_logout</a>;
-<span class="kw">pub mod </span><a href="interface/device.rs.html#1-181">device</a>;
+<span class="kw">pub mod </span><a href="interface/device.rs.html#1-193">device</a>;
 <span class="kw">pub mod </span><a href="interface/general_information.rs.html#1-69">general_information</a>;
 <span class="kw">pub mod </span><a href="interface/get_levels.rs.html#1-105">get_levels</a>;
 <span class="kw">pub mod </span><a href="interface/macro_buttons.rs.html#1-202">macro_buttons</a>;
-<span class="kw">pub mod </span><a href="interface/parameters.rs.html#1-309">parameters</a>;
+<span class="kw">pub mod </span><a href="interface/parameters.rs.html#1-394">parameters</a>;
 
 <span class="doccomment">/// Interface for voicemeeter.
 </span><span class="attr">#[derive(Clone)]
-#[cfg(feature = <span class="string">&quot;interface&quot;</span>)] </span><span class="comment">// for doc_cfg
+#[cfg(feature = <span class="string">"interface"</span>)] </span><span class="comment">// for doc_cfg
 </span><span class="kw">pub struct </span><a href="../../voicemeeter/struct.VoicemeeterRemote.html">VoicemeeterRemote</a> {
-    raw: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span><a href="bindings.rs.html#1108-1203"><span class="kw">crate</span>::bindings::VoicemeeterRemoteRaw</a>,
+    raw: <span class="kw-2">&amp;</span><span class="lifetime">'static </span><a href="bindings.rs.html#1108-1204"><span class="kw">crate</span>::bindings::VoicemeeterRemoteRaw</a>,
     logout_handle: <span class="prelude-ty">Option</span>&lt;std::sync::Arc&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt;&gt;,
     <span class="doccomment">/// The type of the running Voicemeeter instance.
     </span><span class="kw">pub </span>program: <a href="types.rs.html#67-80">VoicemeeterApplication</a>,
@@ -144,13 +146,13 @@
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">static </span>LOGOUT_HANDLE: std::sync::OnceLock&lt;
     std::sync::Mutex&lt;<span class="prelude-ty">Option</span>&lt;std::sync::Arc&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt;&gt;&gt;,
-&gt; = std::sync::OnceLock::new();
+&gt; = <a href="https://doc.rust-lang.org/nightly/std/sync/once_lock/struct.OnceLock.html#method.new">std::sync::OnceLock::new</a>();
 
 <span class="kw">impl </span><a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html">std::fmt::Debug</a> <span class="kw">for </span><a href="#21-26">VoicemeeterRemote</a> {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <a href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html">std::fmt::Result</a> {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; <a href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html">std::fmt::Result</a> {
         <span class="kw">match </span><a class="self" href="#33">self</a>.program {
-            <a href="types.rs.html#79">VoicemeeterApplication::None</a> =&gt; <a class="macro" href="https://doc.rust-lang.org/nightly/core/macro.write.html">write!</a>(<a href="#33">f</a>, <span class="string">&quot;[no voicemeeter program running]&quot;</span>),
-            p =&gt; <a class="macro" href="https://doc.rust-lang.org/nightly/core/macro.write.html">write!</a>(<a href="#33">f</a>, <span class="string">&quot;[{}]&quot;</span>, p),
+            <a href="types.rs.html#79">VoicemeeterApplication::None</a> =&gt; <a class="macro" href="https://doc.rust-lang.org/nightly/core/macro.write.html">write!</a>(<a href="#33">f</a>, <span class="string">"[no voicemeeter program running]"</span>),
+            p =&gt; <a class="macro" href="https://doc.rust-lang.org/nightly/core/macro.write.html">write!</a>(<a href="#33">f</a>, <span class="string">"[{}]"</span>, p),
         }
     }
 }
@@ -183,15 +185,15 @@
         <span class="prelude-val">Ok</span>(s)
     }
 
-    <span class="kw">fn </span>from_raw(raw: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span><a href="bindings.rs.html#1108-1203"><span class="kw">crate</span>::VoicemeeterRemoteRaw</a>) -&gt; <a href="#21-26">VoicemeeterRemote</a> {
+    <span class="kw">fn </span>from_raw(raw: <span class="kw-2">&amp;</span><span class="lifetime">'static </span><a href="bindings.rs.html#1108-1204"><span class="kw">crate</span>::VoicemeeterRemoteRaw</a>) -&gt; <a href="#21-26">VoicemeeterRemote</a> {
         <span class="self">Self </span>{
             <a href="#69">raw</a>,
             program: <a href="types.rs.html#77">VoicemeeterApplication::Other</a>,
             logout_handle: <a href="#28-30">LOGOUT_HANDLE</a>
-                .get_or_init(|| std::sync::Mutex::new(<span class="prelude-val">Some</span>(std::sync::Arc::new(<span class="bool-val">false</span>))))
-                .lock()
-                .unwrap()
-                .<a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html">clone</a>(),
+                .<a href="https://doc.rust-lang.org/nightly/std/sync/once_lock/struct.OnceLock.html#method.get_or_init">get_or_init</a>(|| <a href="https://doc.rust-lang.org/nightly/std/sync/mutex/struct.Mutex.html#method.new">std::sync::Mutex::new</a>(<span class="prelude-val">Some</span>(<a href="https://doc.rust-lang.org/nightly/alloc/sync/struct.Arc.html#method.new">std::sync::Arc::new</a>(<span class="bool-val">false</span>))))
+                .<a href="https://doc.rust-lang.org/nightly/std/sync/mutex/struct.Mutex.html#method.lock">lock</a>()
+                .<a href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html#method.unwrap">unwrap</a>()
+                .<a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">clone</a>(),
         }
     }
 
@@ -220,16 +222,16 @@
 #[non_exhaustive]
 </span><span class="kw">pub enum </span><a href="#104-117">InitializationError</a> {
     <span class="doccomment">/// Error while loading the DLL.
-    </span><span class="attr">#[error(<span class="string">&quot;could not load the client&quot;</span>)]
-    </span>LoadError(<span class="attr">#[from] </span><a href="lib.rs.html#81-91">LoadError</a>),
+    </span><span class="attr">#[error(<span class="string">"could not load the client"</span>)]
+    </span>LoadError(<span class="attr">#[from] </span><a href="lib.rs.html#84-94">LoadError</a>),
     <span class="doccomment">/// Error when logging in.
-    </span><span class="attr">#[error(<span class="string">&quot;could not login&quot;</span>)]
+    </span><span class="attr">#[error(<span class="string">"could not login"</span>)]
     </span>LoginError(<span class="attr">#[from] </span><a href="interface/communication_login_logout.rs.html#110-120">LoginError</a>),
     <span class="doccomment">/// Application has already logged out.
-    </span><span class="attr">#[error(<span class="string">&quot;application has already logged out, so cannot login again&quot;</span>)]
+    </span><span class="attr">#[error(<span class="string">"application has already logged out, so cannot login again"</span>)]
     </span>AlreadyLoggedOut,
     <span class="doccomment">/// Error when getting the Voicemeeter application type.
-    </span><span class="attr">#[error(<span class="string">&quot;could not get voicemeeter type&quot;</span>)]
+    </span><span class="attr">#[error(<span class="string">"could not get voicemeeter type"</span>)]
     </span>InformationError(<span class="attr">#[from] </span><a href="interface/general_information.rs.html#56-69">GetVoicemeeterInformationError</a>),
 }
 </code></pre></div></section></main></body></html>

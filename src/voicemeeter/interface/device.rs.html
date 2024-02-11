@@ -1,4 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src\interface\device.rs`."><title>device.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-085727c29c2fa99e.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="voicemeeter" data-themes="" data-resource-suffix="" data-rustdoc-version="1.74.0-nightly (7d9bce327 2023-09-16)" data-channel="nightly" data-search-js="search-5d3eaacf19ebf04f.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-f6ec288034ea164c.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../voicemeeter/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src\interface\device.rs`."><title>device.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="voicemeeter" data-themes="" data-resource-suffix="" data-rustdoc-version="1.78.0-nightly (6cc484351 2024-02-10)" data-channel="nightly" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-4c98445ec4002617.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
+            <h2>Files</h2></div></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../voicemeeter/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -179,6 +181,18 @@
 <a href="#179" id="179">179</a>
 <a href="#180" id="180">180</a>
 <a href="#181" id="181">181</a>
+<a href="#182" id="182">182</a>
+<a href="#183" id="183">183</a>
+<a href="#184" id="184">184</a>
+<a href="#185" id="185">185</a>
+<a href="#186" id="186">186</a>
+<a href="#187" id="187">187</a>
+<a href="#188" id="188">188</a>
+<a href="#189" id="189">189</a>
+<a href="#190" id="190">190</a>
+<a href="#191" id="191">191</a>
+<a href="#192" id="192">192</a>
+<a href="#193" id="193">193</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Device related interfaces.
 //!
 //! # Functions
@@ -187,59 +201,56 @@
 //! * [`get_total_output_device`](VoicemeeterRemote::get_total_output_device)
 //! * [`get_input_device`](VoicemeeterRemote::get_input_device)
 //! * [`get_output_device`](VoicemeeterRemote::get_output_device)
-</span><span class="kw">use </span>std::{<a href="https://doc.rust-lang.org/nightly/core/ffi/c_str/struct.CStr.html">ffi::CStr</a>, <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_char.html">os::raw::c_char</a>, <a href="https://doc.rust-lang.org/nightly/core/ptr/index.html">ptr</a>};
+</span><span class="kw">use </span>std::{<a href="https://doc.rust-lang.org/nightly/core/ffi/c_str/struct.CStr.html">ffi::CStr</a>, <a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_char.html">os::raw::c_char</a>};
 
-<span class="kw">use crate</span>::{
-    bindings::{<a class="self" href="../lib.rs.html#21">self</a>, <a href="../bindings.rs.html#27">VBVMR_DEVTYPE</a>},
-    <a href="../types.rs.html#6">types::ZIndex</a>,
-};
+<span class="kw">use crate</span>::{<a href="../bindings.rs.html#27">bindings::VBVMR_DEVTYPE</a>, <a href="../types.rs.html#6">types::ZIndex</a>};
 
 <span class="kw">use </span><a href="../interface.rs.html#21-26"><span class="kw">super</span>::VoicemeeterRemote</a>;
 
 <span class="kw">impl </span><a href="../interface.rs.html#21-26">VoicemeeterRemote</a> {
     <span class="doccomment">/// Get the number of Audio Input Devices available on the system.
-    </span><span class="kw">pub fn </span>get_total_input_device(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>, <a href="#181">GetTotalDeviceError</a>&gt; {
-        <span class="kw">let </span>res = <span class="kw">unsafe </span>{ <a class="self" href="#20">self</a>.raw.<a href="../bindings.rs.html#1456-1458">VBVMR_Input_GetDeviceNumber</a>() };
+    </span><span class="kw">pub fn </span>get_total_input_device(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>, <a href="#193">GetTotalDeviceError</a>&gt; {
+        <span class="kw">let </span>res = <span class="kw">unsafe </span>{ <a class="self" href="#17">self</a>.raw.<a href="../bindings.rs.html#1457-1459">VBVMR_Input_GetDeviceNumber</a>() };
         <span class="kw">if </span>res &lt; <span class="number">0 </span>{
-            <span class="prelude-val">Err</span>(<a href="#181">GetTotalDeviceError</a>(<a href="#21">res</a>))
+            <span class="prelude-val">Err</span>(<a href="#193">GetTotalDeviceError</a>(<a href="#18">res</a>))
         } <span class="kw">else </span>{
-            <span class="prelude-val">Ok</span>(<a href="#21">res</a>)
+            <span class="prelude-val">Ok</span>(<a href="#18">res</a>)
         }
     }
     <span class="doccomment">/// Get the number of Audio Output Devices available on the system.
-    </span><span class="kw">pub fn </span>get_total_output_device(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>, <a href="#181">GetTotalDeviceError</a>&gt; {
-        <span class="kw">let </span>res = <span class="kw">unsafe </span>{ <a class="self" href="#29">self</a>.raw.<a href="../bindings.rs.html#1433-1435">VBVMR_Output_GetDeviceNumber</a>() };
+    </span><span class="kw">pub fn </span>get_total_output_device(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>, <a href="#193">GetTotalDeviceError</a>&gt; {
+        <span class="kw">let </span>res = <span class="kw">unsafe </span>{ <a class="self" href="#26">self</a>.raw.<a href="../bindings.rs.html#1434-1436">VBVMR_Output_GetDeviceNumber</a>() };
         <span class="kw">if </span>res &lt; <span class="number">0 </span>{
-            <span class="prelude-val">Err</span>(<a href="#181">GetTotalDeviceError</a>(<a href="#30">res</a>))
+            <span class="prelude-val">Err</span>(<a href="#193">GetTotalDeviceError</a>(<a href="#27">res</a>))
         } <span class="kw">else </span>{
-            <span class="prelude-val">Ok</span>(<a href="#30">res</a>)
+            <span class="prelude-val">Ok</span>(<a href="#27">res</a>)
         }
     }
-    <span class="doccomment">/// Get the desctiption of a specific Audio Input Device.
+    <span class="doccomment">/// Get the description of a specific Audio Input Device.
     </span><span class="kw">pub fn </span>get_input_device(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         index: <span class="kw">impl </span>Into&lt;<a href="../types.rs.html#6">ZIndex</a>&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="#153-160">InputDevice</a>, <a href="#176">GetDeviceError</a>&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>r#type = <span class="number">0</span>;
-        <span class="kw">let </span>index = <a href="#40">index</a>.<a href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html">into</a>().<span class="number">0</span>;
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="#136-143">InputDevice</a>, <a href="#188">GetDeviceError</a>&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>r#type = -<span class="number">1</span>;
+        <span class="kw">let </span>index = <a href="#37">index</a>.<a href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html#tymethod.into">into</a>().<span class="number">0</span>;
         <span class="kw">let </span><span class="kw-2">mut </span>name = [<span class="number">0 </span><span class="kw">as </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_char.html">c_char</a>; <span class="number">256</span>];
         <span class="kw">let </span><span class="kw-2">mut </span>hardware_id = [<span class="number">0 </span><span class="kw">as </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_char.html">c_char</a>; <span class="number">256</span>];
         <span class="kw">unsafe </span>{
-            <span class="self">self</span>._get_input_device(
-                index,
-                <span class="prelude-val">Some</span>(<span class="kw-2">&amp;mut </span>r#type),
-                <span class="prelude-val">Some</span>(<span class="kw-2">&amp;mut </span>name),
-                <span class="prelude-val">Some</span>(<span class="kw-2">&amp;mut </span>hardware_id),
+            <a class="self" href="#36">self</a>.<a href="#62-82">_get_input_device</a>(
+                <a href="#40">index</a>,
+                <span class="prelude-val">Some</span>(<span class="kw-2">&amp;mut </span><a href="#39">r#type</a>),
+                <span class="prelude-val">Some</span>(<span class="kw-2">&amp;mut </span><a href="#41">name</a>),
+                <span class="prelude-val">Some</span>(<span class="kw-2">&amp;mut </span><a href="#42">hardware_id</a>),
             )<span class="question-mark">?</span>;
         }
-        <span class="prelude-val">Ok</span>(<a href="#153-160">InputDevice</a> {
-            r#type: <a href="../bindings.rs.html#27">VBVMR_DEVTYPE</a>(<a href="#42">r#type</a>),
-            name: <span class="kw">unsafe </span>{ CStr::from_ptr(<a class="macro" href="https://doc.rust-lang.org/nightly/core/ptr/macro.addr_of.html">ptr::addr_of!</a>(name[<span class="number">0</span>])) }
-                .to_string_lossy()
-                .into_owned(),
-            hardware_id: <span class="kw">unsafe </span>{ CStr::from_ptr(<a class="macro" href="https://doc.rust-lang.org/nightly/core/ptr/macro.addr_of.html">ptr::addr_of!</a>(hardware_id[<span class="number">0</span>])) }
-                .to_string_lossy()
-                .into_owned(),
+        <span class="prelude-val">Ok</span>(<a href="#136-143">InputDevice</a> {
+            r#type: <a href="https://doc.rust-lang.org/nightly/core/convert/trait.From.html#tymethod.from">DeviceType::from</a>(<a href="#39">r#type</a>),
+            name: <span class="kw">unsafe </span>{ <a href="https://doc.rust-lang.org/nightly/core/ffi/c_str/struct.CStr.html#method.from_ptr">CStr::from_ptr</a>(<a href="#41">name</a>.<a href="https://doc.rust-lang.org/nightly/core/foreigntype.slice.html#method.as_ptr">as_ptr</a>()) }
+                .<a href="https://doc.rust-lang.org/nightly/alloc/ffi/c_str/struct.CStr.html#method.to_string_lossy">to_string_lossy</a>()
+                .<a href="https://doc.rust-lang.org/nightly/alloc/borrow/enum.Cow.html#method.into_owned">into_owned</a>(),
+            hardware_id: <span class="kw">unsafe </span>{ <a href="https://doc.rust-lang.org/nightly/core/ffi/c_str/struct.CStr.html#method.from_ptr">CStr::from_ptr</a>(<a href="#42">hardware_id</a>.<a href="https://doc.rust-lang.org/nightly/core/foreigntype.slice.html#method.as_ptr">as_ptr</a>()) }
+                .<a href="https://doc.rust-lang.org/nightly/alloc/ffi/c_str/struct.CStr.html#method.to_string_lossy">to_string_lossy</a>()
+                .<a href="https://doc.rust-lang.org/nightly/alloc/borrow/enum.Cow.html#method.into_owned">into_owned</a>(),
         })
     }
 
@@ -249,61 +260,47 @@
         r#type: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>&gt;,
         name: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;mut </span>[<a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_char.html">c_char</a>; <span class="number">256</span>]&gt;,
         hardware_id: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;mut </span>[<a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_char.html">c_char</a>; <span class="number">256</span>]&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="#176">GetDeviceError</a>&gt; {
-        <span class="kw">let </span>null_i32 = ptr::null_mut();
-        <span class="kw">let </span>r#type = <span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">mut </span>p) = <a href="#68">r#type</a> {
-            <a class="macro" href="https://doc.rust-lang.org/nightly/core/ptr/macro.addr_of_mut.html">ptr::addr_of_mut!</a>(p)
-        } <span class="kw">else </span>{
-            <a href="#72">null_i32</a>
-        };
-        <span class="kw">let </span>null_c = ptr::null_mut();
-        <span class="kw">let </span>name_p = <span class="kw">if let </span><span class="prelude-val">Some</span>(p) = <a href="#69">name</a> {
-            <a class="macro" href="https://doc.rust-lang.org/nightly/core/ptr/macro.addr_of_mut.html">ptr::addr_of_mut!</a>(p[<span class="number">0</span>])
-        } <span class="kw">else </span>{
-            <a href="#78">null_c</a>
-        };
-        <span class="kw">let </span>hardware_id_p = <span class="kw">if let </span><span class="prelude-val">Some</span>(p) = <a href="#70">hardware_id</a> {
-            <a class="macro" href="https://doc.rust-lang.org/nightly/core/ptr/macro.addr_of_mut.html">ptr::addr_of_mut!</a>(p[<span class="number">0</span>])
-        } <span class="kw">else </span>{
-            <a href="#78">null_c</a>
-        };
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="#188">GetDeviceError</a>&gt; {
+        <span class="kw">let </span>type_p = <a href="../lib.rs.html#167-173"><span class="kw">crate</span>::opt_or_null</a>(<a href="#65">r#type</a>);
+        <span class="kw">let </span>name_p = <a href="../lib.rs.html#167-173"><span class="kw">crate</span>::opt_or_null</a>(<a href="#66">name</a>.<a href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html#method.map">map</a>(|a| <span class="kw-2">&amp;mut </span><a href="#70">a</a>[<span class="number">0</span>]));
+        <span class="kw">let </span>hardware_id_p = <a href="../lib.rs.html#167-173"><span class="kw">crate</span>::opt_or_null</a>(<a href="#67">hardware_id</a>.<a href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html#method.map">map</a>(|a| <span class="kw-2">&amp;mut </span><a href="#71">a</a>[<span class="number">0</span>]));
 
         <span class="kw">let </span>res = <span class="kw">unsafe </span>{
-            <a class="self" href="#66">self</a>.raw
-                .<a href="../bindings.rs.html#1460-1468">VBVMR_Input_GetDeviceDescA</a>(<a href="#67">index</a>, <a href="#73">r#type</a> <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>, <a href="#79">name_p</a>, <a href="#84">hardware_id_p</a>)
+            <a class="self" href="#63">self</a>.raw
+                .<a href="../bindings.rs.html#1461-1469">VBVMR_Input_GetDeviceDescA</a>(<a href="#64">index</a>, <a href="#69">type_p</a>, <a href="#70">name_p</a>, <a href="#71">hardware_id_p</a>)
         };
         <span class="comment">//cleanup
-        </span><span class="kw">match </span><a href="#90">res</a> {
+        </span><span class="kw">match </span><a href="#73">res</a> {
             <span class="number">0 </span>=&gt; <span class="prelude-val">Ok</span>(()),
-            s =&gt; <span class="prelude-val">Err</span>(<a href="#176">GetDeviceError</a>(<a href="#97">s</a>)),
+            s =&gt; <span class="prelude-val">Err</span>(<a href="#188">GetDeviceError</a>(<a href="#80">s</a>)),
         }
     }
 
-    <span class="doccomment">/// Get the desctiption of a specific Audio Output Device.
+    <span class="doccomment">/// Get the description of a specific Audio Output Device.
     </span><span class="kw">pub fn </span>get_output_device(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         index: <span class="kw">impl </span>Into&lt;<a href="../types.rs.html#6">ZIndex</a>&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="#164-171">OutputDevice</a>, <a href="#176">GetDeviceError</a>&gt; {
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;<a href="#176-183">OutputDevice</a>, <a href="#188">GetDeviceError</a>&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>r#type = <span class="number">0</span>;
-        <span class="kw">let </span>index = <a href="#104">index</a>.<a href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html">into</a>().<span class="number">0</span>;
+        <span class="kw">let </span>index = <a href="#87">index</a>.<a href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html#tymethod.into">into</a>().<span class="number">0</span>;
         <span class="kw">let </span><span class="kw-2">mut </span>name = [<span class="number">0 </span><span class="kw">as </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_char.html">c_char</a>; <span class="number">256</span>];
         <span class="kw">let </span><span class="kw-2">mut </span>hardware_id = [<span class="number">0 </span><span class="kw">as </span><a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_char.html">c_char</a>; <span class="number">256</span>];
         <span class="kw">unsafe </span>{
-            <span class="self">self</span>._get_output_device(
-                index,
-                <span class="prelude-val">Some</span>(<span class="kw-2">&amp;mut </span>r#type),
-                <span class="prelude-val">Some</span>(<span class="kw-2">&amp;mut </span>name),
-                <span class="prelude-val">Some</span>(<span class="kw-2">&amp;mut </span>hardware_id),
+            <a class="self" href="#86">self</a>.<a href="#112-131">_get_output_device</a>(
+                <a href="#90">index</a>,
+                <span class="prelude-val">Some</span>(<span class="kw-2">&amp;mut </span><a href="#89">r#type</a>),
+                <span class="prelude-val">Some</span>(<span class="kw-2">&amp;mut </span><a href="#91">name</a>),
+                <span class="prelude-val">Some</span>(<span class="kw-2">&amp;mut </span><a href="#92">hardware_id</a>),
             )<span class="question-mark">?</span>;
         }
-        <span class="prelude-val">Ok</span>(<a href="#164-171">OutputDevice</a> {
-            r#type: <a href="../bindings.rs.html#27">VBVMR_DEVTYPE</a>(<a href="#106">r#type</a>),
-            name: <span class="kw">unsafe </span>{ CStr::from_ptr(<a class="macro" href="https://doc.rust-lang.org/nightly/core/ptr/macro.addr_of.html">ptr::addr_of!</a>(name[<span class="number">0</span>])) }
-                .to_string_lossy()
-                .into_owned(),
-            hardware_id: <span class="kw">unsafe </span>{ CStr::from_ptr(<a class="macro" href="https://doc.rust-lang.org/nightly/core/ptr/macro.addr_of.html">ptr::addr_of!</a>(hardware_id[<span class="number">0</span>])) }
-                .to_string_lossy()
-                .into_owned(),
+        <span class="prelude-val">Ok</span>(<a href="#176-183">OutputDevice</a> {
+            r#type: <a href="https://doc.rust-lang.org/nightly/core/convert/trait.From.html#tymethod.from">DeviceType::from</a>(<a href="#89">r#type</a>),
+            name: <span class="kw">unsafe </span>{ <a href="https://doc.rust-lang.org/nightly/core/ffi/c_str/struct.CStr.html#method.from_ptr">CStr::from_ptr</a>(<a href="#91">name</a>.<a href="https://doc.rust-lang.org/nightly/core/foreigntype.slice.html#method.as_ptr">as_ptr</a>()) }
+                .<a href="https://doc.rust-lang.org/nightly/alloc/ffi/c_str/struct.CStr.html#method.to_string_lossy">to_string_lossy</a>()
+                .<a href="https://doc.rust-lang.org/nightly/alloc/borrow/enum.Cow.html#method.into_owned">into_owned</a>(),
+            hardware_id: <span class="kw">unsafe </span>{ <a href="https://doc.rust-lang.org/nightly/core/ffi/c_str/struct.CStr.html#method.from_ptr">CStr::from_ptr</a>(<a href="#92">hardware_id</a>.<a href="https://doc.rust-lang.org/nightly/core/foreigntype.slice.html#method.as_ptr">as_ptr</a>()) }
+                .<a href="https://doc.rust-lang.org/nightly/alloc/ffi/c_str/struct.CStr.html#method.to_string_lossy">to_string_lossy</a>()
+                .<a href="https://doc.rust-lang.org/nightly/alloc/borrow/enum.Cow.html#method.into_owned">into_owned</a>(),
         })
     }
 
@@ -313,18 +310,18 @@
         r#type: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>&gt;,
         name: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;mut </span>[<a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_char.html">c_char</a>; <span class="number">256</span>]&gt;,
         hardware_id: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;mut </span>[<a href="https://doc.rust-lang.org/nightly/std/os/raw/type.c_char.html">c_char</a>; <span class="number">256</span>]&gt;,
-    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="#176">GetDeviceError</a>&gt; {
-        <span class="kw">let </span>r#type = <a href="../lib.rs.html#164-170"><span class="kw">crate</span>::opt_or_null</a>(<a href="#132">r#type</a>);
-        <span class="kw">let </span>name_p = <a href="../lib.rs.html#164-170"><span class="kw">crate</span>::opt_or_null</a>(<a href="#133">name</a>.map(|a| <span class="kw-2">&amp;mut </span><a href="#137">a</a>[<span class="number">0</span>]));
-        <span class="kw">let </span>hardware_id_p = <a href="../lib.rs.html#164-170"><span class="kw">crate</span>::opt_or_null</a>(<a href="#134">hardware_id</a>.map(|a| <span class="kw-2">&amp;mut </span><a href="#138">a</a>[<span class="number">0</span>]));
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), <a href="#188">GetDeviceError</a>&gt; {
+        <span class="kw">let </span>type_p = <a href="../lib.rs.html#167-173"><span class="kw">crate</span>::opt_or_null</a>(<a href="#115">r#type</a>);
+        <span class="kw">let </span>name_p = <a href="../lib.rs.html#167-173"><span class="kw">crate</span>::opt_or_null</a>(<a href="#116">name</a>.<a href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html#method.map">map</a>(|a| <span class="kw-2">&amp;mut </span><a href="#120">a</a>[<span class="number">0</span>]));
+        <span class="kw">let </span>hardware_id_p = <a href="../lib.rs.html#167-173"><span class="kw">crate</span>::opt_or_null</a>(<a href="#117">hardware_id</a>.<a href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html#method.map">map</a>(|a| <span class="kw-2">&amp;mut </span><a href="#121">a</a>[<span class="number">0</span>]));
         <span class="kw">let </span>res = <span class="kw">unsafe </span>{
-            <a class="self" href="#130">self</a>.raw
-                .<a href="../bindings.rs.html#1437-1445">VBVMR_Output_GetDeviceDescA</a>(<a href="#131">index</a>, <a href="#136">r#type</a> <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>, <span class="kw-2">*</span><a href="#137">name_p</a>, <span class="kw-2">*</span><a href="#138">hardware_id_p</a>)
+            <a class="self" href="#113">self</a>.raw
+                .<a href="../bindings.rs.html#1438-1446">VBVMR_Output_GetDeviceDescA</a>(<a href="#114">index</a>, <a href="#119">type_p</a>, <a href="#120">name_p</a>, <a href="#121">hardware_id_p</a>)
         };
         <span class="comment">//cleanup
-        </span><span class="kw">match </span><a href="#139">res</a> {
+        </span><span class="kw">match </span><a href="#122">res</a> {
             <span class="number">0 </span>=&gt; <span class="prelude-val">Ok</span>(()),
-            s =&gt; <span class="prelude-val">Err</span>(<a href="#176">GetDeviceError</a>(<a href="#146">s</a>)),
+            s =&gt; <span class="prelude-val">Err</span>(<a href="#188">GetDeviceError</a>(<a href="#129">s</a>)),
         }
     }
 }
@@ -333,18 +330,47 @@
 </span><span class="attr">#[derive(Debug)]
 </span><span class="kw">pub struct </span><a href="../../../voicemeeter/interface/device/struct.InputDevice.html">InputDevice</a> {
     <span class="doccomment">/// The type of the device.
-    </span><span class="kw">pub </span>r#type: <a href="../bindings.rs.html#27">bindings::VBVMR_DEVTYPE</a>,
+    </span><span class="kw">pub </span>r#type: <a href="#148-159">DeviceType</a>,
     <span class="doccomment">/// Device name
     </span><span class="kw">pub </span>name: <a href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html">String</a>,
     <span class="doccomment">/// Hardware ID
     </span><span class="kw">pub </span>hardware_id: <a href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html">String</a>,
 }
 
+<span class="doccomment">/// Represents the type of an audio device.
+</span><span class="attr">#[repr(i32)]
+#[derive(Debug)]
+</span><span class="kw">pub enum </span><a href="../../../voicemeeter/interface/device/enum.DeviceType.html">DeviceType</a> {
+    <span class="doccomment">/// MME (Multimedia Extension) audio driver.
+    </span>Mme = VBVMR_DEVTYPE::MME.<span class="number">0</span>,
+    <span class="doccomment">/// WDM (Windows Driver Model) audio driver.
+    </span>Wdm = VBVMR_DEVTYPE::WDM.<span class="number">0</span>,
+    <span class="doccomment">/// KS (Kernel Streaming) audio driver.
+    </span>Ks = VBVMR_DEVTYPE::KS.<span class="number">0</span>,
+    <span class="doccomment">/// ASIO (Audio Stream Input/Output) audio driver.
+    </span>Asio = VBVMR_DEVTYPE::ASIO.<span class="number">0</span>,
+    <span class="doccomment">/// Other audio device types not explicitly defined.
+    </span>Other(<a href="../bindings.rs.html#27">VBVMR_DEVTYPE</a>),
+}
+
+<span class="kw">impl </span>From&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>&gt; <span class="kw">for </span><a href="#148-159">DeviceType</a> {
+    <span class="doccomment">/// Converts an integer value to a DeviceType.
+    </span><span class="kw">fn </span>from(value: <a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>) -&gt; <span class="self">Self </span>{
+        <span class="kw">match </span><a href="../bindings.rs.html#27">VBVMR_DEVTYPE</a>(<a href="#163">value</a>) {
+            VBVMR_DEVTYPE::MME =&gt; <a href="#150">DeviceType::Mme</a>,
+            VBVMR_DEVTYPE::WDM =&gt; <a href="#152">DeviceType::Wdm</a>,
+            VBVMR_DEVTYPE::KS =&gt; <a href="#154">DeviceType::Ks</a>,
+            VBVMR_DEVTYPE::ASIO =&gt; <a href="#156">DeviceType::Asio</a>,
+            o =&gt; <a href="#158">DeviceType::Other</a>(<a href="#169">o</a>),
+        }
+    }
+}
+
 <span class="doccomment">/// A Audio Output Device.
 </span><span class="attr">#[derive(Debug)]
 </span><span class="kw">pub struct </span><a href="../../../voicemeeter/interface/device/struct.OutputDevice.html">OutputDevice</a> {
     <span class="doccomment">/// The type of the device.
-    </span><span class="kw">pub </span>r#type: <a href="../bindings.rs.html#27">bindings::VBVMR_DEVTYPE</a>,
+    </span><span class="kw">pub </span>r#type: <a href="#148-159">DeviceType</a>,
     <span class="doccomment">/// Device name
     </span><span class="kw">pub </span>name: <a href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html">String</a>,
     <span class="doccomment">/// Hardware ID
@@ -353,11 +379,11 @@
 
 <span class="doccomment">/// Error when getting the device description.
 </span><span class="attr">#[derive(Debug, thiserror::Error, Clone)]
-#[error(<span class="string">&quot;unexpected device: error code {0}&quot;</span>)]
-</span><span class="kw">pub struct </span><a href="#176">GetDeviceError</a>(<span class="kw">pub </span><a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>);
+#[error(<span class="string">"unexpected device: error code {0}"</span>)]
+</span><span class="kw">pub struct </span><a href="#188">GetDeviceError</a>(<span class="kw">pub </span><a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>);
 
 <span class="doccomment">/// Error when getting the total devices.
 </span><span class="attr">#[derive(Debug, thiserror::Error, Clone)]
-#[error(<span class="string">&quot;could not get total device number: error code {0}&quot;</span>)]
-</span><span class="kw">pub struct </span><a href="#181">GetTotalDeviceError</a>(<span class="kw">pub </span><a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>);
+#[error(<span class="string">"could not get total device number: error code {0}"</span>)]
+</span><span class="kw">pub struct </span><a href="#193">GetTotalDeviceError</a>(<span class="kw">pub </span><a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>);
 </code></pre></div></section></main></body></html>

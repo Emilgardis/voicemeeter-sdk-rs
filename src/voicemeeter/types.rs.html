@@ -1,4 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src\types.rs`."><title>types.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-085727c29c2fa99e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="voicemeeter" data-themes="" data-resource-suffix="" data-rustdoc-version="1.74.0-nightly (7d9bce327 2023-09-16)" data-channel="nightly" data-search-js="search-5d3eaacf19ebf04f.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-f6ec288034ea164c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../voicemeeter/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src\types.rs`."><title>types.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="voicemeeter" data-themes="" data-resource-suffix="" data-rustdoc-version="1.78.0-nightly (6cc484351 2024-02-10)" data-channel="nightly" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-4c98445ec4002617.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
+            <h2>Files</h2></div></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../voicemeeter/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -376,6 +378,83 @@
 <a href="#376" id="376">376</a>
 <a href="#377" id="377">377</a>
 <a href="#378" id="378">378</a>
+<a href="#379" id="379">379</a>
+<a href="#380" id="380">380</a>
+<a href="#381" id="381">381</a>
+<a href="#382" id="382">382</a>
+<a href="#383" id="383">383</a>
+<a href="#384" id="384">384</a>
+<a href="#385" id="385">385</a>
+<a href="#386" id="386">386</a>
+<a href="#387" id="387">387</a>
+<a href="#388" id="388">388</a>
+<a href="#389" id="389">389</a>
+<a href="#390" id="390">390</a>
+<a href="#391" id="391">391</a>
+<a href="#392" id="392">392</a>
+<a href="#393" id="393">393</a>
+<a href="#394" id="394">394</a>
+<a href="#395" id="395">395</a>
+<a href="#396" id="396">396</a>
+<a href="#397" id="397">397</a>
+<a href="#398" id="398">398</a>
+<a href="#399" id="399">399</a>
+<a href="#400" id="400">400</a>
+<a href="#401" id="401">401</a>
+<a href="#402" id="402">402</a>
+<a href="#403" id="403">403</a>
+<a href="#404" id="404">404</a>
+<a href="#405" id="405">405</a>
+<a href="#406" id="406">406</a>
+<a href="#407" id="407">407</a>
+<a href="#408" id="408">408</a>
+<a href="#409" id="409">409</a>
+<a href="#410" id="410">410</a>
+<a href="#411" id="411">411</a>
+<a href="#412" id="412">412</a>
+<a href="#413" id="413">413</a>
+<a href="#414" id="414">414</a>
+<a href="#415" id="415">415</a>
+<a href="#416" id="416">416</a>
+<a href="#417" id="417">417</a>
+<a href="#418" id="418">418</a>
+<a href="#419" id="419">419</a>
+<a href="#420" id="420">420</a>
+<a href="#421" id="421">421</a>
+<a href="#422" id="422">422</a>
+<a href="#423" id="423">423</a>
+<a href="#424" id="424">424</a>
+<a href="#425" id="425">425</a>
+<a href="#426" id="426">426</a>
+<a href="#427" id="427">427</a>
+<a href="#428" id="428">428</a>
+<a href="#429" id="429">429</a>
+<a href="#430" id="430">430</a>
+<a href="#431" id="431">431</a>
+<a href="#432" id="432">432</a>
+<a href="#433" id="433">433</a>
+<a href="#434" id="434">434</a>
+<a href="#435" id="435">435</a>
+<a href="#436" id="436">436</a>
+<a href="#437" id="437">437</a>
+<a href="#438" id="438">438</a>
+<a href="#439" id="439">439</a>
+<a href="#440" id="440">440</a>
+<a href="#441" id="441">441</a>
+<a href="#442" id="442">442</a>
+<a href="#443" id="443">443</a>
+<a href="#444" id="444">444</a>
+<a href="#445" id="445">445</a>
+<a href="#446" id="446">446</a>
+<a href="#447" id="447">447</a>
+<a href="#448" id="448">448</a>
+<a href="#449" id="449">449</a>
+<a href="#450" id="450">450</a>
+<a href="#451" id="451">451</a>
+<a href="#452" id="452">452</a>
+<a href="#453" id="453">453</a>
+<a href="#454" id="454">454</a>
+<a href="#455" id="455">455</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Basic types used in voicemeeter
 
 /// A Zero Indexed Index
@@ -384,8 +463,8 @@
 </span><span class="kw">pub struct </span><a href="../../voicemeeter/types/struct.ZIndex.html">ZIndex</a>(<span class="kw">pub</span>(<span class="kw">crate</span>) <a href="https://doc.rust-lang.org/nightly/std/primitive.i32.html">i32</a>);
 
 <span class="kw">impl </span><a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html">std::fmt::Display</a> <span class="kw">for </span><a href="#6">ZIndex</a> {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <a href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html">std::fmt::Result</a> {
-        <a href="#9">f</a>.write_str(<span class="kw-2">&amp;</span><a class="self" href="#9">self</a>.<span class="number">0</span>.<a href="https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html">to_string</a>())
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; <a href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html">std::fmt::Result</a> {
+        <a href="#9">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="kw-2">&amp;</span><a class="self" href="#9">self</a>.<span class="number">0</span>.<a href="https://doc.rust-lang.org/nightly/alloc/string/trait.ToString.html#tymethod.to_string">to_string</a>())
     }
 }
 <span class="kw">impl </span>From&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>&gt; <span class="kw">for </span><a href="#6">ZIndex</a> {
@@ -412,8 +491,8 @@
 </span><span class="kw">pub struct </span><a href="../../voicemeeter/types/struct.LogicalButton.html">LogicalButton</a>(<span class="kw">pub </span><a href="#6">ZIndex</a>);
 
 <span class="kw">impl </span><a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html">std::fmt::Display</a> <span class="kw">for </span><a href="#34">LogicalButton</a> {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <a href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html">std::fmt::Result</a> {
-        <a class="macro" href="https://doc.rust-lang.org/nightly/core/macro.write.html">write!</a>(<a href="#37">f</a>, <span class="string">&quot;MB:{}&quot;</span>, <span class="self">self</span>.<span class="number">0.0</span>)
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; <a href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html">std::fmt::Result</a> {
+        <a class="macro" href="https://doc.rust-lang.org/nightly/core/macro.write.html">write!</a>(<a href="#37">f</a>, <span class="string">"MB:{}"</span>, <span class="self">self</span>.<span class="number">0.0</span>)
     }
 }
 
@@ -443,7 +522,7 @@
 </span><span class="attr">#[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
 #[repr(C)]
 </span><span class="kw">pub enum </span><a href="../../voicemeeter/types/enum.VoicemeeterApplication.html">VoicemeeterApplication</a> {
-    <span class="doccomment">/// Standard &quot;base&quot; voicemeeter.
+    <span class="doccomment">/// Standard "base" voicemeeter.
     </span>Voicemeeter = <span class="number">1</span>,
     <span class="doccomment">/// Voicemeeter Banana.
     </span>VoicemeeterBanana = <span class="number">2</span>,
@@ -459,7 +538,7 @@
 
 <span class="kw">impl </span><a href="#67-80">VoicemeeterApplication</a> {
     <span class="doccomment">/// Return all possible devices for this application
-    </span><span class="kw">pub const fn </span>devices(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[<a href="#165-198">Device</a>] {
+    </span><span class="kw">pub const fn </span>devices(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>[<a href="#165-198">Device</a>] {
         <span class="kw">use </span><a href="#165-198"><span class="self">self</span>::Device</a>::<span class="kw-2">*</span>;
         <span class="kw">match </span><span class="self"><a href="#84">self</a> </span>{
             <a href="#69">VoicemeeterApplication::Voicemeeter</a> =&gt; {
@@ -478,7 +557,7 @@
                 <a href="#189">VirtualOutputB2</a>,
             ],
             <a href="#73">VoicemeeterApplication::VoicemeeterPotato</a> | <a href="#75">VoicemeeterApplication::PotatoX64Bits</a> =&gt; {
-                Device::all()
+                <a href="#295-314">Device::all</a>()
             }
             <a href="#77">VoicemeeterApplication::Other</a> | <a href="#79">VoicemeeterApplication::None</a> =&gt; <span class="kw-2">&amp;</span>[],
         }
@@ -486,14 +565,14 @@
 }
 
 <span class="kw">impl </span><a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html">std::fmt::Display</a> <span class="kw">for </span><a href="#67-80">VoicemeeterApplication</a> {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <a href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html">std::fmt::Result</a> {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; <a href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html">std::fmt::Result</a> {
         <span class="kw">match </span><span class="self"><a href="#111">self</a> </span>{
-            <a href="#69">VoicemeeterApplication::Voicemeeter</a> =&gt; <a href="#111">f</a>.write_str(<span class="string">&quot;Voicemeeter&quot;</span>),
-            <a href="#71">VoicemeeterApplication::VoicemeeterBanana</a> =&gt; <a href="#111">f</a>.write_str(<span class="string">&quot;VoicemeeterBanana&quot;</span>),
-            <a href="#73">VoicemeeterApplication::VoicemeeterPotato</a> =&gt; <a href="#111">f</a>.write_str(<span class="string">&quot;VoicemeeterPotato&quot;</span>),
-            <a href="#75">VoicemeeterApplication::PotatoX64Bits</a> =&gt; <a href="#111">f</a>.write_str(<span class="string">&quot;VoicemeeterPotatoX64Bits&quot;</span>),
-            <a href="#77">VoicemeeterApplication::Other</a> =&gt; <a href="#111">f</a>.write_str(<span class="string">&quot;VoicemeeterUnknown&quot;</span>),
-            <a href="#79">VoicemeeterApplication::None</a> =&gt; <a href="#111">f</a>.write_str(<span class="string">&quot;None&quot;</span>),
+            <a href="#69">VoicemeeterApplication::Voicemeeter</a> =&gt; <a href="#111">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"Voicemeeter"</span>),
+            <a href="#71">VoicemeeterApplication::VoicemeeterBanana</a> =&gt; <a href="#111">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"VoicemeeterBanana"</span>),
+            <a href="#73">VoicemeeterApplication::VoicemeeterPotato</a> =&gt; <a href="#111">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"VoicemeeterPotato"</span>),
+            <a href="#75">VoicemeeterApplication::PotatoX64Bits</a> =&gt; <a href="#111">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"VoicemeeterPotatoX64Bits"</span>),
+            <a href="#77">VoicemeeterApplication::Other</a> =&gt; <a href="#111">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"VoicemeeterUnknown"</span>),
+            <a href="#79">VoicemeeterApplication::None</a> =&gt; <a href="#111">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"None"</span>),
         }
     }
 }
@@ -541,15 +620,15 @@
 <span class="doccomment">/// A device.
 </span><span class="attr">#[derive(Debug, Clone, Copy, Eq, PartialEq)]
 </span><span class="kw">pub enum </span><a href="../../voicemeeter/types/enum.Device.html">Device</a> {
-    <span class="doccomment">/// Strip 1. Available on all Voicemeeter versions.
+    <span class="doccomment">/// Input Strip 1. Available on all Voicemeeter versions.
     </span>Strip1,
-    <span class="doccomment">/// Strip 2. Available on all Voicemeeter versions.
+    <span class="doccomment">/// Input Strip 2. Available on all Voicemeeter versions.
     </span>Strip2,
-    <span class="doccomment">/// Strip 3. Available on Voicemeeter Banana and Potato.
+    <span class="doccomment">/// Input Strip 3. Available on Voicemeeter Banana and Potato.
     </span>Strip3,
-    <span class="doccomment">/// Strip 4. Available on Voicemeeter Potato.
+    <span class="doccomment">/// Input Strip 4. Available on Voicemeeter Potato.
     </span>Strip4,
-    <span class="doccomment">/// Strip 5. Available on Voicemeeter Potato.
+    <span class="doccomment">/// Input Strip 5. Available on Voicemeeter Potato.
     </span>Strip5,
     <span class="doccomment">/// Output A1. Available on all Voicemeeter versions.
     </span>OutputA1,
@@ -575,7 +654,7 @@
     </span>VirtualInput8,
 }
 
-<span class="doccomment">/// Index in the buffers for a [devices&#39;](Device) channel.
+<span class="doccomment">/// Index in the buffers for a [devices'](Device) channel.
 </span><span class="attr">#[derive(Debug, Clone, Copy)]
 </span><span class="kw">pub struct </span><a href="../../voicemeeter/types/struct.ChannelIndex.html">ChannelIndex</a> {
     <span class="doccomment">/// Start index.
@@ -592,20 +671,21 @@
 
     <span class="doccomment">/// Get the channel index for
     </span><span class="kw">pub fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>, channel: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <span class="prelude-ty">Option</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>&gt; {
-        (<a class="self" href="#216">self</a>.start..(<a class="self" href="#216">self</a>.start + <a class="self" href="#216">self</a>.size)).<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html">nth</a>(<a href="#216">channel</a>)
+        (<a class="self" href="#216">self</a>.start..(<a class="self" href="#216">self</a>.start + <a class="self" href="#216">self</a>.size)).<a href="https://doc.rust-lang.org/nightly/core/iter/traits/iterator/trait.Iterator.html#tymethod.nth">nth</a>(<a href="#216">channel</a>)
     }
 }
 <span class="kw">const fn </span>ci(start: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>, size: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>) -&gt; <span class="prelude-ty">Option</span>&lt;<a href="#202-207">ChannelIndex</a>&gt; {
-    <span class="prelude-val">Some</span>(ChannelIndex::new(<a href="#220">start</a>, <a href="#220">size</a>))
+    <span class="prelude-val">Some</span>(<a href="#211-213">ChannelIndex::new</a>(<a href="#220">start</a>, <a href="#220">size</a>))
 }
+
 <span class="kw">impl </span><a href="#165-198">Device</a> {
     <span class="doccomment">/// Get the [`ChannelIndex`] for this channel in the buffers when in [main mode](crate::interface::callback::CallbackCommand::BufferMain), if available in the current program.
     </span><span class="kw">pub const fn </span>main(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         program: <span class="kw-2">&amp;</span><a href="#67-80">VoicemeeterApplication</a>,
     ) -&gt; (<span class="prelude-ty">Option</span>&lt;<a href="#202-207">ChannelIndex</a>&gt;, <span class="prelude-ty">Option</span>&lt;<a href="#202-207">ChannelIndex</a>&gt;) {
-        <span class="kw">match </span><a href="#227">program</a> {
-            <a href="#69">VoicemeeterApplication::Voicemeeter</a> =&gt; <span class="kw">match </span><span class="self"><a href="#226">self</a> </span>{
+        <span class="kw">match </span><a href="#228">program</a> {
+            <a href="#69">VoicemeeterApplication::Voicemeeter</a> =&gt; <span class="kw">match </span><span class="self"><a href="#227">self</a> </span>{
                 <a href="#167">Device::Strip1</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">0</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
                 <a href="#169">Device::Strip2</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">2</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
                 <a href="#177">Device::OutputA1</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">12</span>, <span class="number">8</span>), <a href="#220-222">ci</a>(<span class="number">0</span>, <span class="number">8</span>)),
@@ -614,7 +694,7 @@
                 <a href="#193">Device::VirtualInput</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">4</span>, <span class="number">8</span>), <span class="prelude-val">None</span>),
                 <span class="kw">_ </span>=&gt; (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>),
             },
-            <a href="#71">VoicemeeterApplication::VoicemeeterBanana</a> =&gt; <span class="kw">match </span><span class="self"><a href="#226">self</a> </span>{
+            <a href="#71">VoicemeeterApplication::VoicemeeterBanana</a> =&gt; <span class="kw">match </span><span class="self"><a href="#227">self</a> </span>{
                 <a href="#167">Device::Strip1</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">0</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
                 <a href="#169">Device::Strip2</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">2</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
                 <a href="#171">Device::Strip3</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">4</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
@@ -628,7 +708,7 @@
                 <span class="kw">_ </span>=&gt; (<span class="prelude-val">None</span>, <span class="prelude-val">None</span>),
             },
             <a href="#73">VoicemeeterApplication::VoicemeeterPotato</a> | <a href="#75">VoicemeeterApplication::PotatoX64Bits</a> =&gt; {
-                <span class="kw">match </span><span class="self"><a href="#226">self</a> </span>{
+                <span class="kw">match </span><span class="self"><a href="#227">self</a> </span>{
                     <a href="#167">Device::Strip1</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">0</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
                     <a href="#169">Device::Strip2</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">2</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
                     <a href="#171">Device::Strip3</a> =&gt; (<a href="#220-222">ci</a>(<span class="number">4</span>, <span class="number">2</span>), <span class="prelude-val">None</span>),
@@ -652,7 +732,7 @@
     }
     <span class="doccomment">/// Get the [`ChannelIndex`] for this channel in the buffers when in [input mode](crate::interface::callback::CallbackCommand::BufferIn), if available in the current program.
     </span><span class="kw">pub const fn </span>input(<span class="kw-2">&amp;</span><span class="self">self</span>, program: <span class="kw-2">&amp;</span><a href="#67-80">VoicemeeterApplication</a>) -&gt; <span class="prelude-ty">Option</span>&lt;<a href="#202-207">ChannelIndex</a>&gt; {
-        <span class="kw">match </span><span class="self"><a href="#276">self</a> </span>{
+        <span class="kw">match </span><span class="self"><a href="#277">self</a> </span>{
             <a href="#177">Device::OutputA1</a>
             | <a href="#179">Device::OutputA2</a>
             | <a href="#181">Device::OutputA3</a>
@@ -661,15 +741,15 @@
             | <a href="#187">Device::VirtualOutputB1</a>
             | <a href="#189">Device::VirtualOutputB2</a>
             | <a href="#191">Device::VirtualOutputB3</a> =&gt; <span class="prelude-val">None</span>,
-            <span class="kw">_ </span>=&gt; <a class="self" href="#276">self</a>.<a href="#225-274">main</a>(<a href="#276">program</a>).<span class="number">0</span>,
+            <span class="kw">_ </span>=&gt; <a class="self" href="#277">self</a>.<a href="#226-275">main</a>(<a href="#277">program</a>).<span class="number">0</span>,
         }
     }
     <span class="doccomment">/// Get the [`ChannelIndex`] for this channel in the buffers when in [output mode](crate::interface::callback::CallbackCommand::BufferOut), if available in the current program.
     </span><span class="kw">pub const fn </span>output(<span class="kw-2">&amp;</span><span class="self">self</span>, program: <span class="kw-2">&amp;</span><a href="#67-80">VoicemeeterApplication</a>) -&gt; <span class="prelude-ty">Option</span>&lt;<a href="#202-207">ChannelIndex</a>&gt; {
-        <a class="self" href="#290">self</a>.<a href="#225-274">main</a>(<a href="#290">program</a>).<span class="number">1
+        <a class="self" href="#291">self</a>.<a href="#226-275">main</a>(<a href="#291">program</a>).<span class="number">1
     </span>}
     <span class="doccomment">/// Get all channels available.
-    </span><span class="kw">pub const fn </span>all() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>[<span class="self">Self</span>] {
+    </span><span class="kw">pub const fn </span>all() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>[<span class="self">Self</span>] {
         <span class="kw-2">&amp;</span>[
             <a href="#167">Device::Strip1</a>,
             <a href="#169">Device::Strip2</a>,
@@ -697,12 +777,88 @@
         level_type: <a href="#138-149">LevelType</a>,
         channel: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
     ) -&gt; <span class="prelude-ty">Option</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>&gt; {
-        <span class="kw">match </span><a href="#319">level_type</a> {
+        <span class="kw">match </span><a href="#320">level_type</a> {
             <a href="#140">LevelType::PreFaderInputLevels</a>
             | <a href="#142">LevelType::PostFaderInputLevels</a>
-            | <a href="#144">LevelType::PostMuteInputLevels</a> =&gt; <span class="self">self</span>.input(program)<span class="question-mark">?</span>.<a href="#216-218">get</a>(<a href="#320">channel</a>),
-            <a href="#146">LevelType::OutputLevels</a> =&gt; <span class="self">self</span>.output(program)<span class="question-mark">?</span>.<a href="#216-218">get</a>(<a href="#320">channel</a>),
+            | <a href="#144">LevelType::PostMuteInputLevels</a> =&gt; <a class="self" href="#318">self</a>.<a href="#277-289">input</a>(<a href="#319">program</a>)<span class="question-mark">?</span>.<a href="#216-218">get</a>(<a href="#321">channel</a>),
+            <a href="#146">LevelType::OutputLevels</a> =&gt; <a class="self" href="#318">self</a>.<a href="#291-293">output</a>(<a href="#319">program</a>)<span class="question-mark">?</span>.<a href="#216-218">get</a>(<a href="#321">channel</a>),
             <a href="#148">LevelType::Other</a> =&gt; <span class="prelude-val">None</span>,
+        }
+    }
+
+    <span class="doccomment">/// Get the strip index for this device in the current program.
+    </span><span class="kw">pub const fn </span>as_strip_index(<span class="kw-2">&amp;</span><span class="self">self</span>, program: <span class="kw-2">&amp;</span><a href="#67-80">VoicemeeterApplication</a>) -&gt; <span class="prelude-ty">Option</span>&lt;<a href="#6">ZIndex</a>&gt; {
+        <span class="kw">let </span>i = <span class="kw">match </span><a href="#333">program</a> {
+            <a href="#69">VoicemeeterApplication::Voicemeeter</a> =&gt; <span class="prelude-val">Some</span>(<span class="kw">match </span><span class="self"><a href="#333">self</a> </span>{
+                <a href="#167">Device::Strip1</a> =&gt; <span class="number">0</span>,
+                <a href="#169">Device::Strip2</a> =&gt; <span class="number">1</span>,
+                <a href="#193">Device::VirtualInput</a> =&gt; <span class="number">2</span>,
+                <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
+            }),
+            <a href="#71">VoicemeeterApplication::VoicemeeterBanana</a> =&gt; <span class="prelude-val">Some</span>(<span class="kw">match </span><span class="self"><a href="#333">self</a> </span>{
+                <a href="#167">Device::Strip1</a> =&gt; <span class="number">0</span>,
+                <a href="#169">Device::Strip2</a> =&gt; <span class="number">1</span>,
+                <a href="#171">Device::Strip3</a> =&gt; <span class="number">2</span>,
+                <a href="#193">Device::VirtualInput</a> =&gt; <span class="number">3</span>,
+                <a href="#195">Device::VirtualInputAux</a> =&gt; <span class="number">4</span>,
+                <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
+            }),
+            <a href="#73">VoicemeeterApplication::VoicemeeterPotato</a> | <a href="#75">VoicemeeterApplication::PotatoX64Bits</a> =&gt; {
+                <span class="prelude-val">Some</span>(<span class="kw">match </span><span class="self"><a href="#333">self</a> </span>{
+                    <a href="#167">Device::Strip1</a> =&gt; <span class="number">0</span>,
+                    <a href="#169">Device::Strip2</a> =&gt; <span class="number">1</span>,
+                    <a href="#171">Device::Strip3</a> =&gt; <span class="number">2</span>,
+                    <a href="#173">Device::Strip4</a> =&gt; <span class="number">3</span>,
+                    <a href="#175">Device::Strip5</a> =&gt; <span class="number">4</span>,
+                    <a href="#193">Device::VirtualInput</a> =&gt; <span class="number">5</span>,
+                    <a href="#195">Device::VirtualInputAux</a> =&gt; <span class="number">6</span>,
+                    <a href="#197">Device::VirtualInput8</a> =&gt; <span class="number">7</span>,
+                    <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
+                })
+            }
+            <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
+        };
+        <span class="kw">match </span><a href="#334">i</a> {
+            <span class="prelude-val">Some</span>(i) =&gt; <span class="prelude-val">Some</span>(<a href="#6">ZIndex</a>(<a href="#365">i</a>)),
+            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+
+    <span class="doccomment">/// Get the bus index for this device in the current program.
+    </span><span class="kw">pub const fn </span>as_bus_index(<span class="kw-2">&amp;</span><span class="self">self</span>, program: <span class="kw-2">&amp;</span><a href="#67-80">VoicemeeterApplication</a>) -&gt; <span class="prelude-ty">Option</span>&lt;<a href="#6">ZIndex</a>&gt; {
+        <span class="kw">let </span>i = <span class="kw">match </span><a href="#371">program</a> {
+            <a href="#69">VoicemeeterApplication::Voicemeeter</a> =&gt; <span class="prelude-val">Some</span>(<span class="kw">match </span><span class="self"><a href="#371">self</a> </span>{
+                <a href="#177">Device::OutputA1</a> =&gt; <span class="number">0</span>,
+                <a href="#179">Device::OutputA2</a> =&gt; <span class="number">1</span>,
+                <a href="#187">Device::VirtualOutputB1</a> =&gt; <span class="number">2</span>,
+                <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
+            }),
+            <a href="#71">VoicemeeterApplication::VoicemeeterBanana</a> =&gt; <span class="prelude-val">Some</span>(<span class="kw">match </span><span class="self"><a href="#371">self</a> </span>{
+                <a href="#177">Device::OutputA1</a> =&gt; <span class="number">0</span>,
+                <a href="#179">Device::OutputA2</a> =&gt; <span class="number">1</span>,
+                <a href="#181">Device::OutputA3</a> =&gt; <span class="number">2</span>,
+                <a href="#187">Device::VirtualOutputB1</a> =&gt; <span class="number">3</span>,
+                <a href="#189">Device::VirtualOutputB2</a> =&gt; <span class="number">4</span>,
+                <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
+            }),
+            <a href="#73">VoicemeeterApplication::VoicemeeterPotato</a> | <a href="#75">VoicemeeterApplication::PotatoX64Bits</a> =&gt; {
+                <span class="prelude-val">Some</span>(<span class="kw">match </span><span class="self"><a href="#371">self</a> </span>{
+                    <a href="#177">Device::OutputA1</a> =&gt; <span class="number">0</span>,
+                    <a href="#179">Device::OutputA2</a> =&gt; <span class="number">1</span>,
+                    <a href="#181">Device::OutputA3</a> =&gt; <span class="number">2</span>,
+                    <a href="#183">Device::OutputA4</a> =&gt; <span class="number">3</span>,
+                    <a href="#185">Device::OutputA5</a> =&gt; <span class="number">4</span>,
+                    <a href="#187">Device::VirtualOutputB1</a> =&gt; <span class="number">5</span>,
+                    <a href="#189">Device::VirtualOutputB2</a> =&gt; <span class="number">6</span>,
+                    <a href="#191">Device::VirtualOutputB3</a> =&gt; <span class="number">7</span>,
+                    <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
+                })
+            }
+            <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
+        };
+        <span class="kw">match </span><a href="#372">i</a> {
+            <span class="prelude-val">Some</span>(i) =&gt; <span class="prelude-val">Some</span>(<a href="#6">ZIndex</a>(<a href="#403">i</a>)),
+            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
 }
@@ -736,21 +892,21 @@
     </span>RearOnly,
 }
 
-<span class="kw">impl </span><a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html">std::fmt::Display</a> <span class="kw">for </span><a href="#334-359">BusMode</a> {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <a href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html">std::fmt::Result</a> {
-        <span class="kw">match </span><span class="self"><a href="#362">self</a> </span>{
-            <a href="#336">BusMode::Normal</a> =&gt; <a href="#362">f</a>.write_str(<span class="string">&quot;normal&quot;</span>),
-            <a href="#338">BusMode::Amix</a> =&gt; <a href="#362">f</a>.write_str(<span class="string">&quot;Amix&quot;</span>),
-            <a href="#340">BusMode::Bmix</a> =&gt; <a href="#362">f</a>.write_str(<span class="string">&quot;Bmix&quot;</span>),
-            <a href="#342">BusMode::Repeat</a> =&gt; <a href="#362">f</a>.write_str(<span class="string">&quot;Repeat&quot;</span>),
-            <a href="#344">BusMode::Composite</a> =&gt; <a href="#362">f</a>.write_str(<span class="string">&quot;Composite&quot;</span>),
-            <a href="#346">BusMode::TvMix</a> =&gt; <a href="#362">f</a>.write_str(<span class="string">&quot;TVMix&quot;</span>),
-            <a href="#348">BusMode::UpMix21</a> =&gt; <a href="#362">f</a>.write_str(<span class="string">&quot;UpMix21&quot;</span>),
-            <a href="#350">BusMode::UpMix41</a> =&gt; <a href="#362">f</a>.write_str(<span class="string">&quot;UpMix41&quot;</span>),
-            <a href="#352">BusMode::UpMix61</a> =&gt; <a href="#362">f</a>.write_str(<span class="string">&quot;UpMix61&quot;</span>),
-            <a href="#354">BusMode::CenterOnly</a> =&gt; <a href="#362">f</a>.write_str(<span class="string">&quot;CenterOnly&quot;</span>),
-            <a href="#356">BusMode::LfeOnly</a> =&gt; <a href="#362">f</a>.write_str(<span class="string">&quot;LFEOnly&quot;</span>),
-            <a href="#358">BusMode::RearOnly</a> =&gt; <a href="#362">f</a>.write_str(<span class="string">&quot;RearOnly&quot;</span>),
+<span class="kw">impl </span><a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html">std::fmt::Display</a> <span class="kw">for </span><a href="#411-436">BusMode</a> {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; <a href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html">std::fmt::Result</a> {
+        <span class="kw">match </span><span class="self"><a href="#439">self</a> </span>{
+            <a href="#413">BusMode::Normal</a> =&gt; <a href="#439">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"normal"</span>),
+            <a href="#415">BusMode::Amix</a> =&gt; <a href="#439">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"Amix"</span>),
+            <a href="#417">BusMode::Bmix</a> =&gt; <a href="#439">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"Bmix"</span>),
+            <a href="#419">BusMode::Repeat</a> =&gt; <a href="#439">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"Repeat"</span>),
+            <a href="#421">BusMode::Composite</a> =&gt; <a href="#439">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"Composite"</span>),
+            <a href="#423">BusMode::TvMix</a> =&gt; <a href="#439">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"TVMix"</span>),
+            <a href="#425">BusMode::UpMix21</a> =&gt; <a href="#439">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"UpMix21"</span>),
+            <a href="#427">BusMode::UpMix41</a> =&gt; <a href="#439">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"UpMix41"</span>),
+            <a href="#429">BusMode::UpMix61</a> =&gt; <a href="#439">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"UpMix61"</span>),
+            <a href="#431">BusMode::CenterOnly</a> =&gt; <a href="#439">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"CenterOnly"</span>),
+            <a href="#433">BusMode::LfeOnly</a> =&gt; <a href="#439">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"LFEOnly"</span>),
+            <a href="#435">BusMode::RearOnly</a> =&gt; <a href="#439">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"RearOnly"</span>),
         }
     }
 }

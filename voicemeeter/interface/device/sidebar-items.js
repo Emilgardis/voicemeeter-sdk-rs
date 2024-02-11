@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["GetDeviceError","GetTotalDeviceError","InputDevice","OutputDevice"]};
+window.SIDEBAR_ITEMS = {"enum":["DeviceType"],"struct":["GetDeviceError","GetTotalDeviceError","InputDevice","OutputDevice"]};

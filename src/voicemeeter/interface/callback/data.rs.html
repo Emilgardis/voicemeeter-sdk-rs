@@ -1,4 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src\interface\callback\data.rs`."><title>data.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../..\../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../..\../static.files/rustdoc-085727c29c2fa99e.css"><meta name="rustdoc-vars" data-root-path="../../..\../" data-static-root-path="../../..\../static.files/" data-current-crate="voicemeeter" data-themes="" data-resource-suffix="" data-rustdoc-version="1.74.0-nightly (7d9bce327 2023-09-16)" data-channel="nightly" data-search-js="search-5d3eaacf19ebf04f.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../..\../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../..\../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../..\../src-files.js"></script><script defer src="../../..\../static.files/main-f6ec288034ea164c.js"></script><noscript><link rel="stylesheet" href="../../..\../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../..\../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../..\../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../..\../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../..\../voicemeeter/index.html"><img class="rust-logo" src="../../..\../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../..\../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../..\../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../..\../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src\interface\callback\data.rs`."><title>data.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../..\../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../..\../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../../..\../" data-static-root-path="../../..\../static.files/" data-current-crate="voicemeeter" data-themes="" data-resource-suffix="" data-rustdoc-version="1.78.0-nightly (6cc484351 2024-02-10)" data-channel="nightly" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../..\../static.files/storage-4c98445ec4002617.js"></script><script defer src="../../..\../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../..\../src-files.js"></script><script defer src="../../..\../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../../..\../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../..\../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../..\../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../..\../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
+            <h2>Files</h2></div></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../..\../voicemeeter/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../..\../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../..\../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../..\../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -336,11 +338,17 @@
 <a href="#336" id="336">336</a>
 <a href="#337" id="337">337</a>
 <a href="#338" id="338">338</a>
+<a href="#339" id="339">339</a>
+<a href="#340" id="340">340</a>
+<a href="#341" id="341">341</a>
+<a href="#342" id="342">342</a>
+<a href="#343" id="343">343</a>
+<a href="#344" id="344">344</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Underlying data types for callbacks
 
-</span><span class="kw">mod </span><a href="../interface\callback\data/buffer_abstraction.rs.html#1-747">buffer_abstraction</a>;
+</span><span class="kw">mod </span><a href="../interface\callback\data/buffer_abstraction.rs.html#1-809">buffer_abstraction</a>;
 
-<span class="kw">pub use </span>buffer_abstraction::{<a href="../interface\callback\data/buffer_abstraction.rs.html#584-747">input</a>, <a href="../interface\callback\data/buffer_abstraction.rs.html#206-416">main</a>, <a href="../interface\callback\data/buffer_abstraction.rs.html#419-581">output</a>, <a href="../interface\callback\data/buffer_abstraction.rs.html#64-70">DeviceBuffer</a>};
+<span class="kw">pub use </span>buffer_abstraction::{<a href="../interface\callback\data/buffer_abstraction.rs.html#626-809">input</a>, <a href="../interface\callback\data/buffer_abstraction.rs.html#208-438">main</a>, <a href="../interface\callback\data/buffer_abstraction.rs.html#441-623">output</a>, <a href="../interface\callback\data/buffer_abstraction.rs.html#66-72">DeviceBuffer</a>};
 
 <span class="kw">use </span><a href="https://doc.rust-lang.org/nightly/core/ptr/non_null/struct.NonNull.html">std::ptr::NonNull</a>;
 
@@ -352,7 +360,7 @@
 </span><span class="kw">pub type </span><a href="../../..\../voicemeeter/interface/callback/data/type.AudioBuffer.html">AudioBuffer</a> = <a href="../bindings.rs.html#161"><span class="kw">crate</span>::bindings::VBVMR_T_AUDIOBUFFER</a>;
 
 <span class="kw">impl </span><a href="#14">AudioBuffer</a> {
-    <span class="comment">//#[tracing::instrument(level = &quot;debug&quot;, skip(self))]
+    <span class="comment">//#[tracing::instrument(level = "debug", skip(self))]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>read_write_buffer(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (<span class="kw-2">&amp;</span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>], <span class="kw-2">&amp;</span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]) {
         <span class="kw">let </span>first_ptr_r = <a class="self" href="#18">self</a>.audiobuffer_r[<span class="number">0</span>];
         <span class="kw">let </span>first_ptr_w = <a class="self" href="#18">self</a>.audiobuffer_w[<span class="number">0</span>];
@@ -362,7 +370,7 @@
             .enumerate()
             .take(<span class="self">self</span>.audiobuffer_nbi <span class="kw">as </span>usize)
         {
-            <span class="macro">debug_assert!</span>(!ptr.is_null(), <span class="string">&quot;ptr: {:?} was null at idx: {}&quot;</span>, ptr, idx);
+            <span class="macro">debug_assert!</span>(!ptr.is_null(), <span class="string">"ptr: {:?} was null at idx: {}"</span>, ptr, idx);
         }
         <span class="kw">for </span>(idx, ptr) <span class="kw">in </span><span class="self">self
             </span>.audiobuffer_w
@@ -370,9 +378,9 @@
             .enumerate()
             .take(<span class="self">self</span>.audiobuffer_nbo <span class="kw">as </span>usize)
         {
-            <span class="macro">debug_assert!</span>(!ptr.is_null(), <span class="string">&quot;ptr: {:?} was null at idx: {}&quot;</span>, ptr, idx);
+            <span class="macro">debug_assert!</span>(!ptr.is_null(), <span class="string">"ptr: {:?} was null at idx: {}"</span>, ptr, idx);
         }
-        <span class="comment">//tracing::trace!(&quot;read_write_buffer: {:?}&quot;, self);
+        <span class="comment">//tracing::trace!("read_write_buffer: {:?}", self);
 
         </span><span class="kw">let </span>k = (
             <span class="kw-2">&amp;</span><a class="self" href="#18">self</a>.audiobuffer_r[..<a class="self" href="#18">self</a>.audiobuffer_nbi <span class="kw">as </span><a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>],
@@ -390,42 +398,42 @@
 </span><span class="kw">pub struct </span><a href="../../..\../voicemeeter/interface/callback/data/struct.RawCallbackData.html">RawCallbackData</a>(NonNull&lt;<a href="https://doc.rust-lang.org/nightly/core/ffi/enum.c_void.html">std::ffi::c_void</a>&gt;);
 
 <span class="kw">impl </span><a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html">std::fmt::Debug</a> <span class="kw">for </span><a href="#52">RawCallbackData</a> {
-    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; <a href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html">std::fmt::Result</a> {
-        <a class="macro" href="https://doc.rust-lang.org/nightly/core/macro.write.html">write!</a>(<a href="#55">f</a>, <span class="string">&quot;{:p}&quot;</span>, <span class="self">self</span>.<span class="number">0</span>)
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; <a href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html">std::fmt::Result</a> {
+        <a class="macro" href="https://doc.rust-lang.org/nightly/core/macro.write.html">write!</a>(<a href="#55">f</a>, <span class="string">"{:p}"</span>, <span class="self">self</span>.<span class="number">0</span>)
     }
 }
 <span class="comment">// All of these tracing::instrument need to be skipped or we crash.
 </span><span class="kw">impl </span><a href="#52">RawCallbackData</a> {
-    <span class="comment">//#[tracing::instrument(level = &quot;trace&quot;, skip_all,name = &quot;RawCallbackData::from_ptr&quot;)]&#39;
+    <span class="comment">//#[tracing::instrument(level = "trace", skip_all,name = "RawCallbackData::from_ptr")]'
     </span><span class="doccomment">/// Create a new `RawCallbackData` from a raw pointer.
     </span><span class="kw">pub fn </span>from_ptr(ptr: <span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/core/ffi/enum.c_void.html">std::ffi::c_void</a>) -&gt; <span class="self">Self </span>{
-        <a href="#52">RawCallbackData</a>(NonNull::new(<a href="#63">ptr</a>).unwrap())
+        <a href="#52">RawCallbackData</a>(<a href="https://doc.rust-lang.org/nightly/core/ptr/non_null/struct.NonNull.html#method.new">NonNull::new</a>(<a href="#63">ptr</a>).<a href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html#method.unwrap">unwrap</a>())
     }
-    <span class="comment">//#[tracing::instrument(level = &quot;trace&quot;, skip_all,name = &quot;RawCallbackData::as_audio_info&quot;)]
+    <span class="comment">//#[tracing::instrument(level = "trace", skip_all,name = "RawCallbackData::as_audio_info")]
     </span><span class="doccomment">/// Get the audio information from the raw callback data.
     ///
     /// # Safety
     ///
-    /// 1. This should not be called without ensuring that the pointer is in &quot;scope&quot; and that it is an [`AudioInfo`]
+    /// 1. This should not be called without ensuring that the pointer is in "scope" and that it is an [`AudioInfo`]
     /// 2. All other conditions of [NonNull::as_mut] has to be met as well
-    </span><span class="kw">pub unsafe fn </span>as_audio_info&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span><a href="#12">AudioInfo</a> {
-        <span class="kw">unsafe </span>{ <a class="self" href="#73">self</a>.<span class="number">0</span>.cast().as_mut() }
+    </span><span class="kw">pub unsafe fn </span>as_audio_info&lt;<span class="lifetime">'a</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span><a href="#12">AudioInfo</a> {
+        <span class="kw">unsafe </span>{ <a class="self" href="#73">self</a>.<span class="number">0</span>.<a href="https://doc.rust-lang.org/nightly/core/ptr/non_null/struct.NonNull.html#method.cast">cast</a>().<a href="https://doc.rust-lang.org/nightly/core/ptr/non_null/struct.NonNull.html#method.as_mut">as_mut</a>() }
     }
-    <span class="comment">//#[tracing::instrument(level = &quot;trace&quot;, skip_all,name = &quot;RawCallbackData::as_audio_buffer&quot;)]
+    <span class="comment">//#[tracing::instrument(level = "trace", skip_all,name = "RawCallbackData::as_audio_buffer")]
     </span><span class="doccomment">/// Get the audio information from the raw callback data.
     ///
     /// # Safety
     ///
-    /// 1. This should not be called without ensuring that the pointer is in &quot;scope&quot; and that it is an [`AudioBuffer`]
+    /// 1. This should not be called without ensuring that the pointer is in "scope" and that it is an [`AudioBuffer`]
     /// 2. All other conditions of [NonNull::as_mut] has to be met as well
-    </span><span class="kw">pub unsafe fn </span>as_audio_buffer&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span><a href="#14">AudioBuffer</a> {
-        <span class="kw">unsafe </span>{ <a class="self" href="#83">self</a>.<span class="number">0</span>.cast().as_mut() }
+    </span><span class="kw">pub unsafe fn </span>as_audio_buffer&lt;<span class="lifetime">'a</span>&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span><a href="#14">AudioBuffer</a> {
+        <span class="kw">unsafe </span>{ <a class="self" href="#83">self</a>.<span class="number">0</span>.<a href="https://doc.rust-lang.org/nightly/core/ptr/non_null/struct.NonNull.html#method.cast">cast</a>().<a href="https://doc.rust-lang.org/nightly/core/ptr/non_null/struct.NonNull.html#method.as_mut">as_mut</a>() }
     }
 }
 
-<span class="kw">trait </span>BufferDataExt&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">trait </span>BufferDataExt&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// Get the data inside the buffer as slices of pointers
-    </span><span class="kw">fn </span>data&lt;<span class="lifetime">&#39;b</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span><span class="self">self</span>) -&gt; (<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>], <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]);
+    </span><span class="kw">fn </span>data&lt;<span class="lifetime">'b</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'b </span><span class="self">self</span>) -&gt; (<span class="kw-2">&amp;</span><span class="lifetime">'a </span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>], <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]);
     <span class="doccomment">/// Given a device, return a channel index
     </span><span class="kw">fn </span>channel_index_write(<span class="kw-2">&amp;</span><span class="self">self</span>, device: <span class="kw-2">&amp;</span><a href="../types.rs.html#165-198">Device</a>) -&gt; <span class="prelude-ty">Option</span>&lt;<a href="../types.rs.html#202-207">ChannelIndex</a>&gt;;
     <span class="kw">fn </span>channel_index_read(<span class="kw-2">&amp;</span><span class="self">self</span>, device: <span class="kw-2">&amp;</span><a href="../types.rs.html#165-198">Device</a>) -&gt; <span class="prelude-ty">Option</span>&lt;<a href="../types.rs.html#202-207">ChannelIndex</a>&gt;;
@@ -434,102 +442,104 @@
     ///
     /// This is unsafe because it can create mutable references arbitrarily.
     </span><span class="attr">#[inline]
-    </span><span class="kw">unsafe fn </span>device_write&lt;<span class="lifetime">&#39;b</span>, <span class="kw">const </span>N: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>,
+    </span><span class="kw">unsafe fn </span>device_write&lt;<span class="lifetime">'b</span>, <span class="kw">const </span>N: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>,
         device: <span class="kw-2">&amp;</span><a href="../types.rs.html#165-198">Device</a>,
-    ) -&gt; DeviceBuffer&lt;[<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span><span class="kw-2">mut </span>[<a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]; <a href="#99">N</a>]&gt; {
+    ) -&gt; DeviceBuffer&lt;[<span class="kw-2">&amp;</span><span class="lifetime">'b </span><span class="kw-2">mut </span>[<a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]; <a href="#99">N</a>]&gt; {
         <span class="kw">let </span>idx = <span class="kw">if let </span><span class="prelude-val">Some</span>(idx) = <a class="self" href="#100">self</a>.<a href="#92">channel_index_write</a>(<a href="#101">device</a>) {
             <a href="#103">idx</a>
         } <span class="kw">else </span>{
-            <span class="kw">return </span><a href="../interface\callback\data/buffer_abstraction.rs.html#67">DeviceBuffer::None</a>;
+            <span class="kw">return </span><a href="../interface\callback\data/buffer_abstraction.rs.html#69">DeviceBuffer::None</a>;
         };
         <a class="macro" href="https://doc.rust-lang.org/nightly/core/macro.assert_eq.html">assert_eq!</a>(N, idx.size);
         <span class="kw">let </span>data = <a class="self" href="#100">self</a>.<a href="#90">data</a>().<span class="number">1</span>;
         <span class="comment">// Each channel inside idx.start..(idx..start+idx.size) will be a *mut f32 that points to an array of `nbs` f32s.
-        </span><span class="kw">let </span><span class="kw-2">mut </span>array = [(); <a href="#99">N</a>].map(|<span class="kw">_</span>| <a href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html">Default::default</a>());
+        </span><span class="kw">let </span><span class="kw-2">mut </span>array = [(); <a href="#99">N</a>].<a href="https://doc.rust-lang.org/nightly/core/foreigntype.array.html#method.map">map</a>(|<span class="kw">_</span>| <a href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default">Default::default</a>());
         <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..N {
             <span class="kw">let </span>ptr = data[idx.start + i];
             array[i] = <span class="kw">unsafe </span>{ std::slice::from_raw_parts_mut(ptr, <span class="self">self</span>.samples_per_frame()) };
         }
-        <a href="../interface\callback\data/buffer_abstraction.rs.html#69">DeviceBuffer::Buffer</a>(<a href="#111">array</a>)
+        <a href="../interface\callback\data/buffer_abstraction.rs.html#71">DeviceBuffer::Buffer</a>(<a href="#111">array</a>)
     }
     <span class="doccomment">/// Get the device read buffer for a device at idx.start..idx.start+N.
     ///
     /// This is unsafe because it can create mutable references arbitrarily.
     </span><span class="attr">#[inline]
-    </span><span class="kw">unsafe fn </span>device_read&lt;<span class="lifetime">&#39;b</span>, <span class="kw">const </span>N: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>&gt;(
-        <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>,
+    </span><span class="kw">unsafe fn </span>device_read&lt;<span class="lifetime">'b</span>, <span class="kw">const </span>N: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>&gt;(
+        <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="self">self</span>,
         device: <span class="kw-2">&amp;</span><a href="../types.rs.html#165-198">Device</a>,
-    ) -&gt; DeviceBuffer&lt;[<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span>[<a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]; <a href="#122">N</a>]&gt; {
+    ) -&gt; DeviceBuffer&lt;[<span class="kw-2">&amp;</span><span class="lifetime">'b </span>[<a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]; <a href="#122">N</a>]&gt; {
         <span class="kw">let </span>idx = <span class="kw">if let </span><span class="prelude-val">Some</span>(idx) = <a class="self" href="#123">self</a>.<a href="#93">channel_index_read</a>(<a href="#124">device</a>) {
             <a href="#126">idx</a>
         } <span class="kw">else </span>{
-            <span class="kw">return </span><a href="../interface\callback\data/buffer_abstraction.rs.html#67">DeviceBuffer::None</a>;
+            <span class="kw">return </span><a href="../interface\callback\data/buffer_abstraction.rs.html#69">DeviceBuffer::None</a>;
         };
-        <a class="macro" href="https://doc.rust-lang.org/nightly/core/macro.assert_eq.html">assert_eq!</a>(N, idx.size, <span class="string">&quot;on device: {device:?}&quot;</span>);
+        <a class="macro" href="https://doc.rust-lang.org/nightly/core/macro.assert_eq.html">assert_eq!</a>(N, idx.size, <span class="string">"on device: {device:?}"</span>);
         <span class="kw">let </span>data = <a class="self" href="#123">self</a>.<a href="#90">data</a>().<span class="number">0</span>;
         <span class="comment">// Each channel inside idx.start..(idx..start+idx.size) will be a *mut f32 that points to an array of `nbs` f32s.
-        </span><span class="kw">let </span><span class="kw-2">mut </span>array = [(); <a href="#122">N</a>].map(|<span class="kw">_</span>| <a href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html">Default::default</a>());
+        </span><span class="kw">let </span><span class="kw-2">mut </span>array = [(); <a href="#122">N</a>].<a href="https://doc.rust-lang.org/nightly/core/foreigntype.array.html#method.map">map</a>(|<span class="kw">_</span>| <a href="https://doc.rust-lang.org/nightly/core/default/trait.Default.html#tymethod.default">Default::default</a>());
         <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..N {
             <span class="kw">let </span>ptr = data[idx.start + i];
             array[i] = <span class="kw">unsafe </span>{ std::slice::from_raw_parts(ptr, <span class="self">self</span>.samples_per_frame()) };
         }
-        <a href="../interface\callback\data/buffer_abstraction.rs.html#69">DeviceBuffer::Buffer</a>(<a href="#134">array</a>)
+        <a href="../interface\callback\data/buffer_abstraction.rs.html#71">DeviceBuffer::Buffer</a>(<a href="#134">array</a>)
     }
 }
 
 <span class="doccomment">/// Buffer for main mode.
-</span><span class="kw">pub struct </span><a href="../../..\../voicemeeter/interface/callback/data/struct.BufferMainData.html">BufferMainData</a>&lt;<span class="lifetime">&#39;a</span>&gt; {
+///
+/// Retrieved via [`CallbackCommand::BufferMain`](crate::interface::callback::CallbackCommand::BufferMain)
+</span><span class="kw">pub struct </span><a href="../../..\../voicemeeter/interface/callback/data/struct.BufferMainData.html">BufferMainData</a>&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// Read
-    </span><span class="kw">pub </span>read: main::ReadDevices&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;a</span>&gt;,
+    </span><span class="kw">pub </span>read: main::ReadDevices&lt;<span class="lifetime">'a</span>, <span class="lifetime">'a</span>&gt;,
     <span class="doccomment">/// Write
-    </span><span class="kw">pub </span>write: main::WriteDevices&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;a</span>&gt;,
+    </span><span class="kw">pub </span>write: main::WriteDevices&lt;<span class="lifetime">'a</span>, <span class="lifetime">'a</span>&gt;,
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>Main&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>Main&lt;<span class="lifetime">'a</span>&gt; {
     program: <a href="../types.rs.html#67-80">VoicemeeterApplication</a>,
     samples_per_frame: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
-    data: (<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>], <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]),
+    data: (<span class="kw-2">&amp;</span><span class="lifetime">'a </span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>], <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]),
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; BufferDataExt&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>Main&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; BufferDataExt&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>Main&lt;<span class="lifetime">'a</span>&gt; {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>data&lt;<span class="lifetime">&#39;b</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span><span class="self">self</span>) -&gt; (<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>], <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]) {
-        <a class="self" href="#159">self</a>.data
+    </span><span class="kw">fn </span>data&lt;<span class="lifetime">'b</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'b </span><span class="self">self</span>) -&gt; (<span class="kw-2">&amp;</span><span class="lifetime">'a </span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>], <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]) {
+        <a class="self" href="#161">self</a>.data
     }
 
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>channel_index_read(<span class="kw-2">&amp;</span><span class="self">self</span>, device: <span class="kw-2">&amp;</span><a href="../types.rs.html#165-198">Device</a>) -&gt; <span class="prelude-ty">Option</span>&lt;<a href="../types.rs.html#202-207">ChannelIndex</a>&gt; {
-        <a href="#164">device</a>.<a href="../types.rs.html#225-274">main</a>(<span class="kw-2">&amp;</span><a class="self" href="#164">self</a>.program).<span class="number">0
+        <a href="#166">device</a>.<a href="../types.rs.html#226-275">main</a>(<span class="kw-2">&amp;</span><a class="self" href="#166">self</a>.program).<span class="number">0
     </span>}
 
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>channel_index_write(<span class="kw-2">&amp;</span><span class="self">self</span>, device: <span class="kw-2">&amp;</span><a href="../types.rs.html#165-198">Device</a>) -&gt; <span class="prelude-ty">Option</span>&lt;<a href="../types.rs.html#202-207">ChannelIndex</a>&gt; {
-        <a href="#169">device</a>.<a href="../types.rs.html#225-274">main</a>(<span class="kw-2">&amp;</span><a class="self" href="#169">self</a>.program).<span class="number">1
+        <a href="#171">device</a>.<a href="../types.rs.html#226-275">main</a>(<span class="kw-2">&amp;</span><a class="self" href="#171">self</a>.program).<span class="number">1
     </span>}
 
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>samples_per_frame(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a> {
-        <a class="self" href="#174">self</a>.samples_per_frame
+        <a class="self" href="#176">self</a>.samples_per_frame
     }
 }
 
-<span class="comment">//#[tracing::instrument(skip_all, name = &quot;BufferMainData::new&quot;)]
-</span><span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; BufferMainData&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new&lt;<span class="lifetime">&#39;b</span>: <span class="lifetime">&#39;a</span>&gt;(
+<span class="comment">//#[tracing::instrument(skip_all, name = "BufferMainData::new")]
+</span><span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; BufferMainData&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new&lt;<span class="lifetime">'b</span>: <span class="lifetime">'a</span>&gt;(
         program: <a href="../types.rs.html#67-80">VoicemeeterApplication</a>,
-        data: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span><a href="#14">AudioBuffer</a>,
+        data: <span class="kw-2">&amp;</span><span class="lifetime">'b </span><a href="#14">AudioBuffer</a>,
         samples_per_frame: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
     ) -&gt; <span class="self">Self </span>{
-        <span class="kw">let </span><span class="kw-2">mut </span>data = <a href="#151-155">Main</a> {
-            data: <a href="#183">data</a>.<a href="#18-47">read_write_buffer</a>(),
-            <a href="#184">samples_per_frame</a>,
-            <a href="#182">program</a>,
+        <span class="kw">let </span><span class="kw-2">mut </span>data = <a href="#153-157">Main</a> {
+            data: <a href="#185">data</a>.<a href="#18-47">read_write_buffer</a>(),
+            <a href="#186">samples_per_frame</a>,
+            <a href="#184">program</a>,
         };
         <span class="kw">unsafe </span>{
             <span class="self">Self </span>{
-                read: main::ReadDevices::new(<span class="kw-2">&amp;mut </span><a href="#186">data</a>),
-                write: main::WriteDevices::new(<span class="kw-2">&amp;mut </span><a href="#186">data</a>),
+                read: <a href="../interface\callback\data/buffer_abstraction.rs.html#282-304">main::ReadDevices::new</a>(<span class="kw-2">&amp;mut </span><a href="#188">data</a>),
+                write: <a href="../interface\callback\data/buffer_abstraction.rs.html#367-381">main::WriteDevices::new</a>(<span class="kw-2">&amp;mut </span><a href="#188">data</a>),
             }
         }
     }
@@ -538,63 +548,65 @@
     ///
     /// ```rust,no_run
     /// # use voicemeeter::interface::callback::BufferMain; let data: BufferMain = unimplemented!();
-    /// # let (read, mut write) = data.buffer.get_buffers();
+    /// let (read, mut write) = data.buffer.get_buffers();
     /// ```
-    </span><span class="kw">pub fn </span>get_buffers(<span class="self">self</span>) -&gt; (main::ReadDevices&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;a</span>&gt;, main::WriteDevices&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;a</span>&gt;) {
-        (<a class="self" href="#205">self</a>.read, <a class="self" href="#205">self</a>.write)
+    </span><span class="kw">pub fn </span>get_buffers(<span class="self">self</span>) -&gt; (main::ReadDevices&lt;<span class="lifetime">'a</span>, <span class="lifetime">'a</span>&gt;, main::WriteDevices&lt;<span class="lifetime">'a</span>, <span class="lifetime">'a</span>&gt;) {
+        (<a class="self" href="#207">self</a>.read, <a class="self" href="#207">self</a>.write)
     }
 }
 
 <span class="doccomment">/// Buffer for output mode.
-</span><span class="kw">pub struct </span><a href="../../..\../voicemeeter/interface/callback/data/struct.BufferOutData.html">BufferOutData</a>&lt;<span class="lifetime">&#39;a</span>&gt; {
+///
+/// Retrieved via [`CallbackCommand::BufferOut`](crate::interface::callback::CallbackCommand::BufferOut)
+</span><span class="kw">pub struct </span><a href="../../..\../voicemeeter/interface/callback/data/struct.BufferOutData.html">BufferOutData</a>&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// Read
-    </span><span class="kw">pub </span>read: output::ReadDevices&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;a</span>&gt;,
+    </span><span class="kw">pub </span>read: output::ReadDevices&lt;<span class="lifetime">'a</span>, <span class="lifetime">'a</span>&gt;,
     <span class="doccomment">/// Write
-    </span><span class="kw">pub </span>write: output::WriteDevices&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;a</span>&gt;,
+    </span><span class="kw">pub </span>write: output::WriteDevices&lt;<span class="lifetime">'a</span>, <span class="lifetime">'a</span>&gt;,
 }
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>Output&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>Output&lt;<span class="lifetime">'a</span>&gt; {
     program: <a href="../types.rs.html#67-80">VoicemeeterApplication</a>,
     samples_per_frame: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
-    data: (<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>], <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]),
+    data: (<span class="kw-2">&amp;</span><span class="lifetime">'a </span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>], <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]),
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; BufferDataExt&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>Output&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; BufferDataExt&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>Output&lt;<span class="lifetime">'a</span>&gt; {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>data&lt;<span class="lifetime">&#39;b</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span><span class="self">self</span>) -&gt; (<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>], <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]) {
-        <a class="self" href="#225">self</a>.data
+    </span><span class="kw">fn </span>data&lt;<span class="lifetime">'b</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'b </span><span class="self">self</span>) -&gt; (<span class="kw-2">&amp;</span><span class="lifetime">'a </span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>], <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]) {
+        <a class="self" href="#229">self</a>.data
     }
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>channel_index_read(<span class="kw-2">&amp;</span><span class="self">self</span>, device: <span class="kw-2">&amp;</span><a href="../types.rs.html#165-198">Device</a>) -&gt; <span class="prelude-ty">Option</span>&lt;<a href="../types.rs.html#202-207">ChannelIndex</a>&gt; {
-        <a href="#229">device</a>.<a href="../types.rs.html#290-292">output</a>(<span class="kw-2">&amp;</span><a class="self" href="#229">self</a>.program)
+        <a href="#233">device</a>.<a href="../types.rs.html#291-293">output</a>(<span class="kw-2">&amp;</span><a class="self" href="#233">self</a>.program)
     }
 
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>channel_index_write(<span class="kw-2">&amp;</span><span class="self">self</span>, device: <span class="kw-2">&amp;</span><a href="../types.rs.html#165-198">Device</a>) -&gt; <span class="prelude-ty">Option</span>&lt;<a href="../types.rs.html#202-207">ChannelIndex</a>&gt; {
-        <a href="#234">device</a>.<a href="../types.rs.html#290-292">output</a>(<span class="kw-2">&amp;</span><a class="self" href="#234">self</a>.program)
+        <a href="#238">device</a>.<a href="../types.rs.html#291-293">output</a>(<span class="kw-2">&amp;</span><a class="self" href="#238">self</a>.program)
     }
 
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>samples_per_frame(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a> {
-        <a class="self" href="#239">self</a>.samples_per_frame
+        <a class="self" href="#243">self</a>.samples_per_frame
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; BufferOutData&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="comment">//#[tracing::instrument(skip_all, name = &quot;BufferOutData::new&quot;)]
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; BufferOutData&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="comment">//#[tracing::instrument(skip_all, name = "BufferOutData::new")]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(
         program: <a href="../types.rs.html#67-80">VoicemeeterApplication</a>,
-        data: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span><a href="#14">AudioBuffer</a>,
+        data: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span><a href="#14">AudioBuffer</a>,
         samples_per_frame: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
     ) -&gt; <span class="self">Self </span>{
-        <span class="kw">let </span><span class="kw-2">mut </span>data = <a href="#217-221">Output</a> {
-            data: <a href="#248">data</a>.<a href="#18-47">read_write_buffer</a>(),
-            <a href="#249">samples_per_frame</a>,
-            <a href="#247">program</a>,
+        <span class="kw">let </span><span class="kw-2">mut </span>data = <a href="#221-225">Output</a> {
+            data: <a href="#252">data</a>.<a href="#18-47">read_write_buffer</a>(),
+            <a href="#253">samples_per_frame</a>,
+            <a href="#251">program</a>,
         };
         <span class="kw">unsafe </span>{
             <span class="self">Self </span>{
-                read: output::ReadDevices::new(<span class="kw-2">&amp;mut </span><a href="#251">data</a>),
-                write: output::WriteDevices::new(<span class="kw-2">&amp;mut </span><a href="#251">data</a>),
+                read: <a href="../interface\callback\data/buffer_abstraction.rs.html#483-497">output::ReadDevices::new</a>(<span class="kw-2">&amp;mut </span><a href="#255">data</a>),
+                write: <a href="../interface\callback\data/buffer_abstraction.rs.html#553-567">output::WriteDevices::new</a>(<span class="kw-2">&amp;mut </span><a href="#255">data</a>),
             }
         }
     }
@@ -605,61 +617,63 @@
     /// # use voicemeeter::interface::callback::BufferOut; let data: BufferOut = unimplemented!();
     /// let (read, mut write) = data.buffer.get_buffers();
     /// ```
-    </span><span class="kw">pub fn </span>get_buffers(<span class="self">self</span>) -&gt; (output::ReadDevices&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;a</span>&gt;, output::WriteDevices&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;a</span>&gt;) {
-        (<a class="self" href="#270">self</a>.read, <a class="self" href="#270">self</a>.write)
+    </span><span class="kw">pub fn </span>get_buffers(<span class="self">self</span>) -&gt; (output::ReadDevices&lt;<span class="lifetime">'a</span>, <span class="lifetime">'a</span>&gt;, output::WriteDevices&lt;<span class="lifetime">'a</span>, <span class="lifetime">'a</span>&gt;) {
+        (<a class="self" href="#274">self</a>.read, <a class="self" href="#274">self</a>.write)
     }
 }
 
 <span class="doccomment">/// Buffer for input mode.
-</span><span class="kw">pub struct </span><a href="../../..\../voicemeeter/interface/callback/data/struct.BufferInData.html">BufferInData</a>&lt;<span class="lifetime">&#39;a</span>&gt; {
+///
+/// Retrieved via [`CallbackCommand::BufferIn`](crate::interface::callback::CallbackCommand::BufferIn)
+</span><span class="kw">pub struct </span><a href="../../..\../voicemeeter/interface/callback/data/struct.BufferInData.html">BufferInData</a>&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// Read
-    </span><span class="kw">pub </span>read: input::ReadDevices&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;a</span>&gt;,
+    </span><span class="kw">pub </span>read: input::ReadDevices&lt;<span class="lifetime">'a</span>, <span class="lifetime">'a</span>&gt;,
     <span class="doccomment">/// Write
-    </span><span class="kw">pub </span>write: input::WriteDevices&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;a</span>&gt;,
+    </span><span class="kw">pub </span>write: input::WriteDevices&lt;<span class="lifetime">'a</span>, <span class="lifetime">'a</span>&gt;,
 }
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>Input&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>Input&lt;<span class="lifetime">'a</span>&gt; {
     program: <a href="../types.rs.html#67-80">VoicemeeterApplication</a>,
     samples_per_frame: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
-    data: (<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>], <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]),
+    data: (<span class="kw-2">&amp;</span><span class="lifetime">'a </span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>], <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]),
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; BufferDataExt&lt;<span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>Input&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; BufferDataExt&lt;<span class="lifetime">'a</span>&gt; <span class="kw">for </span>Input&lt;<span class="lifetime">'a</span>&gt; {
     <span class="attr">#[inline]
-    </span><span class="kw">fn </span>data&lt;<span class="lifetime">&#39;b</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span><span class="self">self</span>) -&gt; (<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>], <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]) {
-        <a class="self" href="#290">self</a>.data
+    </span><span class="kw">fn </span>data&lt;<span class="lifetime">'b</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'b </span><span class="self">self</span>) -&gt; (<span class="kw-2">&amp;</span><span class="lifetime">'a </span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>], <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[<span class="kw-2">*mut </span><a href="https://doc.rust-lang.org/nightly/std/primitive.f32.html">f32</a>]) {
+        <a class="self" href="#296">self</a>.data
     }
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>channel_index_read(<span class="kw-2">&amp;</span><span class="self">self</span>, device: <span class="kw-2">&amp;</span><a href="../types.rs.html#165-198">Device</a>) -&gt; <span class="prelude-ty">Option</span>&lt;<a href="../types.rs.html#202-207">ChannelIndex</a>&gt; {
-        <a href="#294">device</a>.<a href="../types.rs.html#276-288">input</a>(<span class="kw-2">&amp;</span><a class="self" href="#294">self</a>.program)
+        <a href="#300">device</a>.<a href="../types.rs.html#277-289">input</a>(<span class="kw-2">&amp;</span><a class="self" href="#300">self</a>.program)
     }
 
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>channel_index_write(<span class="kw-2">&amp;</span><span class="self">self</span>, device: <span class="kw-2">&amp;</span><a href="../types.rs.html#165-198">Device</a>) -&gt; <span class="prelude-ty">Option</span>&lt;<a href="../types.rs.html#202-207">ChannelIndex</a>&gt; {
-        <a href="#299">device</a>.<a href="../types.rs.html#276-288">input</a>(<span class="kw-2">&amp;</span><a class="self" href="#299">self</a>.program)
+        <a href="#305">device</a>.<a href="../types.rs.html#277-289">input</a>(<span class="kw-2">&amp;</span><a class="self" href="#305">self</a>.program)
     }
 
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>samples_per_frame(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a> {
-        <a class="self" href="#304">self</a>.samples_per_frame
+        <a class="self" href="#310">self</a>.samples_per_frame
     }
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; BufferInData&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="comment">//#[tracing::instrument(skip_all, name = &quot;BufferInData::new&quot;)]
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; BufferInData&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="comment">//#[tracing::instrument(skip_all, name = "BufferInData::new")]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(
         program: <a href="../types.rs.html#67-80">VoicemeeterApplication</a>,
-        data: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span><a href="#14">AudioBuffer</a>,
+        data: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span><a href="#14">AudioBuffer</a>,
         samples_per_frame: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
     ) -&gt; <span class="self">Self </span>{
-        <span class="kw">let </span><span class="kw-2">mut </span>data = <a href="#282-286">Input</a> {
-            data: <a href="#313">data</a>.<a href="#18-47">read_write_buffer</a>(),
-            <a href="#314">samples_per_frame</a>,
-            <a href="#312">program</a>,
+        <span class="kw">let </span><span class="kw-2">mut </span>data = <a href="#288-292">Input</a> {
+            data: <a href="#319">data</a>.<a href="#18-47">read_write_buffer</a>(),
+            <a href="#320">samples_per_frame</a>,
+            <a href="#318">program</a>,
         };
         <span class="kw">unsafe </span>{
             <span class="self">Self </span>{
-                read: input::ReadDevices::new(<span class="kw-2">&amp;mut </span><a href="#316">data</a>),
-                write: input::WriteDevices::new(<span class="kw-2">&amp;mut </span><a href="#316">data</a>),
+                read: <a href="../interface\callback\data/buffer_abstraction.rs.html#668-682">input::ReadDevices::new</a>(<span class="kw-2">&amp;mut </span><a href="#322">data</a>),
+                write: <a href="../interface\callback\data/buffer_abstraction.rs.html#739-753">input::WriteDevices::new</a>(<span class="kw-2">&amp;mut </span><a href="#322">data</a>),
             }
         }
     }
@@ -668,10 +682,10 @@
     ///
     /// ```rust,no_run
     /// # use voicemeeter::interface::callback::BufferIn; let data: BufferIn = unimplemented!();
-    /// # let (read, mut write) = data.buffer.get_buffers();
+    /// let (read, mut write) = data.buffer.get_buffers();
     /// ```
-    </span><span class="kw">pub fn </span>get_buffers(<span class="self">self</span>) -&gt; (input::ReadDevices&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;a</span>&gt;, input::WriteDevices&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;a</span>&gt;) {
-        (<a class="self" href="#335">self</a>.read, <a class="self" href="#335">self</a>.write)
+    </span><span class="kw">pub fn </span>get_buffers(<span class="self">self</span>) -&gt; (input::ReadDevices&lt;<span class="lifetime">'a</span>, <span class="lifetime">'a</span>&gt;, input::WriteDevices&lt;<span class="lifetime">'a</span>, <span class="lifetime">'a</span>&gt;) {
+        (<a class="self" href="#341">self</a>.read, <a class="self" href="#341">self</a>.write)
     }
 }
 </code></pre></div></section></main></body></html>

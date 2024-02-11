@@ -1,4 +1,6 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src\interface\callback\commands.rs`."><title>commands.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../..\../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../..\../static.files/rustdoc-085727c29c2fa99e.css"><meta name="rustdoc-vars" data-root-path="../../..\../" data-static-root-path="../../..\../static.files/" data-current-crate="voicemeeter" data-themes="" data-resource-suffix="" data-rustdoc-version="1.74.0-nightly (7d9bce327 2023-09-16)" data-channel="nightly" data-search-js="search-5d3eaacf19ebf04f.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../..\../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../..\../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../..\../src-files.js"></script><script defer src="../../..\../static.files/main-f6ec288034ea164c.js"></script><noscript><link rel="stylesheet" href="../../..\../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../..\../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../..\../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../..\../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../..\../voicemeeter/index.html"><img class="rust-logo" src="../../..\../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../..\../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../..\../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../..\../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src\interface\callback\commands.rs`."><title>commands.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../..\../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../..\../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../..\../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../../..\../" data-static-root-path="../../..\../static.files/" data-current-crate="voicemeeter" data-themes="" data-resource-suffix="" data-rustdoc-version="1.78.0-nightly (6cc484351 2024-02-10)" data-channel="nightly" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../..\../static.files/storage-4c98445ec4002617.js"></script><script defer src="../../..\../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../..\../src-files.js"></script><script defer src="../../..\../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../../..\../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../..\../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../..\../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../..\../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
+            <h2>Files</h2></div></nav><div class="sidebar-resizer"></div>
+    <main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../..\../voicemeeter/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../..\../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../..\../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../..\../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -264,13 +266,13 @@
 </span><span class="kw">use crate</span>::{<a href="../bindings.rs.html#193">bindings::VBVMR_CBCOMMAND</a>, <a href="../types.rs.html#67-80">types::VoicemeeterApplication</a>};
 
 <span class="kw">use </span><span class="kw">super</span>::data::{
-    <a href="data.rs.html#14">AudioBuffer</a>, <a href="data.rs.html#12">AudioInfo</a>, <a href="data.rs.html#276-281">BufferInData</a>, <a href="data.rs.html#144-149">BufferMainData</a>, <a href="data.rs.html#211-216">BufferOutData</a>, <a href="data.rs.html#52">RawCallbackData</a>,
+    <a href="data.rs.html#14">AudioBuffer</a>, <a href="data.rs.html#12">AudioInfo</a>, <a href="data.rs.html#282-287">BufferInData</a>, <a href="data.rs.html#146-151">BufferMainData</a>, <a href="data.rs.html#215-220">BufferOutData</a>, <a href="data.rs.html#52">RawCallbackData</a>,
 };
 
 <span class="macro">macro_rules! </span>implement {
     (@audio_info $(<span class="macro-nonterminal">$name</span>:ident),* $(,)<span class="question-mark">?</span>) =&gt; {
         $(
-            <span class="kw">impl </span>HasAudioInfo <span class="kw">for </span><span class="macro-nonterminal">$name</span>&lt;<span class="lifetime">&#39;_</span>&gt; {
+            <span class="kw">impl </span>HasAudioInfo <span class="kw">for </span><span class="macro-nonterminal">$name</span>&lt;<span class="lifetime">'_</span>&gt; {
                 <span class="kw">fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>AudioInfo {
                     <span class="self">self</span>.info
                 }
@@ -279,7 +281,7 @@
     };
     (@audio_buffer $(<span class="macro-nonterminal">$name</span>:ident),* $(,)<span class="question-mark">?</span>) =&gt; {
         <span class="comment">// $(
-        //     impl HasAudioBuffer for $name&lt;&#39;_&gt; {
+        //     impl HasAudioBuffer for $name&lt;'_&gt; {
         //         fn get(&amp;self) -&gt; &amp;AudioBuffer {
         //             &amp;self.buffer
         //         }
@@ -319,53 +321,53 @@
 
 </span><span class="doccomment">/// Starting command.
 </span><span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span><a href="../../..\../voicemeeter/interface/callback/commands/struct.Starting.html">Starting</a>&lt;<span class="lifetime">&#39;a</span>&gt; {
+</span><span class="kw">pub struct </span><a href="../../..\../voicemeeter/interface/callback/commands/struct.Starting.html">Starting</a>&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// Audio info
-    </span><span class="kw">pub </span>info: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="data.rs.html#12">AudioInfo</a>,
+    </span><span class="kw">pub </span>info: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><a href="data.rs.html#12">AudioInfo</a>,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Starting&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Starting&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// Create a new `Starting` command.
-    </span><span class="comment">//#[tracing::instrument(skip_all, name = &quot;Starting::new&quot;)]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(info: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="data.rs.html#12">AudioInfo</a>) -&gt; <span class="self">Self </span>{
+    </span><span class="comment">//#[tracing::instrument(skip_all, name = "Starting::new")]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(info: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><a href="data.rs.html#12">AudioInfo</a>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{ <a href="#70">info</a> }
     }
 }
 
 <span class="doccomment">/// Ending command.
 </span><span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span><a href="../../..\../voicemeeter/interface/callback/commands/struct.Ending.html">Ending</a>&lt;<span class="lifetime">&#39;a</span>&gt; {
+</span><span class="kw">pub struct </span><a href="../../..\../voicemeeter/interface/callback/commands/struct.Ending.html">Ending</a>&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// Audio info
-    </span><span class="kw">pub </span>info: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="data.rs.html#12">AudioInfo</a>,
+    </span><span class="kw">pub </span>info: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><a href="data.rs.html#12">AudioInfo</a>,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Ending&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Ending&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// Create a new `Ending` command.
-    </span><span class="comment">//#[tracing::instrument(skip_all, name = &quot;Ending::new&quot;)]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(info: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="data.rs.html#12">AudioInfo</a>) -&gt; <span class="self">Self </span>{
+    </span><span class="comment">//#[tracing::instrument(skip_all, name = "Ending::new")]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(info: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><a href="data.rs.html#12">AudioInfo</a>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{ <a href="#85">info</a> }
     }
 }
 
 <span class="doccomment">/// Change command.
 </span><span class="attr">#[derive(Debug)]
-</span><span class="kw">pub struct </span><a href="../../..\../voicemeeter/interface/callback/commands/struct.Change.html">Change</a>&lt;<span class="lifetime">&#39;a</span>&gt; {
+</span><span class="kw">pub struct </span><a href="../../..\../voicemeeter/interface/callback/commands/struct.Change.html">Change</a>&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// Audio info
-    </span><span class="kw">pub </span>info: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="data.rs.html#12">AudioInfo</a>,
+    </span><span class="kw">pub </span>info: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><a href="data.rs.html#12">AudioInfo</a>,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Change&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Change&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// Create a new `Change` command.
-    </span><span class="comment">//#[tracing::instrument(skip_all, name = &quot;Change::new&quot;)]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(info: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><a href="data.rs.html#12">AudioInfo</a>) -&gt; <span class="self">Self </span>{
+    </span><span class="comment">//#[tracing::instrument(skip_all, name = "Change::new")]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(info: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><a href="data.rs.html#12">AudioInfo</a>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{ <a href="#100">info</a> }
     }
 }
 
 <span class="doccomment">/// Data for input mode.
-</span><span class="kw">pub struct </span><a href="../../..\../voicemeeter/interface/callback/commands/struct.BufferIn.html">BufferIn</a>&lt;<span class="lifetime">&#39;a</span>&gt; {
+</span><span class="kw">pub struct </span><a href="../../..\../voicemeeter/interface/callback/commands/struct.BufferIn.html">BufferIn</a>&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// Buffer data for input mode
-    </span><span class="kw">pub </span>buffer: BufferInData&lt;<span class="lifetime">&#39;a</span>&gt;,
+    </span><span class="kw">pub </span>buffer: BufferInData&lt;<span class="lifetime">'a</span>&gt;,
     <span class="doccomment">/// Sample rate
     </span><span class="kw">pub </span>sr: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
     <span class="doccomment">/// Number of samples per frame
@@ -376,25 +378,25 @@
     </span><span class="kw">pub </span>nbo: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; BufferIn&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="comment">//#[tracing::instrument(skip_all, name = &quot;BufferIn::new&quot;)]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(program: <a href="../types.rs.html#67-80">VoicemeeterApplication</a>, buffer: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span><a href="data.rs.html#14">AudioBuffer</a>) -&gt; <span class="self">Self </span>{
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; BufferIn&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="comment">//#[tracing::instrument(skip_all, name = "BufferIn::new")]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(program: <a href="../types.rs.html#67-80">VoicemeeterApplication</a>, buffer: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span><a href="data.rs.html#14">AudioBuffer</a>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             sr: <a href="#121">buffer</a>.audiobuffer_sr <span class="kw">as </span><a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
             nbs: <a href="#121">buffer</a>.audiobuffer_nbs <span class="kw">as </span><a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
             nbi: <a href="#121">buffer</a>.audiobuffer_nbi <span class="kw">as </span><a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
             nbo: <a href="#121">buffer</a>.audiobuffer_nbo <span class="kw">as </span><a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
-            buffer: BufferInData::new(<a href="#121">program</a>, <a href="#121">buffer</a>, <a href="#121">buffer</a>.audiobuffer_nbs <span class="kw">as </span><a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>),
+            buffer: <a href="data.rs.html#317-333">BufferInData::new</a>(<a href="#121">program</a>, <a href="#121">buffer</a>, <a href="#121">buffer</a>.audiobuffer_nbs <span class="kw">as </span><a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>),
         }
     }
 }
 
 <span class="doccomment">/// Data for output mode.
-</span><span class="kw">pub struct </span><a href="../../..\../voicemeeter/interface/callback/commands/struct.BufferOut.html">BufferOut</a>&lt;<span class="lifetime">&#39;a</span>&gt; {
+</span><span class="kw">pub struct </span><a href="../../..\../voicemeeter/interface/callback/commands/struct.BufferOut.html">BufferOut</a>&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// Sample rate
     </span><span class="kw">pub </span>sr: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
     <span class="doccomment">/// Buffer data for output mode
-    </span><span class="kw">pub </span>buffer: BufferOutData&lt;<span class="lifetime">&#39;a</span>&gt;,
+    </span><span class="kw">pub </span>buffer: BufferOutData&lt;<span class="lifetime">'a</span>&gt;,
     <span class="doccomment">/// Number of samples per frame
     </span><span class="kw">pub </span>nbs: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
     <span class="doccomment">/// Total number of inputs in buffer.
@@ -403,23 +405,23 @@
     </span><span class="kw">pub </span>nbo: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; BufferOut&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="comment">//#[tracing::instrument(skip_all, name = &quot;BufferOut::new&quot;)]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(program: <a href="../types.rs.html#67-80">VoicemeeterApplication</a>, buffer: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span><a href="data.rs.html#14">AudioBuffer</a>) -&gt; <span class="self">Self </span>{
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; BufferOut&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="comment">//#[tracing::instrument(skip_all, name = "BufferOut::new")]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(program: <a href="../types.rs.html#67-80">VoicemeeterApplication</a>, buffer: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span><a href="data.rs.html#14">AudioBuffer</a>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             sr: <a href="#148">buffer</a>.audiobuffer_sr <span class="kw">as </span><a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
             nbs: <a href="#148">buffer</a>.audiobuffer_nbs <span class="kw">as </span><a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
             nbi: <a href="#148">buffer</a>.audiobuffer_nbi <span class="kw">as </span><a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
             nbo: <a href="#148">buffer</a>.audiobuffer_nbo <span class="kw">as </span><a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
-            buffer: BufferOutData::new(<a href="#148">program</a>, <a href="#148">buffer</a>, <a href="#148">buffer</a>.audiobuffer_nbs <span class="kw">as </span><a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>),
+            buffer: <a href="data.rs.html#250-266">BufferOutData::new</a>(<a href="#148">program</a>, <a href="#148">buffer</a>, <a href="#148">buffer</a>.audiobuffer_nbs <span class="kw">as </span><a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>),
         }
     }
 }
 
 <span class="doccomment">/// Data for main mode.
-</span><span class="kw">pub struct </span><a href="../../..\../voicemeeter/interface/callback/commands/struct.BufferMain.html">BufferMain</a>&lt;<span class="lifetime">&#39;a</span>&gt; {
+</span><span class="kw">pub struct </span><a href="../../..\../voicemeeter/interface/callback/commands/struct.BufferMain.html">BufferMain</a>&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// Buffer data for main mode
-    </span><span class="kw">pub </span>buffer: BufferMainData&lt;<span class="lifetime">&#39;a</span>&gt;,
+    </span><span class="kw">pub </span>buffer: BufferMainData&lt;<span class="lifetime">'a</span>&gt;,
     <span class="doccomment">/// Sample rate
     </span><span class="kw">pub </span>sr: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
     <span class="doccomment">/// Number of samples per frame
@@ -430,55 +432,55 @@
     </span><span class="kw">pub </span>nbo: <a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; BufferMain&lt;<span class="lifetime">&#39;a</span>&gt; {
-    <span class="comment">//#[tracing::instrument(skip_all, name = &quot;BufferMain::new&quot;)]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(program: <a href="../types.rs.html#67-80">VoicemeeterApplication</a>, buffer: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span><a href="data.rs.html#14">AudioBuffer</a>) -&gt; <span class="self">Self </span>{
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; BufferMain&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="comment">//#[tracing::instrument(skip_all, name = "BufferMain::new")]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(program: <a href="../types.rs.html#67-80">VoicemeeterApplication</a>, buffer: <span class="kw-2">&amp;</span><span class="lifetime">'a </span><span class="kw-2">mut </span><a href="data.rs.html#14">AudioBuffer</a>) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             sr: <a href="#175">buffer</a>.audiobuffer_sr <span class="kw">as </span><a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
             nbs: <a href="#175">buffer</a>.audiobuffer_nbs <span class="kw">as </span><a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
             nbi: <a href="#175">buffer</a>.audiobuffer_nbi <span class="kw">as </span><a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
             nbo: <a href="#175">buffer</a>.audiobuffer_nbo <span class="kw">as </span><a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>,
-            buffer: BufferMainData::new(<a href="#175">program</a>, <a href="#175">buffer</a>, <a href="#175">buffer</a>.audiobuffer_nbs <span class="kw">as </span><a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>),
+            buffer: <a href="data.rs.html#183-199">BufferMainData::new</a>(<a href="#175">program</a>, <a href="#175">buffer</a>, <a href="#175">buffer</a>.audiobuffer_nbs <span class="kw">as </span><a href="https://doc.rust-lang.org/nightly/std/primitive.usize.html">usize</a>),
         }
     }
 }
 
 <span class="doccomment">/// Callback command passed to the [audio callback](crate::VoicemeeterRemote::audio_callback_register).
 </span><span class="attr">#[repr(i32)]
-#[cfg(feature = <span class="string">&quot;interface&quot;</span>)] </span><span class="comment">// for doc_cfg
+#[cfg(feature = <span class="string">"interface"</span>)] </span><span class="comment">// for doc_cfg
 </span><span class="attr">#[allow(clippy::large_enum_variant)]
-</span><span class="kw">pub enum </span><a href="../../..\../voicemeeter/enum.CallbackCommand.html">CallbackCommand</a>&lt;<span class="lifetime">&#39;a</span>&gt; {
+</span><span class="kw">pub enum </span><a href="../../..\../voicemeeter/enum.CallbackCommand.html">CallbackCommand</a>&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// Starting command
     ///
     /// this is the first call of your Callback, made to let you initialize your
     /// possible different DSP processing objects, allocate memory, precompute date...
-    </span>Starting(Starting&lt;<span class="lifetime">&#39;a</span>&gt;),
+    </span>Starting(Starting&lt;<span class="lifetime">'a</span>&gt;),
     <span class="doccomment">/// Ending command
     ///
     /// this is the last call of your Callback, to release all your structure
     /// previously allocated in the first call.
-    </span>Ending(Ending&lt;<span class="lifetime">&#39;a</span>&gt;),
+    </span>Ending(Ending&lt;<span class="lifetime">'a</span>&gt;),
     <span class="doccomment">/// Change command
     ///
     /// this command is called if the samplerate or buffer size have changed
-    </span>Change(Change&lt;<span class="lifetime">&#39;a</span>&gt;),
+    </span>Change(Change&lt;<span class="lifetime">'a</span>&gt;),
     <span class="doccomment">/// BufferIn command
     ///
     /// buffers for inputs
-    </span>BufferIn(BufferIn&lt;<span class="lifetime">&#39;a</span>&gt;),
+    </span>BufferIn(BufferIn&lt;<span class="lifetime">'a</span>&gt;),
     <span class="doccomment">/// BufferOut command
     ///
     /// buffers for outputs
-    </span>BufferOut(BufferOut&lt;<span class="lifetime">&#39;a</span>&gt;),
+    </span>BufferOut(BufferOut&lt;<span class="lifetime">'a</span>&gt;),
     <span class="doccomment">/// BufferMain command
     ///
     /// buffers for all i/o
-    </span>BufferMain(BufferMain&lt;<span class="lifetime">&#39;a</span>&gt;),
+    </span>BufferMain(BufferMain&lt;<span class="lifetime">'a</span>&gt;),
     <span class="doccomment">/// Other inknown command
     </span>Other(<a href="../bindings.rs.html#193">VBVMR_CBCOMMAND</a>, <a href="data.rs.html#52">RawCallbackData</a>),
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; CallbackCommand&lt;<span class="lifetime">&#39;a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; CallbackCommand&lt;<span class="lifetime">'a</span>&gt; {
     <span class="doccomment">/// Make a new callback command. This is not meant to be used in consumer code.
     </span><span class="attr">#[doc(hidden)]
     </span><span class="kw">pub unsafe fn </span>new_unchecked(
@@ -488,32 +490,32 @@
     ) -&gt; <span class="self">Self </span>{
         <span class="kw">match </span><a href="#226">command</a> {
             VBVMR_CBCOMMAND::STARTING =&gt; {
-                <span class="self">Self</span>::Starting(Starting::new(<span class="kw">unsafe </span>{ <a href="#227">ptr</a>.<a href="data.rs.html#73-75">as_audio_info</a>() }))
+                <a href="#195"><span class="self">Self</span>::Starting</a>(<a href="#70-72">Starting::new</a>(<span class="kw">unsafe </span>{ <a href="#227">ptr</a>.<a href="data.rs.html#73-75">as_audio_info</a>() }))
             }
-            VBVMR_CBCOMMAND::ENDING =&gt; <span class="self">Self</span>::Ending(Ending::new(<span class="kw">unsafe </span>{ <a href="#227">ptr</a>.<a href="data.rs.html#73-75">as_audio_info</a>() })),
-            VBVMR_CBCOMMAND::CHANGE =&gt; <span class="self">Self</span>::Change(Change::new(<span class="kw">unsafe </span>{ <a href="#227">ptr</a>.<a href="data.rs.html#73-75">as_audio_info</a>() })),
+            VBVMR_CBCOMMAND::ENDING =&gt; <a href="#200"><span class="self">Self</span>::Ending</a>(<a href="#85-87">Ending::new</a>(<span class="kw">unsafe </span>{ <a href="#227">ptr</a>.<a href="data.rs.html#73-75">as_audio_info</a>() })),
+            VBVMR_CBCOMMAND::CHANGE =&gt; <a href="#204"><span class="self">Self</span>::Change</a>(<a href="#100-102">Change::new</a>(<span class="kw">unsafe </span>{ <a href="#227">ptr</a>.<a href="data.rs.html#73-75">as_audio_info</a>() })),
             VBVMR_CBCOMMAND::BUFFER_IN =&gt; {
-                <span class="self">Self</span>::BufferIn(BufferIn::new(<a href="#225">program</a>, <span class="kw">unsafe </span>{ <a href="#227">ptr</a>.<a href="data.rs.html#83-85">as_audio_buffer</a>() }))
+                <a href="#208"><span class="self">Self</span>::BufferIn</a>(<a href="#121-129">BufferIn::new</a>(<a href="#225">program</a>, <span class="kw">unsafe </span>{ <a href="#227">ptr</a>.<a href="data.rs.html#83-85">as_audio_buffer</a>() }))
             }
             VBVMR_CBCOMMAND::BUFFER_OUT =&gt; {
-                <span class="self">Self</span>::BufferOut(BufferOut::new(<a href="#225">program</a>, <span class="kw">unsafe </span>{ <a href="#227">ptr</a>.<a href="data.rs.html#83-85">as_audio_buffer</a>() }))
+                <a href="#212"><span class="self">Self</span>::BufferOut</a>(<a href="#148-156">BufferOut::new</a>(<a href="#225">program</a>, <span class="kw">unsafe </span>{ <a href="#227">ptr</a>.<a href="data.rs.html#83-85">as_audio_buffer</a>() }))
             }
             VBVMR_CBCOMMAND::BUFFER_MAIN =&gt; {
-                <span class="self">Self</span>::BufferMain(BufferMain::new(<a href="#225">program</a>, <span class="kw">unsafe </span>{ <a href="#227">ptr</a>.<a href="data.rs.html#83-85">as_audio_buffer</a>() }))
+                <a href="#216"><span class="self">Self</span>::BufferMain</a>(<a href="#175-183">BufferMain::new</a>(<a href="#225">program</a>, <span class="kw">unsafe </span>{ <a href="#227">ptr</a>.<a href="data.rs.html#83-85">as_audio_buffer</a>() }))
             }
-            i =&gt; <span class="self">Self</span>::Other(<a href="#244">i</a>, <a href="#227">ptr</a>),
+            i =&gt; <a href="#218"><span class="self">Self</span>::Other</a>(<a href="#244">i</a>, <a href="#227">ptr</a>),
         }
     }
 
-    <span class="doccomment">/// Get the command &quot;name&quot;
-    </span><span class="kw">pub fn </span>name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span><a href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>&gt; {
+    <span class="doccomment">/// Get the command "name"
+    </span><span class="kw">pub fn </span>name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span><a href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>&gt; {
         <span class="prelude-val">Some</span>(<span class="kw">match </span><span class="self"><a href="#249">self</a> </span>{
-            <span class="self">Self</span>::Starting(<span class="kw">_</span>) =&gt; <span class="string">&quot;Starting&quot;</span>,
-            <span class="self">Self</span>::Ending(<span class="kw">_</span>) =&gt; <span class="string">&quot;Ending&quot;</span>,
-            <span class="self">Self</span>::Change(<span class="kw">_</span>) =&gt; <span class="string">&quot;Change&quot;</span>,
-            <span class="self">Self</span>::BufferIn(<span class="kw">_</span>) =&gt; <span class="string">&quot;BufferIn&quot;</span>,
-            <span class="self">Self</span>::BufferOut(<span class="kw">_</span>) =&gt; <span class="string">&quot;BufferOut&quot;</span>,
-            <span class="self">Self</span>::BufferMain(<span class="kw">_</span>) =&gt; <span class="string">&quot;BufferMain&quot;</span>,
+            <span class="self">Self</span>::Starting(<span class="kw">_</span>) =&gt; <span class="string">"Starting"</span>,
+            <span class="self">Self</span>::Ending(<span class="kw">_</span>) =&gt; <span class="string">"Ending"</span>,
+            <span class="self">Self</span>::Change(<span class="kw">_</span>) =&gt; <span class="string">"Change"</span>,
+            <span class="self">Self</span>::BufferIn(<span class="kw">_</span>) =&gt; <span class="string">"BufferIn"</span>,
+            <span class="self">Self</span>::BufferOut(<span class="kw">_</span>) =&gt; <span class="string">"BufferOut"</span>,
+            <span class="self">Self</span>::BufferMain(<span class="kw">_</span>) =&gt; <span class="string">"BufferMain"</span>,
             <span class="self">Self</span>::Other(<span class="kw">_</span>, <span class="kw">_</span>) =&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
         })
     }
