@@ -163,15 +163,15 @@ impl From<i32> for LevelType {
 /// A device.
 #[derive(Debug, Clone, Copy, Eq, PartialEq)]
 pub enum Device {
-    /// Strip 1. Available on all Voicemeeter versions.
+    /// Input Strip 1. Available on all Voicemeeter versions.
     Strip1,
-    /// Strip 2. Available on all Voicemeeter versions.
+    /// Input Strip 2. Available on all Voicemeeter versions.
     Strip2,
-    /// Strip 3. Available on Voicemeeter Banana and Potato.
+    /// Input Strip 3. Available on Voicemeeter Banana and Potato.
     Strip3,
-    /// Strip 4. Available on Voicemeeter Potato.
+    /// Input Strip 4. Available on Voicemeeter Potato.
     Strip4,
-    /// Strip 5. Available on Voicemeeter Potato.
+    /// Input Strip 5. Available on Voicemeeter Potato.
     Strip5,
     /// Output A1. Available on all Voicemeeter versions.
     OutputA1,
@@ -220,6 +220,7 @@ impl ChannelIndex {
 const fn ci(start: usize, size: usize) -> Option<ChannelIndex> {
     Some(ChannelIndex::new(start, size))
 }
+
 impl Device {
     /// Get the [`ChannelIndex`] for this channel in the buffers when in [main mode](crate::interface::callback::CallbackCommand::BufferMain), if available in the current program.
     pub const fn main(
@@ -325,6 +326,82 @@ impl Device {
             | LevelType::PostMuteInputLevels => self.input(program)?.get(channel),
             LevelType::OutputLevels => self.output(program)?.get(channel),
             LevelType::Other => None,
+        }
+    }
+
+    /// Get the strip index for this device in the current program.
+    pub const fn as_strip_index(&self, program: &VoicemeeterApplication) -> Option<ZIndex> {
+        let i = match program {
+            VoicemeeterApplication::Voicemeeter => Some(match self {
+                Device::Strip1 => 0,
+                Device::Strip2 => 1,
+                Device::VirtualInput => 2,
+                _ => return None,
+            }),
+            VoicemeeterApplication::VoicemeeterBanana => Some(match self {
+                Device::Strip1 => 0,
+                Device::Strip2 => 1,
+                Device::Strip3 => 2,
+                Device::VirtualInput => 3,
+                Device::VirtualInputAux => 4,
+                _ => return None,
+            }),
+            VoicemeeterApplication::VoicemeeterPotato | VoicemeeterApplication::PotatoX64Bits => {
+                Some(match self {
+                    Device::Strip1 => 0,
+                    Device::Strip2 => 1,
+                    Device::Strip3 => 2,
+                    Device::Strip4 => 3,
+                    Device::Strip5 => 4,
+                    Device::VirtualInput => 5,
+                    Device::VirtualInputAux => 6,
+                    Device::VirtualInput8 => 7,
+                    _ => return None,
+                })
+            }
+            _ => return None,
+        };
+        match i {
+            Some(i) => Some(ZIndex(i)),
+            None => None,
+        }
+    }
+
+    /// Get the bus index for this device in the current program.
+    pub const fn as_bus_index(&self, program: &VoicemeeterApplication) -> Option<ZIndex> {
+        let i = match program {
+            VoicemeeterApplication::Voicemeeter => Some(match self {
+                Device::OutputA1 => 0,
+                Device::OutputA2 => 1,
+                Device::VirtualOutputB1 => 2,
+                _ => return None,
+            }),
+            VoicemeeterApplication::VoicemeeterBanana => Some(match self {
+                Device::OutputA1 => 0,
+                Device::OutputA2 => 1,
+                Device::OutputA3 => 2,
+                Device::VirtualOutputB1 => 3,
+                Device::VirtualOutputB2 => 4,
+                _ => return None,
+            }),
+            VoicemeeterApplication::VoicemeeterPotato | VoicemeeterApplication::PotatoX64Bits => {
+                Some(match self {
+                    Device::OutputA1 => 0,
+                    Device::OutputA2 => 1,
+                    Device::OutputA3 => 2,
+                    Device::OutputA4 => 3,
+                    Device::OutputA5 => 4,
+                    Device::VirtualOutputB1 => 5,
+                    Device::VirtualOutputB2 => 6,
+                    Device::VirtualOutputB3 => 7,
+                    _ => return None,
+                })
+            }
+            _ => return None,
+        };
+        match i {
+            Some(i) => Some(ZIndex(i)),
+            None => None,
         }
     }
 }

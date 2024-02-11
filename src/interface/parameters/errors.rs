@@ -6,12 +6,24 @@ pub(crate) static VOICEMEETER_OPTION: &str = "Option";
 
 /// Parameter is out of range for current program
 #[derive(thiserror::Error, Debug, Clone)]
-#[error("out of range: {name}({index})")]
+#[error("out of range: {name}({index}) is not supported on `{program}`")]
 pub struct OutOfRangeError {
     /// Name of the parameter `base` i.e "Strip" or "Bus"
     pub name: &'static str,
     /// Index that was out of range
     pub index: ZIndex,
+    /// Current program
+    pub program: super::VoicemeeterApplication,
+}
+
+/// Device is invalid for the current program and parameter
+#[derive(thiserror::Error, Debug, Clone)]
+#[error("invalid device: {device:?} is not supported on `{program}`")]
+pub struct DeviceError {
+    /// Current program
+    pub program: super::VoicemeeterApplication,
+    /// Device that was invalid
+    pub device: crate::types::Device,
 }
 
 /// Invalid strip/bus type for a specific parameter
@@ -65,4 +77,10 @@ pub enum ParameterError {
     /// Strip/bus is not compatible with parameter
     #[error(transparent)]
     Type(#[from] InvalidTypeError),
+    /// Parameter index is out of range
+    #[error(transparent)]
+    OutOfRange(#[from] OutOfRangeError),
+    /// Device is invalid for parameter
+    #[error(transparent)]
+    Device(#[from] DeviceError),
 }

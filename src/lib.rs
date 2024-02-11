@@ -7,11 +7,14 @@
 //! Create a new instance of the Voicemeeter SDK. The instance is automatically logged in.
 //!
 //! ```rust,no_run
-//! use voicemeeter::VoicemeeterRemote;
+//! use voicemeeter::{types::Device, VoicemeeterRemote};
 //!
 //! let remote = VoicemeeterRemote::new()?;
 //! println!("{}", remote.get_voicemeeter_version()?);
-//!
+//! println!(
+//!     "Strip 1: {}",
+//!     remote.parameters().strip(Device::Strip1)?.label().get()?
+//! );
 //! # Ok::<(), Box<dyn std::error::Error>>(())
 //! ```
 

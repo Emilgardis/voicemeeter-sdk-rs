@@ -13,7 +13,7 @@ use std::fmt::Debug;
 use std::fmt::Display;
 use std::ops::{Bound, RangeBounds};
 
-use crate::types::{BusMode, ParameterNameRef, VoicemeeterApplication, ZIndex};
+use crate::types::{BusMode, Device, ParameterNameRef, VoicemeeterApplication, ZIndex};
 use crate::VoicemeeterRemote;
 
 mod errors;
@@ -43,14 +43,14 @@ impl VoicemeeterRemote {
     /// use voicemeeter::VoicemeeterRemote;
     ///
     /// # let remote: VoicemeeterRemote = todo!();
-    /// println!("Strip 0: {}", remote.parameters().strip(0)?.label().get()?);
+    /// println!("Strip 1: {}", remote.parameters().strip(0)?.label().get()?);
     ///
     /// println!(
     ///     "Bus 0 (A1) Device: {}",
     ///     remote.parameters().bus(0)?.device().name().get()?
     /// );
     ///
-    /// // Enable A1 on strip 0
+    /// // Enable A1 on strip 1
     /// remote.parameters().strip(0)?.a1().set(true)?;
     ///
     /// # Ok::<(), Box<dyn std::error::Error>>(())
@@ -239,6 +239,56 @@ impl<'a, const WRITE: bool> IntParameter<'a, WRITE, true> {
     }
 }
 
+pub trait StripIndex {
+    fn into_strip_index(self, program: &VoicemeeterApplication) -> Result<ZIndex, DeviceError>;
+}
+
+impl StripIndex for i32 {
+    fn into_strip_index(self, program: &VoicemeeterApplication) -> Result<ZIndex, DeviceError> {
+        Ok(ZIndex(self))
+    }
+}
+
+impl StripIndex for ZIndex {
+    fn into_strip_index(self, program: &VoicemeeterApplication) -> Result<ZIndex, DeviceError> {
+        Ok(self)
+    }
+}
+
+impl StripIndex for Device {
+    fn into_strip_index(self, program: &VoicemeeterApplication) -> Result<ZIndex, DeviceError> {
+        self.as_strip_index(program).ok_or_else(|| DeviceError {
+            program: *program,
+            device: self,
+        })
+    }
+}
+
+pub trait BusIndex {
+    fn into_bus_index(self, program: &VoicemeeterApplication) -> Result<ZIndex, DeviceError>;
+}
+
+impl BusIndex for i32 {
+    fn into_bus_index(self, program: &VoicemeeterApplication) -> Result<ZIndex, DeviceError> {
+        Ok(ZIndex(self))
+    }
+}
+
+impl BusIndex for ZIndex {
+    fn into_bus_index(self, program: &VoicemeeterApplication) -> Result<ZIndex, DeviceError> {
+        Ok(self)
+    }
+}
+
+impl BusIndex for Device {
+    fn into_bus_index(self, program: &VoicemeeterApplication) -> Result<ZIndex, DeviceError> {
+        self.as_bus_index(program).ok_or_else(|| DeviceError {
+            program: *program,
+            device: self,
+        })
+    }
+}
+
 /// Parameter abstraction
 ///
 /// # Examples
@@ -247,7 +297,7 @@ impl<'a, const WRITE: bool> IntParameter<'a, WRITE, true> {
 /// # use voicemeeter::VoicemeeterRemote;
 /// # let remote: VoicemeeterRemote = todo!();
 /// println!(
-///     "Strip 0: {}",
+///     "Strip 1: {}",
 ///     remote.parameters().strip(0)?.device()?.name().get()?
 /// );
 /// # Ok::<(), Box<dyn std::error::Error>>(())
@@ -272,14 +322,21 @@ impl<'a> Parameters<'a> {
     /// Voicemeeter | total: `3` | total: `2` _(starting on strip #0)_ | total: `1` _(starting on strip #2)_
     /// Voicemeeter Banana | total: `5` | total: `3` _(starting on strip #0)_ | total: `2` _(starting on strip #3)_
     /// Voicemeeter Potato | total: `8` | total: `5` _(starting on strip #0)_ | total: `3` _(starting on strip #5)_
-    pub fn strip(&self, index: impl Into<ZIndex>) -> Result<Strip<'a>, OutOfRangeError> {
-        let index = index.into();
+    pub fn strip(&self, index: impl StripIndex) -> Result<Strip<'a>, ParameterError> {
+        let index = index.into_strip_index(&self.remote.program)?;
         Ok(match (self.remote.program, index.0) {
             (VoicemeeterApplication::Voicemeeter, 0..=2) => Strip::new(self.remote, index),
             (VoicemeeterApplication::VoicemeeterBanana, 0..=4) => Strip::new(self.remote, index),
             (VoicemeeterApplication::VoicemeeterPotato, 0..=7)
             | (VoicemeeterApplication::PotatoX64Bits, 0..=7) => Strip::new(self.remote, index),
-            _ => return Err(OutOfRangeError { name: STRIP, index }),
+            _ => {
+                return Err(OutOfRangeError {
+                    name: STRIP,
+                    index,
+                    program: self.remote.program,
+                })
+                .map_err(Into::into);
+            }
         })
     }
 
@@ -296,14 +353,21 @@ impl<'a> Parameters<'a> {
     /// Voicemeeter | total: `2` | total: `2` _(starting on bus #0)_ | total: `0`
     /// Voicemeeter Banana | total: `5` | total: `3` _(starting on bus #0)_ | total: `2` _(starting on bus #3)_
     /// Voicemeeter Potato | total: `8` | total: `5` _(starting on bus #0)_ | total: `3` _(starting on bus #5)_
-    pub fn bus(&self, index: impl Into<ZIndex>) -> Result<Bus<'a>, OutOfRangeError> {
-        let index = index.into();
+    pub fn bus(&self, index: impl BusIndex) -> Result<Bus<'a>, ParameterError> {
+        let index = index.into_bus_index(&self.remote.program)?;
         Ok(match (self.remote.program, index.0) {
             (VoicemeeterApplication::Voicemeeter, 0..=1) => Bus::new(self.remote, index),
             (VoicemeeterApplication::VoicemeeterBanana, 0..=4) => Bus::new(self.remote, index),
             (VoicemeeterApplication::VoicemeeterPotato, 0..=7)
             | (VoicemeeterApplication::PotatoX64Bits, 0..=7) => Bus::new(self.remote, index),
-            _ => return Err(OutOfRangeError { name: BUS, index }),
+            _ => {
+                return Err(OutOfRangeError {
+                    name: BUS,
+                    index,
+                    program: self.remote.program,
+                })
+                .map_err(Into::into);
+            }
         })
     }
 

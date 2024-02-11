@@ -60,6 +60,8 @@ impl<'a, 'b: 'a> BufferMut<'a, 'b> for &'a mut [&'b mut [f32]] {
 }
 
 /// A devices buffer.
+///
+/// See [`BufferMainData`](crate::interface::callback::BufferMainData), [`BufferInData`](crate::interface::callback::BufferInData) and [`BufferOutData`](crate::interface::callback::BufferOutData) for examples.
 #[derive(Default)]
 pub enum DeviceBuffer<T> {
     /// Device does not exist
@@ -211,67 +213,67 @@ pub mod main {
     pub struct ReadDevices<'a, 'b> {
         /// Channel read buffer for [`Strip1`](Device::Strip1).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub strip1: DeviceBuffer<[&'b [f32]; 2]>,
         /// Channel read buffer for [`Strip2`](Device::Strip2).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub strip2: DeviceBuffer<[&'b [f32]; 2]>,
         /// Channel read buffer for [`Strip3`](Device::Strip3).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub strip3: DeviceBuffer<[&'b [f32]; 2]>,
         /// Channel read buffer for [`Strip4`](Device::Strip4).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub strip4: DeviceBuffer<[&'b [f32]; 2]>,
         /// Channel read buffer for [`Strip5`](Device::Strip5).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub strip5: DeviceBuffer<[&'b [f32]; 2]>,
         /// Channel read buffer for [`OutputA1`](Device::OutputA1).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub output_a1: DeviceBuffer<[&'b [f32]; 8]>,
         /// Channel read buffer for [`OutputA2`](Device::OutputA2).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub output_a2: DeviceBuffer<[&'b [f32]; 8]>,
         /// Channel read buffer for [`OutputA3`](Device::OutputA3).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub output_a3: DeviceBuffer<[&'b [f32]; 8]>,
         /// Channel read buffer for [`OutputA4`](Device::OutputA4).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub output_a4: DeviceBuffer<[&'b [f32]; 8]>,
         /// Channel read buffer for [`OutputA5`](Device::OutputA5).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub output_a5: DeviceBuffer<[&'b [f32]; 8]>,
         /// Channel read buffer for [`VirtualOutputB1`](Device::VirtualOutputB1).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub virtual_output_b1: DeviceBuffer<[&'b [f32]; 8]>,
         /// Channel read buffer for [`VirtualOutputB2`](Device::VirtualOutputB2).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub virtual_output_b2: DeviceBuffer<[&'b [f32]; 8]>,
         /// Channel read buffer for [`VirtualOutputB3`](Device::VirtualOutputB3).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub virtual_output_b3: DeviceBuffer<[&'b [f32]; 8]>,
         /// Channel read buffer for [`VirtualInput`](Device::VirtualInput).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub virtual_input: DeviceBuffer<[&'b [f32]; 8]>,
         /// Channel read buffer for [`VirtualInputAux`](Device::VirtualInputAux).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub virtual_input_aux: DeviceBuffer<[&'b [f32]; 8]>,
         /// Channel read buffer for [`VirtualInput8`](Device::VirtualInput8).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub virtual_input8: DeviceBuffer<[&'b [f32]; 8]>,
         _pd: std::marker::PhantomData<&'a ()>,
     }
@@ -328,35 +330,35 @@ pub mod main {
     pub struct WriteDevices<'a, 'b> {
         /// Channel write buffer for [`OutputA1`](Device::OutputA1).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub output_a1: DeviceBuffer<[&'b mut [f32]; 8]>,
         /// Channel write buffer for [`OutputA2`](Device::OutputA2).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub output_a2: DeviceBuffer<[&'b mut [f32]; 8]>,
         /// Channel write buffer for [`OutputA3`](Device::OutputA3).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub output_a3: DeviceBuffer<[&'b mut [f32]; 8]>,
         /// Channel write buffer for [`OutputA4`](Device::OutputA4).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub output_a4: DeviceBuffer<[&'b mut [f32]; 8]>,
         /// Channel write buffer for [`OutputA5`](Device::OutputA5).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub output_a5: DeviceBuffer<[&'b mut [f32]; 8]>,
         /// Channel write buffer for [`VirtualOutputB1`](Device::VirtualOutputB1).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub virtual_output_b1: DeviceBuffer<[&'b mut [f32]; 8]>,
         /// Channel write buffer for [`VirtualOutputB2`](Device::VirtualOutputB2).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub virtual_output_b2: DeviceBuffer<[&'b mut [f32]; 8]>,
         /// Channel write buffer for [`VirtualOutputB3`](Device::VirtualOutputB3).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub virtual_output_b3: DeviceBuffer<[&'b mut [f32]; 8]>,
         _pd: std::marker::PhantomData<&'a ()>,
     }
@@ -378,7 +380,27 @@ pub mod main {
             }
         }
 
-        /// Copies data from a read buffer into the output.
+        /// Copies data from a [main read buffer](ReadDevices) into the [main write buffer](WriteDevices) for specified devices
+        ///
+        /// # Examples
+        ///
+        /// ```rust
+        /// use voicemeeter::{interface::callback::BufferMainData, types::Device};
+        /// # fn example(buffer: &mut BufferMainData) {
+        /// buffer
+        ///     .write
+        ///     .copy_device_from(&buffer.read, &[Device::OutputA1, Device::OutputA2]);
+        ///
+        /// assert!(
+        ///     buffer.read.output_a1.to_slice() == buffer.write.output_a1.to_mut_slice(),
+        ///     "strip1 was copied"
+        /// );
+        /// assert!(
+        ///     buffer.read.output_a2.to_slice() == buffer.write.output_a2.to_mut_slice(),
+        ///     "strip2 was copied"
+        /// );
+        /// # }
+        /// ```
         pub fn copy_device_from<'i>(
             &mut self,
             read: &ReadDevices<'_, '_>,
@@ -424,35 +446,35 @@ pub mod output {
     pub struct ReadDevices<'a, 'b> {
         /// Channel read buffer for [`OutputA1`](Device::OutputA1).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub output_a1: DeviceBuffer<[&'b [f32]; 8]>,
         /// Channel read buffer for [`OutputA2`](Device::OutputA2).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub output_a2: DeviceBuffer<[&'b [f32]; 8]>,
         /// Channel read buffer for [`OutputA3`](Device::OutputA3).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub output_a3: DeviceBuffer<[&'b [f32]; 8]>,
         /// Channel read buffer for [`OutputA4`](Device::OutputA4).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub output_a4: DeviceBuffer<[&'b [f32]; 8]>,
         /// Channel read buffer for [`OutputA5`](Device::OutputA5).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub output_a5: DeviceBuffer<[&'b [f32]; 8]>,
         /// Channel read buffer for [`VirtualOutputB1`](Device::VirtualOutputB1).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub virtual_output_b1: DeviceBuffer<[&'b [f32]; 8]>,
         /// Channel read buffer for [`VirtualOutputB2`](Device::VirtualOutputB2).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub virtual_output_b2: DeviceBuffer<[&'b [f32]; 8]>,
         /// Channel read buffer for [`VirtualOutputB3`](Device::VirtualOutputB3).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub virtual_output_b3: DeviceBuffer<[&'b [f32]; 8]>,
         _pd: std::marker::PhantomData<&'a ()>,
     }
@@ -494,35 +516,35 @@ pub mod output {
     pub struct WriteDevices<'a, 'b> {
         /// Channel write buffer for [`OutputA1`](Device::OutputA1).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub output_a1: DeviceBuffer<[&'b mut [f32]; 8]>,
         /// Channel write buffer for [`OutputA2`](Device::OutputA2).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub output_a2: DeviceBuffer<[&'b mut [f32]; 8]>,
         /// Channel write buffer for [`OutputA3`](Device::OutputA3).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub output_a3: DeviceBuffer<[&'b mut [f32]; 8]>,
         /// Channel write buffer for [`OutputA4`](Device::OutputA4).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub output_a4: DeviceBuffer<[&'b mut [f32]; 8]>,
         /// Channel write buffer for [`OutputA5`](Device::OutputA5).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub output_a5: DeviceBuffer<[&'b mut [f32]; 8]>,
         /// Channel write buffer for [`VirtualOutputB1`](Device::VirtualOutputB1).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub virtual_output_b1: DeviceBuffer<[&'b mut [f32]; 8]>,
         /// Channel write buffer for [`VirtualOutputB2`](Device::VirtualOutputB2).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub virtual_output_b2: DeviceBuffer<[&'b mut [f32]; 8]>,
         /// Channel write buffer for [`VirtualOutputB3`](Device::VirtualOutputB3).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub virtual_output_b3: DeviceBuffer<[&'b mut [f32]; 8]>,
         _pd: std::marker::PhantomData<&'a ()>,
     }
@@ -544,7 +566,27 @@ pub mod output {
             }
         }
 
-        /// Copies data from a read buffer into the output.
+        /// Copies data from a [output read buffer](ReadDevices) into the [output write buffer](WriteDevices) for specified devices
+        ///
+        /// # Examples
+        ///
+        /// ```rust
+        /// use voicemeeter::{interface::callback::BufferInData, types::Device};
+        /// # fn example(buffer: &mut BufferInData) {
+        /// buffer
+        ///     .write
+        ///     .copy_device_from(&buffer.read, &[Device::Strip1, Device::Strip2]);
+        ///
+        /// assert!(
+        ///     buffer.read.strip1.to_slice() == buffer.write.strip1.to_mut_slice(),
+        ///     "strip1 was copied"
+        /// );
+        /// assert!(
+        ///     buffer.read.strip2.to_slice() == buffer.write.strip2.to_mut_slice(),
+        ///     "strip2 was copied"
+        /// );
+        /// # }
+        /// ```
         pub fn copy_device_from<'i>(
             &mut self,
             read: &ReadDevices<'_, '_>,
@@ -589,35 +631,35 @@ pub mod input {
     pub struct ReadDevices<'a, 'b> {
         /// Channel read buffer for [`Strip1`](Device::Strip1).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub strip1: DeviceBuffer<[&'b [f32]; 2]>,
         /// Channel read buffer for [`Strip2`](Device::Strip2).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub strip2: DeviceBuffer<[&'b [f32]; 2]>,
         /// Channel read buffer for [`Strip3`](Device::Strip3).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub strip3: DeviceBuffer<[&'b [f32]; 2]>,
         /// Channel read buffer for [`Strip4`](Device::Strip4).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub strip4: DeviceBuffer<[&'b [f32]; 2]>,
         /// Channel read buffer for [`Strip5`](Device::Strip5).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub strip5: DeviceBuffer<[&'b [f32]; 2]>,
         /// Channel read buffer for [`VirtualInput`](Device::VirtualInput).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub virtual_input: DeviceBuffer<[&'b [f32]; 8]>,
         /// Channel read buffer for [`VirtualInputAux`](Device::VirtualInputAux).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub virtual_input_aux: DeviceBuffer<[&'b [f32]; 8]>,
         /// Channel read buffer for [`VirtualInput8`](Device::VirtualInput8).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub virtual_input8: DeviceBuffer<[&'b [f32]; 8]>,
         _pd: std::marker::PhantomData<&'a ()>,
     }
@@ -660,35 +702,35 @@ pub mod input {
     pub struct WriteDevices<'a, 'b> {
         /// Channel write buffer for [`Strip1`](Device::Strip1).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub strip1: DeviceBuffer<[&'b mut [f32]; 2]>,
         /// Channel write buffer for [`Strip2`](Device::Strip2).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub strip2: DeviceBuffer<[&'b mut [f32]; 2]>,
         /// Channel write buffer for [`Strip3`](Device::Strip3).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub strip3: DeviceBuffer<[&'b mut [f32]; 2]>,
         /// Channel write buffer for [`Strip4`](Device::Strip4).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub strip4: DeviceBuffer<[&'b mut [f32]; 2]>,
         /// Channel write buffer for [`Strip5`](Device::Strip5).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub strip5: DeviceBuffer<[&'b mut [f32]; 2]>,
         /// Channel write buffer for [`VirtualInput`](Device::VirtualInput).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub virtual_input: DeviceBuffer<[&'b mut [f32]; 8]>,
         /// Channel write buffer for [`VirtualInputAux`](Device::VirtualInputAux).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub virtual_input_aux: DeviceBuffer<[&'b mut [f32]; 8]>,
         /// Channel write buffer for [`VirtualInput8`](Device::VirtualInput8).
         ///
-        /// Is [`None`](Option::None) if the device is not available.
+        /// Is [`None`](DeviceBuffer::None) if the device is not available.
         pub virtual_input8: DeviceBuffer<[&'b mut [f32]; 8]>,
         _pd: std::marker::PhantomData<&'a ()>,
     }
@@ -710,7 +752,27 @@ pub mod input {
             }
         }
 
-        /// Copies data from a read buffer into the output.
+        /// Copies data from a [input read buffer](ReadDevices) into the [input write buffer](WriteDevices) for specified devices
+        ///
+        /// # Examples
+        ///
+        /// ```rust
+        /// use voicemeeter::{interface::callback::BufferInData, types::Device};
+        /// # fn example(buffer: &mut BufferInData) {
+        /// buffer
+        ///     .write
+        ///     .copy_device_from(&buffer.read, &[Device::Strip1, Device::Strip2]);
+        ///
+        /// assert!(
+        ///     buffer.read.strip1.to_slice() == buffer.write.strip1.to_mut_slice(),
+        ///     "strip1 was copied"
+        /// );
+        /// assert!(
+        ///     buffer.read.strip2.to_slice() == buffer.write.strip2.to_mut_slice(),
+        ///     "strip2 was copied"
+        /// );
+        /// # }
+        /// ```
         pub fn copy_device_from<'i>(
             &mut self,
             read: &ReadDevices<'_, '_>,
