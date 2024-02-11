@@ -98,7 +98,7 @@ impl VoicemeeterRemote {
     /// ```rust,no_run
     #[doc = include_str!("../../../examples/simple.rs")]
     /// ```
-    /// 
+    ///
     /// ## Complete example
     /// ```rust,no_run
     #[doc = include_str!("../../../examples/output.rs")]
@@ -145,7 +145,7 @@ impl VoicemeeterRemote {
         let res = unsafe { self.raw.VBVMR_AudioCallbackUnregister() };
         match res {
             0 => {
-                unsafe { Box::from_raw(guard.guard) };
+                let _ = unsafe { Box::from_raw(guard.guard) };
                 Ok(())
             }
             -1 => Err(AudioCallbackUnregisterError::NoServer),

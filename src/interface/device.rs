@@ -6,12 +6,9 @@
 //! * [`get_total_output_device`](VoicemeeterRemote::get_total_output_device)
 //! * [`get_input_device`](VoicemeeterRemote::get_input_device)
 //! * [`get_output_device`](VoicemeeterRemote::get_output_device)
-use std::{ffi::CStr, os::raw::c_char, ptr};
+use std::{ffi::CStr, os::raw::c_char};
 
-use crate::{
-    bindings::{self, VBVMR_DEVTYPE},
-    types::ZIndex,
-};
+use crate::{bindings::VBVMR_DEVTYPE, types::ZIndex};
 
 use super::VoicemeeterRemote;
 
@@ -65,7 +62,7 @@ impl VoicemeeterRemote {
     pub(crate) unsafe fn _get_input_device(
         &self,
         index: i32,
-        mut r#type: Option<&mut i32>,
+        r#type: Option<&mut i32>,
         name: Option<&mut [c_char; 256]>,
         hardware_id: Option<&mut [c_char; 256]>,
     ) -> Result<(), GetDeviceError> {

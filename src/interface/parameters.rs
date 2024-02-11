@@ -239,18 +239,26 @@ impl<'a, const WRITE: bool> IntParameter<'a, WRITE, true> {
     }
 }
 
+/// Strip index helper
 pub trait StripIndex {
+    /// Get the strip index
     fn into_strip_index(self, program: &VoicemeeterApplication) -> Result<ZIndex, DeviceError>;
 }
 
 impl StripIndex for i32 {
-    fn into_strip_index(self, program: &VoicemeeterApplication) -> Result<ZIndex, DeviceError> {
+    fn into_strip_index(self, _: &VoicemeeterApplication) -> Result<ZIndex, DeviceError> {
         Ok(ZIndex(self))
     }
 }
 
+impl StripIndex for usize {
+    fn into_strip_index(self, _: &VoicemeeterApplication) -> Result<ZIndex, DeviceError> {
+        Ok(ZIndex(self as _))
+    }
+}
+
 impl StripIndex for ZIndex {
-    fn into_strip_index(self, program: &VoicemeeterApplication) -> Result<ZIndex, DeviceError> {
+    fn into_strip_index(self, _: &VoicemeeterApplication) -> Result<ZIndex, DeviceError> {
         Ok(self)
     }
 }
@@ -264,18 +272,26 @@ impl StripIndex for Device {
     }
 }
 
+/// Bus index helper
 pub trait BusIndex {
+    /// Get the bus index
     fn into_bus_index(self, program: &VoicemeeterApplication) -> Result<ZIndex, DeviceError>;
 }
 
 impl BusIndex for i32 {
-    fn into_bus_index(self, program: &VoicemeeterApplication) -> Result<ZIndex, DeviceError> {
+    fn into_bus_index(self, _: &VoicemeeterApplication) -> Result<ZIndex, DeviceError> {
         Ok(ZIndex(self))
     }
 }
 
+impl BusIndex for usize {
+    fn into_bus_index(self, _: &VoicemeeterApplication) -> Result<ZIndex, DeviceError> {
+        Ok(ZIndex(self as _))
+    }
+}
+
 impl BusIndex for ZIndex {
-    fn into_bus_index(self, program: &VoicemeeterApplication) -> Result<ZIndex, DeviceError> {
+    fn into_bus_index(self, _: &VoicemeeterApplication) -> Result<ZIndex, DeviceError> {
         Ok(self)
     }
 }
