@@ -7,11 +7,14 @@
 //! Create a new instance of the Voicemeeter SDK. The instance is automatically logged in.
 //!
 //! ```rust,no_run
-//! use voicemeeter::VoicemeeterRemote;
+//! use voicemeeter::{types::Device, VoicemeeterRemote};
 //!
 //! let remote = VoicemeeterRemote::new()?;
 //! println!("{}", remote.get_voicemeeter_version()?);
-//!
+//! println!(
+//!     "Strip 1: {}",
+//!     remote.parameters().strip(Device::Strip1)?.label().get()?
+//! );
 //! # Ok::<(), Box<dyn std::error::Error>>(())
 //! ```
 
@@ -161,9 +164,9 @@ pub enum RegistryError {
 
 /// Get a pointer to a `T` if option is [`Some`](Option::Some) or a null ptr if it's [`None`](Option::None)
 #[cfg(feature = "interface")]
-pub(crate) fn opt_or_null<T>(option: Option<&mut T>) -> *mut &mut T {
-    if let Some(mut p) = option {
-        std::ptr::addr_of_mut!(p)
+pub(crate) fn opt_or_null<T>(mut option: Option<&mut T>) -> *mut T {
+    if let Some(p) = option.take() {
+        std::ptr::addr_of_mut!(*p)
     } else {
         std::ptr::null_mut()
     }

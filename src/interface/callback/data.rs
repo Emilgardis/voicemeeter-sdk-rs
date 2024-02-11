@@ -141,6 +141,8 @@ trait BufferDataExt<'a> {
 }
 
 /// Buffer for main mode.
+///
+/// Retrieved via [`CallbackCommand::BufferMain`](crate::interface::callback::CallbackCommand::BufferMain)
 pub struct BufferMainData<'a> {
     /// Read
     pub read: main::ReadDevices<'a, 'a>,
@@ -200,7 +202,7 @@ impl<'a> BufferMainData<'a> {
     ///
     /// ```rust,no_run
     /// # use voicemeeter::interface::callback::BufferMain; let data: BufferMain = unimplemented!();
-    /// # let (read, mut write) = data.buffer.get_buffers();
+    /// let (read, mut write) = data.buffer.get_buffers();
     /// ```
     pub fn get_buffers(self) -> (main::ReadDevices<'a, 'a>, main::WriteDevices<'a, 'a>) {
         (self.read, self.write)
@@ -208,6 +210,8 @@ impl<'a> BufferMainData<'a> {
 }
 
 /// Buffer for output mode.
+///
+/// Retrieved via [`CallbackCommand::BufferOut`](crate::interface::callback::CallbackCommand::BufferOut)
 pub struct BufferOutData<'a> {
     /// Read
     pub read: output::ReadDevices<'a, 'a>,
@@ -273,6 +277,8 @@ impl<'a> BufferOutData<'a> {
 }
 
 /// Buffer for input mode.
+///
+/// Retrieved via [`CallbackCommand::BufferIn`](crate::interface::callback::CallbackCommand::BufferIn)
 pub struct BufferInData<'a> {
     /// Read
     pub read: input::ReadDevices<'a, 'a>,
@@ -330,7 +336,7 @@ impl<'a> BufferInData<'a> {
     ///
     /// ```rust,no_run
     /// # use voicemeeter::interface::callback::BufferIn; let data: BufferIn = unimplemented!();
-    /// # let (read, mut write) = data.buffer.get_buffers();
+    /// let (read, mut write) = data.buffer.get_buffers();
     /// ```
     pub fn get_buffers(self) -> (input::ReadDevices<'a, 'a>, input::WriteDevices<'a, 'a>) {
         (self.read, self.write)

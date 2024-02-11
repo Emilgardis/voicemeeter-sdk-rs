@@ -6,12 +6,9 @@
 //! * [`get_total_output_device`](VoicemeeterRemote::get_total_output_device)
 //! * [`get_input_device`](VoicemeeterRemote::get_input_device)
 //! * [`get_output_device`](VoicemeeterRemote::get_output_device)
-use std::{ffi::CStr, os::raw::c_char, ptr};
+use std::{ffi::CStr, os::raw::c_char};
 
-use crate::{
-    bindings::{self, VBVMR_DEVTYPE},
-    types::ZIndex,
-};
+use crate::{bindings::VBVMR_DEVTYPE, types::ZIndex};
 
 use super::VoicemeeterRemote;
 
@@ -34,12 +31,12 @@ impl VoicemeeterRemote {
             Ok(res)
         }
     }
-    /// Get the desctiption of a specific Audio Input Device.
+    /// Get the description of a specific Audio Input Device.
     pub fn get_input_device(
         &self,
         index: impl Into<ZIndex>,
     ) -> Result<InputDevice, GetDeviceError> {
-        let mut r#type = 0;
+        let mut r#type = -1;
         let index = index.into().0;
         let mut name = [0 as c_char; 256];
         let mut hardware_id = [0 as c_char; 256];
@@ -52,11 +49,11 @@ impl VoicemeeterRemote {
             )?;
         }
         Ok(InputDevice {
-            r#type: VBVMR_DEVTYPE(r#type),
-            name: unsafe { CStr::from_ptr(ptr::addr_of!(name[0])) }
+            r#type: DeviceType::from(r#type),
+            name: unsafe { CStr::from_ptr(name.as_ptr()) }
                 .to_string_lossy()
                 .into_owned(),
-            hardware_id: unsafe { CStr::from_ptr(ptr::addr_of!(hardware_id[0])) }
+            hardware_id: unsafe { CStr::from_ptr(hardware_id.as_ptr()) }
                 .to_string_lossy()
                 .into_owned(),
         })
@@ -69,27 +66,13 @@ impl VoicemeeterRemote {
         name: Option<&mut [c_char; 256]>,
         hardware_id: Option<&mut [c_char; 256]>,
     ) -> Result<(), GetDeviceError> {
-        let null_i32 = ptr::null_mut();
-        let r#type = if let Some(mut p) = r#type {
-            ptr::addr_of_mut!(p)
-        } else {
-            null_i32
-        };
-        let null_c = ptr::null_mut();
-        let name_p = if let Some(p) = name {
-            ptr::addr_of_mut!(p[0])
-        } else {
-            null_c
-        };
-        let hardware_id_p = if let Some(p) = hardware_id {
-            ptr::addr_of_mut!(p[0])
-        } else {
-            null_c
-        };
+        let type_p = crate::opt_or_null(r#type);
+        let name_p = crate::opt_or_null(name.map(|a| &mut a[0]));
+        let hardware_id_p = crate::opt_or_null(hardware_id.map(|a| &mut a[0]));
 
         let res = unsafe {
             self.raw
-                .VBVMR_Input_GetDeviceDescA(index, r#type as *mut _, name_p, hardware_id_p)
+                .VBVMR_Input_GetDeviceDescA(index, type_p, name_p, hardware_id_p)
         };
         //cleanup
         match res {
@@ -98,7 +81,7 @@ impl VoicemeeterRemote {
         }
     }
 
-    /// Get the desctiption of a specific Audio Output Device.
+    /// Get the description of a specific Audio Output Device.
     pub fn get_output_device(
         &self,
         index: impl Into<ZIndex>,
@@ -116,11 +99,11 @@ impl VoicemeeterRemote {
             )?;
         }
         Ok(OutputDevice {
-            r#type: VBVMR_DEVTYPE(r#type),
-            name: unsafe { CStr::from_ptr(ptr::addr_of!(name[0])) }
+            r#type: DeviceType::from(r#type),
+            name: unsafe { CStr::from_ptr(name.as_ptr()) }
                 .to_string_lossy()
                 .into_owned(),
-            hardware_id: unsafe { CStr::from_ptr(ptr::addr_of!(hardware_id[0])) }
+            hardware_id: unsafe { CStr::from_ptr(hardware_id.as_ptr()) }
                 .to_string_lossy()
                 .into_owned(),
         })
@@ -133,12 +116,12 @@ impl VoicemeeterRemote {
         name: Option<&mut [c_char; 256]>,
         hardware_id: Option<&mut [c_char; 256]>,
     ) -> Result<(), GetDeviceError> {
-        let r#type = crate::opt_or_null(r#type);
+        let type_p = crate::opt_or_null(r#type);
         let name_p = crate::opt_or_null(name.map(|a| &mut a[0]));
         let hardware_id_p = crate::opt_or_null(hardware_id.map(|a| &mut a[0]));
         let res = unsafe {
             self.raw
-                .VBVMR_Output_GetDeviceDescA(index, r#type as *mut _, *name_p, *hardware_id_p)
+                .VBVMR_Output_GetDeviceDescA(index, type_p, name_p, hardware_id_p)
         };
         //cleanup
         match res {
@@ -152,18 +135,47 @@ impl VoicemeeterRemote {
 #[derive(Debug)]
 pub struct InputDevice {
     /// The type of the device.
-    pub r#type: bindings::VBVMR_DEVTYPE,
+    pub r#type: DeviceType,
     /// Device name
     pub name: String,
     /// Hardware ID
     pub hardware_id: String,
 }
 
+/// Represents the type of an audio device.
+#[repr(i32)]
+#[derive(Debug)]
+pub enum DeviceType {
+    /// MME (Multimedia Extension) audio driver.
+    Mme = VBVMR_DEVTYPE::MME.0,
+    /// WDM (Windows Driver Model) audio driver.
+    Wdm = VBVMR_DEVTYPE::WDM.0,
+    /// KS (Kernel Streaming) audio driver.
+    Ks = VBVMR_DEVTYPE::KS.0,
+    /// ASIO (Audio Stream Input/Output) audio driver.
+    Asio = VBVMR_DEVTYPE::ASIO.0,
+    /// Other audio device types not explicitly defined.
+    Other(VBVMR_DEVTYPE),
+}
+
+impl From<i32> for DeviceType {
+    /// Converts an integer value to a DeviceType.
+    fn from(value: i32) -> Self {
+        match VBVMR_DEVTYPE(value) {
+            VBVMR_DEVTYPE::MME => DeviceType::Mme,
+            VBVMR_DEVTYPE::WDM => DeviceType::Wdm,
+            VBVMR_DEVTYPE::KS => DeviceType::Ks,
+            VBVMR_DEVTYPE::ASIO => DeviceType::Asio,
+            o => DeviceType::Other(o),
+        }
+    }
+}
+
 /// A Audio Output Device.
 #[derive(Debug)]
 pub struct OutputDevice {
     /// The type of the device.
-    pub r#type: bindings::VBVMR_DEVTYPE,
+    pub r#type: DeviceType,
     /// Device name
     pub name: String,
     /// Hardware ID

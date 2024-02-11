@@ -70,7 +70,7 @@ impl<'a> Bus<'a> {
 
     /// EQ Memory Slot
     pub fn eq_ab(&self) -> BoolParameter {
-        BoolParameter::new(self.param("EQ.AHB"), self.remote)
+        BoolParameter::new(self.param("EQ.AB"), self.remote)
     }
 
     /// Gain slider

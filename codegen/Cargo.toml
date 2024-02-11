@@ -8,6 +8,6 @@ edition = "2021"
 [dependencies]
 
 [dev-dependencies]
-bindgen = { version = "0.64.0" }
+bindgen = { version = "0.68.1" }
 color-eyre="0.6.0"
 pretty_assertions = "1.1.0"
