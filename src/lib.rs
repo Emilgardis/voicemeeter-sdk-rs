@@ -29,6 +29,8 @@ pub mod interface;
 pub mod miri;
 #[cfg(feature = "interface")]
 pub mod types;
+#[cfg(feature = "interface")]
+pub use types::Device;
 
 use std::ffi::{OsStr, OsString};
 
@@ -36,8 +38,8 @@ use std::io;
 use std::path::Path;
 
 #[doc(hidden)]
-pub static VOICEMEETER_REMOTE: once_cell::sync::OnceCell<VoicemeeterRemoteRaw> =
-    once_cell::sync::OnceCell::new();
+pub static VOICEMEETER_REMOTE: std::sync::OnceLock<VoicemeeterRemoteRaw> =
+    std::sync::OnceLock::new();
 
 #[doc(inline, hidden)]
 pub use bindings::{VoicemeeterRemoteRaw, VBVMR_AUDIOCALLBACK as AudioCallbackMode};
@@ -75,7 +77,7 @@ fn load_voicemeeter_from_path(path: &OsStr) -> Result<&'static VoicemeeterRemote
     VOICEMEETER_REMOTE
         .set(unsafe { VoicemeeterRemoteRaw::new(path)? })
         .map_err(|_| LoadError::AlreadyLoaded)?;
-    unsafe { Ok(VOICEMEETER_REMOTE.get_unchecked()) }
+    Ok(VOICEMEETER_REMOTE.get().expect("lock was just set"))
 }
 
 /// Load error while loading the Voicemeeter remote DLL

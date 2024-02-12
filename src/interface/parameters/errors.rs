@@ -1,15 +1,11 @@
 use crate::types::ZIndex;
 
-pub(crate) static STRIP: &str = "Strip";
-pub(crate) static BUS: &str = "Bus";
-pub(crate) static VOICEMEETER_OPTION: &str = "Option";
-
 /// Parameter is out of range for current program
 #[derive(thiserror::Error, Debug, Clone)]
 #[error("out of range: {name}({index}) is not supported on `{program}`")]
 pub struct OutOfRangeError {
     /// Name of the parameter `base` i.e "Strip" or "Bus"
-    pub name: &'static str,
+    pub name: String,
     /// Index that was out of range
     pub index: ZIndex,
     /// Current program
@@ -19,6 +15,7 @@ pub struct OutOfRangeError {
 /// Device is invalid for the current program and parameter
 #[derive(thiserror::Error, Debug, Clone)]
 #[error("invalid device: {device:?} is not supported on `{program}`")]
+#[non_exhaustive]
 pub struct DeviceError {
     /// Current program
     pub program: super::VoicemeeterApplication,
@@ -53,6 +50,18 @@ pub enum InvalidTypeError {
         strip_index: ZIndex,
         /// Parameter that expected a physical strip/bus
         parameter: String,
+    },
+    /// Expected Strip
+    #[error("expected a strip, got `{device}`")]
+    ExpectedStrip {
+        /// Device received
+        device: String,
+    },
+    /// Expected Bus
+    #[error("expected a bus, got `{device}`")]
+    ExpectedBus {
+        /// Device received
+        device: String,
     },
 }
 

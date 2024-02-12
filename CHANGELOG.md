@@ -33,6 +33,7 @@
 - Added `VoicemeeterRemote::update_program`
 - Added `Strip::gate_detailed`, `Strip::comp_detailed` and `Strip::denoiser`
 - Added `Device::as_strip_index` and `Device::as_bus_index`
+- Added `recorder`, `fx` and `vban` parameters
 
 ## [v0.2.0] - 2023-09-11
 

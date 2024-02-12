@@ -20,19 +20,32 @@ mod errors;
 
 pub mod bus;
 pub mod eq;
+pub mod fx;
 pub mod get_parameters;
 pub mod option;
+pub mod recorder;
 pub mod set_parameters;
 pub mod strip;
+pub mod vban;
 
 pub use bus::*;
 pub use eq::*;
 pub use errors::*;
+pub use fx::*;
 pub use option::*;
+pub use recorder::*;
 pub use strip::*;
+pub use vban::*;
 
 use self::get_parameters::GetParameterError;
 use self::set_parameters::SetParameterError;
+
+pub(crate) static BUS: &str = "Bus";
+pub(crate) static FX: &str = "Recorder";
+pub(crate) static RECORDER: &str = "Recorder";
+pub(crate) static STRIP: &str = "Strip";
+pub(crate) static VOICEMEETER_OPTION: &str = "Option";
+pub(crate) static VBAN: &str = "vban";
 
 impl VoicemeeterRemote {
     /// Get access to [parameters](Parameters) of the application.
@@ -242,32 +255,41 @@ impl<'a, const WRITE: bool> IntParameter<'a, WRITE, true> {
 /// Strip index helper
 pub trait StripIndex {
     /// Get the strip index
-    fn into_strip_index(self, program: &VoicemeeterApplication) -> Result<ZIndex, DeviceError>;
+    fn into_strip_index(self, program: &VoicemeeterApplication) -> Result<ZIndex, ParameterError>;
 }
 
 impl StripIndex for i32 {
-    fn into_strip_index(self, _: &VoicemeeterApplication) -> Result<ZIndex, DeviceError> {
+    fn into_strip_index(self, _: &VoicemeeterApplication) -> Result<ZIndex, ParameterError> {
         Ok(ZIndex(self))
     }
 }
 
 impl StripIndex for usize {
-    fn into_strip_index(self, _: &VoicemeeterApplication) -> Result<ZIndex, DeviceError> {
+    fn into_strip_index(self, _: &VoicemeeterApplication) -> Result<ZIndex, ParameterError> {
         Ok(ZIndex(self as _))
     }
 }
 
 impl StripIndex for ZIndex {
-    fn into_strip_index(self, _: &VoicemeeterApplication) -> Result<ZIndex, DeviceError> {
+    fn into_strip_index(self, _: &VoicemeeterApplication) -> Result<ZIndex, ParameterError> {
         Ok(self)
     }
 }
 
 impl StripIndex for Device {
-    fn into_strip_index(self, program: &VoicemeeterApplication) -> Result<ZIndex, DeviceError> {
-        self.as_strip_index(program).ok_or_else(|| DeviceError {
-            program: *program,
-            device: self,
+    fn into_strip_index(self, program: &VoicemeeterApplication) -> Result<ZIndex, ParameterError> {
+        if !self.is_strip() {
+            return Err(InvalidTypeError::ExpectedStrip {
+                device: format!("{:?}", self),
+            }
+            .into());
+        }
+        self.as_strip_index(program).ok_or_else(|| {
+            DeviceError {
+                program: *program,
+                device: self,
+            }
+            .into()
         })
     }
 }
@@ -275,33 +297,44 @@ impl StripIndex for Device {
 /// Bus index helper
 pub trait BusIndex {
     /// Get the bus index
-    fn into_bus_index(self, program: &VoicemeeterApplication) -> Result<ZIndex, DeviceError>;
+    fn into_bus_index(self, program: &VoicemeeterApplication) -> Result<ZIndex, ParameterError>;
 }
 
 impl BusIndex for i32 {
-    fn into_bus_index(self, _: &VoicemeeterApplication) -> Result<ZIndex, DeviceError> {
+    fn into_bus_index(self, _: &VoicemeeterApplication) -> Result<ZIndex, ParameterError> {
         Ok(ZIndex(self))
     }
 }
 
 impl BusIndex for usize {
-    fn into_bus_index(self, _: &VoicemeeterApplication) -> Result<ZIndex, DeviceError> {
+    fn into_bus_index(self, _: &VoicemeeterApplication) -> Result<ZIndex, ParameterError> {
         Ok(ZIndex(self as _))
     }
 }
 
 impl BusIndex for ZIndex {
-    fn into_bus_index(self, _: &VoicemeeterApplication) -> Result<ZIndex, DeviceError> {
+    fn into_bus_index(self, _: &VoicemeeterApplication) -> Result<ZIndex, ParameterError> {
         Ok(self)
     }
 }
 
 impl BusIndex for Device {
-    fn into_bus_index(self, program: &VoicemeeterApplication) -> Result<ZIndex, DeviceError> {
-        self.as_bus_index(program).ok_or_else(|| DeviceError {
-            program: *program,
-            device: self,
-        })
+    fn into_bus_index(self, program: &VoicemeeterApplication) -> Result<ZIndex, ParameterError> {
+        if !self.is_bus() {
+            return Err(InvalidTypeError::ExpectedBus {
+                device: format!("{:?}", self),
+            }
+            .into());
+        }
+        self.as_bus_index(program)
+            .ok_or_else(|| {
+                DeviceError {
+                    program: *program,
+                    device: self,
+                }
+                .into()
+            })
+            .map(|i| i.0)
     }
 }
 
@@ -322,7 +355,7 @@ pub struct Parameters<'a> {
     remote: &'a VoicemeeterRemote,
 }
 
-// TODO: Add `recorder`, `patch` and `vban`
+// TODO: `patch`
 impl<'a> Parameters<'a> {
     /// Parameters of a [strip](Strip).
     ///
@@ -346,12 +379,11 @@ impl<'a> Parameters<'a> {
             (VoicemeeterApplication::VoicemeeterPotato, 0..=7)
             | (VoicemeeterApplication::PotatoX64Bits, 0..=7) => Strip::new(self.remote, index),
             _ => {
-                return Err(OutOfRangeError {
-                    name: STRIP,
+                return Err(Into::into(OutOfRangeError {
+                    name: STRIP.to_owned(),
                     index,
                     program: self.remote.program,
-                })
-                .map_err(Into::into);
+                }));
             }
         })
     }
@@ -377,12 +409,11 @@ impl<'a> Parameters<'a> {
             (VoicemeeterApplication::VoicemeeterPotato, 0..=7)
             | (VoicemeeterApplication::PotatoX64Bits, 0..=7) => Bus::new(self.remote, index),
             _ => {
-                return Err(OutOfRangeError {
-                    name: BUS,
+                return Err(Into::into(OutOfRangeError {
+                    name: BUS.to_owned(),
                     index,
                     program: self.remote.program,
-                })
-                .map_err(Into::into);
+                }));
             }
         })
     }
@@ -390,5 +421,45 @@ impl<'a> Parameters<'a> {
     /// Options for Voicemeeter
     pub fn option(&self) -> VoicemeeterOption<'a> {
         VoicemeeterOption::new(self.remote)
+    }
+
+    /// Voicemeeter recorder with playback
+    pub fn recorder(&self) -> Result<VoicemeeterRecorder<'a>, ParameterError> {
+        const VALID: &[VoicemeeterApplication] = &[
+            VoicemeeterApplication::VoicemeeterBanana,
+            VoicemeeterApplication::VoicemeeterPotato,
+            VoicemeeterApplication::PotatoX64Bits,
+        ];
+        if !VALID.contains(&self.remote.program) {
+            Err(ParameterError::Version(InvalidVoicemeeterVersion {
+                expected: VALID,
+                found: self.remote.program,
+                parameter: RECORDER.to_owned(),
+            }))
+        } else {
+            Ok(VoicemeeterRecorder::new(self.remote))
+        }
+    }
+
+    /// Voicemeeter FX
+    pub fn fx(&self) -> Result<VoicemeeterFx<'a>, ParameterError> {
+        const VALID: &[VoicemeeterApplication] = &[
+            VoicemeeterApplication::VoicemeeterPotato,
+            VoicemeeterApplication::PotatoX64Bits,
+        ];
+        if !VALID.contains(&self.remote.program) {
+            Err(ParameterError::Version(InvalidVoicemeeterVersion {
+                expected: VALID,
+                found: self.remote.program,
+                parameter: FX.to_owned(),
+            }))
+        } else {
+            Ok(VoicemeeterFx::new(self.remote))
+        }
+    }
+
+    /// Voicemeeter VBAN
+    pub fn vban(&self) -> VoicemeeterVban<'a> {
+        VoicemeeterVban::new(self.remote)
     }
 }
