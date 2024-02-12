@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src\types.rs`."><title>types.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="voicemeeter" data-themes="" data-resource-suffix="" data-rustdoc-version="1.78.0-nightly (6cc484351 2024-02-10)" data-channel="nightly" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-4c98445ec4002617.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src\types.rs`."><title>types.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="voicemeeter" data-themes="" data-resource-suffix="" data-rustdoc-version="1.78.0-nightly (1a648b397 2024-02-11)" data-channel="nightly" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-4c98445ec4002617.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
             <h2>Files</h2></div></nav><div class="sidebar-resizer"></div>
     <main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../voicemeeter/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
@@ -455,6 +455,39 @@
 <a href="#453" id="453">453</a>
 <a href="#454" id="454">454</a>
 <a href="#455" id="455">455</a>
+<a href="#456" id="456">456</a>
+<a href="#457" id="457">457</a>
+<a href="#458" id="458">458</a>
+<a href="#459" id="459">459</a>
+<a href="#460" id="460">460</a>
+<a href="#461" id="461">461</a>
+<a href="#462" id="462">462</a>
+<a href="#463" id="463">463</a>
+<a href="#464" id="464">464</a>
+<a href="#465" id="465">465</a>
+<a href="#466" id="466">466</a>
+<a href="#467" id="467">467</a>
+<a href="#468" id="468">468</a>
+<a href="#469" id="469">469</a>
+<a href="#470" id="470">470</a>
+<a href="#471" id="471">471</a>
+<a href="#472" id="472">472</a>
+<a href="#473" id="473">473</a>
+<a href="#474" id="474">474</a>
+<a href="#475" id="475">475</a>
+<a href="#476" id="476">476</a>
+<a href="#477" id="477">477</a>
+<a href="#478" id="478">478</a>
+<a href="#479" id="479">479</a>
+<a href="#480" id="480">480</a>
+<a href="#481" id="481">481</a>
+<a href="#482" id="482">482</a>
+<a href="#483" id="483">483</a>
+<a href="#484" id="484">484</a>
+<a href="#485" id="485">485</a>
+<a href="#486" id="486">486</a>
+<a href="#487" id="487">487</a>
+<a href="#488" id="488">488</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Basic types used in voicemeeter
 
 /// A Zero Indexed Index
@@ -825,41 +858,74 @@
     }
 
     <span class="doccomment">/// Get the bus index for this device in the current program.
-    </span><span class="kw">pub const fn </span>as_bus_index(<span class="kw-2">&amp;</span><span class="self">self</span>, program: <span class="kw-2">&amp;</span><a href="#67-80">VoicemeeterApplication</a>) -&gt; <span class="prelude-ty">Option</span>&lt;<a href="#6">ZIndex</a>&gt; {
-        <span class="kw">let </span>i = <span class="kw">match </span><a href="#371">program</a> {
-            <a href="#69">VoicemeeterApplication::Voicemeeter</a> =&gt; <span class="prelude-val">Some</span>(<span class="kw">match </span><span class="self"><a href="#371">self</a> </span>{
-                <a href="#177">Device::OutputA1</a> =&gt; <span class="number">0</span>,
-                <a href="#179">Device::OutputA2</a> =&gt; <span class="number">1</span>,
-                <a href="#187">Device::VirtualOutputB1</a> =&gt; <span class="number">2</span>,
+    </span><span class="kw">pub const fn </span>as_bus_index(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        program: <span class="kw-2">&amp;</span><a href="#67-80">VoicemeeterApplication</a>,
+    ) -&gt; <span class="prelude-ty">Option</span>&lt;(<a href="#6">ZIndex</a>, <span class="kw-2">&amp;</span><span class="lifetime">'static </span><a href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>)&gt; {
+        <span class="kw">let </span>i = <span class="kw">match </span><a href="#373">program</a> {
+            <a href="#69">VoicemeeterApplication::Voicemeeter</a> =&gt; <span class="prelude-val">Some</span>(<span class="kw">match </span><span class="self"><a href="#372">self</a> </span>{
+                <a href="#177">Device::OutputA1</a> =&gt; (<span class="number">0</span>, <span class="string">"A1"</span>),
+                <a href="#179">Device::OutputA2</a> =&gt; (<span class="number">1</span>, <span class="string">"A2"</span>),
+                <a href="#187">Device::VirtualOutputB1</a> =&gt; (<span class="number">2</span>, <span class="string">"B1"</span>),
                 <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
             }),
-            <a href="#71">VoicemeeterApplication::VoicemeeterBanana</a> =&gt; <span class="prelude-val">Some</span>(<span class="kw">match </span><span class="self"><a href="#371">self</a> </span>{
-                <a href="#177">Device::OutputA1</a> =&gt; <span class="number">0</span>,
-                <a href="#179">Device::OutputA2</a> =&gt; <span class="number">1</span>,
-                <a href="#181">Device::OutputA3</a> =&gt; <span class="number">2</span>,
-                <a href="#187">Device::VirtualOutputB1</a> =&gt; <span class="number">3</span>,
-                <a href="#189">Device::VirtualOutputB2</a> =&gt; <span class="number">4</span>,
+            <a href="#71">VoicemeeterApplication::VoicemeeterBanana</a> =&gt; <span class="prelude-val">Some</span>(<span class="kw">match </span><span class="self"><a href="#372">self</a> </span>{
+                <a href="#177">Device::OutputA1</a> =&gt; (<span class="number">0</span>, <span class="string">"A1"</span>),
+                <a href="#179">Device::OutputA2</a> =&gt; (<span class="number">1</span>, <span class="string">"A2"</span>),
+                <a href="#181">Device::OutputA3</a> =&gt; (<span class="number">2</span>, <span class="string">"A3"</span>),
+                <a href="#187">Device::VirtualOutputB1</a> =&gt; (<span class="number">3</span>, <span class="string">"B1"</span>),
+                <a href="#189">Device::VirtualOutputB2</a> =&gt; (<span class="number">4</span>, <span class="string">"B2"</span>),
                 <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
             }),
             <a href="#73">VoicemeeterApplication::VoicemeeterPotato</a> | <a href="#75">VoicemeeterApplication::PotatoX64Bits</a> =&gt; {
-                <span class="prelude-val">Some</span>(<span class="kw">match </span><span class="self"><a href="#371">self</a> </span>{
-                    <a href="#177">Device::OutputA1</a> =&gt; <span class="number">0</span>,
-                    <a href="#179">Device::OutputA2</a> =&gt; <span class="number">1</span>,
-                    <a href="#181">Device::OutputA3</a> =&gt; <span class="number">2</span>,
-                    <a href="#183">Device::OutputA4</a> =&gt; <span class="number">3</span>,
-                    <a href="#185">Device::OutputA5</a> =&gt; <span class="number">4</span>,
-                    <a href="#187">Device::VirtualOutputB1</a> =&gt; <span class="number">5</span>,
-                    <a href="#189">Device::VirtualOutputB2</a> =&gt; <span class="number">6</span>,
-                    <a href="#191">Device::VirtualOutputB3</a> =&gt; <span class="number">7</span>,
+                <span class="prelude-val">Some</span>(<span class="kw">match </span><span class="self"><a href="#372">self</a> </span>{
+                    <a href="#177">Device::OutputA1</a> =&gt; (<span class="number">0</span>, <span class="string">"A1"</span>),
+                    <a href="#179">Device::OutputA2</a> =&gt; (<span class="number">1</span>, <span class="string">"A2"</span>),
+                    <a href="#181">Device::OutputA3</a> =&gt; (<span class="number">2</span>, <span class="string">"A3"</span>),
+                    <a href="#183">Device::OutputA4</a> =&gt; (<span class="number">3</span>, <span class="string">"A4"</span>),
+                    <a href="#185">Device::OutputA5</a> =&gt; (<span class="number">4</span>, <span class="string">"A5"</span>),
+                    <a href="#187">Device::VirtualOutputB1</a> =&gt; (<span class="number">5</span>, <span class="string">"B1"</span>),
+                    <a href="#189">Device::VirtualOutputB2</a> =&gt; (<span class="number">6</span>, <span class="string">"B2"</span>),
+                    <a href="#191">Device::VirtualOutputB3</a> =&gt; (<span class="number">7</span>, <span class="string">"B3"</span>),
                     <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
                 })
             }
             <span class="kw">_ </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
         };
-        <span class="kw">match </span><a href="#372">i</a> {
-            <span class="prelude-val">Some</span>(i) =&gt; <span class="prelude-val">Some</span>(<a href="#6">ZIndex</a>(<a href="#403">i</a>)),
+        <span class="kw">match </span><a href="#375">i</a> {
+            <span class="prelude-val">Some</span>((i, s)) =&gt; <span class="prelude-val">Some</span>((<a href="#6">ZIndex</a>(<a href="#406">i</a>), <a href="#406">s</a>)),
             <span class="prelude-val">None </span>=&gt; <span class="prelude-val">None</span>,
         }
+    }
+
+    <span class="doccomment">/// Check if this device is a strip
+    </span><span class="kw">pub fn </span>is_strip(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> {
+        <a class="macro" href="https://doc.rust-lang.org/nightly/core/macro.matches.html">matches!</a>(
+            <span class="self">self</span>,
+            Device::Strip1
+                | Device::Strip2
+                | Device::Strip3
+                | Device::Strip4
+                | Device::Strip5
+                | Device::VirtualInput
+                | Device::VirtualInputAux
+                | Device::VirtualInput8
+        )
+    }
+
+    <span class="doccomment">/// Check if this device is a bus
+    </span><span class="kw">pub fn </span>is_bus(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <a href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a> {
+        <a class="macro" href="https://doc.rust-lang.org/nightly/core/macro.matches.html">matches!</a>(
+            <span class="self">self</span>,
+            Device::OutputA1
+                | Device::OutputA2
+                | Device::OutputA3
+                | Device::OutputA4
+                | Device::OutputA5
+                | Device::VirtualOutputB1
+                | Device::VirtualOutputB2
+                | Device::VirtualOutputB3
+        )
     }
 }
 
@@ -892,21 +958,21 @@
     </span>RearOnly,
 }
 
-<span class="kw">impl </span><a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html">std::fmt::Display</a> <span class="kw">for </span><a href="#411-436">BusMode</a> {
+<span class="kw">impl </span><a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Display.html">std::fmt::Display</a> <span class="kw">for </span><a href="#444-469">BusMode</a> {
     <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>std::fmt::Formatter&lt;<span class="lifetime">'_</span>&gt;) -&gt; <a href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html">std::fmt::Result</a> {
-        <span class="kw">match </span><span class="self"><a href="#439">self</a> </span>{
-            <a href="#413">BusMode::Normal</a> =&gt; <a href="#439">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"normal"</span>),
-            <a href="#415">BusMode::Amix</a> =&gt; <a href="#439">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"Amix"</span>),
-            <a href="#417">BusMode::Bmix</a> =&gt; <a href="#439">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"Bmix"</span>),
-            <a href="#419">BusMode::Repeat</a> =&gt; <a href="#439">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"Repeat"</span>),
-            <a href="#421">BusMode::Composite</a> =&gt; <a href="#439">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"Composite"</span>),
-            <a href="#423">BusMode::TvMix</a> =&gt; <a href="#439">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"TVMix"</span>),
-            <a href="#425">BusMode::UpMix21</a> =&gt; <a href="#439">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"UpMix21"</span>),
-            <a href="#427">BusMode::UpMix41</a> =&gt; <a href="#439">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"UpMix41"</span>),
-            <a href="#429">BusMode::UpMix61</a> =&gt; <a href="#439">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"UpMix61"</span>),
-            <a href="#431">BusMode::CenterOnly</a> =&gt; <a href="#439">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"CenterOnly"</span>),
-            <a href="#433">BusMode::LfeOnly</a> =&gt; <a href="#439">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"LFEOnly"</span>),
-            <a href="#435">BusMode::RearOnly</a> =&gt; <a href="#439">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"RearOnly"</span>),
+        <span class="kw">match </span><span class="self"><a href="#472">self</a> </span>{
+            <a href="#446">BusMode::Normal</a> =&gt; <a href="#472">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"normal"</span>),
+            <a href="#448">BusMode::Amix</a> =&gt; <a href="#472">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"Amix"</span>),
+            <a href="#450">BusMode::Bmix</a> =&gt; <a href="#472">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"Bmix"</span>),
+            <a href="#452">BusMode::Repeat</a> =&gt; <a href="#472">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"Repeat"</span>),
+            <a href="#454">BusMode::Composite</a> =&gt; <a href="#472">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"Composite"</span>),
+            <a href="#456">BusMode::TvMix</a> =&gt; <a href="#472">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"TVMix"</span>),
+            <a href="#458">BusMode::UpMix21</a> =&gt; <a href="#472">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"UpMix21"</span>),
+            <a href="#460">BusMode::UpMix41</a> =&gt; <a href="#472">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"UpMix41"</span>),
+            <a href="#462">BusMode::UpMix61</a> =&gt; <a href="#472">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"UpMix61"</span>),
+            <a href="#464">BusMode::CenterOnly</a> =&gt; <a href="#472">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"CenterOnly"</span>),
+            <a href="#466">BusMode::LfeOnly</a> =&gt; <a href="#472">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"LFEOnly"</span>),
+            <a href="#468">BusMode::RearOnly</a> =&gt; <a href="#472">f</a>.<a href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html#method.write_str">write_str</a>(<span class="string">"RearOnly"</span>),
         }
     }
 }

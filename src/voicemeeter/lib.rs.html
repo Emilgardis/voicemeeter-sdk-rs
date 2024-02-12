@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src\lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="voicemeeter" data-themes="" data-resource-suffix="" data-rustdoc-version="1.78.0-nightly (6cc484351 2024-02-10)" data-channel="nightly" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-4c98445ec4002617.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src\lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="voicemeeter" data-themes="" data-resource-suffix="" data-rustdoc-version="1.78.0-nightly (1a648b397 2024-02-11)" data-channel="nightly" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-4c98445ec4002617.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
             <h2>Files</h2></div></nav><div class="sidebar-resizer"></div>
     <main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../voicemeeter/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
@@ -173,6 +173,8 @@
 <a href="#171" id="171">171</a>
 <a href="#172" id="172">172</a>
 <a href="#173" id="173">173</a>
+<a href="#174" id="174">174</a>
+<a href="#175" id="175">175</a>
 </pre></div><pre class="rust"><code><span class="attr">#![warn(missing_docs)]
 #![deny(unsafe_op_in_unsafe_fn)]
 #![deny(rustdoc::broken_intra_doc_links)]
@@ -203,7 +205,9 @@
 #[doc(hidden)]
 </span><span class="kw">pub mod </span>miri;
 <span class="attr">#[cfg(feature = <span class="string">"interface"</span>)]
-</span><span class="kw">pub mod </span><a href="types.rs.html#1-455">types</a>;
+</span><span class="kw">pub mod </span><a href="types.rs.html#1-488">types</a>;
+<span class="attr">#[cfg(feature = <span class="string">"interface"</span>)]
+</span><span class="kw">pub use </span><a href="types.rs.html#165-198">types::Device</a>;
 
 <span class="kw">use </span>std::ffi::{<a href="https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsStr.html">OsStr</a>, <a href="https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsString.html">OsString</a>};
 
@@ -211,8 +215,8 @@
 <span class="kw">use </span><a href="https://doc.rust-lang.org/nightly/std/path/struct.Path.html">std::path::Path</a>;
 
 <span class="attr">#[doc(hidden)]
-</span><span class="kw">pub static </span>VOICEMEETER_REMOTE: once_cell::sync::OnceCell&lt;<a href="bindings.rs.html#1108-1204">VoicemeeterRemoteRaw</a>&gt; =
-    <a href="https://docs.rs/once_cell/1.19.0/once_cell/sync/struct.OnceCell.html#method.new">once_cell::sync::OnceCell::new</a>();
+</span><span class="kw">pub static </span>VOICEMEETER_REMOTE: std::sync::OnceLock&lt;<a href="bindings.rs.html#1108-1204">VoicemeeterRemoteRaw</a>&gt; =
+    <a href="https://doc.rust-lang.org/nightly/std/sync/once_lock/struct.OnceLock.html#method.new">std::sync::OnceLock::new</a>();
 
 <span class="attr">#[doc(inline, hidden)]
 </span><span class="kw">pub use </span>bindings::{<a href="bindings.rs.html#1108-1204">VoicemeeterRemoteRaw</a>, <a href="bindings.rs.html#231">VBVMR_AUDIOCALLBACK</a> <span class="kw">as </span>AudioCallbackMode};
@@ -232,12 +236,12 @@
 
 <span class="attr">#[doc(hidden)]
 </span><span class="doccomment">/// Get a reference to voicemeeter remote
-</span><span class="kw">pub fn </span>get_voicemeeter_raw() -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span><a href="bindings.rs.html#1108-1204">VoicemeeterRemoteRaw</a>, <a href="#84-94">LoadError</a>&gt; {
-    <span class="kw">if let </span><span class="prelude-val">Some</span>(remote) = <a href="#39-40">VOICEMEETER_REMOTE</a>.<a href="https://docs.rs/once_cell/1.19.0/once_cell/sync/struct.OnceCell.html#method.get">get</a>() {
-        <span class="prelude-val">Ok</span>(<a href="#61">remote</a>)
+</span><span class="kw">pub fn </span>get_voicemeeter_raw() -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span><a href="bindings.rs.html#1108-1204">VoicemeeterRemoteRaw</a>, <a href="#86-96">LoadError</a>&gt; {
+    <span class="kw">if let </span><span class="prelude-val">Some</span>(remote) = <a href="#41-42">VOICEMEETER_REMOTE</a>.<a href="https://doc.rust-lang.org/nightly/std/sync/once_lock/struct.OnceLock.html#method.get">get</a>() {
+        <span class="prelude-val">Ok</span>(<a href="#63">remote</a>)
     } <span class="kw">else </span>{
-        <span class="kw">let </span>path = <a href="#97">find_voicemeeter_remote_with_registry</a>()<span class="question-mark">?</span>;
-        <a href="#72">load_voicemeeter_from_path</a>(<span class="kw-2">&amp;</span><a href="#64">path</a>)
+        <span class="kw">let </span>path = <a href="#99">find_voicemeeter_remote_with_registry</a>()<span class="question-mark">?</span>;
+        <a href="#74">load_voicemeeter_from_path</a>(<span class="kw-2">&amp;</span><a href="#66">path</a>)
     }
 }
 
@@ -245,18 +249,18 @@
 ///
 /// Errors if it's already loaded
 </span><span class="attr">#[tracing::instrument]
-</span><span class="kw">fn </span>load_voicemeeter_from_path(path: <span class="kw-2">&amp;</span><a href="https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsStr.html">OsStr</a>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span><a href="bindings.rs.html#1108-1204">VoicemeeterRemoteRaw</a>, <a href="#84-94">LoadError</a>&gt; {
+</span><span class="kw">fn </span>load_voicemeeter_from_path(path: <span class="kw-2">&amp;</span><a href="https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsStr.html">OsStr</a>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'static </span><a href="bindings.rs.html#1108-1204">VoicemeeterRemoteRaw</a>, <a href="#86-96">LoadError</a>&gt; {
     <span class="macro">tracing::debug!</span>(<span class="string">"loading voicemeeter"</span>);
     VOICEMEETER_REMOTE
         .set(<span class="kw">unsafe </span>{ VoicemeeterRemoteRaw::new(path)<span class="question-mark">? </span>})
         .map_err(|<span class="kw">_</span>| LoadError::AlreadyLoaded)<span class="question-mark">?</span>;
-    <span class="kw">unsafe </span>{ <span class="prelude-val">Ok</span>(VOICEMEETER_REMOTE.get_unchecked()) }
+    <span class="prelude-val">Ok</span>(VOICEMEETER_REMOTE.get().expect(<span class="string">"lock was just set"</span>))
 }
 
 <span class="doccomment">/// Load error while loading the Voicemeeter remote DLL
 </span><span class="attr">#[derive(Debug, thiserror::Error)]
 #[non_exhaustive]
-</span><span class="kw">pub enum </span><a href="#84-94">LoadError</a> {
+</span><span class="kw">pub enum </span><a href="#86-96">LoadError</a> {
     <span class="doccomment">/// Remote is already loaded. Not a hard error.
     </span><span class="attr">#[error(<span class="string">"library is already loaded"</span>)]
     </span>AlreadyLoaded,
@@ -265,12 +269,12 @@
     </span>LoadingError(<span class="attr">#[from] </span><a href="https://docs.rs/libloading/0.8.1/libloading/error/enum.Error.html">libloading::Error</a>),
     <span class="doccomment">/// Could not locate the dll
     </span><span class="attr">#[error(<span class="string">"library could not be located"</span>)]
-    </span>RemoteFileError(<span class="attr">#[from] </span><a href="#138-145">RemoteFileError</a>),
+    </span>RemoteFileError(<span class="attr">#[from] </span><a href="#140-147">RemoteFileError</a>),
 }
 
 <span class="doccomment">/// Get VoiceMeeterRemote via registry key
 </span><span class="attr">#[tracing::instrument]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>find_voicemeeter_remote_with_registry() -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsString.html">OsString</a>, <a href="#138-145">RemoteFileError</a>&gt; {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>find_voicemeeter_remote_with_registry() -&gt; <span class="prelude-ty">Result</span>&lt;<a href="https://doc.rust-lang.org/nightly/std/ffi/os_str/struct.OsString.html">OsString</a>, <a href="#140-147">RemoteFileError</a>&gt; {
     <span class="macro">tracing::debug!</span>(<span class="string">"finding voicemeeter dll"</span>);
     <span class="kw">let </span>hklm = winreg::RegKey::predef(winreg::enums::HKEY_LOCAL_MACHINE);
     <span class="kw">let </span>voicemeeter_uninst = <span class="kw">if let </span><span class="prelude-val">Ok</span>(reg) = hklm
@@ -310,19 +314,19 @@
 <span class="doccomment">/// Error while trying to get Voicemeeter location
 </span><span class="attr">#[derive(Debug, thiserror::Error)]
 #[non_exhaustive]
-</span><span class="kw">pub enum </span><a href="#138-145">RemoteFileError</a> {
+</span><span class="kw">pub enum </span><a href="#140-147">RemoteFileError</a> {
     <span class="doccomment">/// Voicemeeter dll not found at path
     </span><span class="attr">#[error(<span class="string">"could not find voicemeeter folder: {}"</span>, <span class="number">0</span>)]
     </span>NotFound(<a href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html">String</a>),
     <span class="doccomment">/// Registry error
     </span><span class="attr">#[error(transparent)]
-    </span>RegistryError(<span class="attr">#[from] </span><a href="#150-163">RegistryError</a>),
+    </span>RegistryError(<span class="attr">#[from] </span><a href="#152-165">RegistryError</a>),
 }
 
 <span class="doccomment">/// Registry errors
 </span><span class="attr">#[derive(Debug, thiserror::Error)]
 #[non_exhaustive]
-</span><span class="kw">pub enum </span><a href="#150-163">RegistryError</a> {
+</span><span class="kw">pub enum </span><a href="#152-165">RegistryError</a> {
     <span class="doccomment">/// Could not find the uninstall folder in HKLM for 32-bit apps
     </span><span class="attr">#[error(<span class="string">"could not find uninstall folder in hklm"</span>)]
     </span>CouldNotFindUninstallReg(<span class="attr">#[source] </span><a href="https://doc.rust-lang.org/nightly/std/io/error/struct.Error.html">io::Error</a>),
@@ -340,7 +344,7 @@
 <span class="doccomment">/// Get a pointer to a `T` if option is [`Some`](Option::Some) or a null ptr if it's [`None`](Option::None)
 </span><span class="attr">#[cfg(feature = <span class="string">"interface"</span>)]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>opt_or_null&lt;T&gt;(<span class="kw-2">mut </span>option: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;mut </span>T&gt;) -&gt; <span class="kw-2">*mut </span>T {
-    <span class="kw">if let </span><span class="prelude-val">Some</span>(p) = <a href="#167">option</a>.<a href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html#method.take">take</a>() {
+    <span class="kw">if let </span><span class="prelude-val">Some</span>(p) = <a href="#169">option</a>.<a href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html#method.take">take</a>() {
         <a class="macro" href="https://doc.rust-lang.org/nightly/core/ptr/macro.addr_of_mut.html">std::ptr::addr_of_mut!</a>(<span class="kw-2">*</span>p)
     } <span class="kw">else </span>{
         <a href="https://doc.rust-lang.org/nightly/core/ptr/fn.null_mut.html">std::ptr::null_mut</a>()
