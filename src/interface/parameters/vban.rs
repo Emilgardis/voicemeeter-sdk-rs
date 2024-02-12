@@ -55,23 +55,21 @@ impl<'a> VoicemeeterVban<'a> {
         ];
         let param = format!("{VBAN}.instream");
         match VALID.iter().find(|(app, _)| self.remote.program == *app) {
-            None => {
-                return Err(ParameterError::Version(InvalidVoicemeeterVersion {
-                    expected: &[
-                        VoicemeeterApplication::Voicemeeter,
-                        VoicemeeterApplication::VoicemeeterBanana,
-                        VoicemeeterApplication::VoicemeeterPotato,
-                        VoicemeeterApplication::PotatoX64Bits,
-                    ],
-                    found: self.remote.program,
-                    parameter: param,
-                }));
+            None => Err(ParameterError::Version(InvalidVoicemeeterVersion {
+                expected: &[
+                    VoicemeeterApplication::Voicemeeter,
+                    VoicemeeterApplication::VoicemeeterBanana,
+                    VoicemeeterApplication::VoicemeeterPotato,
+                    VoicemeeterApplication::PotatoX64Bits,
+                ],
+                found: self.remote.program,
+                parameter: param,
+            })),
+            Some((_, i)) if i.contains(&(index.0 as u8)) => {
+                Ok(VoicemeeterVbanStream::<'a, true>::new(self.remote, index))
             }
-            Some((_, i)) if i.contains(&(index.0 as u8)) => Ok(
-                VoicemeeterVbanStream::<'a, true>::new(self.remote, index.into()),
-            ),
             _ => Err(ParameterError::OutOfRange(OutOfRangeError {
-                name: format!("{param}"),
+                name: param.to_string(),
                 index,
                 program: self.remote.program,
             })),
@@ -92,23 +90,21 @@ impl<'a> VoicemeeterVban<'a> {
         ];
         let param = format!("{VBAN}.outstream");
         match VALID.iter().find(|(app, _)| self.remote.program == *app) {
-            None => {
-                return Err(ParameterError::Version(InvalidVoicemeeterVersion {
-                    expected: &[
-                        VoicemeeterApplication::Voicemeeter,
-                        VoicemeeterApplication::VoicemeeterBanana,
-                        VoicemeeterApplication::VoicemeeterPotato,
-                        VoicemeeterApplication::PotatoX64Bits,
-                    ],
-                    found: self.remote.program,
-                    parameter: param,
-                }));
+            None => Err(ParameterError::Version(InvalidVoicemeeterVersion {
+                expected: &[
+                    VoicemeeterApplication::Voicemeeter,
+                    VoicemeeterApplication::VoicemeeterBanana,
+                    VoicemeeterApplication::VoicemeeterPotato,
+                    VoicemeeterApplication::PotatoX64Bits,
+                ],
+                found: self.remote.program,
+                parameter: param,
+            })),
+            Some((_, i)) if i.contains(&(index.0 as u8)) => {
+                Ok(VoicemeeterVbanStream::<'a, false>::new(self.remote, index))
             }
-            Some((_, i)) if i.contains(&(index.0 as u8)) => Ok(
-                VoicemeeterVbanStream::<'a, false>::new(self.remote, index.into()),
-            ),
             _ => Err(ParameterError::OutOfRange(OutOfRangeError {
-                name: format!("{param}"),
+                name: param.to_string(),
                 index,
                 program: self.remote.program,
             })),

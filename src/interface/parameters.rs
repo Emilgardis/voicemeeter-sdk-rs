@@ -379,12 +379,11 @@ impl<'a> Parameters<'a> {
             (VoicemeeterApplication::VoicemeeterPotato, 0..=7)
             | (VoicemeeterApplication::PotatoX64Bits, 0..=7) => Strip::new(self.remote, index),
             _ => {
-                return Err(OutOfRangeError {
+                return Err(Into::into(OutOfRangeError {
                     name: STRIP.to_owned(),
                     index,
                     program: self.remote.program,
-                })
-                .map_err(Into::into);
+                }));
             }
         })
     }
@@ -410,12 +409,11 @@ impl<'a> Parameters<'a> {
             (VoicemeeterApplication::VoicemeeterPotato, 0..=7)
             | (VoicemeeterApplication::PotatoX64Bits, 0..=7) => Bus::new(self.remote, index),
             _ => {
-                return Err(OutOfRangeError {
+                return Err(Into::into(OutOfRangeError {
                     name: BUS.to_owned(),
                     index,
                     program: self.remote.program,
-                })
-                .map_err(Into::into);
+                }));
             }
         })
     }

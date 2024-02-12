@@ -53,7 +53,7 @@ impl<'a> VoicemeeterRecorder<'a> {
         Ok(BoolParameter::new(
             self.param(
                 bus.as_bus_index(&self.remote.program)
-                    .ok_or_else(|| DeviceError {
+                    .ok_or(DeviceError {
                         program: self.remote.program,
                         device: *bus,
                     })?

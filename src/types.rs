@@ -410,32 +410,32 @@ impl Device {
 
     /// Check if this device is a strip
     pub fn is_strip(&self) -> bool {
-        match self {
+        matches!(
+            self,
             Device::Strip1
-            | Device::Strip2
-            | Device::Strip3
-            | Device::Strip4
-            | Device::Strip5
-            | Device::VirtualInput
-            | Device::VirtualInputAux
-            | Device::VirtualInput8 => true,
-            _ => false,
-        }
+                | Device::Strip2
+                | Device::Strip3
+                | Device::Strip4
+                | Device::Strip5
+                | Device::VirtualInput
+                | Device::VirtualInputAux
+                | Device::VirtualInput8
+        )
     }
 
     /// Check if this device is a bus
     pub fn is_bus(&self) -> bool {
-        match self {
+        matches!(
+            self,
             Device::OutputA1
-            | Device::OutputA2
-            | Device::OutputA3
-            | Device::OutputA4
-            | Device::OutputA5
-            | Device::VirtualOutputB1
-            | Device::VirtualOutputB2
-            | Device::VirtualOutputB3 => true,
-            _ => false,
-        }
+                | Device::OutputA2
+                | Device::OutputA3
+                | Device::OutputA4
+                | Device::OutputA5
+                | Device::VirtualOutputB1
+                | Device::VirtualOutputB2
+                | Device::VirtualOutputB3
+        )
     }
 }
 
