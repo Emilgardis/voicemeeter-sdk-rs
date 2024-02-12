@@ -29,7 +29,7 @@ pub mod interface;
 pub mod miri;
 #[cfg(feature = "interface")]
 pub mod types;
-
+#[cfg(feature = "interface")]
 pub use types::Device;
 
 use std::ffi::{OsStr, OsString};
