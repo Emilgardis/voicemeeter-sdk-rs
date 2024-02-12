@@ -368,40 +368,73 @@ impl Device {
     }
 
     /// Get the bus index for this device in the current program.
-    pub const fn as_bus_index(&self, program: &VoicemeeterApplication) -> Option<ZIndex> {
+    pub const fn as_bus_index(
+        &self,
+        program: &VoicemeeterApplication,
+    ) -> Option<(ZIndex, &'static str)> {
         let i = match program {
             VoicemeeterApplication::Voicemeeter => Some(match self {
-                Device::OutputA1 => 0,
-                Device::OutputA2 => 1,
-                Device::VirtualOutputB1 => 2,
+                Device::OutputA1 => (0, "A1"),
+                Device::OutputA2 => (1, "A2"),
+                Device::VirtualOutputB1 => (2, "B1"),
                 _ => return None,
             }),
             VoicemeeterApplication::VoicemeeterBanana => Some(match self {
-                Device::OutputA1 => 0,
-                Device::OutputA2 => 1,
-                Device::OutputA3 => 2,
-                Device::VirtualOutputB1 => 3,
-                Device::VirtualOutputB2 => 4,
+                Device::OutputA1 => (0, "A1"),
+                Device::OutputA2 => (1, "A2"),
+                Device::OutputA3 => (2, "A3"),
+                Device::VirtualOutputB1 => (3, "B1"),
+                Device::VirtualOutputB2 => (4, "B2"),
                 _ => return None,
             }),
             VoicemeeterApplication::VoicemeeterPotato | VoicemeeterApplication::PotatoX64Bits => {
                 Some(match self {
-                    Device::OutputA1 => 0,
-                    Device::OutputA2 => 1,
-                    Device::OutputA3 => 2,
-                    Device::OutputA4 => 3,
-                    Device::OutputA5 => 4,
-                    Device::VirtualOutputB1 => 5,
-                    Device::VirtualOutputB2 => 6,
-                    Device::VirtualOutputB3 => 7,
+                    Device::OutputA1 => (0, "A1"),
+                    Device::OutputA2 => (1, "A2"),
+                    Device::OutputA3 => (2, "A3"),
+                    Device::OutputA4 => (3, "A4"),
+                    Device::OutputA5 => (4, "A5"),
+                    Device::VirtualOutputB1 => (5, "B1"),
+                    Device::VirtualOutputB2 => (6, "B2"),
+                    Device::VirtualOutputB3 => (7, "B3"),
                     _ => return None,
                 })
             }
             _ => return None,
         };
         match i {
-            Some(i) => Some(ZIndex(i)),
+            Some((i, s)) => Some((ZIndex(i), s)),
             None => None,
+        }
+    }
+
+    /// Check if this device is a strip
+    pub fn is_strip(&self) -> bool {
+        match self {
+            Device::Strip1
+            | Device::Strip2
+            | Device::Strip3
+            | Device::Strip4
+            | Device::Strip5
+            | Device::VirtualInput
+            | Device::VirtualInputAux
+            | Device::VirtualInput8 => true,
+            _ => false,
+        }
+    }
+
+    /// Check if this device is a bus
+    pub fn is_bus(&self) -> bool {
+        match self {
+            Device::OutputA1
+            | Device::OutputA2
+            | Device::OutputA3
+            | Device::OutputA4
+            | Device::OutputA5
+            | Device::VirtualOutputB1
+            | Device::VirtualOutputB2
+            | Device::VirtualOutputB3 => true,
+            _ => false,
         }
     }
 }
