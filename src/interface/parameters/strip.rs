@@ -65,34 +65,34 @@ impl<'a> Strip<'a> {
     }
 
     /// Mono Button
-    pub fn mono(&self) -> BoolParameter {
+    pub fn mono(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("Mono"), self.remote)
     }
 
     /// Mute Button
-    pub fn mute(&self) -> BoolParameter {
+    pub fn mute(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("Mute"), self.remote)
     }
 
     /// Solo Button
-    pub fn solo(&self) -> BoolParameter {
+    pub fn solo(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("Solo"), self.remote)
     }
 
     // FIXME: Only available in virtual input and input8
     /// Mute Center Button
-    pub fn mute_center(&self) -> BoolParameter {
+    pub fn mute_center(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("MC"), self.remote)
     }
 
     /// Gain slider
-    pub fn gain(&self) -> FloatParameter {
+    pub fn gain(&self) -> FloatParameter<'_> {
         FloatParameter::new(self.param("Gain"), self.remote, -60.0..=12.0)
     }
 
     // TODO: zindex for bus
     /// Gain slider for a bus
-    pub fn gain_layer(&self, layer: impl Into<ZIndex>) -> FloatParameter {
+    pub fn gain_layer(&self, layer: impl Into<ZIndex>) -> FloatParameter<'_> {
         let layer = layer.into();
         let name = self.param(format!("GainLayer[{layer}]"));
         FloatParameter::new(name, self.remote, -60.0..=12.0)
@@ -100,18 +100,18 @@ impl<'a> Strip<'a> {
 
     // TODO: zindex for bus
     /// Pan in x direction
-    pub fn pan_x(&self) -> FloatParameter {
+    pub fn pan_x(&self) -> FloatParameter<'_> {
         FloatParameter::new(self.param("Pan_x"), self.remote, -0.5..=0.5)
     }
 
     /// Pan in y direction
-    pub fn pan_y(&self) -> FloatParameter {
+    pub fn pan_y(&self) -> FloatParameter<'_> {
         // FIXME: docs says for range: 0 to 1.0 (-0.5 to 0.5 for 5.1 pan pot)
         FloatParameter::new_unranged(self.param("Pan_y"), self.remote)
     }
 
     /// Color of physical strip in x direction
-    pub fn color_x(&self) -> Result<FloatParameter, InvalidTypeError> {
+    pub fn color_x(&self) -> Result<FloatParameter<'_>, InvalidTypeError> {
         if self.is_virtual() {
             Err(InvalidTypeError::ExpectedPhysical {
                 name: STRIP,
@@ -128,7 +128,7 @@ impl<'a> Strip<'a> {
     }
 
     /// Color of physical strip in y direction
-    pub fn color_y(&self) -> Result<FloatParameter, InvalidTypeError> {
+    pub fn color_y(&self) -> Result<FloatParameter<'_>, InvalidTypeError> {
         if self.is_virtual() {
             Err(InvalidTypeError::ExpectedPhysical {
                 name: STRIP,
@@ -145,7 +145,7 @@ impl<'a> Strip<'a> {
     }
 
     /// FX of physical strip in x direction
-    pub fn fx_x(&self) -> Result<FloatParameter, InvalidTypeError> {
+    pub fn fx_x(&self) -> Result<FloatParameter<'_>, InvalidTypeError> {
         if self.is_virtual() {
             Err(InvalidTypeError::ExpectedPhysical {
                 name: STRIP,
@@ -162,7 +162,7 @@ impl<'a> Strip<'a> {
     }
 
     /// FX of physical strip in y direction
-    pub fn fx_y(&self) -> Result<FloatParameter, InvalidTypeError> {
+    pub fn fx_y(&self) -> Result<FloatParameter<'_>, InvalidTypeError> {
         if self.is_virtual() {
             Err(InvalidTypeError::ExpectedPhysical {
                 name: STRIP,
@@ -179,21 +179,21 @@ impl<'a> Strip<'a> {
     }
 
     /// Audability
-    pub fn audability(&self) -> FloatParameter {
+    pub fn audability(&self) -> FloatParameter<'_> {
         FloatParameter::new(self.param("Audability"), self.remote, 0.0..=10.0)
     }
     // FIXME: Only available in virtual input aux
     /// Compression
     ///
     /// See also [Strip::comp_detailed] for detailed compressor settings
-    pub fn comp(&self) -> FloatParameter {
+    pub fn comp(&self) -> FloatParameter<'_> {
         FloatParameter::new(self.param("Comp"), self.remote, 0.0..=10.0)
     }
 
     /// Compressor detailed parameters/settings
     ///
     /// Only works on Voicemeeter Potato
-    pub fn comp_detailed(&self) -> Result<StripCompressor, ParameterError> {
+    pub fn comp_detailed(&self) -> Result<StripCompressor<'_>, ParameterError> {
         const VALID: &[VoicemeeterApplication] = &[
             VoicemeeterApplication::VoicemeeterPotato,
             VoicemeeterApplication::PotatoX64Bits,
@@ -222,14 +222,14 @@ impl<'a> Strip<'a> {
     /// Gate
     ///
     /// See also [Strip::gate_detailed] for detailed gate settings
-    pub fn gate(&self) -> FloatParameter {
+    pub fn gate(&self) -> FloatParameter<'_> {
         FloatParameter::new(self.param("Gate"), self.remote, 0.0..=10.0)
     }
 
     /// Gate detailed parameters/settings
     ///
     /// Only works on Voicemeeter Potato
-    pub fn gate_detailed(&self) -> Result<StripGate, ParameterError> {
+    pub fn gate_detailed(&self) -> Result<StripGate<'_>, ParameterError> {
         const VALID: &[VoicemeeterApplication] = &[
             VoicemeeterApplication::VoicemeeterPotato,
             VoicemeeterApplication::PotatoX64Bits,
@@ -257,7 +257,7 @@ impl<'a> Strip<'a> {
     }
 
     /// Denoiser Knob
-    pub fn denoiser(&self) -> Result<FloatParameter, ParameterError> {
+    pub fn denoiser(&self) -> Result<FloatParameter<'_>, ParameterError> {
         const VALID: &[VoicemeeterApplication] = &[
             VoicemeeterApplication::VoicemeeterPotato,
             VoicemeeterApplication::PotatoX64Bits,
@@ -289,17 +289,17 @@ impl<'a> Strip<'a> {
     }
 
     /// Karaoke
-    pub fn karaoke(&self) -> IntParameter {
+    pub fn karaoke(&self) -> IntParameter<'_> {
         IntParameter::new(self.param("Karaoke"), self.remote, 0..=4)
     }
 
     /// Limit
-    pub fn limit(&self) -> IntParameter {
+    pub fn limit(&self) -> IntParameter<'_> {
         IntParameter::new(self.param("Limit"), self.remote, -40..=12)
     }
 
     /// EQGain1 of virtual strip
-    pub fn eq_gain1(&self) -> Result<FloatParameter, InvalidTypeError> {
+    pub fn eq_gain1(&self) -> Result<FloatParameter<'_>, InvalidTypeError> {
         if self.is_physical() {
             Err(InvalidTypeError::ExpectedPhysical {
                 name: STRIP,
@@ -316,7 +316,7 @@ impl<'a> Strip<'a> {
     }
 
     /// EQGain2 of virtual strip
-    pub fn eq_gain2(&self) -> Result<FloatParameter, InvalidTypeError> {
+    pub fn eq_gain2(&self) -> Result<FloatParameter<'_>, InvalidTypeError> {
         if self.is_physical() {
             Err(InvalidTypeError::ExpectedPhysical {
                 name: STRIP,
@@ -333,7 +333,7 @@ impl<'a> Strip<'a> {
     }
 
     /// EQGain3 of virtual strip
-    pub fn eq_gain3(&self) -> Result<FloatParameter, InvalidTypeError> {
+    pub fn eq_gain3(&self) -> Result<FloatParameter<'_>, InvalidTypeError> {
         if self.is_physical() {
             Err(InvalidTypeError::ExpectedPhysical {
                 name: STRIP,
@@ -350,52 +350,52 @@ impl<'a> Strip<'a> {
     }
 
     /// Label
-    pub fn label(&self) -> StringParameter {
+    pub fn label(&self) -> StringParameter<'_> {
         StringParameter::new(self.param("Label"), self.remote)
     }
 
     /// Out BUS Assignation for A1
-    pub fn a1(&self) -> BoolParameter {
+    pub fn a1(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("A1"), self.remote)
     }
     /// Out BUS Assignation for A2
-    pub fn a2(&self) -> BoolParameter {
+    pub fn a2(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("A2"), self.remote)
     }
     /// Out BUS Assignation for A3
-    pub fn a3(&self) -> BoolParameter {
+    pub fn a3(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("A3"), self.remote)
     }
     /// Out BUS Assignation for A4
-    pub fn a4(&self) -> BoolParameter {
+    pub fn a4(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("A4"), self.remote)
     }
     /// Out BUS Assignation for A5
-    pub fn a5(&self) -> BoolParameter {
+    pub fn a5(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("A5"), self.remote)
     }
     /// Out BUS Assignation for B1
-    pub fn b1(&self) -> BoolParameter {
+    pub fn b1(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("B1"), self.remote)
     }
     /// Out BUS Assignation for B2
-    pub fn b2(&self) -> BoolParameter {
+    pub fn b2(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("B2"), self.remote)
     }
     /// Out BUS Assignation for B3
-    pub fn b3(&self) -> BoolParameter {
+    pub fn b3(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("B3"), self.remote)
     }
     /// EQ Button
-    pub fn eq_on(&self) -> BoolParameter {
+    pub fn eq_on(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("EQ.on"), self.remote)
     }
     /// EQ Memory Slot
-    pub fn eq_ab(&self) -> BoolParameter {
+    pub fn eq_ab(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("EQ.AB"), self.remote)
     }
     /// EQ on channel
-    pub fn eq(&self, channel: usize) -> Result<EqChannelParameter, ParameterError> {
+    pub fn eq(&self, channel: usize) -> Result<EqChannelParameter<'_>, ParameterError> {
         const VALID: &[VoicemeeterApplication] = &[
             VoicemeeterApplication::VoicemeeterPotato,
             VoicemeeterApplication::PotatoX64Bits,
@@ -430,35 +430,35 @@ impl<'a> Strip<'a> {
         TupleParameter::new(self.param("FadeBy"), self.remote)
     }
     /// Send Level To Reverb
-    pub fn reverb(&self) -> FloatParameter {
+    pub fn reverb(&self) -> FloatParameter<'_> {
         FloatParameter::new(self.param("Reverb"), self.remote, 0.0..=10.0)
     }
     /// Send Level To Delay
-    pub fn delay(&self) -> FloatParameter {
+    pub fn delay(&self) -> FloatParameter<'_> {
         FloatParameter::new(self.param("Delay"), self.remote, 0.0..=10.0)
     }
     /// Send Level To External Fx1
-    pub fn fx1(&self) -> FloatParameter {
+    pub fn fx1(&self) -> FloatParameter<'_> {
         FloatParameter::new(self.param("Fx1"), self.remote, 0.0..=10.0)
     }
     /// Send Level To External Fx2
-    pub fn fx2(&self) -> FloatParameter {
+    pub fn fx2(&self) -> FloatParameter<'_> {
         FloatParameter::new(self.param("Fx2"), self.remote, 0.0..=10.0)
     }
     /// Post Reverb button
-    pub fn post_reverb(&self) -> BoolParameter {
+    pub fn post_reverb(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("PostReverb"), self.remote)
     }
     /// Post Delay button
-    pub fn post_delay(&self) -> BoolParameter {
+    pub fn post_delay(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("PostDelay"), self.remote)
     }
     /// Post Fx1 button
-    pub fn post_fx1(&self) -> BoolParameter {
+    pub fn post_fx1(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("PostFx1"), self.remote)
     }
     /// Post Fx2 button
-    pub fn post_fx2(&self) -> BoolParameter {
+    pub fn post_fx2(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("PostFx2"), self.remote)
     }
 
@@ -500,6 +500,13 @@ impl<'a> Strip<'a> {
         } else {
             Ok(StripDevice::new(self.remote, self.strip_index))
         }
+    }
+
+    /// VAIO input enable/disable.
+    ///
+    /// # Notes requires VAIO extension
+    pub fn vaio(&self) -> BoolParameter<'_> {
+        BoolParameter::new(self.param("VAIO"), self.remote)
     }
 }
 

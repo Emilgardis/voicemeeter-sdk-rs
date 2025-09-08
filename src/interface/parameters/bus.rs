@@ -49,42 +49,42 @@ impl<'a> Bus<'a> {
     }
 
     /// Label
-    pub fn label(&self) -> StringParameter {
+    pub fn label(&self) -> StringParameter<'_> {
         StringParameter::new(self.param("Label"), self.remote)
     }
 
     /// Mono Button
-    pub fn mono(&self) -> IntParameter {
+    pub fn mono(&self) -> IntParameter<'_> {
         IntParameter::new(self.param("Mono"), self.remote, 0..=2)
     }
 
     /// Mute Button
-    pub fn mute(&self) -> BoolParameter {
+    pub fn mute(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("Mute"), self.remote)
     }
 
     /// EQ Button
-    pub fn eq_on(&self) -> BoolParameter {
+    pub fn eq_on(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("EQ.on"), self.remote)
     }
 
     /// EQ Memory Slot
-    pub fn eq_ab(&self) -> BoolParameter {
+    pub fn eq_ab(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("EQ.AB"), self.remote)
     }
 
     /// Gain slider
-    pub fn gain(&self) -> FloatParameter {
+    pub fn gain(&self) -> FloatParameter<'_> {
         FloatParameter::new(self.param("gain"), self.remote, -60.0..=12.)
     }
 
     /// Bus mode Normal
-    pub fn mode(&self) -> BusModeParameter {
+    pub fn mode(&self) -> BusModeParameter<'_> {
         BusModeParameter::new(self.remote, self.bus_index)
     }
 
     /// EQ on channel
-    pub fn eq(&self, channel: usize) -> EqChannelParameter {
+    pub fn eq(&self, channel: usize) -> EqChannelParameter<'_> {
         EqChannelParameter::new_bus(self.remote, self.bus_index, channel)
     }
     /// Fade to
@@ -96,32 +96,39 @@ impl<'a> Bus<'a> {
         TupleParameter::new(self.param("FadeBy"), self.remote)
     }
     /// BUS SEL Button
-    pub fn sel(&self) -> BoolParameter {
+    pub fn sel(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("Sel"), self.remote)
     }
     /// Reverb return
-    pub fn return_reverb(&self) -> IntParameter {
+    pub fn return_reverb(&self) -> IntParameter<'_> {
         IntParameter::new(self.param("ReturnReverb"), self.remote, 0..=10)
     }
     /// Delay return
-    pub fn return_delay(&self) -> IntParameter {
+    pub fn return_delay(&self) -> IntParameter<'_> {
         IntParameter::new(self.param("ReturnDelay"), self.remote, 0..=10)
     }
     /// Fx1 Return
-    pub fn return_fx1(&self) -> IntParameter {
+    pub fn return_fx1(&self) -> IntParameter<'_> {
         IntParameter::new(self.param("ReturnFx1"), self.remote, 0..=10)
     }
     /// Fx2 Return
-    pub fn return_fx2(&self) -> IntParameter {
+    pub fn return_fx2(&self) -> IntParameter<'_> {
         IntParameter::new(self.param("ReturnFx2"), self.remote, 0..=10)
     }
     /// Monitor
-    pub fn monitor(&self) -> BoolParameter {
+    pub fn monitor(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("Monitor"), self.remote)
     }
     /// Audio Device information
-    pub fn device(&self) -> BusDevice {
+    pub fn device(&self) -> BusDevice<'_> {
         BusDevice::new(self.remote, self.bus_index)
+    }
+
+    /// VAIO output enable/disable.
+    ///
+    /// # Notes requires VAIO extension
+    pub fn vaio(&self) -> BoolParameter<'_> {
+        BoolParameter::new(self.param("VAIO"), self.remote)
     }
 }
 

@@ -20,7 +20,7 @@ impl VoicemeeterRemote {
         device: Device,
         channel: usize,
     ) -> Result<Option<f32>, GetLevelError> {
-        let mut f = std::f32::NAN;
+        let mut f = f32::NAN;
         let dev_num =
             if let Some(dev_num) = device.as_level_device_num(&self.program, level_type, channel) {
                 dev_num as i32

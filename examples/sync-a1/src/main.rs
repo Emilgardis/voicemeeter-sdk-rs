@@ -8,13 +8,15 @@ use windows::{
         System::Com::*,
     },
 };
-const BUS_INDEX: usize = 0;
 
 fn main() -> Result<(), eyre::Report> {
     color_eyre::install()?;
+    // first param will be the bus index as A1, A2, B1 etc.
+    let bus: voicemeeter::Device = std::env::args().nth(1).unwrap_or("A1".to_owned()).parse()?;
+
     unsafe {
         let our_guid = CoCreateGuid()?;
-        CoInitializeEx(None, COINIT_MULTITHREADED)?;
+        CoInitializeEx(None, COINIT_MULTITHREADED).ok()?;
 
         // grab default device
         let device_enum: IMMDeviceEnumerator =
@@ -30,15 +32,15 @@ fn main() -> Result<(), eyre::Report> {
         std::thread::spawn({
             let vm = vm.clone();
             let ev = ev.clone();
-            move || voicemeeter_cb(ev, vm, our_guid).unwrap()
+            move || voicemeeter_cb(ev, vm, our_guid, bus).unwrap()
         });
 
         // setup callback so that changes in windows are propagated
         let volume_cb: IAudioEndpointVolumeCallback = Callback::new(
             our_guid,
             vm.parameters()
-                .bus(BUS_INDEX)
-                .with_context(|| format!("couldn't get bus {BUS_INDEX}"))?,
+                .bus(bus)
+                .with_context(|| "couldn't retrieve bus")?,
         )?
         .into();
         let vcb = AgileReference::new(&volume_cb)?;
@@ -63,12 +65,13 @@ fn voicemeeter_cb(
     ev: AgileReference<IAudioEndpointVolume>,
     vm: VoicemeeterRemote,
     our_guid: windows::core::GUID,
+    bus: voicemeeter::Device,
 ) -> Result<(), eyre::Report> {
-    let bus = &vm.parameters().bus(BUS_INDEX)?;
+    let bus = &vm.parameters().bus(bus)?;
     // sync once to ensure that windows follows what is active in voicemeeter
     sync_vm(bus, &ev.resolve()?, &our_guid)?;
     loop {
-        if let true = vm.is_parameters_dirty()? {
+        if vm.is_parameters_dirty()? {
             sync_vm(bus, &ev.resolve()?, &our_guid)?;
         }
         std::thread::sleep(std::time::Duration::from_millis(20));
@@ -106,7 +109,7 @@ impl<'a> Callback<'a> {
 }
 
 #[allow(non_snake_case)]
-impl IAudioEndpointVolumeCallback_Impl for Callback<'_> {
+impl IAudioEndpointVolumeCallback_Impl for Callback_Impl<'_> {
     fn OnNotify(&self, pnotify: *mut AUDIO_VOLUME_NOTIFICATION_DATA) -> windows::core::Result<()> {
         let changes = unsafe { pnotify.as_ref() }.unwrap();
         if changes.guidEventContext == self.our_guid {

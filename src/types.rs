@@ -35,7 +35,7 @@ pub struct LogicalButton(pub ZIndex);
 
 impl std::fmt::Display for LogicalButton {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "MB:{}", self.0.0)
+        write!(f, "MB:{}", self.0 .0)
     }
 }
 
@@ -196,6 +196,39 @@ pub enum Device {
     /// Virtual Input8. Available on Voicemeeter Potato.
     VirtualInput8,
 }
+
+impl std::str::FromStr for Device {
+    type Err = ParseDeviceError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s.to_ascii_lowercase().replace(" ", "").as_str() {
+            "strip1" | "input1" => Ok(Device::Strip1),
+            "strip2" | "input2" => Ok(Device::Strip2),
+            "strip3" | "input3" => Ok(Device::Strip3),
+            "strip4" | "input4" => Ok(Device::Strip4),
+            "strip5" | "input5" => Ok(Device::Strip5),
+            "strip6" | "input6" | "vi" | "virtualinput" => Ok(Device::VirtualInput),
+            "strip7" | "input7" | "viaux" | "virtualinputaux" | "inputaux" => {
+                Ok(Device::VirtualInputAux)
+            }
+            "strip8" | "input8" | "vi8" | "virtualinput8" => Ok(Device::VirtualInput8),
+            "a1" | "outputa1" => Ok(Device::OutputA1),
+            "a2" | "outputa2" => Ok(Device::OutputA2),
+            "a3" | "outputa3" => Ok(Device::OutputA3),
+            "a4" | "outputa4" => Ok(Device::OutputA4),
+            "a5" | "outputa5" => Ok(Device::OutputA5),
+            "b1" | "virtualoutputb1" | "virtualb1" => Ok(Device::VirtualOutputB1),
+            "b2" | "virtualoutputb2" | "virtualb2" => Ok(Device::VirtualOutputB2),
+            "b3" | "virtualoutputb3" | "virtualb3" => Ok(Device::VirtualOutputB3),
+            _ => Err(ParseDeviceError(s.to_owned())),
+        }
+    }
+}
+
+#[derive(Debug, thiserror::Error, Clone)]
+#[error("could not parse device from string: {0}")]
+/// Error when parsing a device from a string
+pub struct ParseDeviceError(String);
 
 /// Index in the buffers for a [devices'](Device) channel.
 #[derive(Debug, Clone, Copy)]

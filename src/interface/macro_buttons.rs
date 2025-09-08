@@ -60,7 +60,7 @@ impl VoicemeeterRemote {
     ) -> Result<MacroButtonStatus, GetMacroButtonStatusError> {
         let mut f = 0.0f32;
         let button = button.into();
-        let res = unsafe { self.raw.VBVMR_MacroButton_GetStatus(button.0.0, &mut f, 0) };
+        let res = unsafe { self.raw.VBVMR_MacroButton_GetStatus(button.0 .0, &mut f, 0) };
         match res {
             0 => Ok(MacroButtonStatus(f == 1.)),
             -1 => Err(GetMacroButtonStatusError::CannotGetClient),
@@ -89,7 +89,7 @@ impl VoicemeeterRemote {
         };
         let res = unsafe {
             self.raw
-                .VBVMR_MacroButton_SetStatus(button.0.0, (state as u32) as f32, bitmode.0)
+                .VBVMR_MacroButton_SetStatus(button.0 .0, (state as u32) as f32, bitmode.0)
         };
         match res {
             0 => Ok(()),
@@ -108,7 +108,7 @@ impl VoicemeeterRemote {
     ) -> Result<MacroButtonStatus, GetMacroButtonStatusError> {
         let mut f = 0.0f32;
         let button = button.into();
-        let res = unsafe { self.raw.VBVMR_MacroButton_GetStatus(button.0.0, &mut f, 3) };
+        let res = unsafe { self.raw.VBVMR_MacroButton_GetStatus(button.0 .0, &mut f, 3) };
         match res {
             0 => Ok(MacroButtonStatus(f == 1.)),
             -1 => Err(GetMacroButtonStatusError::CannotGetClient),
@@ -128,7 +128,7 @@ impl VoicemeeterRemote {
         let button = button.into();
         let res = unsafe {
             self.raw
-                .VBVMR_MacroButton_SetStatus(button.0.0, (state as u32) as f32, 3)
+                .VBVMR_MacroButton_SetStatus(button.0 .0, (state as u32) as f32, 3)
         };
         match res {
             0 => Ok(()),
