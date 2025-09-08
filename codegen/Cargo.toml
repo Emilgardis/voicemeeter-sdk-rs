@@ -10,4 +10,4 @@ edition = "2021"
 [dev-dependencies]
 bindgen = { version = "0.72.1" }
 color-eyre="0.6.5"
-pretty_assertions = "1.4.1"
+similar-asserts = "1.7.0"

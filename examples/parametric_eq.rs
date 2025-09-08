@@ -1,7 +1,6 @@
 use fundsp::hacker32::*;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::Arc;
-use voicemeeter::types::Device;
 use voicemeeter::{AudioCallbackMode, CallbackCommand, VoicemeeterRemote};
 
 pub fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -12,6 +11,10 @@ pub fn main() -> Result<(), Box<dyn std::error::Error>> {
         )
         .with_writer(std::io::stderr)
         .init();
+    let bus: voicemeeter::Device = std::env::args().nth(1).unwrap_or("A1".to_owned()).parse()?;
+    if !bus.is_bus() {
+        panic!("only bus devices are supported");
+    }
     // Setup a hook for catching ctrl+c to properly stop the program.
     let running = Arc::new(AtomicBool::new(true));
     let r = running.clone();
@@ -23,8 +26,8 @@ pub fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Get the client.
     let remote = VoicemeeterRemote::new()?;
 
-    let mut eq_l = pipe::<U10, _, _>(|i| bell_hz(1000.0 + 1000.0 * i as f32, 1.0, db_amp(0.0)));
-    let mut eq_r = pipe::<U10, _, _>(|i| bell_hz(1000.0 + 1000.0 * i as f32, 1.0, db_amp(0.0)));
+    let mut eq_l = pipei::<U10, _, _>(|i| bell_hz(1000.0 + 1000.0 * i as f32, 1.0, db_amp(0.0)));
+    let mut eq_r = pipei::<U10, _, _>(|i| bell_hz(1000.0 + 1000.0 * i as f32, 1.0, db_amp(0.0)));
     for (c, (fc, gain, q)) in [
         (24, 6.4f32, 0.40f32),
         (207, -3.0, 0.38),
@@ -33,7 +36,7 @@ pub fn main() -> Result<(), Box<dyn std::error::Error>> {
         (10444, 4.8, 1.72),
         (1223, -1.6, 3.98),
         (4543, 3.5, 5.15),
-        (5576, -4.7, 3.96),
+        (5576, -4.7 * 20.0, 3.96), // strong notch to demonstrate that effect works
         (6408, 2.4, 5.86),
         (8553, 0.6, 3.68),
     ]
@@ -55,7 +58,7 @@ pub fn main() -> Result<(), Box<dyn std::error::Error>> {
     let callback = |command: CallbackCommand, _nnn: i32| -> i32 {
         match command {
             CallbackCommand::Starting(info) => {
-                eq_l.reset(Some(info.info.samplerate as f64));
+                eq_l.reset();
                 println!("starting!\n{info:?}")
             }
             CallbackCommand::Ending(_) => println!("ending!"),
@@ -65,20 +68,16 @@ pub fn main() -> Result<(), Box<dyn std::error::Error>> {
                 let (read, mut write) = data.buffer.get_buffers();
                 write.copy_device_from(
                     &read,
-                    remote
-                        .program
-                        .devices()
-                        .iter()
-                        .filter(|d| d != &&Device::OutputA1),
+                    remote.program.devices().iter().filter(|d| d != &&bus),
                 );
 
                 write
-                    .output_a1
-                    .apply_all_samples(&read.output_a1, |ch, r, w| {
+                    .device_mut(&bus)
+                    .apply_all_samples(&read.device(&bus), |ch, r, w| {
                         if ch == 0 {
-                            eq_l.tick(std::slice::from_ref(r), std::slice::from_mut(w))
+                            *w = eq_l.tick(Frame::from_slice(std::slice::from_ref(r)))[0];
                         } else if ch == 1 {
-                            eq_r.tick(std::slice::from_ref(r), std::slice::from_mut(w))
+                            *w = eq_r.tick(Frame::from_slice(std::slice::from_ref(r)))[0];
                         } else {
                             *w = *r;
                         }

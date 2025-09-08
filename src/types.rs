@@ -35,7 +35,7 @@ pub struct LogicalButton(pub ZIndex);
 
 impl std::fmt::Display for LogicalButton {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "MB:{}", self.0.0)
+        write!(f, "MB:{}", self.0 .0)
     }
 }
 
@@ -208,8 +208,10 @@ impl std::str::FromStr for Device {
             "strip4" | "input4" => Ok(Device::Strip4),
             "strip5" | "input5" => Ok(Device::Strip5),
             "strip6" | "input6" | "vi" | "virtualinput" => Ok(Device::VirtualInput),
-            "strip7" | "input7" | "viaux" | "virtualinputaux" | "inputaux" => Ok(Device::VirtualInputAux),
-            "strip8" | "input8" | "vi8" | "virtualinput8"  => Ok(Device::VirtualInput8),
+            "strip7" | "input7" | "viaux" | "virtualinputaux" | "inputaux" => {
+                Ok(Device::VirtualInputAux)
+            }
+            "strip8" | "input8" | "vi8" | "virtualinput8" => Ok(Device::VirtualInput8),
             "a1" | "outputa1" => Ok(Device::OutputA1),
             "a2" | "outputa2" => Ok(Device::OutputA2),
             "a3" | "outputa3" => Ok(Device::OutputA3),

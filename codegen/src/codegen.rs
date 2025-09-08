@@ -1,4 +1,4 @@
-use pretty_assertions::assert_str_eq;
+use similar_asserts::assert_eq;
 use std::env;
 use std::io::Read;
 use std::path::PathBuf;
@@ -32,6 +32,8 @@ fn assure_accurate_binding() {
         .dynamic_link_require_all(true)
         .override_abi(bindgen::Abi::System, "VBVMR.*")
         .formatter(bindgen::Formatter::Rustfmt)
+        .rust_edition(bindgen::RustEdition::Edition2021)
+        .rustfmt_configuration_file(Some(dir.join("../rustfmt.toml")))
         .clang_arg("--target=x86_64-pc-windows-msvc")
         .enable_function_attribute_detection()
         .generate()
@@ -46,6 +48,6 @@ fn assure_accurate_binding() {
         let mut current = std::fs::File::open(&path).unwrap();
         let mut curr = String::new();
         current.read_to_string(&mut curr).unwrap();
-        assert_str_eq!(curr, bindings.to_string());
+        assert_eq!(curr, bindings.to_string().replace("\r\n", "\n"));
     }
 }

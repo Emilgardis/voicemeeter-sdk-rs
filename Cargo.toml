@@ -17,8 +17,8 @@ include = [
 rust-version = "1.89"
 
 [dependencies]
-winreg = "0.51.0"
-thiserror = "1.0.69"
+winreg = "0.55.0"
+thiserror = "2.0.16"
 libloading = "0.8.8"
 aliri_braid = "0.4.0"
 tracing = "0.1.41"
@@ -26,11 +26,10 @@ tracing = "0.1.41"
 [dev-dependencies]
 color-eyre = { version = "0.6", features = ["capture-spantrace"] }
 eyre = "0.6.12"
-pretty_assertions = "1.4.1"
 tracing-subscriber = { version = "0.3.20", features = ["env-filter"] }
 ctrlc = "3"
 tracing-error = "0.2.1"
-fundsp = "0.4"
+fundsp = "0.20"
 
 [features]
 default = ["interface"]

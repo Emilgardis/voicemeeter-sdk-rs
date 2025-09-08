@@ -2,11 +2,11 @@
 use eyre::Context;
 use voicemeeter::VoicemeeterRemote;
 use windows::{
+    core::AgileReference,
     Win32::{
         Media::Audio::{Endpoints::*, *},
         System::Com::*,
     },
-    core::AgileReference,
 };
 
 fn main() -> Result<(), eyre::Report> {
@@ -16,7 +16,7 @@ fn main() -> Result<(), eyre::Report> {
 
     unsafe {
         let our_guid = CoCreateGuid()?;
-        CoInitializeEx(None, COINIT_MULTITHREADED)?;
+        CoInitializeEx(None, COINIT_MULTITHREADED).ok()?;
 
         // grab default device
         let device_enum: IMMDeviceEnumerator =
@@ -109,7 +109,7 @@ impl<'a> Callback<'a> {
 }
 
 #[allow(non_snake_case)]
-impl IAudioEndpointVolumeCallback_Impl for Callback<'_> {
+impl IAudioEndpointVolumeCallback_Impl for Callback_Impl<'_> {
     fn OnNotify(&self, pnotify: *mut AUDIO_VOLUME_NOTIFICATION_DATA) -> windows::core::Result<()> {
         let changes = unsafe { pnotify.as_ref() }.unwrap();
         if changes.guidEventContext == self.our_guid {
