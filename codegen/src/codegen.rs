@@ -30,7 +30,7 @@ fn assure_accurate_binding() {
         .blocklist_function("VBVMR_MB_PushSettings")
         .dynamic_library_name("VoicemeeterRemoteRaw")
         .dynamic_link_require_all(true)
-        .override_abi(bindgen::Abi::Stdcall, "VBVMR.*")
+        .override_abi(bindgen::Abi::System, "VBVMR.*")
         .formatter(bindgen::Formatter::Rustfmt)
         .clang_arg("--target=x86_64-pc-windows-msvc")
         .enable_function_attribute_detection()
