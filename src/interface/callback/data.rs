@@ -24,7 +24,7 @@ impl AudioBuffer {
             .enumerate()
             .take(self.audiobuffer_nbi as usize)
         {
-            debug_assert!(!ptr.is_null(), "ptr: {:?} was null at idx: {}", ptr, idx);
+            debug_assert!(!ptr.is_null(), "ptr: {ptr:?} was null at idx: {idx}");
         }
         for (idx, ptr) in self
             .audiobuffer_w
@@ -32,7 +32,7 @@ impl AudioBuffer {
             .enumerate()
             .take(self.audiobuffer_nbo as usize)
         {
-            debug_assert!(!ptr.is_null(), "ptr: {:?} was null at idx: {}", ptr, idx);
+            debug_assert!(!ptr.is_null(), "ptr: {ptr:?} was null at idx: {idx}");
         }
         //tracing::trace!("read_write_buffer: {:?}", self);
 

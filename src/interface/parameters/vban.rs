@@ -33,11 +33,11 @@ impl<'a> VoicemeeterVban<'a> {
     }
     /// Get the identifier for an option: `Recorder.mode.{dot}`
     pub fn param(&self, dot: impl Display) -> Cow<'static, ParameterNameRef> {
-        Cow::Owned(format!("{VBAN}.{}", dot).into())
+        Cow::Owned(format!("{VBAN}.{dot}").into())
     }
 
     /// Turn VBAN on or off
-    pub fn enable(&self) -> BoolParameter {
+    pub fn enable(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("Enable"), self.remote)
     }
 
@@ -140,29 +140,29 @@ impl<'a, const INPUT: bool> VoicemeeterVbanStream<'a, INPUT> {
         )
     }
     /// Stream On/Off
-    pub fn on(&self) -> BoolParameter {
+    pub fn on(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("on"), self.remote)
     }
     /// Stream name
-    pub fn name(&self) -> StringParameter {
+    pub fn name(&self) -> StringParameter<'_> {
         StringParameter::new(self.param("name"), self.remote)
     }
     /// IP Address
-    pub fn ip(&self) -> StringParameter {
+    pub fn ip(&self) -> StringParameter<'_> {
         StringParameter::new(self.param("ip"), self.remote)
     }
 
     /// Port
-    pub fn port(&self) -> IntParameter {
+    pub fn port(&self) -> IntParameter<'_> {
         IntParameter::new(self.param("port"), self.remote, 0..=u16::MAX as i32)
     }
 
     /// Quality
-    pub fn quality(&self) -> IntParameter {
+    pub fn quality(&self) -> IntParameter<'_> {
         IntParameter::new(self.param("quality"), self.remote, 0..=4)
     }
     /// Strip Selector
-    pub fn route(&self) -> IntParameter {
+    pub fn route(&self) -> IntParameter<'_> {
         IntParameter::new(self.param("route"), self.remote, 0..=8)
     }
 }
@@ -192,13 +192,13 @@ impl<'a> VoicemeeterVbanStream<'a, true> {
 
 impl<'a> VoicemeeterVbanStream<'a, false> {
     /// Sample rate
-    pub fn sample_rate(&self) -> IntParameter {
+    pub fn sample_rate(&self) -> IntParameter<'_> {
         IntParameter::new(self.param("sr"), self.remote, 11025..=96000)
     }
     /// Channel
     ///
     /// 1 to 8
-    pub fn channel(&self) -> IntParameter {
+    pub fn channel(&self) -> IntParameter<'_> {
         IntParameter::new(self.param("channel"), self.remote, 1..=8)
     }
     /// VBAN data type
@@ -207,7 +207,7 @@ impl<'a> VoicemeeterVbanStream<'a, false> {
     /// |----|------|
     /// |1|16 bits PCM|
     /// |2|24 bits PCM|
-    pub fn bit(&self) -> IntParameter {
+    pub fn bit(&self) -> IntParameter<'_> {
         IntParameter::new(self.param("bit"), self.remote, 1..=2)
     }
 }

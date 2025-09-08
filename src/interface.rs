@@ -33,7 +33,7 @@ impl std::fmt::Debug for VoicemeeterRemote {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self.program {
             VoicemeeterApplication::None => write!(f, "[no voicemeeter program running]"),
-            p => write!(f, "[{}]", p),
+            p => write!(f, "[{p}]"),
         }
     }
 }

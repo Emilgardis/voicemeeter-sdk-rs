@@ -20,23 +20,23 @@ impl<'a> VoicemeeterFx<'a> {
 
     /// Get the identifier for an option: `Fx.{dot}`
     pub fn param(&self, dot: impl Display) -> Cow<'static, ParameterNameRef> {
-        Cow::Owned(format!("{FX}.{}", dot).into())
+        Cow::Owned(format!("{FX}.{dot}").into())
     }
 
     /// Reverb status
-    pub fn reverb_on(&self) -> BoolParameter {
+    pub fn reverb_on(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("Reverb.On"), self.remote)
     }
     /// Reverb AB choice
-    pub fn reverb_ab(&self) -> BoolParameter {
+    pub fn reverb_ab(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("Reverb.AB"), self.remote)
     }
     /// Delay status
-    pub fn delay_on(&self) -> BoolParameter {
+    pub fn delay_on(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("Delay.On"), self.remote)
     }
     /// Delay AB choice
-    pub fn delay_ab(&self) -> BoolParameter {
+    pub fn delay_ab(&self) -> BoolParameter<'_> {
         BoolParameter::new(self.param("Delay.AB"), self.remote)
     }
 }

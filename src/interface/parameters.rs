@@ -68,7 +68,7 @@ impl VoicemeeterRemote {
     ///
     /// # Ok::<(), Box<dyn std::error::Error>>(())
     /// ```
-    pub fn parameters(&self) -> Parameters {
+    pub fn parameters(&self) -> Parameters<'_> {
         Parameters { remote: self }
     }
 }
@@ -174,7 +174,7 @@ where
     /// Set the value of this parameter
     pub fn set(&self, val_a: A, val_b: B) -> Result<(), SetParameterError> {
         self.remote
-            .set_parameter_string(&self.name, &format!("({:?}, {:?})", val_a, val_b))
+            .set_parameter_string(&self.name, &format!("({val_a:?}, {val_b:?})"))
     }
 }
 
@@ -280,7 +280,7 @@ impl StripIndex for Device {
     fn into_strip_index(self, program: &VoicemeeterApplication) -> Result<ZIndex, ParameterError> {
         if !self.is_strip() {
             return Err(InvalidTypeError::ExpectedStrip {
-                device: format!("{:?}", self),
+                device: format!("{self:?}"),
             }
             .into());
         }
@@ -322,7 +322,7 @@ impl BusIndex for Device {
     fn into_bus_index(self, program: &VoicemeeterApplication) -> Result<ZIndex, ParameterError> {
         if !self.is_bus() {
             return Err(InvalidTypeError::ExpectedBus {
-                device: format!("{:?}", self),
+                device: format!("{self:?}"),
             }
             .into());
         }

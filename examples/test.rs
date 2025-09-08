@@ -34,7 +34,7 @@ pub fn main() -> Result<(), color_eyre::Report> {
                     remote.get_macrobutton_state(1u32)?,
                     remote.get_macrobutton_trigger_state(1u32)?,
                 )?;
-                writeln!(stdout, "--- {}", c)?;
+                writeln!(stdout, "--- {c}")?;
                 c += 1;
             }
             e => {

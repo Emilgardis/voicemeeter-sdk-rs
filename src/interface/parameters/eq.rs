@@ -55,27 +55,27 @@ impl<'a> EqChannelParameter<'a> {
         Cow::Owned(format!("{}.cell[{}].{}", self.name(), cell, dot.to_string()).into())
     }
     /// Turn EQ cell on or off
-    pub fn on(&self, cell: usize) -> BoolParameter {
+    pub fn on(&self, cell: usize) -> BoolParameter<'_> {
         BoolParameter::new(self.param(cell, "on"), self.remote)
     }
     /// Type of EQ filter.
-    pub fn type_(&self, cell: usize) -> IntParameter {
+    pub fn type_(&self, cell: usize) -> IntParameter<'_> {
         // TODO: Enum Parameter
         IntParameter::new(self.param(cell, "type"), self.remote, 0..=6)
     }
     /// Frequency of the EQ filter.
-    pub fn f(&self, cell: usize) -> FloatParameter {
+    pub fn f(&self, cell: usize) -> FloatParameter<'_> {
         // TODO: Enum Parameter
         FloatParameter::new(self.param(cell, "f"), self.remote, 20.0..=20_000.0)
     }
     /// Gain of the EQ filter.
-    pub fn gain(&self, cell: usize) -> FloatParameter {
+    pub fn gain(&self, cell: usize) -> FloatParameter<'_> {
         // TODO: Enum Parameter
         // NOTE: Docs say -12 to 12, but interface allows -36 to 18
         FloatParameter::new(self.param(cell, "gain"), self.remote, -36.0..=18.0)
     }
     /// Quality of the EQ filter.
-    pub fn q(&self, cell: usize) -> IntParameter {
+    pub fn q(&self, cell: usize) -> IntParameter<'_> {
         // TODO: Enum Parameter
         IntParameter::new(self.param(cell, "q"), self.remote, 1..=100)
     }

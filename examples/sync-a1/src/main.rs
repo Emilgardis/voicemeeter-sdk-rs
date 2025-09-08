@@ -68,7 +68,7 @@ fn voicemeeter_cb(
     // sync once to ensure that windows follows what is active in voicemeeter
     sync_vm(bus, &ev.resolve()?, &our_guid)?;
     loop {
-        if let true = vm.is_parameters_dirty()? {
+        if vm.is_parameters_dirty()? {
             sync_vm(bus, &ev.resolve()?, &our_guid)?;
         }
         std::thread::sleep(std::time::Duration::from_millis(20));
