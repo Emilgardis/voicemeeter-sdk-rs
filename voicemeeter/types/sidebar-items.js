@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["BusMode","Device","LevelType","VoicemeeterApplication"],"struct":["ChannelIndex","LogicalButton","ParameterName","ParameterNameRef","ZIndex"]};
+window.SIDEBAR_ITEMS = {"enum":["BusMode","Device","LevelType","VoicemeeterApplication"],"struct":["ChannelIndex","LogicalButton","ParameterName","ParameterNameRef","ParseDeviceError","ZIndex"]};
