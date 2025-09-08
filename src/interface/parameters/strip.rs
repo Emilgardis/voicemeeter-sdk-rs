@@ -501,6 +501,13 @@ impl<'a> Strip<'a> {
             Ok(StripDevice::new(self.remote, self.strip_index))
         }
     }
+
+    /// VAIO input enable/disable.
+    ///
+    /// # Notes requires VAIO extension
+    pub fn vaio(&self) -> BoolParameter<'_> {
+        BoolParameter::new(self.param("VAIO"), self.remote)
+    }
 }
 
 /// Bus device parameters

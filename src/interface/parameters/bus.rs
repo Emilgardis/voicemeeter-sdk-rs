@@ -123,6 +123,13 @@ impl<'a> Bus<'a> {
     pub fn device(&self) -> BusDevice {
         BusDevice::new(self.remote, self.bus_index)
     }
+
+    /// VAIO output enable/disable.
+    ///
+    /// # Notes requires VAIO extension
+    pub fn vaio(&self) -> BoolParameter<'_> {
+        BoolParameter::new(self.param("VAIO"), self.remote)
+    }
 }
 
 /// Parameters for bus mode
