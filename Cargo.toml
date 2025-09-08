@@ -14,7 +14,7 @@ include = [
     "/README.md",
     "examples/**/*",
 ]
-rust-version = "1.70"
+rust-version = "1.89"
 
 [dependencies]
 winreg = "0.51.0"
@@ -45,8 +45,6 @@ members = ["codegen", "miri", "xtask", "examples/sync-a1"]
 voicemeeter = { path = "." }
 
 [patch.crates-io]
-#fundsp  = { path = "../fundsp" }
-
 
 [profile.dev.package.fundsp]
 opt-level = 3
