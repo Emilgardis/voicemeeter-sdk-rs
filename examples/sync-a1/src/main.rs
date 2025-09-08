@@ -2,16 +2,35 @@
 use eyre::Context;
 use voicemeeter::VoicemeeterRemote;
 use windows::{
-    core::AgileReference,
     Win32::{
         Media::Audio::{Endpoints::*, *},
         System::Com::*,
     },
+    core::AgileReference,
 };
-const BUS_INDEX: usize = 0;
 
 fn main() -> Result<(), eyre::Report> {
     color_eyre::install()?;
+    // first param will be the bus index as A1, A2, B1 etc.
+    let bus = match &*std::env::args()
+        .nth(1)
+        .unwrap_or("A1".to_owned())
+        .to_ascii_uppercase()
+    {
+        "A1" => voicemeeter::Device::OutputA1,
+        "A2" => voicemeeter::Device::OutputA2,
+        "A3" => voicemeeter::Device::OutputA3,
+        "A4" => voicemeeter::Device::OutputA4,
+        "A5" => voicemeeter::Device::OutputA5,
+        "B1" => voicemeeter::Device::VirtualOutputB1,
+        "B2" => voicemeeter::Device::VirtualOutputB2,
+        "B3" => voicemeeter::Device::VirtualOutputB3,
+        _ => {
+            eprintln!("First argument should be one of A1, A2, A3, A4, A5, B1, B2, B3");
+            eyre::bail!("invalid bus argument");
+        }
+    };
+
     unsafe {
         let our_guid = CoCreateGuid()?;
         CoInitializeEx(None, COINIT_MULTITHREADED)?;
@@ -30,15 +49,18 @@ fn main() -> Result<(), eyre::Report> {
         std::thread::spawn({
             let vm = vm.clone();
             let ev = ev.clone();
-            move || voicemeeter_cb(ev, vm, our_guid).unwrap()
+            move || voicemeeter_cb(ev, vm, our_guid, bus).unwrap()
         });
 
         // setup callback so that changes in windows are propagated
         let volume_cb: IAudioEndpointVolumeCallback = Callback::new(
             our_guid,
-            vm.parameters()
-                .bus(BUS_INDEX)
-                .with_context(|| format!("couldn't get bus {BUS_INDEX}"))?,
+            vm.parameters().bus(bus).with_context(|| {
+                format!(
+                    "couldn't get bus {}",
+                    bus.as_bus_index(&vm.program).unwrap().1
+                )
+            })?,
         )?
         .into();
         let vcb = AgileReference::new(&volume_cb)?;
@@ -63,8 +85,9 @@ fn voicemeeter_cb(
     ev: AgileReference<IAudioEndpointVolume>,
     vm: VoicemeeterRemote,
     our_guid: windows::core::GUID,
+    bus: voicemeeter::Device,
 ) -> Result<(), eyre::Report> {
-    let bus = &vm.parameters().bus(BUS_INDEX)?;
+    let bus = &vm.parameters().bus(bus)?;
     // sync once to ensure that windows follows what is active in voicemeeter
     sync_vm(bus, &ev.resolve()?, &our_guid)?;
     loop {
